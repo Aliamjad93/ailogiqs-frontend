@@ -180,7 +180,7 @@ export default function FooterHome3() {
                                     <Logo variant="light" />
                                 </Link>
                             </div>
-                            <p className="wow fadeInUp" data-wow-delay=".5s">AiLogiQs © 2024. All Rights Reserved.</p>
+                            <p className="wow fadeInUp" data-wow-delay=".5s">AiLogiQs © 2026. All Rights Reserved.</p>
                             <div className="social-icon wow fadeInUp" data-wow-delay=".7s">
                                 <a href="#"><i className="fa-brands fa-discord"></i></a>
                                 <a href="#"><i className="fa-brands fa-facebook-f"></i></a>

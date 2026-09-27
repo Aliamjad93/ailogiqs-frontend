@@ -123,7 +123,7 @@ export default function FooterHome5() {
                     <div className="footer-bottom-5">
                         <div className="footer-bottom-wrapper">
                             <p>
-                                Copyright © 2024 | Alright reserved by <span>Ai-forge</span>
+                                Copyright © 2026 | Alright reserved by <span>Ai-forge</span>
                             </p>
                             <ul className="footer-menu justify-content-center flex-wrap d-flex align-items-center wow fadeInUp"
                                 data-wow-delay=".5s">

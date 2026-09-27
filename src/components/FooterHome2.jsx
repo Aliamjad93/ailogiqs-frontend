@@ -150,7 +150,7 @@ export default function FooterHome2() {
                     </div>
                     <div className="footer-bottom style-2">
                         <div className="footer-bottom-wrapper">
-                            <p className="wow fadeInUp" data-wow-delay=".3s">AiLogiQs © 2024. All Rights Reserved.</p>
+                            <p className="wow fadeInUp" data-wow-delay=".3s">AiLogiQs © 2026. All Rights Reserved.</p>
                             <ul className="footer-menu wow fadeInUp" data-wow-delay=".5s">
                                 <li>
                                     <Link to="/contact">Privacy policy -</Link>

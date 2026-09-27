@@ -128,7 +128,7 @@ export default function Contact() {
                               <div className="content">
                                   <h3>Location</h3>
                                   <p>
-                                      2455 Prudence Street Quas Detroits, MI 48234
+                                      Bahria Orchard, Central Block, Orchard Heights, 4th Floor, Office No. 302
                                   </p>
                               </div>
                           </div>
@@ -140,8 +140,8 @@ export default function Contact() {
                               </div>
                               <div className="content">
                                   <h3>Email us</h3>
-                                  <p><a href="mailto:info@example.com">info@example.com</a></p>
-                                  <p><a href="mailto:info@example.com">info@example.com</a></p>
+                                  <p><a href="mailto:bd@ailogiqs.com">bd@ailogiqs.com</a></p>
+                                  <p><a href="mailto:bd@ailogiqs.com">bd@ailogiqs.com</a></p>
                               </div>
                           </div>
                       </div>
@@ -152,8 +152,8 @@ export default function Contact() {
                               </div>
                               <div className="content">
                                   <h3>Free call</h3>
-                                  <p><a href="tel:+023133695329">+02 (313) 369 5329</a></p>
-                                  <p><a href="tel:+023133695329">+02 (313) 369 5329</a></p>
+                                  <p><a href="tel:+932016146851">+932016146851</a></p>
+                                  <p><a href="tel:+932016146851">+932016146851</a></p>
                               </div>
                           </div>
                       </div>
