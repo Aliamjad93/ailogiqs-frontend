@@ -25,7 +25,7 @@ export default function Contact() {
                       <div className="row align-items-center">
                           <div className="col-lg-4 wow fadeInUp" data-wow-delay=".3s">
                               <div className="contact-image">
-                                  <img src="/assets/img/contac-img-2.jpg" alt="img" />
+                                  <img src="/assets/img/contact-visual.png" alt="img" />
                               </div>
                           </div>
                           <div className="col-lg-8">
