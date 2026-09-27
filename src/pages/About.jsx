@@ -114,7 +114,7 @@ export default function About() {
                                               className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
-                                      <img src="/assets/img/about/01.jpg" alt="img" />
+                                      <img src="/assets/img/about/01.png" alt="img" />
                                   </div>
                               </div>
                           </div>
@@ -170,7 +170,7 @@ export default function About() {
                                               className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image wow fadeInUp" data-wow-delay=".3s">
-                                      <img src="/assets/img/about/01.jpg" alt="img" />
+                                      <img src="/assets/img/about/01.png" alt="img" />
                                   </div>
                               </div>
                           </div>
@@ -226,7 +226,7 @@ export default function About() {
                                               className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
-                                      <img src="/assets/img/about/01.jpg" alt="img" />
+                                      <img src="/assets/img/about/01.png" alt="img" />
                                   </div>
                               </div>
                           </div>

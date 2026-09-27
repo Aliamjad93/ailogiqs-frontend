@@ -21,7 +21,7 @@ export default function HomeOne() {
                               </div>
                               <p className="wow fadeInUp">Intelligent Solution</p>
                               <h1 className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.1s">
-                                  Innovative <img src="/assets/img/hero/radius-img.png" alt="img" />
+                                  Innovative <img src="/assets/img/hero/radius-img-new.png" alt="img" />
                                   <b>AI</b> <span className="text-2">solutions</span>
                               </h1>
                           </div>
@@ -125,7 +125,7 @@ export default function HomeOne() {
                                               className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
-                                      <img src="/assets/img/about/01.jpg" alt="img" />
+                                      <img src="/assets/img/about/01.png" alt="img" />
                                   </div>
                               </div>
                           </div>
@@ -181,7 +181,7 @@ export default function HomeOne() {
                                               className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image wow fadeInUp" data-wow-delay=".3s">
-                                      <img src="/assets/img/about/01.jpg" alt="img" />
+                                      <img src="/assets/img/about/01.png" alt="img" />
                                   </div>
                               </div>
                           </div>
@@ -237,7 +237,7 @@ export default function HomeOne() {
                                               className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
-                                      <img src="/assets/img/about/01.jpg" alt="img" />
+                                      <img src="/assets/img/about/01.png" alt="img" />
                                   </div>
                               </div>
                           </div>
@@ -399,8 +399,7 @@ export default function HomeOne() {
                                   </Link>
                               </h3>
                               <p>
-                                  Duise sagettise rosend acum oneste curos adipiscine contacting the everyday agency secondar
-                                  overseas
+                                  Custom machine learning models that learn from your data to predict trends, automate decisions, and cut manual guesswork
                               </p>
                               <Link to="/project-details" className="theme-btn">explore now <i
                                       className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
@@ -416,8 +415,7 @@ export default function HomeOne() {
                                   </Link>
                               </h3>
                               <p>
-                                  Duise sagettise rosend acum oneste curos adipiscine contacting the everyday agency secondar
-                                  overseas
+                                  Turn raw business data into clear, actionable dashboards that help you spot opportunities before the competition does
                               </p>
                               <Link to="/project-details" className="theme-btn">explore now <i
                                       className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
@@ -443,8 +441,7 @@ export default function HomeOne() {
                                   </Link>
                               </h3>
                               <p>
-                                  Duise sagettise rosend acum oneste curos adipiscine contacting the everyday agency secondar
-                                  overseas
+                                  AI-driven campaigns that target the right audience, optimize ad spend, and boost conversions automatically
                               </p>
                               <Link to="/project-details" className="theme-btn">explore now <i
                                       className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>

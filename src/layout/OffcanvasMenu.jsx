@@ -21,8 +21,7 @@ export default function OffcanvasMenu() {
                               </div>
                           </div>
                           <p className="text d-none d-xl-block">
-                              Nullam dignissim, ante scelerisque the is euismod fermentum odio sem semper the is erat, a
-                              feugiat leo urna eget eros. Duis Aenean a imperdiet risus.
+                              AiLogiQs builds intelligent AI-powered solutions that help businesses automate workflows, uncover insights, and scale smarter, faster.
                           </p>
                           <div className="mobile-menu fix mb-3"></div>
                           <div className="offcanvas__contact">
@@ -33,7 +32,7 @@ export default function OffcanvasMenu() {
                                           <i className="fal fa-map-marker-alt"></i>
                                       </div>
                                       <div className="offcanvas__contact-text">
-                                          <a target="_blank" href="#">Main Street, Melbourne, Australia</a>
+                                          <a target="_blank" href="#">Bahria Orchard, Central Block, Orchard Heights, 4th Floor, Office No. 302</a>
                                       </div>
                                   </li>
                                   <li className="d-flex align-items-center">
@@ -42,7 +41,7 @@ export default function OffcanvasMenu() {
                                       </div>
                                       <div className="offcanvas__contact-text">
                                           <a href="mailto:info@example.com"><span
-                                                  className="mailto:info@example.com">info@example.com</span></a>
+                                                  className="mailto:info@example.com">bd@ailogiqs.com</span></a>
                                       </div>
                                   </li>
                                   <li className="d-flex align-items-center">
@@ -50,7 +49,7 @@ export default function OffcanvasMenu() {
                                           <i className="fal fa-clock"></i>
                                       </div>
                                       <div className="offcanvas__contact-text">
-                                          <a target="_blank" href="#">Mod-friday, 09am -05pm</a>
+                                          <a target="_blank" href="#">Monday - Friday, 09am - 05pm</a>
                                       </div>
                                   </li>
                                   <li className="d-flex align-items-center">
@@ -58,7 +57,7 @@ export default function OffcanvasMenu() {
                                           <i className="far fa-phone"></i>
                                       </div>
                                       <div className="offcanvas__contact-text">
-                                          <a href="tel:+11002345909">+11002345909</a>
+                                          <a href="tel:0301-6146851">0301-6146851</a>
                                       </div>
                                   </li>
                               </ul>
