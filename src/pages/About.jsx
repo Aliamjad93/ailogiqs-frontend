@@ -66,8 +66,7 @@ export default function About() {
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
-                                          Duise sagittis accumsan magna on adipiscine laoreet ultrices magna consectetuer
-                                          eiaculis rutrum morbie habitasse orcids libero porttitor molestie mollise
+                                          Our mission is to make AI practical for every business. We build agents and automations that take repetitive work off your team, so they can focus on what really matters.
                                       </p>
                                       <ul className="list-items">
                                           <li>
@@ -122,8 +121,7 @@ export default function About() {
                               <div className="about-items">
                                   <div className="about-content">
                                       <p className="wow fadeInUp" data-wow-delay=".3s">
-                                          Duise sagittis accumsan magna on adipiscine laoreet ultrices magna consectetuer
-                                          eiaculis rutrum morbie habitasse orcids libero porttitor molestie mollise
+                                          We want every business, big or small, to have access to AI that actually works for them. It should save time, cut costs and open new ways to grow.
                                       </p>
                                       <ul className="list-items wow fadeInUp" data-wow-delay=".5s">
                                           <li>
@@ -178,8 +176,7 @@ export default function About() {
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
-                                          Duise sagittis accumsan magna on adipiscine laoreet ultrices magna consectetuer
-                                          eiaculis rutrum morbie habitasse orcids libero porttitor molestie mollise
+                                          Every solution we build is custom-made for your business, connects to the tools you already use, and keeps working around the clock with no extra effort from your team.
                                       </p>
                                       <ul className="list-items">
                                           <li>
@@ -273,7 +270,7 @@ export default function About() {
               <div className="container">
                   <div className="section-title text-center">
                       <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> we we works
+                          <img src="/assets/img/star.png" alt="img" /> how we work
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
                           Understanding our <br />
@@ -290,7 +287,7 @@ export default function About() {
                           </div>
                           <div className="content">
                               <h3>Choose Plan</h3>
-                              <p>Start by signing up for our service with and proces simple</p>
+                              <p>Pick the plan that fits your business size and goals</p>
                           </div>
                       </div>
                       <div className="arrow-shape">
@@ -305,7 +302,7 @@ export default function About() {
                           </div>
                           <div className="content">
                               <h3>Setup Chatbot</h3>
-                              <p>Start by signing up for our service with and proces simple</p>
+                              <p>We set up your chatbot and connect it to your website and tools</p>
                           </div>
                       </div>
                       <div className="arrow-shape">
@@ -320,7 +317,7 @@ export default function About() {
                           </div>
                           <div className="content">
                               <h3>Train Your Bot</h3>
-                              <p>Start by signing up for our service with and proces simple</p>
+                              <p>We train it on your products, FAQs and data so it answers like your team</p>
                           </div>
                       </div>
                       <div className="arrow-shape">
@@ -335,7 +332,7 @@ export default function About() {
                           </div>
                           <div className="content">
                               <h3>Client Support</h3>
-                              <p>Start by signing up for our service with and proces simple</p>
+                              <p>Your bot handles customers 24/7, and we keep improving it over time</p>
                           </div>
                       </div>
                   </div>
@@ -615,11 +612,7 @@ export default function About() {
                               <div className="swiper-slide">
                                   <div className="testimonial-content">
                                       <p>
-                                          Potenti might turpis dictumst Ridiculus pellentesque molestie consequat
-                                          at egestas eleifend nisle montes duis. Hack leo pellentesque malesuada, orcide
-                                          pretium blandit class sociosqu habitant duis convallis sed seme. Suscipit one
-                                          senectus nonum rhoncus orci torquent ultricies congue facilisi nonummy sapien ipsum
-                                          suspendisse feugiat at never dictumst massa.
+                                          Their AI chatbot now handles most of our customer questions. Response times went from hours to seconds, and our team finally has time for bigger work.
                                       </p>
                                       <div className="client-info">
                                           <h3>Maryad C. Garcia</h3>
@@ -630,11 +623,7 @@ export default function About() {
                               <div className="swiper-slide">
                                   <div className="testimonial-content">
                                       <p>
-                                          Potenti might turpis dictumst Ridiculus pellentesque molestie consequat
-                                          at egestas eleifend nisle montes duis. Hack leo pellentesque malesuada, orcide
-                                          pretium blandit class sociosqu habitant duis convallis sed seme. Suscipit one
-                                          senectus nonum rhoncus orci torquent ultricies congue facilisi nonummy sapien ipsum
-                                          suspendisse feugiat at never dictumst massa.
+                                          They understood our business before writing a single line of code. The automation they built saves us hours every week.
                                       </p>
                                       <div className="client-info">
                                           <h3>Maryad C. Garcia</h3>
@@ -645,11 +634,7 @@ export default function About() {
                               <div className="swiper-slide">
                                   <div className="testimonial-content">
                                       <p>
-                                          Potenti might turpis dictumst Ridiculus pellentesque molestie consequat
-                                          at egestas eleifend nisle montes duis. Hack leo pellentesque malesuada, orcide
-                                          pretium blandit class sociosqu habitant duis convallis sed seme. Suscipit one
-                                          senectus nonum rhoncus orci torquent ultricies congue facilisi nonummy sapien ipsum
-                                          suspendisse feugiat at never dictumst massa.
+                                          Professional, fast and easy to work with. The results were visible within the first month.
                                       </p>
                                       <div className="client-info">
                                           <h3>Maryad C. Garcia</h3>
