@@ -1,3 +1,8 @@
-/* Vendor styles (Bootstrap, FontAwesome, animate.css, plugins, and the
+@media (max-width: 767px) {
+  .hero-1 .hero-image {
+    height: 220px;
+    background-position: right center;
+  }
+}/* Vendor styles (Bootstrap, FontAwesome, animate.css, plugins, and the
    AiLogiQs theme's main.css) are loaded as plain <link> tags in index.html
    so they behave exactly as they did in the original HTML template. */

@@ -29,8 +29,11 @@ export default function HomeOne() {
                   </div>
               </div>
               <div className="hero-image img-custom-anim-left bg-cover"
-                  style={{backgroundImage: 'url(\'/assets/img/hero/hero-1.jpg\')'}}>
-              </div>
+    style={{
+        backgroundImage: "url('/assets/img/hero/hero-1.jpg')",
+        backgroundPosition: "right center",
+    }}>
+</div>
           </section>
 
     
