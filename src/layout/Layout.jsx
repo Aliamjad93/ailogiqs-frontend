@@ -84,7 +84,10 @@ export default function Layout({ children }) {
       clearTimeout(fallback);
     };
   }, []);
-
+    // Always start new pages from the top
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname]);
   return (
     <>
       <Preloader />
