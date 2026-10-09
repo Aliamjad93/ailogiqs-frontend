@@ -822,7 +822,7 @@ progress {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .container,
     .container-lg,
     .container-md,
@@ -1749,7 +1749,7 @@ progress {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .col-xxl {
         flex: 1 0 0%
     }
@@ -2149,7 +2149,7 @@ progress {
     }
 }
 
-@media (max-width:1399.98px) {
+@media (max-width:1199.98px) {
     .table-responsive-xxl {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch
@@ -3797,7 +3797,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .dropdown-menu-xxl-start {
         --bs-position: start
     }
@@ -4579,7 +4579,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .navbar-expand-xxl {
         flex-wrap: nowrap;
         justify-content: flex-start
@@ -5603,7 +5603,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .list-group-horizontal-xxl {
         flex-direction: row
     }
@@ -6158,7 +6158,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:1399.98px) {
+@media (max-width:1199.98px) {
     .modal-fullscreen-xxl-down {
         width: 100vw;
         max-width: none;
@@ -7133,7 +7133,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:1399.98px) {
+@media (max-width:1199.98px) {
     .offcanvas-xxl {
         position: fixed;
         bottom: 0;
@@ -7150,13 +7150,13 @@ fieldset:disabled .btn {
     }
 }
 
-@media (max-width:1399.98px) and (prefers-reduced-motion:reduce) {
+@media (max-width:1199.98px) and (prefers-reduced-motion:reduce) {
     .offcanvas-xxl {
         transition: none
     }
 }
 
-@media (max-width:1399.98px) {
+@media (max-width:1199.98px) {
     .offcanvas-xxl.offcanvas-start {
         top: 0;
         left: 0;
@@ -7199,7 +7199,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .offcanvas-xxl {
         --bs-offcanvas-height: auto;
         --bs-offcanvas-border-width: 0;
@@ -7701,7 +7701,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .sticky-xxl-top {
         position: -webkit-sticky;
         position: sticky;
@@ -12017,7 +12017,7 @@ fieldset:disabled .btn {
     }
 }
 
-@media (min-width:1400px) {
+@media (min-width:1200px) {
     .float-xxl-start {
         float: left !important
     }

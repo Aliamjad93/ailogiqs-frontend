@@ -1,0 +1,836 @@
+/* =============================================================================
+   AiLogiQs — override layer
+   -----------------------------------------------------------------------------
+   Loaded LAST, after the vendor theme stylesheets in public/assets/css/.
+
+   Do not put overrides in src/app/globals.css: Next.js injects imported CSS
+   modules into <head> ahead of the <link> tags below, so the theme's
+   main.css would win. Keeping this file as the final <link> makes the
+   cascade order explicit and independent of Next's CSS pipeline.
+
+   Intentionally empty of breakpoint patches. See "Breakpoint alignment" below.
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------------
+   Breakpoint alignment (handled in the vendor CSS, not here)
+
+   The theme is authored for Bootstrap 5's xxl desktop layout, but it expressed
+   that with `@media (max-width: 1399px)` compaction blocks while its markup
+   depended on `col-xxl-*` and `.container` for real widths. Bootstrap only
+   enables xxl at 1400px, so 1200-1399px got a desktop container step with the
+   xxl grid classes switched off — layouts collapsed to the xl fallback:
+
+     .container        1320px -> 1140px
+     .col-xxl-3        inactive, so `col-xl-4` won -> pricing showed 3 of 4 cards
+     fonts / indents   stepped down
+
+   That is why the whole site looked "zoomed in" on a 1366px laptop at 100%
+   zoom yet perfect at 90%: 100% gives a ~1351px viewport, 90% gives ~1503px.
+
+   `node scripts/align-breakpoints.mjs` fixes this at the source by moving
+   Bootstrap's xxl step 1400 -> 1200 and retargeting the theme's compaction
+   tier 1399 -> 1199. After that, 1200-1399px renders identically to >=1400px
+   and no per-component overrides are needed.
+
+   Do NOT re-add `@media (max-width: 1399px)` patches here. They cannot express
+   "restore the >=1400px presentation" — the base rules are already correct
+   once the tier is realigned, and an override would then fight the base value.
+   -------------------------------------------------------------------------- */
+
+
+/* =============================================================================
+   Service cards — redesigned
+   =============================================================================
+   Used by the homepage and /service, which share this markup.
+
+   BEFORE
+     Two unrelated objects sat side by side: .service-image was a 260px photo
+     tile with its own 20px radius, separated by a 15px gap from a separately
+     bordered 370px .service-content box. The gap and the two competing borders
+     made them read as loose parts rather than one card, and 50px of padding on
+     a 370px box left only 268px for text inside a 636px column — which is why
+     headings wrapped to two lines and the paragraph ran short and ragged.
+
+   AFTER
+     One card. The image becomes a full-bleed left panel and the content fills
+     the remainder, so the text column grows from 268px to ~318px. Sibling cards
+     in a row stretch to a common height instead of each sizing to its own
+     content.
+
+   The image panel is capped at its native 260px (clamp) so it is never scaled
+   up: the sources are only 260x300, and any wider panel would look soft.
+
+   Colours, radius and hover timing come from the theme's own tokens
+   (--theme #EFFB53, 25px radius, 0.4s ease) so it reads as part of the theme
+   rather than a bolt-on.
+   ========================================================================== */
+
+.service-section .section-title + .row {
+  /* The original card margin-top provided this space. It moved to the row so
+     the cards can keep height:100% and still be separated between rows --
+     a per-card margin would offset each card 30px inside its stretched
+     column and overflow it. */
+  margin-top: 30px;
+  row-gap: 30px;
+}
+
+.service-box-items {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  /* Fills the column so cards in a row share one height. Width is left at
+     100% so the 24px gutter matches the pricing cards. */
+  height: 100%;
+  margin-top: 0;
+  background: #1d1d21;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 25px;
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.service-box-items .service-image {
+  /* Never wider than the 260px source, which keeps the image crisp. */
+  flex: 0 0 clamp(200px, 38%, 260px);
+  max-width: none;
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+.service-box-items .service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform 0.6s ease;
+}
+
+.service-box-items .service-content {
+  flex: 1 1 auto;
+  max-width: none;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 38px 34px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.service-box-items:hover {
+  border-color: rgba(239, 251, 83, 0.35);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.service-box-items:hover .service-image img {
+  transform: scale(1.06);
+}
+
+/* Stack the image above the copy on phones, matching the theme's own
+   mobile treatment of this component. */
+@media (max-width: 767px) {
+  .service-box-items {
+    flex-direction: column;
+  }
+
+  .service-box-items .service-image {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 240px;
+  }
+
+  .service-box-items .service-content {
+    padding: 30px 26px;
+  }
+}
+
+
+/* =============================================================================
+   Selected Projects — heading scale + image treatment
+   ========================================================================== */
+
+/* The theme set this display heading at 150px, which is larger than the hero
+   h1 (140px) and more than double the 65px used by every other section title.
+   It inverted the page hierarchy and wrapped to 1403px of a 1503px viewport.
+   92px keeps it the section's display element while sitting below the hero and
+   close to the theme's own 65px scale. clamp() so it stays proportional
+   without needing a breakpoint ladder. */
+.project-wrapper .project-title {
+  font-size: clamp(44px, 6.4vw, 92px);
+  line-height: 1.04;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+/* The sparkle is a 101x101 sprite inlined into the heading. Sizing it in `em`
+   against the (now smaller) heading font keeps the original composition --
+   101/150 = 0.67em across, 250/150 = 1.67em indent -- instead of leaving a
+   101px square floating next to 92px type. */
+.project-wrapper .project-title img {
+  width: 0.67em;
+  height: 0.67em;
+  margin-left: 1.67em;
+  vertical-align: 0.02em;
+  object-fit: contain;
+}
+
+@media (max-width: 1199px) {
+  .project-wrapper .project-title img {
+    margin-left: 1.1em;
+  }
+}
+
+/* The theme set each project name at 65px -- exactly the size it uses for
+   every section heading -- so "Machine Learning" read as a section title
+   competing with the heading above it. Dropping it to 48px restores a clear
+   scale: 92px section heading > 48px project name > body copy. */
+.project-wrapper .project-content h3 {
+  font-size: clamp(32px, 3.2vw, 48px);
+  line-height: 1.12;
+}
+
+.project-wrapper .project-content h3 a {
+  transition: color 0.4s ease;
+}
+
+.project-wrapper .project-content h3 a:hover {
+  color: var(--theme);
+}
+
+/* --- Images ---------------------------------------------------------------- */
+
+/* Every project photo is 860x650. Without an explicit ratio each frame sizes
+   to its own content, so the alternating zig-zag rows drift out of alignment.
+   Locking the ratio to the source keeps the three frames identical. */
+.project-wrapper .project-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 860 / 650;
+  border-radius: 50px;
+  transition: box-shadow 0.5s ease;
+  /* Slightly smaller and centred. At the full column width the photos
+     dominated the copy sitting beside them; the fixed ratio means the height
+     drops with the width, so the crop is unchanged. */
+  width: 90%;
+  margin-inline: auto;
+}
+
+.project-wrapper .project-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50px;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Replaces the template's `transform: rotate(10deg)` on hover, which tilted the
+   frame out of the grid while the text beside it stayed level. A slow zoom
+   inside a clipped frame reads as deliberate instead of broken. */
+.project-wrapper .project-image:hover {
+  transform: none;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.project-wrapper .project-image:hover img {
+  transform: scale(1.06);
+}
+
+/* Theme-yellow hairline on hover, matching the --theme accent used for the
+   buttons and pricing badges. Pointer-events off so it never eats the link. */
+.project-wrapper .project-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50px;
+  border: 1px solid rgba(239, 251, 83, 0.45);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.project-wrapper .project-image:hover::after {
+  opacity: 1;
+}
+
+@media (max-width: 575px) {
+  .project-wrapper .project-image,
+  .project-wrapper .project-image img {
+    border-radius: 30px;
+  }
+
+  .project-wrapper .project-image::after {
+    border-radius: 30px;
+  }
+}
+
+
+/* =============================================================================
+   Blog listing
+   ========================================================================== */
+
+/* The theme's `.news-standard-items` supplies the card border and bottom rule
+   but has no internal layout, so thumb and copy stacked instead of sitting
+   side by side, and the card grew to hug an un-sized thumbnail. This makes each
+   item a real two-column row: a fixed-ratio thumbnail beside a flexible text
+   column, collapsing to a stack on tablets. */
+.news-standard-wrapper .news-standard-row {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.news-standard-wrapper .news-standard-items .news-thumb {
+  flex: 0 0 336px;
+  max-width: 336px;
+}
+
+.news-standard-wrapper .news-standard-items .news-thumb img {
+  width: 100%;
+  /* Matches the 840x680 source ratio so nothing is cropped or stretched. */
+  aspect-ratio: 840 / 680;
+  height: auto;
+  object-fit: cover;
+  border-radius: 25px;
+}
+
+.news-standard-wrapper .news-standard-items .news-thumb .post-date {
+  top: 20px;
+  left: 20px;
+  border-radius: 14px;
+}
+
+.news-standard-wrapper .news-standard-items .news-content {
+  margin-top: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The theme sizes this at 55px, which is a page-title size being used for a
+   card heading. 28px sits between the 35px section titles and body copy. */
+.news-standard-wrapper .news-standard-items .news-content h3 {
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.news-standard-wrapper .news-standard-items .news-content p {
+  margin-bottom: 0;
+  max-width: 46ch;
+}
+
+/* The badge used to sit at top:30/left:30 with 24px type, which covered the
+   top-left of the artwork. These covers carry a caption along the bottom edge,
+   so the badge moves below the image entirely and becomes an inline meta chip
+   with the reading time beside the category. */
+.news-standard-wrapper .news-standard-items .news-thumb .post-date {
+  position: static;
+  padding: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.news-standard-wrapper .news-standard-items .news-thumb .post-date h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.news-standard-wrapper .news-standard-items .news-thumb .post-date h3 span {
+  display: inline;
+  margin: 0;
+  font-weight: 500;
+  color: var(--text2);
+}
+
+/* Small yellow dot between date and reading time. */
+.news-standard-wrapper .news-standard-items .news-thumb .post-date h3 span::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--theme);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.news-standard-wrapper .news-standard-items .news-content ul {
+  display: none;
+}
+
+
+/* ---------------------------------------------------------------- Sidebar --
+   The theme never constrained .recent-thumb, so each thumbnail took its
+   intrinsic 840px width and blew the 4-column sidebar open to roughly twice
+   its intended size. Pin it to a thumbnail-sized box and keep the 840x680
+   source ratio. */
+.main-sidebar .recent-thumb {
+  flex: 0 0 108px;
+  max-width: 108px;
+}
+
+.main-sidebar .recent-thumb img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 840 / 680;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.main-sidebar .recent-items {
+  align-items: flex-start;
+}
+
+.main-sidebar .recent-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Long titles must wrap inside the column rather than widen the sidebar. */
+.main-sidebar .recent-content h6 {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1199px) {
+  .news-standard-wrapper .news-standard-row {
+    gap: 26px;
+  }
+
+  .news-standard-wrapper .news-standard-items .news-thumb {
+    flex: 0 0 280px;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 767px) {
+  .news-standard-wrapper .news-standard-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .news-standard-wrapper .news-standard-items .news-thumb {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+
+  .news-standard-wrapper .news-standard-items .news-content h3 {
+    font-size: 24px;
+  }
+}
+/* ===========================================================================
+   Blog hero: per-slide cover art
+   ---------------------------------------------------------------------------
+   The theme gave the hero a single fixed background image on the section and
+   left the slides transparent, so a post's own cover could never show here.
+   The background now sits on each .news-hero-slide instead.
+
+   Three problems this has to fix, all of them caused by moving the art from the
+   section onto the slides:
+
+   1. The theme padded the SECTION (200px) while the art is painted on the
+      SLIDE, which only occupies the middle. Those padding bands had no
+      background and rendered as black bars above and below the image. Padding
+      therefore moves onto the slide, which is the element that actually paints
+      the cover -- a background covers an element's own padding box.
+
+   2. .news-hero-section::before is a full-bleed dark overlay with no z-index.
+      Once the slide is positioned and stacked above it, that scrim ends up
+      UNDER the art and does nothing except tint the section's own background,
+      which is where the extra black came from. It is removed; the scrim is
+      re-applied to the slide instead, so it sits between the art and the text.
+
+   3. The scrim is a gradient rather than the theme's flat 80% black fill, so the
+      cover still reads as a photograph instead of a solid bar.
+   =========================================================================== */
+
+.news-hero-section {
+  padding: 0;
+  /*
+    The site header is position:absolute over the page, so with the hero flush
+    to the top of the document the cover ran underneath the nav and the logo and
+    menu sat directly on the photograph. A top margin drops the whole band below
+    the header instead, leaving the page background behind the nav rather than
+    the cover. Sized to the header's own height (padding + ~70px logo row).
+  */
+  margin-top: 96px;
+}
+
+/* The theme's scrim, disabled. See point 2 above. */
+.news-hero-section::before {
+  display: none;
+}
+
+.news-hero-section .news-hero-slider,
+.news-hero-section .swiper-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.news-hero-section .news-hero-slide {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* Fixed height, not min-height. The covers are stacked for the fade and the
+     band is full-bleed, so a min-height let the hero resize between slides: a
+     one-line title produced a 405px band and a two-line title 495px, and the
+     shorter slide left the taller one showing below it. A fixed height makes
+     every slide occupy exactly the same band. */
+  height: 480px;
+  min-height: 0;
+  padding: 60px 0;
+  /* Width, not just height: the slide is a direct child of the section now, so
+     it spans the viewport and the cover reaches both page edges. */
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/*
+  Sits above the cover, below the copy.
+
+  Light enough that the photograph still reads as a photograph. It has to be
+  strong enough for the h1 to hit contrast on an arbitrary uploaded cover, so the
+  centre of the band is the darkest part rather than a uniform wash.
+*/
+.news-hero-section .news-hero-slide::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  z-index: 1;
+  /*
+    Deliberately light: the point of the cover is to be visible, so this only
+    has to be enough to hold white text at contrast against an arbitrary
+    photograph. Weighted toward the middle where the h1 sits, and lighter at the
+    top and bottom so the image keeps its detail at the edges.
+  */
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(0, 0, 0, 0.46) 45%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
+}
+
+.news-hero-section .hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Swiper sets an explicit width on slides from its measured wrapper; with the
+   slider out of .container it needs the full track width instead. */
+.news-hero-section .swiper,
+.news-hero-section .swiper-wrapper,
+.news-hero-section .swiper-slide {
+  width: 100%;
+}
+
+/* The track must carry the same fixed height as the slides. Without it the
+   wrapper sizes to its tallest child, so the band still changed between
+   slides. */
+.news-hero-section .news-hero-slider,
+.news-hero-section .swiper-wrapper {
+  height: 480px;
+}
+
+@media (max-width: 991px) {
+  .news-hero-section .news-hero-slider,
+  .news-hero-section .swiper-wrapper,
+  .news-hero-section .news-hero-slide {
+    height: 400px;
+  }
+
+  .news-hero-section .news-hero-slide {
+    padding: 50px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .news-hero-section .news-hero-slider,
+  .news-hero-section .swiper-wrapper,
+  .news-hero-section .news-hero-slide {
+    height: 340px;
+  }
+
+  .news-hero-section .news-hero-slide {
+    padding: 40px 0;
+  }
+}
+
+/* Text shadow on the hero copy. The scrim is intentionally light, so this is
+   what guarantees the title stays legible over a bright area of an arbitrary
+   uploaded cover. Matches the theme's own shadow treatment elsewhere. */
+.news-hero-section .hero-content h1 {
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.65);
+}
+
+.news-hero-section .hero-content p,
+.news-hero-section .hero-content ul {
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+}
+
+
+/* =============================================================================
+   Home hero banner — copy on the empty left half
+   -----------------------------------------------------------------------------
+   .hero-image is a 1920x320 strip whose artwork (the robot) sits on the right,
+   so the left half is bare gradient and read as unfinished. The theme left this
+   element empty; content now sits on the left, vertically centred and capped at
+   half the width so it never runs under the robot.
+
+   The theme also collapses the strip to 150px and then 80px, which cannot hold
+   copy, so it is given room at those breaks instead of clipping the text.
+   ========================================================================== */
+
+.hero-1 .hero-image {
+  display: flex;
+  align-items: center;
+}
+
+.hero-1 .hero-image > .container {
+  width: 100%;
+}
+
+.hero-1 .hero-image-content {
+  /* Left edges line up with the "Explore the AI power & our innovative
+     solutions" heading, which the theme indents with .ml-200 (200px). Both sit
+     in the same Bootstrap .container, so matching the offset aligns them.
+     Capped so the copy stays clear of the robot on the right. */
+  max-width: 620px;
+  margin-left: 200px;
+}
+
+/* .ml-200 drops to 0 below 1200px, so the banner follows it to stay aligned. */
+@media (max-width: 1199px) {
+  .hero-1 .hero-image-content {
+    margin-left: 0;
+  }
+}
+
+.hero-1 .hero-image-content h2 {
+  color: #fff;
+  /* Display type matching the hero heading: Satoshi Variable, heavy, uppercase. */
+  font-family: "Satoshi Variable", sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  /* Sized so "Intelligent products," stays on one line on every screen: the vw
+     term fits the narrowest phone and the 43px cap fits the 620px content
+     max-width on desktop (that line measures 14.32x the font size). */
+  font-size: min(6.3vw, 43px);
+  line-height: 1.12;
+  /* Was 18px -- the CTA sat almost against the heading. */
+  margin: 0 0 30px;
+}
+
+/* Each line is its own block, so the break never depends on <br> (the theme
+   hides every <br> below 768px). */
+.hero-1 .hero-image-content h2 .hero-title-line {
+  display: block;
+}
+
+/* The display line-height (1.12) left the two heading lines touching. A small
+   margin gives them the same visual separation the CTA now has below them. */
+.hero-1 .hero-image-content h2 .hero-title-line + .hero-title-line {
+  margin-top: 10px;
+}
+
+/* "Intelligent products," must never wrap. */
+.hero-1 .hero-image-content h2 .hero-title-line:not(.hero-title-line-accent) {
+  white-space: nowrap;
+}
+
+/* Second line in the Marcellus accent the theme mixes into headings elsewhere
+   (see ".section-title h2 span" on this page), with the key word in the theme
+   yellow. */
+.hero-1 .hero-image-content h2 .hero-title-line-accent {
+  font-family: Marcellus, sans-serif;
+  font-weight: 400;
+}
+
+.hero-1 .hero-image-content h2 b {
+  color: var(--theme);
+  font-weight: 400;
+}
+
+.hero-1 .hero-image-content .theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* The theme drops the strip to 150px below 1200px; keep enough height for the
+   copy. */
+@media (max-width: 1199px) {
+  .hero-1 .hero-image {
+    height: 300px;
+  }
+}
+
+/* Below the tablet break the strip sizes to its content, and a scrim keeps the
+   copy readable over the artwork instead of moving it off the robot. */
+@media (max-width: 991px) {
+  .hero-1 .hero-image {
+    height: auto;
+    min-height: 240px;
+    padding: 36px 0;
+    margin-top: 40px;
+  }
+
+  .hero-1 .hero-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(16, 15, 24, 0.92) 0%,
+      rgba(16, 15, 24, 0.6) 68%,
+      rgba(16, 15, 24, 0.08) 100%
+    );
+  }
+
+  .hero-1 .hero-image > .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-1 .hero-image-content {
+    max-width: 620px;
+  }
+}
+
+@media (max-width: 575px) {
+  .hero-1 .hero-image-content {
+    max-width: none;
+  }
+}
+
+
+/* =============================================================================
+   Home hero — scroll-down cue
+   -----------------------------------------------------------------------------
+   A quiet "there is more below" prompt in the bottom-left corner, visible only
+   while the page is at the top and faded out on the first scroll (the visibility
+   itself is handled in src/components/layout/ScrollCue.jsx). Colours and the
+   circular treatment follow the theme's other floating control (back-to-top).
+   ========================================================================== */
+
+.scroll-cue {
+  position: fixed;
+  left: clamp(16px, 3vw, 40px);
+  bottom: clamp(18px, 4vh, 44px);
+  z-index: 30;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--white);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.scroll-cue.is-hidden {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+
+.scroll-cue-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(207, 208, 212, 0.35);
+  border-radius: 50%;
+  color: var(--theme);
+  font-size: 16px;
+  animation: scroll-cue-bounce 1.8s ease-in-out infinite;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.scroll-cue:hover .scroll-cue-icon {
+  border-color: var(--theme);
+  background-color: rgba(239, 251, 83, 0.08);
+}
+
+.scroll-cue-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+@keyframes scroll-cue-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-icon {
+    animation: none;
+  }
+}
+
+
+/* =============================================================================
+   Home hero — mobile heading + spacing
+   -----------------------------------------------------------------------------
+   The theme hides every <br> below 768px (`@media (max-width: 767px) { br {
+   display: none } }`), which collapsed the hero heading to "INNOVATIVE AI" on
+   one line and "SOLUTIONS" on the next. Restoring just the hero's own break
+   keeps the two-line composition used on desktop: "INNOVATIVE" / "AI
+   SOLUTIONS". The same query trims the theme's 170px top padding, which left a
+   large dead band under the header on a phone.
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .hero-1 .hero-content h1 br {
+    display: inline;
+  }
+
+  .hero-1 {
+    padding-top: 120px;
+  }
+
+  /* No robot artwork on phones -- the copy stands on the hero background.
+     !important overrides the inline background-image the section sets. */
+  .hero-1 .hero-image {
+    background-image: none !important;
+    background-color: transparent;
+  }
+
+  /* With no artwork behind it, the readability scrim is not needed. */
+  .hero-1 .hero-image::before {
+    display: none;
+  }
+
+  /* Copy and button centred on small screens. */
+  .hero-1 .hero-image-content {
+    max-width: none;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .hero-1 .hero-image-content .theme-btn {
+    margin-inline: auto;
+  }
+}

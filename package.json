@@ -1,25 +1,34 @@
 {
   "name": "ailogiqs",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "oxlint",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "oxlint src",
+    "test:smoke": "node scripts/smoke.mjs",
+    "test:sanitiser": "node scripts/test-sanitiser.mjs",
+    "db:setup": "node scripts/setup-db.mjs",
+    "db:seed": "node scripts/setup-db.mjs --seed",
+    "db:list": "node scripts/list-posts.mjs"
   },
   "dependencies": {
-    "jquery": "^4.0.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.3.0",
-    "react-router-dom": "^7.18.4"
+    "@libsql/client": "^0.18.0",
+    "@tiptap/extension-link": "^3.31.4",
+    "@tiptap/extension-placeholder": "^3.31.4",
+    "@tiptap/pm": "^3.31.4",
+    "@tiptap/react": "^3.31.4",
+    "@tiptap/starter-kit": "^3.31.4",
+    "next": "16.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
-    "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
-    "vite": "^8.3.0"
+    "puppeteer-core": "^24.0.0"
   }
 }

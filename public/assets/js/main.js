@@ -27,17 +27,74 @@ CSS TABLE OF CONTENTS
 (function($) {
     "use strict";
 
-    // Wrapped so React can re-run all template JS (sliders, counters, wow
+    // Every Swiper instance created by the last init run. Swiper's autoplay
+    // timers keep firing after its DOM is detached, so leaking instances across
+    // client-side navigations burns CPU for the rest of the session.
+    var __swipers__ = [];
+
+    // Stand-in returned when a slider's root element isn't on the page. Every
+    // property access yields a chainable no-op function, so the template's
+    // `new Swiper(...).on(...)` / `.controller.control = ...` chains keep
+    // working on pages that simply don't include that slider.
+    function __swiperStub__() {
+        var target = function() {};
+        var handler = {
+            get: function(t, p) {
+                // Not thenable, or awaiting the instance would hang.
+                if (p === "then" || p === Symbol.toPrimitive) return undefined;
+                if (p in t) return t[p];
+                return function() { return handler.proxy; };
+            },
+            set: function(t, p, v) { t[p] = v; return true; },
+        };
+        handler.proxy = new Proxy(target, handler);
+        return handler.proxy;
+    }
+
+    // Runs before every init. jQuery handlers are namespaced under ".ailogiqs"
+    // so they can be removed wholesale; without this, a scroll or body-click
+    // handler bound on one page stays bound on every page visited after it.
+    function __teardown__() {
+        __swipers__.forEach(function(s) {
+            try { s.destroy(true, true); } catch (e) {}
+        });
+        __swipers__.length = 0;
+
+        var $body = $(document.body);
+        $body.off(".ailogiqs");
+        $(window).off(".ailogiqs");
+
+        // nice-select replaces <select> with generated markup; remove both.
+        try {
+            $(".nice-select").each(function() {
+                var $ns = $(this);
+                var $select = $ns.prev("select");
+                $ns.remove();
+                $select.show().removeClass("ns-hidden");
+            });
+        } catch (e) {}
+
+        $(".mean-container .mean-bar").remove();
+    }
+
+    // Wrapped so React/Next can re-run all template JS (sliders, counters, wow
     // animations, mobile menu, nice-select, etc.) whenever a new page mounts.
     window.AiLogiQsInitTemplate = function() {
 
-        // Tear down anything from a previous mount so re-running is safe
-        try {
-            if ($.fn.meanmenu && $("#mobile-menu").data("meanmenu")) {
-                $(".mean-container .mean-bar").remove();
-            }
-        } catch (e) {}
-        $(".mean-container .mean-bar").remove();
+        __teardown__();
+
+        // Shadow the global Swiper constructor for the duration of this call so
+        // every `new Swiper(...)` below is registered and guarded.
+        var __NativeSwiper = window.Swiper;
+        var Swiper = function(selector, options) {
+            var root = typeof selector === "string"
+                ? document.querySelector(selector)
+                : selector;
+            if (!__NativeSwiper || !root) return __swiperStub__();
+            var instance = new __NativeSwiper(selector, options);
+            __swipers__.push(instance);
+            return instance;
+        };
 			//>> Mobile Menu Js Start <<//
 			$("#mobile-menu").meanmenu({
 				meanMenuContainer: ".mobile-menu",
@@ -46,17 +103,17 @@ CSS TABLE OF CONTENTS
 			});
 
 			//>> Sidebar Toggle Js Start <<//
-			$(".offcanvas__close,.offcanvas__overlay").on("click", function () {
+			$(".offcanvas__close,.offcanvas__overlay").on("click.ailogiqs", function () {
 				$(".offcanvas__info").removeClass("info-open");
 				$(".offcanvas__overlay").removeClass("overlay-open");
 			});
-			$(".sidebar__toggle").on("click", function () {
+			$(".sidebar__toggle").on("click.ailogiqs", function () {
 				$(".offcanvas__info").addClass("info-open");
 				$(".offcanvas__overlay").addClass("overlay-open");
 			});
 
 			//>> Body Overlay Js Start <<//
-			$(".body-overlay").on("click", function () {
+			$(".body-overlay").on("click.ailogiqs", function () {
 				$(".offcanvas__area").removeClass("offcanvas-opened");
 				$(".df-search-area").removeClass("opened");
 				$(".body-overlay").removeClass("opened");
@@ -64,7 +121,7 @@ CSS TABLE OF CONTENTS
 
 			//>> Sticky Header Js Start <<//
 
-			$(window).scroll(function () {
+			$(window).off("scroll.ailogiqs.sticky").on("scroll.ailogiqs.sticky", function () {
 				if ($(this).scrollTop() > 250) {
 					$("#header-sticky").addClass("sticky");
 				} else {
@@ -101,18 +158,35 @@ CSS TABLE OF CONTENTS
 
 			// Hero Slider Start <<//
 			const sliderActive1 = ".news-hero-slider";
+			// Fade + loop cannot coexist here. Swiper clones the slides to fake an
+			// endless loop, and its fade effect leaves the cloned active slide at
+			// opacity 1 next to the real one, so two covers (and two "Read More"
+			// buttons) painted at the same time. rewind cycles back to the first
+			// slide without cloning anything, which is what lets the fade hide
+			// every inactive slide. 900ms keeps an arrow click feeling immediate;
+			// the theme's 2000ms read as though nothing happened.
 			const sliderInit1 = new Swiper(sliderActive1, {
-				loop: true,
+				loop: false,
+				rewind: true,
 				slidesPerView: 1,
 				effect: "fade",
-				speed: 2000,
+				// Fade options live under fadeEffect in this Swiper (8.3.2); a
+				// top-level crossFade is ignored. Without it, the incoming slide
+				// fades in on top of the outgoing one and BOTH rest at opacity 1,
+				// which is the two-covers-at-once overlap. crossFade fades the
+				// outgoing slide out as the incoming one fades in.
+				fadeEffect: { crossFade: true },
+				speed: 900,
 				autoplay: {
 					delay: 3000,
 					disableOnInteraction: false,
 				},
 				navigation: {
-					nextEl: ".array-prev",
-					prevEl: ".array-next",
+					// Not swapped: .array-prev is the left button ("Previous
+					// article") and .array-next the right one. The theme wired
+					// these back to front, so the right arrow walked backwards.
+					nextEl: ".array-next",
+					prevEl: ".array-prev",
 				},
 			});
 
@@ -478,14 +552,14 @@ CSS TABLE OF CONTENTS
 			
 
 			//>> Back To Top Slider Start <<//
-			$(window).scroll(function () {
+			$(window).off("scroll.ailogiqs.backtop").on("scroll.ailogiqs.backtop", function () {
 				if ($(this).scrollTop() > 20) {
 					$("#back-top").addClass("show");
 				} else {
 					$("#back-top").removeClass("show");
 				}
 			});
-			$("#back-top").click(function () {
+			$("#back-top").off("click.ailogiqs").on("click.ailogiqs", function () {
 				$("html, body").animate({ scrollTop: 0 }, 800);
 				return false;
 			});
@@ -495,13 +569,13 @@ CSS TABLE OF CONTENTS
 			const $navSearch = $(".nav-search");
 			const $searchClose = $("#search-close");
 
-			$(".search-trigger").on("click", function (e) {
+			$(".search-trigger").off("click.ailogiqs").on("click.ailogiqs", function (e) {
 				e.preventDefault();
 				$searchWrap.animate({ opacity: "toggle" }, 500);
 				$navSearch.add($searchClose).addClass("open");
 			});
 
-			$(".search-close").on("click", function (e) {
+			$(".search-close").off("click.ailogiqs").on("click.ailogiqs", function (e) {
 				e.preventDefault();
 				$searchWrap.animate({ opacity: "toggle" }, 500);
 				$navSearch.add($searchClose).removeClass("open");
@@ -512,11 +586,11 @@ CSS TABLE OF CONTENTS
 				$navSearch.add($searchClose).removeClass("open");
 			}
 
-			$(document.body).on("click", function (e) {
+			$(document.body).off("click.ailogiqs").on("click.ailogiqs", function (e) {
 				closeSearch();
 			});
 
-			$(".search-trigger, .main-search-input").on("click", function (e) {
+			$(".search-trigger, .main-search-input").off("click.ailogiqs").on("click.ailogiqs", function (e) {
 				e.stopPropagation();
 			});
 
@@ -538,11 +612,11 @@ CSS TABLE OF CONTENTS
 							(n = s.clientY),
 							(i = s.clientX);
 					}),
-						$("body").on("mouseenter", "a, .cursor-pointer", function () {
+						$("body").on("mouseenter.ailogiqs", "a, .cursor-pointer", function () {
 							e.classList.add("cursor-hover"),
 								t.classList.add("cursor-hover");
 						}),
-						$("body").on("mouseleave", "a, .cursor-pointer", function () {
+						$("body").on("mouseleave.ailogiqs", "a, .cursor-pointer", function () {
 							($(this).is("a") &&
 								$(this).closest(".cursor-pointer").length) ||
 								(e.classList.remove("cursor-hover"),
@@ -557,12 +631,13 @@ CSS TABLE OF CONTENTS
 			});
 		}; // End AiLogiQsInitTemplate Function
 
-    // NOTE: intentionally NOT auto-run on $(document).ready here. React
-    // mounts the header/nav/cursor DOM nodes asynchronously, so calling
-    // this before that happens (mousecursor(), meanmenu(), etc.) would
-    // hit null elements. Instead, src/layout/Layout.jsx calls
-    // window.AiLogiQsInitTemplate() itself once it has mounted, and again
-    // after every client-side route change.
+    // NOTE: intentionally NOT auto-run on $(document).ready here. Next.js
+    // renders this markup on the server and hydrates the nav/cursor nodes
+    // afterwards, so calling this before hydration finishes would hit null
+    // elements. Instead, src/components/layout/TemplateRuntime.jsx calls
+    // window.AiLogiQsInitTemplate() once on mount, and again after every
+    // client-side navigation. Re-runs are safe: __teardown__() destroys the
+    // previous Swiper instances and un-binds the previous jQuery handlers.
 
 
 
