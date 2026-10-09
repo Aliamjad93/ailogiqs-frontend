@@ -147,11 +147,10 @@ renders the empty state — it does not fall back to the seeds.
 | `npm run test:sanitiser`    | XSS and slug regression tests                    |
 | `npm run db:setup` / `db:seed` / `db:list` | Schema, seed, inspect            |
 
-The Puppeteer-based scripts expect a Chrome at the standard Windows path and a
-server on `:3000`; override with `BASE_URL`.
-
-Files prefixed with `_` are one-off probes and debug screenshots, not tools. They
-are gitignored — move a script out of that convention if it becomes worth keeping.
+> **`scripts/` is gitignored.** The tooling above lives in `scripts/` and is local
+> only, so a fresh clone has none of it. Anything referencing those commands —
+> CI, onboarding, the database section below — assumes you have copied `scripts/`
+> across yourself.
 
 ---
 

@@ -16,10 +16,10 @@ out
 # Turso CLI
 .turso
 
-# Scratch output from visual checks: screenshots written by the Puppeteer probes
-# in scripts/ (scripts/_*.png) and the throwaway probes themselves (scripts/_*.mjs).
-# Anything with a leading underscore is a one-off, never a committed tool.
-scripts/_*
+# Local dev tooling: db setup/seed, Puppeteer smoke tests and layout audits.
+# Untracked, so it never reaches the repo. Note that package.json's test:* and
+# db:* entries expect these -- a fresh clone will not have them.
+scripts/
 
 tmp
 .vercel
