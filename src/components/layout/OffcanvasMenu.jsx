@@ -11,7 +11,7 @@ export default function OffcanvasMenu() {
               <div className="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
                 <div className="offcanvas__logo">
                   <Link href="/">
-                    <Logo variant="light" />
+                    <Logo variant="dark" accent="#514DE0" />
                   </Link>
                 </div>
                 <div className="offcanvas__close">
@@ -25,7 +25,9 @@ export default function OffcanvasMenu() {
                 businesses automate workflows, uncover insights, and scale
                 smarter, faster.
               </p>
-              {/* meanmenu() injects the mobile nav links in here. */}
+              {/* meanmenu() injects the mobile nav links in here below 1200px.
+                  On laptops the drawer deliberately carries NO nav links -- the
+                  header shows them inline -- so this stays empty there. */}
               <div className="mobile-menu fix mb-3" />
               <div className="offcanvas__contact">
                 <h4>Contact Info</h4>

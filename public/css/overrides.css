@@ -1,4 +1,110 @@
 /* =============================================================================
+   Light base palette — the site renders on a white background
+   -----------------------------------------------------------------------------
+   The template shipped dark (`--body-bg: #151518`), which turned every band
+   between sections black and made its own dark text (--header #151518) barely
+   visible. The design is a light one: the artwork (cards, headings, paragraph
+   text) is authored in dark tones, so the base surface flips to white and only
+   the three tone tokens follow it.
+
+   Section photographs (hero, mobile-app) are inline backgroundImages and keep
+   their blue backgrounds, as do the theme's buttons.
+   ========================================================================== */
+
+:root {
+  --body-bg: #ffffff;
+  --bg: #ffffff;
+  --text: #3a3a42;
+  --text2: #5c6972;
+  --border: #e4e4ec;
+}
+
+
+/* =============================================================================
+   Footer — light theme
+   -----------------------------------------------------------------------------
+   The template's footer paints a solid near-black panel (.footer-bg
+   #101012) with --white headings, which reads as a black band on the white
+   page. The footer becomes a white panel: the surface rule is replaced and
+   --white is redefined ON THE FOOTER ELEMENT so only the footer's own
+   headings/icons flip dark -- the header, hero and buttons keep white text
+   on their coloured surfaces.
+   ========================================================================== */
+
+.footer-section.footer-bg {
+  background-color: #ffffff;
+}
+
+/* Scoped to the default footer ("footer-bg") only: the homepage footer
+   variant already ships light-theme colors and must keep them. */
+.footer-section.footer-bg {
+  /* Scoped flip: descendants see dark "white"; the rest of the page does not. */
+  --white: #16161c;
+}
+
+/* Bottom-bar social icons are a #cdcdcd literal, invisible on white. */
+.footer-bottom .social-icon a {
+  color: #3a3a42;
+}
+
+/* The theme colours the icon glyph itself white (.social-icon a i), which
+   disappears on the white panel. Inherit the anchor colour instead -- scoped
+   to the footer so social icons on dark sections keep their white glyphs. */
+.footer-section .social-icon a i {
+  color: inherit;
+}
+
+
+/* =============================================================================
+   Inner pages — match the homepage theme
+   -----------------------------------------------------------------------------
+   The template left the inner-page header transparent, relying on the dark
+   body behind it: on the white page the white logo/nav vanished, and the
+   scrolled state painted a #181818 bar. Homepage header-2 gets its indigo
+   from the hero artwork (.sticky.header-2 is already theme indigo), so the
+   inner pages get the same indigo surface at rest and scrolled.
+   ========================================================================== */
+
+.header-1 {
+  background-color: var(--theme2);
+}
+
+.sticky.header-1 {
+  background-color: var(--theme2);
+}
+
+/* Buttons: the template's default was a near-black pill with yellow text,
+   authored for the dark body. The theme's own hover state is the yellow
+   fill, which is also how the homepage CTAs and the search button read, so
+   the resting state becomes yellow with dark text. Context overrides
+   (.hero-2 .theme-btn, .header-2 .theme-btn, .theme-btn-2 …) still win. */
+.theme-btn {
+  background: var(--theme);
+  color: var(--header);
+}
+
+/* Blog sidebar: search input, category pills and tags ship as #222226 panels
+   with light text. They become white panels with the light border token. */
+.main-sidebar .single-sidebar-widget {
+  border-color: var(--border);
+}
+
+.main-sidebar .single-sidebar-widget .search-widget form input,
+.main-sidebar .single-sidebar-widget .news-widget-categories ul li,
+.main-sidebar .single-sidebar-widget .tagcloud a {
+  background: #ffffff;
+  color: var(--text);
+}
+
+/* The bottom-bar logo is rendered with the light (white) wordmark, which
+   disappears on the white panel. .ailogiqs-logo carries an inline colour, so
+   only !important reaches it. */
+.footer-bottom .logo-img .ailogiqs-logo {
+  color: #16161c !important;
+}
+
+
+/* =============================================================================
    AiLogiQs — override layer
    -----------------------------------------------------------------------------
    Loaded LAST, after the vendor theme stylesheets in public/assets/css/.
@@ -833,4 +939,1865 @@
   .hero-1 .hero-image-content .theme-btn {
     margin-inline: auto;
   }
+}
+
+
+/* =============================================================================
+   AiLogiQs sales-agent sections (homepage + /service-details)
+   -----------------------------------------------------------------------------
+   Content is driven by the client's "AiLoqis Showcase" PDF: white surfaces,
+   indigo accents, light-blue tint bands. No yellow anywhere in this system �
+   the theme's #EFFB53 only survives on the inner pages (blog, pricing �).
+   All classes are prefixed `aiq-` so the vendor theme cannot collide.
+
+   Tokens used below (hard-coded, deliberately not :root overrides so the
+   rest of the site keeps its palette):
+     indigo  #514DE0  (= --theme2)
+     indigo-dark #3F3AC2  (hover / gradient end)
+     sky     #9DB8FF  (accent on indigo surfaces)
+     tint    #EEF2FF  (band background)
+     ink     #16161C  (= --header)
+   ========================================================================== */
+
+/* --- Shared primitives ---------------------------------------------------- */
+
+.aiq-robot {
+  display: block;
+}
+
+.aiq-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-eyebrow-light {
+  color: #9db8ff;
+}
+
+.aiq-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-btn:hover {
+  transform: translateY(-3px);
+}
+
+.aiq-btn-white {
+  background: #ffffff;
+  color: #514de0;
+  box-shadow: 0 18px 42px rgba(10, 12, 48, 0.28);
+}
+
+.aiq-btn-white:hover {
+  background: #f2f3ff;
+  color: #514de0;
+}
+
+.aiq-btn-solid {
+  background: #514de0;
+  color: #ffffff;
+  box-shadow: 0 16px 36px rgba(81, 77, 224, 0.32);
+}
+
+.aiq-btn-solid:hover {
+  background: #3f3ac2;
+  color: #ffffff;
+}
+
+.aiq-img-ph {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(81, 77, 224, 0.3);
+  background: rgba(81, 77, 224, 0.04);
+}
+
+.aiq-img-ph::after {
+  content: attr(data-label, "IMAGE SPACE");
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: rgba(81, 77, 224, 0.45);
+  text-align: center;
+  padding: 0 8px;
+}
+
+.aiq-band {
+  padding: clamp(70px, 8vw, 110px) 0;
+}
+
+.aiq-tint {
+  background: #eef2ff;
+}
+
+.aiq-head {
+  max-width: 760px;
+  margin-bottom: clamp(40px, 4vw, 56px);
+}
+
+.aiq-head h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.14;
+  font-weight: 900;
+  color: var(--header);
+  letter-spacing: -0.01em;
+}
+
+.aiq-accent {
+  color: #514de0;
+}
+
+.aiq-intro {
+  margin: 16px 0 0;
+  font-size: 15.5px;
+  color: var(--text2);
+}
+
+.aiq-subhead {
+  margin: clamp(36px, 4vw, 54px) 0 22px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-head + .aiq-subhead {
+  margin-top: 0;
+}
+
+.aiq-strip {
+  margin: 44px 0 0;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-strip span {
+  color: #514de0;
+  margin: 0 6px;
+}
+
+/* --- Hero ----------------------------------------------------------------- */
+
+.aiq-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(150px, 14vw, 220px) 0 clamp(70px, 8vw, 120px);
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+/* Faint blueprint grid, the PDF's recurring motif. */
+.aiq-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 54px 54px;
+  pointer-events: none;
+}
+
+.aiq-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.aiq-hero h1 {
+  margin: 18px 0 20px;
+  font-size: clamp(38px, 4.6vw, 66px);
+  line-height: 1.06;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.aiq-hero h1 span {
+  color: #9db8ff;
+}
+
+.aiq-hero-sub {
+  max-width: 32em;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.aiq-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 28px 0 34px;
+  padding: 0;
+  list-style: none;
+}
+
+.aiq-chips li {
+  padding: 9px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.aiq-hero-cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.aiq-hero-domain {
+  font-size: 13.5px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.aiq-hero-phone {
+  perspective: 1200px;
+}
+
+.aiq-hero-phone .aiq-phone {
+  transform: rotateY(-5deg);
+}
+
+/* --- Phone mockup --------------------------------------------------------- */
+
+.aiq-phone {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #ffffff;
+  color: var(--text);
+  border: 8px solid #16161c;
+  border-radius: 32px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.aiq-phone-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+}
+
+.aiq-phone-ava {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(81, 77, 224, 0.08);
+}
+
+.aiq-phone-ava svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.aiq-phone-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.aiq-phone-meta b {
+  font-size: 13px;
+  color: var(--header);
+}
+
+.aiq-phone-meta i {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #514de0;
+}
+
+.aiq-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #514de0;
+}
+
+.aiq-phone-body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px;
+  background: #f6f8ff;
+}
+
+.aiq-phone-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+}
+
+.aiq-phone-field {
+  flex: 1;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #98a0ae;
+}
+
+.aiq-phone-mic {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #514de0;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.aiq-phone-mic-sm {
+  flex-basis: 26px;
+  width: 26px;
+  height: 26px;
+  font-size: 10px;
+}
+
+.aiq-time {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #98a0ae;
+}
+
+/* --- Chat pieces ---------------------------------------------------------- */
+
+.aiq-bubble {
+  max-width: 82%;
+  margin: 0;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.aiq-bubble-out {
+  align-self: flex-end;
+  background: #514de0;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+
+.aiq-bubble-in {
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+
+.aiq-bubble-sm {
+  max-width: none;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+.aiq-rtl {
+  text-align: right;
+  direction: rtl;
+}
+
+.aiq-prod {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 82%;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.aiq-prod-img {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 9px;
+  background: rgba(81, 77, 224, 0.06);
+  border: 1px dashed rgba(81, 77, 224, 0.3);
+}
+
+.aiq-prod-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.aiq-prod-meta b {
+  font-size: 12px;
+  color: var(--header);
+}
+
+.aiq-prod-meta i {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+  color: #514de0;
+}
+
+.aiq-prod-meta u {
+  text-decoration: none;
+  font-size: 10px;
+  color: var(--text2);
+}
+
+.aiq-prod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.aiq-prod-grid .aiq-prod {
+  max-width: none;
+}
+
+.aiq-prod-grid .aiq-prod-img {
+  flex-basis: 34px;
+  width: 34px;
+  height: 34px;
+}
+
+.aiq-order {
+  max-width: 92%;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.aiq-order-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-order-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 4px;
+  font-size: 11.5px;
+  color: var(--text);
+}
+
+.aiq-order-row b {
+  color: var(--header);
+}
+
+.aiq-order-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.aiq-order-actions b {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 11px;
+  cursor: default;
+}
+
+.aiq-order-confirm {
+  background: #514de0;
+  color: #ffffff;
+}
+
+.aiq-order-edit {
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.aiq-ok {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 2px 0 0;
+  padding: 7px 14px;
+  background: rgba(81, 77, 224, 0.07);
+  border: 1px solid rgba(81, 77, 224, 0.18);
+  border-radius: 999px;
+  color: #514de0;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.aiq-ok i {
+  font-size: 10px;
+}
+
+/* --- Flow band (steps + store data) --------------------------------------- */
+
+.aiq-phone-float .aiq-phone {
+  margin-top: 6px;
+}
+
+.aiq-store {
+  margin-bottom: 26px;
+  padding: 24px 26px 30px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.aiq-store-title {
+  margin: 0 0 14px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--header);
+}
+
+.aiq-store-title span {
+  color: #98a0ae;
+}
+
+.aiq-store-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f1f8;
+  font-size: 13.5px;
+  color: var(--text);
+}
+
+.aiq-store-row-last {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.aiq-on {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-store-bar {
+  display: block;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #514de0 60%, rgba(81, 77, 224, 0.15) 60%);
+}
+
+.aiq-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aiq-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  transition: border-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-steps li:hover {
+  border-color: rgba(81, 77, 224, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(31, 32, 68, 0.08);
+}
+
+.aiq-step-num {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(81, 77, 224, 0.1);
+  color: #514de0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.aiq-steps h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: var(--header);
+}
+
+.aiq-steps p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+
+.aiq-step-cta {
+  align-items: center;
+  background: #514de0;
+  border-color: #514de0;
+}
+
+.aiq-step-cta:hover {
+  border-color: #514de0;
+}
+
+.aiq-step-cta h4 {
+  color: #ffffff;
+}
+
+.aiq-step-cta .aiq-btn {
+  margin-top: 12px;
+}
+
+/* --- Sensor panels -------------------------------------------------------- */
+
+.aiq-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.aiq-panel-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.aiq-tag {
+  padding: 6px 12px;
+  background: rgba(81, 77, 224, 0.08);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #514de0;
+  white-space: nowrap;
+}
+
+.aiq-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-panel-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #f0f1f8;
+}
+
+.aiq-panel-foot h4 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: var(--header);
+}
+
+.aiq-panel-foot p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.aiq-audio {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  background: rgba(81, 77, 224, 0.06);
+  border: 1px solid rgba(81, 77, 224, 0.14);
+  border-radius: 14px;
+}
+
+.aiq-play {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #514de0;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.aiq-wave {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 40px;
+}
+
+.aiq-wave i {
+  flex: 1;
+  display: block;
+  background: rgba(81, 77, 224, 0.55);
+  border-radius: 2px;
+}
+
+.aiq-audio-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: #514de0;
+}
+
+.aiq-transcribe {
+  align-self: flex-start;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px dashed rgba(81, 77, 224, 0.4);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-recorder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  background: #f6f8ff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.aiq-rec-dot {
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e5484d;
+}
+
+.aiq-rec-time {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.aiq-rec-slide {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: #98a0ae;
+  white-space: nowrap;
+}
+
+.aiq-recorder .aiq-wave {
+  height: 22px;
+}
+
+.aiq-shot {
+  position: relative;
+}
+
+.aiq-shot-name {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  margin: 0;
+  padding: 5px 10px;
+  background: rgba(22, 22, 28, 0.72);
+  border-radius: 8px;
+  font-size: 10.5px;
+  color: #ffffff;
+}
+
+.aiq-matched {
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid rgba(81, 77, 224, 0.22);
+  border-radius: 14px;
+}
+
+.aiq-matched-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-matched p {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.aiq-matched p b {
+  color: var(--header);
+}
+
+.aiq-sizes {
+  display: flex;
+  gap: 8px;
+}
+
+.aiq-sizes b {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.aiq-size-active {
+  background: #514de0;
+  border-color: #514de0;
+  color: #ffffff;
+}
+
+/* --- Language cards ------------------------------------------------------- */
+
+.aiq-lang {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+.aiq-lang-code {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-lang .aiq-bubble {
+  max-width: 100%;
+}
+
+/* --- Modules -------------------------------------------------------------- */
+
+.aiq-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: border-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-card:hover {
+  border-color: rgba(81, 77, 224, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(31, 32, 68, 0.08);
+}
+
+.aiq-card-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: rgba(81, 77, 224, 0.09);
+  color: #514de0;
+  font-size: 18px;
+}
+
+.aiq-card h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: var(--header);
+}
+
+.aiq-card p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text2);
+}
+
+.aiq-card-active,
+.aiq-card-active:hover {
+  background: #514de0;
+  border-color: #514de0;
+}
+
+.aiq-card-active .aiq-card-icon {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.aiq-card-active h4 {
+  color: #ffffff;
+}
+
+.aiq-card-active p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.aiq-mod {
+  height: 100%;
+  padding: 20px;
+  background: rgba(81, 77, 224, 0.045);
+  border: 1px dashed rgba(81, 77, 224, 0.26);
+  border-radius: 18px;
+}
+
+.aiq-mod-code {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-mod h4 {
+  margin: 0 0 6px;
+  font-size: 16.5px;
+  color: var(--header);
+}
+
+.aiq-mod p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+
+/* --- Industries ----------------------------------------------------------- */
+
+.aiq-ind {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  transition: border-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-ind:hover {
+  border-color: rgba(81, 77, 224, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 44px rgba(31, 32, 68, 0.1);
+}
+
+.aiq-ind-top {
+  position: relative;
+  padding: 12px 12px 0;
+}
+
+.aiq-ind-top .aiq-img-ph {
+  aspect-ratio: 16 / 10;
+}
+
+.aiq-ind-badge {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3f3ac2;
+}
+
+.aiq-ind-badge i {
+  font-size: 5px;
+  color: #514de0;
+}
+
+.aiq-ind-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px 18px;
+}
+
+.aiq-ind-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(81, 77, 224, 0.09);
+  color: #514de0;
+  font-size: 15px;
+}
+
+.aiq-ind-body h4 {
+  margin: 6px 0 0;
+  font-size: 16.5px;
+  color: var(--header);
+}
+
+.aiq-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+.aiq-tags span {
+  padding: 4px 10px;
+  background: #f4f5fa;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-ind-body .aiq-bubble {
+  max-width: 100%;
+}
+
+.aiq-outcome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: auto 0 0;
+  padding-top: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #514de0;
+}
+
+.aiq-outcome i {
+  font-size: 9px;
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.aiq-faq .accordion-item {
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.aiq-faq .accordion-button {
+  padding: 18px 20px;
+  background: #ffffff;
+  box-shadow: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--header);
+}
+
+.aiq-faq .accordion-button:not(.collapsed) {
+  background: rgba(81, 77, 224, 0.04);
+  color: #514de0;
+}
+
+.aiq-faq .accordion-button::after {
+  background-image: none;
+  content: "\203A";
+  font-size: 26px;
+  font-weight: 800;
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}
+
+.aiq-faq .accordion-button:not(.collapsed)::after {
+  transform: rotate(-90deg);
+}
+
+.aiq-faq .accordion-body {
+  padding: 0 20px 20px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text2);
+}
+
+.aiq-faq-aside {
+  display: flex;
+  height: 100%;
+}
+
+.aiq-faq-aside .aiq-img-ph {
+  width: 100%;
+}
+
+/* --- Closing CTA ---------------------------------------------------------- */
+
+.aiq-cta {
+  padding: clamp(70px, 8vw, 110px) 0;
+  background: linear-gradient(135deg, #3f3ac2 0%, #514de0 55%, #6a67e6 100%);
+  color: #ffffff;
+}
+
+.aiq-cta-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.aiq-cta h2 {
+  margin: 6px 0 0;
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.aiq-cta h2 span {
+  color: #9db8ff;
+}
+
+.aiq-cta p {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* --- Breadcrumb page head (service details) -------------------------------- */
+
+.aiq-page-head {
+  padding: clamp(150px, 12vw, 200px) 0 70px;
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+.aiq-page-head h1 {
+  margin: 14px 0 0;
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+.aiq-page-head h1 span {
+  color: #9db8ff;
+}
+
+.aiq-page-head p {
+  max-width: 46ch;
+  margin: 16px 0 0;
+  font-size: 16.5px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 991px) {
+  .aiq-hero {
+    padding-top: 140px;
+    text-align: center;
+  }
+
+  .aiq-hero .aiq-eyebrow,
+  .aiq-hero-cta,
+  .aiq-chips {
+    justify-content: center;
+  }
+
+  .aiq-hero-sub {
+    margin-inline: auto;
+  }
+
+  .aiq-hero-phone {
+    margin-top: 34px;
+  }
+
+  .aiq-hero-phone .aiq-phone {
+    transform: none;
+  }
+
+  .aiq-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .aiq-page-head {
+    padding-top: 130px;
+    text-align: center;
+  }
+
+  .aiq-page-head p {
+    margin-inline: auto;
+  }
+}
+
+
+/* --- Feature band extras (homepage compact sections) ---------------------- */
+
+.aiq-chips-soft li {
+  background: #ffffff;
+  border-color: rgba(81, 77, 224, 0.25);
+  color: var(--header);
+}
+
+.aiq-bullets {
+  display: grid;
+  gap: 12px;
+  margin: 4px 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.aiq-bullets li {
+  position: relative;
+  padding-left: 34px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.aiq-bullets li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(81, 77, 224, 0.1);
+  color: #514de0;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.aiq-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #514de0;
+  transition: color 0.3s ease;
+}
+
+.aiq-link i {
+  font-size: 12px;
+}
+
+.aiq-link:hover {
+  color: #3f3ac2;
+}
+
+/* On the dark pages the band sits on white; keep the strips readable. */
+.aiq-band .aiq-phone {
+  box-shadow: 0 30px 80px rgba(31, 32, 68, 0.16);
+}
+
+
+/* Service-details page head: indigo band (text is white, so it must carry its
+   own surface -- the page below is white). */
+.aiq-page-head {
+  background: linear-gradient(135deg, #3f3ac2 0%, #514de0 55%, #6a67e6 100%);
+}
+
+
+/* ==========================================================================
+   Home page (scoped under .aiq-home): no yellow anywhere.
+   The theme's default --theme (#EFFB53) is yellow; the home variant uses the
+   indigo accent instead, matching its header (sky) and footer (indigo).
+   ========================================================================== */
+.aiq-home .link-btn:hover {
+  color: var(--theme2);
+}
+.aiq-home .testimonial-section .array-button .array-prev:hover,
+.aiq-home .testimonial-section .array-button .array-next {
+  background-color: var(--theme2);
+  color: #ffffff;
+}
+body.route-home .back-to-top {
+  background-color: #514DE0;
+  color: #ffffff;
+}
+body.route-home .back-to-top:hover {
+  background-color: #3F3AC2;
+}
+
+/* ==========================================================================
+   Home-2 popular-service cards — artwork sits OUTSIDE the content card
+   --------------------------------------------------------------------------
+   Per the supplied mockup the photograph is a standalone rounded tile and the
+   card surface wraps only the copy. So the card's background, border and padding
+   move off .service-box-items-2 and onto the copy column, and the artwork column
+   keeps a right gap that reads as the space between tile and card.
+   ========================================================================== */
+
+.aiq-home .popular-service-section > .container > .row > [class*="col-"] {
+  display: flex;
+}
+
+.aiq-home .popular-service-section .service-box-items-2 {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.aiq-home .popular-service-section .service-box-items-2 > .row {
+  flex: 1;
+  /* Kill the Bootstrap .g-4 gutter -- it was padding the image column away from
+     the edge -- and the .align-items-center that parked the image at its own
+     content height instead of the card height. */
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
+  align-items: stretch !important;
+}
+
+/* Artwork tile, sitting outside the card. The right padding is the gap. */
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-4 {
+  display: flex;
+  position: relative;
+  min-height: 240px;
+  padding-right: 16px;
+}
+
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-4 .aiq-img-ph {
+  flex: 1;
+  aspect-ratio: auto;
+  min-height: 200px;
+  border-radius: 16px;
+}
+
+/* Custom service-card artwork (from /custom images, served under
+   /assets/img/custom/). Fills the tile, cropped to cover. */
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-4 img {
+  position: static;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+/* Copy column: this is now the card -- surface, border and radius live here. */
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-8 {
+  display: flex;
+  align-items: center;
+  padding: 28px;
+  background-color: #F2F7FE;
+  border: 1px solid #DBE8FC;
+  border-radius: 20px;
+}
+.aiq-home .popular-service-section .service-box-items-2 .content {
+  margin-top: 0;
+}
+
+/* "More details" sat flush under the paragraph -- give it room to breathe. */
+.aiq-home .popular-service-section .service-box-items-2 .content .link-btn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Below lg the card stacks: ONE card per row, with the artwork INSIDE the card
+   sitting above the copy. Above lg the artwork stays outside the card (the
+   mockup layout). */
+@media (max-width: 991px) {
+  .aiq-home .popular-service-section .service-box-items-2 {
+    padding: 12px;
+    background-color: #F2F7FE;
+    border: 1px solid #DBE8FC;
+    border-radius: 20px;
+  }
+
+  /* Artwork: full width on top, gap underneath rather than beside. */
+  .aiq-home .popular-service-section .service-box-items-2 .col-lg-4 {
+    min-height: 0;
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
+
+  .aiq-home .popular-service-section .service-box-items-2 .col-lg-4 img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  /* Copy: no second surface -- it already sits inside the card. */
+  .aiq-home .popular-service-section .service-box-items-2 .col-lg-8 {
+    padding: 6px 10px 12px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+
+/* ==========================================================================
+   Header — inline nav kept, burger always visible
+   --------------------------------------------------------------------------
+   The homepage header is logo + inline nav links + burger at every width. The
+   burger used to be hidden above 1200px (d-xl-none in SiteHeader.jsx); it is now
+   always shown, and the drawer behind it carries the same nav plus the contact
+   details. The inline menu is deliberately NOT hidden.
+   ========================================================================== */
+
+/* Nav links centred in the bar. The theme left them hugging the logo behind a
+   160px flex gap. Grid is used rather than absolute positioning because an
+   absolutely positioned nav drops out of flow and stops driving the bar's
+   height, which made the whole header shorter. */
+@media (min-width: 1200px) {
+  .header-2 .header-main {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .header-2 .header-main > .logo {
+    justify-self: start;
+  }
+
+  .header-2 .header-main > .header-right {
+    justify-self: end;
+  }
+}
+
+/* Mobile bar height. Below 1200px the inline nav is swapped for meanmenu's
+   burger, so the bar was left with just the 26px wordmark + 10px padding --
+   about 46px tall, noticeably thinner than the ~82px desktop bar whose nav
+   links set the height. Pin a matching height on phones/tablets. */
+@media (max-width: 1199px) {
+  .header-2 .header-main {
+    min-height: 82px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile drawer nav (meanmenu, below 1200px)
+   --------------------------------------------------------------------------
+   The theme paints these links --white--, but the drawer's panel is white as
+   well, so on phones the nav read as a stack of empty ghost rows -- only their
+   1px borders were visible. Dark ink + indigo hover makes them legible, and the
+   taller rows give the mobile nav a comfortable tap target.
+   -------------------------------------------------------------------------- */
+.mean-container .mean-nav ul li a {
+  text-align: center;
+  color: #161447;
+  padding: 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.mean-container .mean-nav ul li a:hover {
+  color: #514de0;
+}
+
+/* The +/- submenu toggle is an <a> too, so it inherits the link colour. Keep it
+   indigo and re-centre it against the taller rows (main.css pins its padding
+   with !important, so only the offset can move). */
+.mean-container .mean-nav ul li a.mean-expand {
+  color: #514de0;
+  margin-top: 11px;
+}
+
+.mean-container .mean-nav ul li a.mean-expand:hover {
+  color: #3f3ac2;
+}
+
+
+/* ==========================================================================
+   Home palette — the last of the theme yellow
+   --------------------------------------------------------------------------
+   The homepage runs on the indigo accent (--theme2 #514DE0), but the page
+   loader, the header burger and the offcanvas drawer still painted the theme
+   default (--theme #EFFB53), which read as a leftover from the template.
+   ========================================================================== */
+
+/* Page loader: spinner ring, the rotating wordmark letters and the "Loading"
+   label all used --theme. */
+.preloader .animation-preloader .spinner {
+  border-top-color: #514de0;
+}
+
+.preloader .animation-preloader .txt-loading .letters-loading {
+  color: #514de0;
+}
+
+.preloader .animation-preloader .txt-loading .letters-loading::before {
+  color: #3f3ac2;
+}
+
+.preloader p {
+  color: #514de0;
+}
+
+/* Header burger: it was inheriting the theme ink, so give it white explicitly
+   against the indigo header. */
+.header-2 .header__hamburger .sidebar__toggle,
+.header-2 .header__hamburger .sidebar__toggle i {
+  color: #ffffff;
+}
+
+/* Offcanvas drawer (homepage): yellow left rail, close button, contact icons,
+   CTA button and social hover all become indigo. */
+body.route-home .offcanvas__info {
+  border-left-color: #514de0;
+}
+
+/* Close button: the theme fills it with --theme (yellow) and paints the X with
+   --header. On the homepage it becomes the indigo brand pill with a white icon,
+   matching the header burger and the "Get A Quote" button. */
+body.route-home .offcanvas__wrapper .offcanvas__content .offcanvas__close {
+  background-color: #514de0;
+}
+
+body.route-home .offcanvas__wrapper .offcanvas__content .offcanvas__close i {
+  color: #ffffff;
+}
+
+body.route-home
+  .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__close:hover {
+  background-color: #3f3ac2;
+}
+
+body.route-home
+  .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  ul
+  li
+  .offcanvas__contact-icon
+  i {
+  color: #514de0;
+}
+
+body.route-home
+  .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .header-button
+  .theme-btn {
+  background: #514de0;
+  color: #ffffff;
+}
+
+body.route-home
+  .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .header-button
+  .theme-btn::after {
+  background-color: #3f3ac2;
+}
+
+body.route-home
+  .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .header-button
+  .theme-btn:hover {
+  color: #ffffff;
+}
+
+body.route-home
+  .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .social-icon
+  a:hover {
+  background-color: #514de0;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Home-2 hero artwork — supplied robot render layered over the ring outline
+   --------------------------------------------------------------------------
+   The hero shipped with a portrait placeholder (613x729) and no width cap on
+   `.hero-2 .hero-image img`, so the supplied render (1616x1296) painted at its
+   natural size, blew straight past the 5-column box and ran off the right edge
+   of the viewport — leaving only the ring outline (circle-shape.png) visible.
+   The render is now capped to the column, centred, and stacked ON TOP of the
+   ring, which stays the larger, behind layer.
+   ========================================================================== */
+
+.hero-2 .hero-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 440px;
+}
+
+/* New hero artwork: the front layer, a touch smaller than the ring behind it. */
+.hero-2 .hero-image > img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+}
+
+/* Ring outline: the previous layer, kept behind and slightly larger so the
+   robot reads as sitting inside/over it. It turns a full circle continuously. */
+.hero-2 .hero-image .circle-shape {
+  z-index: 1;
+  width: 130%;
+  max-width: 700px;
+}
+
+/* The spin goes on the IMG, never on the wrapper: the theme centres the wrapper
+   with `transform: translate(-50%, -50%)`, so animating that same property would
+   drop the centring and fling the ring into the top-left corner. The img itself
+   carries no transform, so a plain rotate() is safe here. */
+.hero-2 .hero-image .circle-shape img {
+  width: 100%;
+  height: auto;
+  /* Fade the ring so it reads as a soft backdrop behind the robot rather than
+     competing with it. */
+  opacity: 0.6;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  animation: aiq-ring-spin 24s linear infinite;
+}
+
+@keyframes aiq-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect users who ask their OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-2 .hero-image .circle-shape img {
+    animation: none;
+  }
+}
+
+/* Laptop / large screens: the theme's 80px headline read a touch heavy beside
+   the rest of the hero, so trim it slightly. Tablets (<=1199px, 70px) and
+   phones keep their own sizes from main.css. */
+@media (min-width: 1200px) {
+  .hero-2 .hero-content h1 {
+    font-size: 72px;
+  }
+}
+
+@media (max-width: 1199px) {
+  /* The theme hides the ring below 1200px; bring it back so the mobile hero
+     keeps the same layered look as the desktop one. Capped to the viewport
+     width so the outer arcs are never cropped at the screen edges (body carries
+     overflow-x: hidden, so anything wider than the viewport gets cut). */
+  .hero-2 .hero-image .circle-shape {
+    display: block;
+    width: 120%;
+    max-width: 100vw;
+  }
+
+  .hero-2 .hero-image {
+    min-height: 0;
+  }
+
+  .hero-2 .hero-image > img {
+    max-width: 520px;
+  }
+}
+
+/* Mobile: the burger header (~82px tall, absolutely positioned over the hero)
+   left the heading sitting right underneath it, because .section-padding drops
+   to 80px at this width. Push the whole hero block down so it clears the bar. */
+@media (max-width: 991px) {
+  .hero-2.section-padding {
+    padding-top: 140px;
+  }
+}
+
+
+/* ==========================================================================
+   Home-2 section rhythm — "popular services" → "AI sales agent"
+   --------------------------------------------------------------------------
+   Both bands carry .section-padding-2 (130px top + bottom), so the pair sat
+   260px apart and read as two unrelated blocks. The shared edge is tightened
+   to 60px each side (~120px total) so they read as one sequence.
+   ========================================================================== */
+
+.aiq-home .popular-service-section.aiq-tight-bottom {
+  padding-bottom: 60px;
+}
+
+.aiq-home .service-section.section-padding-2 {
+  padding-top: 60px;
+}
+
+
+/* ==========================================================================
+   Home-2 "AI sales agent" section — 2x2 feature cards + agent artwork
+   --------------------------------------------------------------------------
+   The section shipped as six .service-box-items-2 cards in a 4-up row plus a
+   photo tile. It is now the product headline: a 2x2 card grid on the left with
+   the supplied agent-chat render on the right, matching the AiLogiQs showcase.
+   ========================================================================== */
+
+/* The theme spaces these cards with a per-card margin-top, which fights the
+   Bootstrap g-4 gutter used here. The gutter is the only spacer now. */
+.aiq-home .service-section .agent-cards .service-box-items-2 {
+  margin-top: 0;
+  padding: 30px;
+  height: 100%;
+}
+
+/* Equal-height cards within each row of the 2x2 grid. */
+.aiq-home .service-section .agent-cards > [class*="col-"] {
+  display: flex;
+}
+
+/* Artwork column: the render is nudged up so it clears the taller card grid
+   instead of sitting low in the row. */
+.aiq-home .service-section .service-image-2 {
+  margin-top: -40px;
+}
+
+.aiq-home .service-section .service-image-2 img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  display: block;
+}
+
+/* "How it works" CTA — centred under the whole grid, not tucked under the
+   artwork. */
+.aiq-home .service-section .agent-cta-row {
+  margin-top: 44px;
+}
+
+/* "How it works" CTA. The home page bans the theme's yellow, so the pill is
+   brand indigo with a darker indigo hover fill (same behaviour as .theme-btn,
+   which expands its ::after circle on hover). */
+.aiq-home .service-section .agent-cta {
+  background: #514de0;
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.aiq-home .service-section .agent-cta::after {
+  background-color: #3f3ac2;
+}
+
+.aiq-home .service-section .agent-cta:hover {
+  color: #ffffff;
+}
+
+/* Section intro sitting under the heading. */
+.aiq-home .service-section .section-title p {
+  max-width: 620px;
+  margin: 20px auto 0;
+  color: var(--text2);
+  font-size: 18px;
+  line-height: 160%;
 }

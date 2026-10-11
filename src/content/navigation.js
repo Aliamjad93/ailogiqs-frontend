@@ -9,7 +9,8 @@
 /*
   Only one homepage variant is kept: the template shipped six, but four were
   generic filler and two were for unrelated businesses (a healthcare clinic and
-  a smart-classroom product). home-2 … home-6 were removed along with their
+  a smart-classroom product). The site uses the home-02 layout at "/" (see
+  src/app/(site)/(home-2)/), and home-1 … home-6 were removed along with their
   route folders and footers.
 
   If another variant is ever wanted, add the folder back under
@@ -27,6 +28,7 @@ export const PRIMARY_NAV = [
     href: "/service",
     children: [
       { label: "Services", href: "/service" },
+      { label: "Service Details", href: "/service-details" },
       { label: "Team", href: "/team" },
       { label: "Portfolio", href: "/project" },
       { label: "Portfolio Details", href: "/project-details" },

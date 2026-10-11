@@ -13,11 +13,14 @@ import { PRIMARY_NAV } from "@/content/navigation";
  *  - hamburger   Bootstrap responsive display class for the burger
  */
 /*
-  Only "default" and "home1" remain.
+  "default" styles the inner pages; "home2" is the homepage variant now in
+  use at "/" and applies the theme's header-2 styling: full-width container and
+  the nav behind the burger at EVERY size (see `hamburger` below) — the inline
+  desktop menu is hidden in overrides.css, so the drawer is the only nav.
 
-  The template shipped a variant per homepage layout; five of those homepages
-  were removed (see src/content/navigation.js), taking their header styling and
-  footers with them. "default" styles the inner pages, "home1" styles "/".
+  logoAccent tints the "Logi" half of the wordmark: the theme yellow on the
+  inner pages, and plain white on the homepage so the wordmark reads as one
+  solid white lockup against the indigo header (no tinted shade).
 */
 const VARIANTS = {
   default: {
@@ -25,12 +28,18 @@ const VARIANTS = {
     wrapLeft: false,
     actions: ["discord", "search"],
     hamburger: "d-xl-block",
+    logoAccent: "#EFFB53",
   },
-  home1: {
-    className: "header-1",
-    wrapLeft: true,
-    actions: ["discord", "search"],
-    hamburger: "d-xl-block",
+  home2: {
+    className: "header-2",
+    // Logo and nav are direct children of .header-main so the bar can be laid
+    // out as logo | nav (centred) | burger.
+    wrapLeft: false,
+    // No login / sign-up CTAs: the homepage header is just logo + burger.
+    actions: [],
+    // Always visible, so the mobile-style burger nav is used on laptops too.
+    hamburger: "d-block",
+    logoAccent: "#FFFFFF",
   },
 };
 
@@ -95,7 +104,7 @@ export default function SiteHeader({ variant = "default" }) {
     <>
       <div className="logo">
         <Link href="/" className="header-logo">
-          <Logo variant="light" />
+          <Logo variant="light" accent={config.logoAccent} />
         </Link>
       </div>
       <div className="mean__menu-wrapper">

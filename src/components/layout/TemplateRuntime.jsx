@@ -59,6 +59,12 @@ export default function TemplateRuntime({ children }) {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
 
+  // Flag the homepage on <body> so global chrome that React renders outside the
+  // route tree (back-to-top) can be recoloured per page from CSS.
+  useEffect(() => {
+    document.body.classList.toggle("route-home", pathname === "/");
+  }, [pathname]);
+
   // Initialise (and re-initialise) the theme's plugins for the current route.
   useEffect(() => {
     let cancelled = false;
