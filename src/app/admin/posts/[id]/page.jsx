@@ -3,7 +3,10 @@ import { cookies } from "next/headers";
 import { isAuthenticated } from "@/lib/admin-auth";
 import { getPostForAdmin } from "@/lib/admin-posts";
 import { getCategories } from "@/lib/posts";
-import { removePost, changeStatus } from "@/app/admin/actions";
+import { SITE } from "@/lib/site.config";
+import { removePost, changeStatus, restorePost } from "@/app/admin/actions";
+import AdminTopBar from "@/components/admin/AdminTopBar";
+import ConfirmForm from "@/components/admin/ConfirmForm";
 import PostForm from "./PostForm";
 
 export const metadata = {
@@ -24,20 +27,13 @@ export default async function EditPostPage({ params, searchParams }) {
 
   const categories = await getCategories();
   const nextStatus = post?.status === "published" ? "draft" : "published";
+  // A soft-deleted post is reachable from the Deleted tab. Offering it Publish
+  // would be wrong -- it is not in the blog to publish, it needs restoring first.
+  const isDeleted = post?.status === "deleted";
 
   return (
     <>
-      <header className="admin-topbar">
-        <h1>AiLogiQs Admin</h1>
-        <nav>
-          <a className="admin-btn admin-btn-small" href="/blog" target="_blank" rel="noopener">
-            View site
-          </a>
-          <a className="admin-btn admin-btn-small" href="/admin/posts">
-            All posts
-          </a>
-        </nav>
-      </header>
+      <AdminTopBar active="posts" />
 
       <main className="admin-wrap">
         <div className="admin-card-head">
@@ -66,30 +62,60 @@ export default async function EditPostPage({ params, searchParams }) {
                 </a>
               )}
 
-              {/* Publish/unpublish and delete are separate forms because they
-                  are single-intent operations and should not be able to submit
-                  the whole post body by accident. */}
-              <form action={changeStatus}>
-                <input type="hidden" name="id" value={post.id} />
-                <input type="hidden" name="status" value={nextStatus} />
-                <button className="admin-btn admin-btn-small" type="submit">
-                  {post.status === "published" ? "Unpublish" : "Publish"}
-                </button>
-              </form>
+              {/*
+                Publish/unpublish, restore and delete are separate forms because
+                they are single-intent operations and should not be able to submit
+                the whole post body by accident.
 
-              <form action={removePost}>
-                <input type="hidden" name="id" value={post.id} />
-                <button className="admin-btn admin-btn-small admin-btn-danger" type="submit">
-                  Delete
-                </button>
-              </form>
+                `redirectTo` keeps the user on this screen after a status change;
+                without it the action bounced to the same URL anyway, but the
+                field is what lets the identical buttons work from the table.
+              */}
+              {isDeleted ? (
+                <ConfirmForm
+                  action={restorePost}
+                  fields={{ id: post.id }}
+                  label="Restore"
+                  className="admin-btn admin-btn-small admin-btn-primary"
+                  confirm={`Restore "${post.title}"? It comes back as a draft, so nothing goes live until you publish it.`}
+                />
+              ) : (
+                <>
+                  <ConfirmForm
+                    action={changeStatus}
+                    fields={{ id: post.id, status: nextStatus, redirectTo: `/admin/posts/${post.id}` }}
+                    label={post.status === "published" ? "Unpublish" : "Publish"}
+                    className="admin-btn admin-btn-small"
+                    confirm={
+                      post.status === "published"
+                        ? `Unpublish "${post.title}"? It disappears from the blog immediately.`
+                        : `Publish "${post.title}" to the live blog?`
+                    }
+                  />
+
+                  <ConfirmForm
+                    action={removePost}
+                    fields={{ id: post.id }}
+                    label="Delete"
+                    className="admin-btn admin-btn-small admin-btn-danger"
+                    confirm={`Delete "${post.title}"?\n\nIt is removed from the blog and the sitemap. You can undo this from the Deleted tab.`}
+                  />
+                </>
+              )}
             </div>
           )}
         </div>
 
         {saved && <div className="admin-notice admin-notice-ok">Saved.</div>}
 
-        <PostForm post={post} categories={categories} />
+        {isDeleted && (
+          <div className="admin-notice admin-notice-error">
+            This post is deleted — it is not on the blog. Restore it to edit and
+            publish it again.
+          </div>
+        )}
+
+        <PostForm post={post} categories={categories} canonicalBase={SITE.url} />
       </main>
     </>
   );

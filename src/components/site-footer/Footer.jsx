@@ -2,12 +2,22 @@ import Link from "next/link";
 import Logo from "@/components/shared/Logo";
 
 /**
- * `variant="home2"` renders the footer that ships with the homepage 02 layout
- * (dark logo widget, Company/Integration link lists, newsletter input, styled
- * bottom bar); anything else renders the default site footer.
+ * Site footer.
+ *
+ * The homepage 02 footer (indigo accents, Company/Integration columns,
+ * newsletter, styled bottom bar) is the DEFAULT and is used on every route --
+ * `/`, the inner pages and the 404 screen all render `<Footer />` unchanged.
+ *
+ * It is safe to use site-wide because every colour it references comes from
+ * `:root` in main.css (`--theme2`, `--header2`, `--text2`) and no route-scoped
+ * override in overrides.css targets the footer. Nothing about it depended on
+ * being on the homepage.
+ *
+ * `variant="classic"` still renders the template's original footer. No route
+ * uses it any more; it is kept so the switch is one word to reverse.
  */
-export default function Footer({ variant = "default" }) {
-  if (variant === "home2") {
+export default function Footer({ variant = "home2" }) {
+  if (variant !== "classic") {
     return (
       <footer
         className="footer-section bg-cover"
@@ -180,6 +190,14 @@ export default function Footer({ variant = "default" }) {
     );
   }
 
+  /*
+    The template's original footer, kept only as `variant="classic"`.
+
+    Nothing renders it: every route uses the homepage 02 footer above. Its
+    overrides in overrides.css are scoped to `.footer-section.footer-bg`, so they
+    now apply to nothing either -- both are harmless, and deleting them would be a
+    bigger change than the one that was asked for.
+  */
   return (
 <footer className="footer-section footer-bg">
             <div className="container">

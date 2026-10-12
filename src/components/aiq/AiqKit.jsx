@@ -2,14 +2,26 @@ import Link from "next/link";
 
 /*
  * Shared building blocks for the AiLogiQs "AI WhatsApp sales agent" sections.
- * Used by the homepage (compact feature band) and /service-details (the full
- * breakdown). All visual styling lives in public/css/overrides.css under the
- * .aiq-* prefix (white surfaces, indigo accents, no yellow).
+ * Used by /service-details. All visual styling lives in public/css/overrides.css
+ * under the .aiq-* prefix (white surfaces, royal-blue accents, no yellow).
+ *
+ * CURRENTLY UNREFERENCED: PhoneMock, ProductRow and OrderCard.
+ *
+ * Those three built the "One chat. One confirmed sale." chat out of markup.
+ * That section now uses a supplied artwork export (agent-chat.webp) instead,
+ * because it carries WhatsApp's real type, spacing and bubble tails, which
+ * these could only approximate.
+ *
+ * They are kept rather than deleted because the artwork bakes its copy in:
+ * changing a price or a product name there means a new export, whereas these
+ * are editable in place. If the markup approach is not coming back, this block
+ * and the .aiq-phone / .aiq-prod / .aiq-order rules can go together -- note
+ * that .aiq-phone-mic is still live, used by the voice-note panel.
  */
 
 export function RobotMark({ size = 44, tone = "blue" }) {
-  const body = tone === "blue" ? "#514DE0" : "#9DB8FF";
-  const ink = tone === "blue" ? "#FFFFFF" : "#514DE0";
+  const body = tone === "blue" ? "#2B5CF6" : "#9DB8FF";
+  const ink = tone === "blue" ? "#FFFFFF" : "#2B5CF6";
   return (
     <svg
       width={size}
@@ -32,7 +44,7 @@ export function RobotMark({ size = 44, tone = "blue" }) {
   );
 }
 
-export function PhoneMock({ title, children }) {
+export function PhoneMock({ title, children, input = true }) {
   return (
     <div className="aiq-phone">
       <div className="aiq-phone-head">
@@ -47,12 +59,14 @@ export function PhoneMock({ title, children }) {
         </span>
       </div>
       <div className="aiq-phone-body">{children}</div>
-      <div className="aiq-phone-input">
-        <span className="aiq-phone-field">Type a message</span>
-        <span className="aiq-phone-mic">
-          <i className="fa-solid fa-microphone" />
-        </span>
-      </div>
+      {input ? (
+        <div className="aiq-phone-input">
+          <span className="aiq-phone-field">Type a message</span>
+          <span className="aiq-phone-mic">
+            <i className="fa-solid fa-microphone" />
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -65,10 +79,21 @@ export function Bubble({ dir = "in", className = "", children }) {
   return <div className={`aiq-bubble aiq-bubble-${dir} ${className}`.trim()}>{children}</div>;
 }
 
-export function ProductRow({ name, price, stock }) {
+/**
+ * A product card inside the chat mockup.
+ *
+ * `image` is optional on purpose. Without it the tile falls back to the
+ * dashed placeholder every other image slot on the page uses, so a card can be
+ * added before its photograph exists without the layout shifting.
+ */
+export function ProductRow({ name, price, stock, image, alt }) {
   return (
     <div className="aiq-prod">
-      <span className="aiq-prod-img" />
+      {image ? (
+        <img className="aiq-prod-img" src={image} alt={alt || name} />
+      ) : (
+        <span className="aiq-prod-img" />
+      )}
       <span className="aiq-prod-meta">
         <b>{name}</b>
         <i>{price}</i>

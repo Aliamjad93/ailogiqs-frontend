@@ -1,5 +1,8 @@
 export const metadata = {
   title: "Portfolio Details",
+  description:
+    "A closer look at an AiLogiQs project: the brief, the approach and the result.",
+  alternates: { canonical: "/project-details" },
 };
 
 import Link from "next/link";

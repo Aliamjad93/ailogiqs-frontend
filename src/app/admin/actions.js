@@ -31,7 +31,7 @@ import {
   isAdminConfigured,
   sessionToken,
 } from "@/lib/admin-auth";
-import { createPost, updatePost, setPostStatus, deletePost, setCacheInvalidator, readUploadedImage } from "@/lib/admin-posts";
+import { createPost, updatePost, setPostStatus, deletePost, restorePost as restorePostData, setCacheInvalidator, readUploadedImage } from "@/lib/admin-posts";
 
 /**
  * Cache invalidation is wired in from here, once, rather than imported into
@@ -56,6 +56,20 @@ async function requireAuth() {
   if (!isAuthenticated(jar)) {
     throw new Error("Not authorised");
   }
+}
+
+/**
+ * Where a row-level action should return to.
+ *
+ * The same Publish / Unpublish / Delete buttons render in the posts table and on
+ * the edit screen, and the two want to stay put. A `redirectTo` field lets the
+ * form say which. It is validated against a fixed prefix rather than followed
+ * blindly: a hidden input is attacker-controlled, and an unchecked redirect
+ * target turns these actions into an open redirect.
+ */
+function backTo(formData, fallback) {
+  const target = String(formData.get("redirectTo") ?? "");
+  return target.startsWith("/admin/") && !target.startsWith("//") ? target : fallback;
 }
 
 export async function signIn(_prevState, formData) {
@@ -104,11 +118,17 @@ function postFromForm(formData) {
     // article cannot silently re-order the listing.
     publishedAt: formData.get("publishedAt") ?? "",
     status: formData.get("status") ?? "draft",
-    // Not read from the form at all, because the panel exposes no control for
-    // them: `image` (always an upload), `author` (fixed at AiLogiQs), `tags`,
-    // `excerpt`, `reading_minutes`, `seo_title` and `seo_description` are all
-    // derived by the write layer. A forged field therefore cannot override any
-    // of them.
+    // SEO hints. All three are optional: the write layer substitutes a derived
+    // value for anything left blank, so an author who ignores the SEO panel
+    // still gets correct metadata. These are the ONLY free-text fields the panel
+    // accepts, and each is length-capped in the write layer before it is stored.
+    seoTitle: formData.get("seoTitle") ?? "",
+    seoDescription: formData.get("seoDescription") ?? "",
+    tags: formData.get("tags") ?? "",
+    // Still not read from the form, because the panel exposes no control for
+    // them: `image` (always an upload), `author` (fixed at AiLogiQs), `excerpt`
+    // and `reading_minutes` are derived by the write layer. A forged field
+    // therefore cannot override any of them.
   };
 }
 
@@ -161,9 +181,15 @@ export async function changeStatus(formData) {
   nextCache.revalidatePath("/admin");
   nextCache.revalidatePath("/admin/posts");
   nextCache.revalidatePath(`/admin/posts/${id}`);
-  redirect(`/admin/posts/${id}?saved=1`);
+  redirect(backTo(formData, `/admin/posts/${id}?saved=1`));
 }
 
+/**
+ * Soft-delete a post.
+ *
+ * Returns to the list either way: from the edit screen the post it was showing
+ * is gone, so staying there would render a stale form.
+ */
 export async function removePost(formData) {
   await requireAuth();
   const id = Number(formData.get("id"));
@@ -173,4 +199,21 @@ export async function removePost(formData) {
   nextCache.revalidatePath("/admin");
   nextCache.revalidatePath("/admin/posts");
   redirect("/admin/posts?deleted=1");
+}
+
+/**
+ * Undo a soft delete.
+ *
+ * Restores as a draft -- see the note on restorePost() in the data layer.
+ */
+export async function restorePost(formData) {
+  await requireAuth();
+  const id = Number(formData.get("id"));
+  await restorePostData(id);
+  nextCache.revalidatePath("/blog");
+  nextCache.revalidatePath("/sitemap.xml");
+  nextCache.revalidatePath("/admin");
+  nextCache.revalidatePath("/admin/posts");
+  nextCache.revalidatePath(`/admin/posts/${id}`);
+  redirect("/admin/posts?restored=1");
 }

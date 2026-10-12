@@ -2,17 +2,39 @@
  * Admin shell styles.
  *
  * Injected once from the admin layout rather than imported globally, so none of
- * it can reach the public site. Deliberately plain and functional: this is an
- * internal tool, and the public theme already carries the brand weight.
+ * it can reach the public site.
+ *
+ * LIGHT THEME
+ * The panel used to be a dark surface with the template's yellow accent, which
+ * made it read as a different product from the site it edits. It now uses the
+ * same palette as the public pages -- white surfaces on a soft blue-grey page,
+ * the brand indigo (--theme2 / #514DE0) for every accent, and the dark ink
+ * #161447 for text. The two palettes are kept in sync by hand because the admin
+ * deliberately does not load the theme's stylesheets (see the admin layout
+ * notes), so there is no shared token to inherit from.
+ *
+ * Every class name here is unchanged from the previous version, so no markup in
+ * the panel needed touching.
  */
 export default function AdminStyles() {
   return (
     <style>{`
       .admin-shell {
         min-height: 100vh;
-        background: #101114;
-        color: #e8e9ed;
+        background: #f4f6fb;
+        color: #161447;
         font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        /* Form controls do not inherit the page font on their own. */
+        --admin-accent: #514de0;
+        --admin-accent-hover: #3f3ac2;
+        --admin-accent-soft: #eef0ff;
+        --admin-ink: #161447;
+        --admin-muted: #5f6480;
+        --admin-faint: #8b90a8;
+        --admin-border: #e3e7f2;
+        --admin-border-strong: #cdd4e8;
+        --admin-surface: #ffffff;
+        --admin-surface-2: #f7f8fc;
       }
 
       .admin-topbar {
@@ -21,8 +43,8 @@ export default function AdminStyles() {
         justify-content: space-between;
         gap: 20px;
         padding: 16px 28px;
-        border-bottom: 1px solid #26272d;
-        background: #141519;
+        border-bottom: 1px solid var(--admin-border);
+        background: var(--admin-surface);
         position: sticky;
         top: 0;
         z-index: 20;
@@ -32,6 +54,7 @@ export default function AdminStyles() {
         font-size: 18px;
         font-weight: 700;
         margin: 0;
+        color: var(--admin-ink);
       }
 
       .admin-topbar nav {
@@ -53,27 +76,40 @@ export default function AdminStyles() {
         gap: 8px;
         padding: 10px 18px;
         border-radius: 10px;
-        border: 1px solid #33353d;
-        background: #1e2027;
-        color: #e8e9ed;
+        border: 1px solid var(--admin-border-strong);
+        background: var(--admin-surface);
+        color: var(--admin-ink);
         font-size: 14px;
         font-weight: 600;
         cursor: pointer;
         text-decoration: none;
-        transition: background 0.2s ease, border-color 0.2s ease;
+        transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       }
 
-      .admin-btn:hover { background: #262932; border-color: #454852; }
+      .admin-btn:hover { background: var(--admin-accent-soft); border-color: var(--admin-accent); }
 
       .admin-btn-primary {
-        background: #effb53;
-        border-color: #effb53;
-        color: #14151a;
+        background: var(--admin-accent);
+        border-color: var(--admin-accent);
+        color: #ffffff;
       }
-      .admin-btn-primary:hover { background: #f7ff8a; border-color: #f7ff8a; }
+      .admin-btn-primary:hover {
+        background: var(--admin-accent-hover);
+        border-color: var(--admin-accent-hover);
+        color: #ffffff;
+      }
 
-      .admin-btn-danger { border-color: #5c2b2b; color: #ff9b9b; }
-      .admin-btn-danger:hover { background: #2a1516; }
+      /* Disabled primary buttons (the save button before the form is complete)
+         would otherwise still read as "click me". */
+      .admin-btn-primary:disabled {
+        background: #c9cbe4;
+        border-color: #c9cbe4;
+        color: #ffffff;
+        cursor: not-allowed;
+      }
+
+      .admin-btn-danger { border-color: #f0c3c2; color: #c0322f; background: var(--admin-surface); }
+      .admin-btn-danger:hover { background: #fdeaea; border-color: #c0322f; }
 
       .admin-btn-small { padding: 6px 12px; font-size: 13px; }
 
@@ -83,7 +119,7 @@ export default function AdminStyles() {
         display: block;
         font-size: 13px;
         font-weight: 600;
-        color: #9ea1ab;
+        color: var(--admin-muted);
         margin-bottom: 6px;
       }
 
@@ -93,26 +129,29 @@ export default function AdminStyles() {
         width: 100%;
         padding: 11px 13px;
         border-radius: 9px;
-        border: 1px solid #33353d;
-        background: #16181d;
-        color: #e8e9ed;
+        border: 1px solid var(--admin-border-strong);
+        background: var(--admin-surface);
+        color: var(--admin-ink);
         font-size: 15px;
         font-family: inherit;
       }
+
+      .admin-field input::placeholder,
+      .admin-field textarea::placeholder { color: var(--admin-faint); }
 
       .admin-field textarea { resize: vertical; min-height: 90px; }
 
       .admin-field input:focus,
       .admin-field select:focus,
       .admin-field textarea:focus {
-        outline: 2px solid #effb53;
+        outline: 2px solid var(--admin-accent);
         outline-offset: -1px;
         border-color: transparent;
       }
 
       .admin-field-hint {
         font-size: 12px;
-        color: #71747e;
+        color: var(--admin-faint);
         margin-top: 5px;
       }
 
@@ -121,7 +160,7 @@ export default function AdminStyles() {
         align-items: center;
         gap: 9px;
         font-size: 14px;
-        color: #c9cbd3;
+        color: var(--admin-ink);
       }
 
       .admin-check input { width: auto; }
@@ -130,6 +169,61 @@ export default function AdminStyles() {
          line, or the radio ends up centred against the second one. */
       .admin-check { align-items: flex-start; line-height: 1.5; }
       .admin-check input { margin-top: 3px; }
+
+      /* --- SEO panel ------------------------------------------------------ */
+
+      /* Character counters under the meta fields. The theme has no equivalent,
+         so the state colours are defined here. */
+      .admin-counter {
+        display: block;
+        font-size: 12px;
+        margin-top: 5px;
+        color: var(--admin-faint);
+      }
+
+      .admin-counter.is-good { color: #0f7b4f; }
+      .admin-counter.is-over { color: #c0322f; }
+
+      /* A Google-shaped preview. Worth the space: the whole point of the meta
+         fields is what the result looks like, and the truncation rules are
+         invisible otherwise. */
+      .admin-serp {
+        margin-top: 6px;
+        padding: 16px 18px;
+        border: 1px solid var(--admin-border);
+        border-radius: 12px;
+        background: var(--admin-surface-2);
+      }
+
+      .admin-serp-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--admin-faint);
+        margin: 0 0 10px;
+      }
+
+      .admin-serp-url {
+        font-size: 13px;
+        color: #4b5a6b;
+        margin: 0 0 4px;
+        word-break: break-all;
+      }
+
+      .admin-serp-title {
+        font-size: 19px;
+        line-height: 1.3;
+        color: #1a0dab;
+        margin: 0 0 4px;
+      }
+
+      .admin-serp-desc {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #4d5156;
+        margin: 0;
+      }
 
       /* --- cover image ---------------------------------------------------- */
 
@@ -147,12 +241,12 @@ export default function AdminStyles() {
         width: 100%;
         margin-top: 14px;
         border-radius: 12px;
-        border: 1px solid #26272d;
+        border: 1px solid var(--admin-border);
         /* 16:10 matches the listing thumbnails, so the preview shows the crop
            that will actually appear on the blog. */
         aspect-ratio: 84 / 52;
         object-fit: cover;
-        background: #0f1014;
+        background: var(--admin-surface-2);
       }
 
       /* --- login -------------------------------------------------------- */
@@ -168,17 +262,19 @@ export default function AdminStyles() {
         max-width: 380px;
         padding: 34px;
         border-radius: 18px;
-        border: 1px solid #26272d;
-        background: #141519;
+        border: 1px solid var(--admin-border);
+        background: var(--admin-surface);
+        box-shadow: 0 18px 50px rgba(22, 20, 71, 0.08);
       }
 
       .admin-login-card h1 {
         font-size: 21px;
         margin: 0 0 6px;
+        color: var(--admin-ink);
       }
 
       .admin-login-card p {
-        color: #8d909a;
+        color: var(--admin-muted);
         font-size: 14px;
         margin: 0 0 24px;
       }
@@ -187,8 +283,8 @@ export default function AdminStyles() {
       .admin-table {
         width: 100%;
         border-collapse: collapse;
-        background: #141519;
-        border: 1px solid #26272d;
+        background: var(--admin-surface);
+        border: 1px solid var(--admin-border);
         border-radius: 14px;
         overflow: hidden;
       }
@@ -198,20 +294,20 @@ export default function AdminStyles() {
         padding: 14px 16px;
         text-align: left;
         font-size: 14px;
-        border-bottom: 1px solid #23252b;
+        border-bottom: 1px solid var(--admin-border);
       }
 
       .admin-table th {
-        background: #191b21;
-        color: #9ea1ab;
+        background: var(--admin-surface-2);
+        color: var(--admin-muted);
         font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 0.04em;
       }
 
       .admin-table tr:last-child td { border-bottom: 0; }
-      .admin-table a { color: #e8e9ed; text-decoration: none; font-weight: 600; }
-      .admin-table a:hover { color: #effb53; }
+      .admin-table a { color: var(--admin-ink); text-decoration: none; font-weight: 600; }
+      .admin-table a:hover { color: var(--admin-accent); }
 
       .admin-thumb {
         width: 56px;
@@ -219,6 +315,7 @@ export default function AdminStyles() {
         object-fit: cover;
         border-radius: 7px;
         display: block;
+        background: var(--admin-surface-2);
       }
 
       .admin-badge {
@@ -231,8 +328,67 @@ export default function AdminStyles() {
         letter-spacing: 0.03em;
       }
 
-      .admin-badge-published { background: #16351f; color: #6ee79a; }
-      .admin-badge-draft { background: #3a3320; color: #ffd479; }
+      .admin-badge-published { background: #e6f7ee; color: #0f7b4f; }
+      .admin-badge-draft { background: #fff5d9; color: #8a6100; }
+      /* Was missing entirely, so a deleted post rendered an unstyled badge. */
+      .admin-badge-deleted { background: #fdeaea; color: #b3261e; }
+
+      /* --- row actions and tabs ------------------------------------------ */
+
+      /* Publish + Delete side by side in a table cell. Wrapping is allowed but
+         the pair is kept on one line where there is room, and the column is
+         right-aligned so the buttons do not shift with the title length. */
+      .admin-row-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .admin-col-actions { text-align: right; }
+
+      .admin-tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--admin-border);
+      }
+
+      .admin-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 10px 16px;
+        margin-bottom: -1px;
+        border-bottom: 2px solid transparent;
+        color: var(--admin-muted);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .admin-tab:hover { color: var(--admin-ink); }
+
+      .admin-tab.is-active {
+        color: var(--admin-accent);
+        border-bottom-color: var(--admin-accent);
+      }
+
+      .admin-tab span {
+        display: inline-block;
+        min-width: 20px;
+        padding: 1px 6px;
+        border-radius: 999px;
+        background: var(--admin-surface-2);
+        color: var(--admin-faint);
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .admin-tab.is-active span {
+        background: var(--admin-accent-soft);
+        color: var(--admin-accent);
+      }
 
       .admin-notice {
         padding: 12px 16px;
@@ -241,15 +397,15 @@ export default function AdminStyles() {
         margin-bottom: 20px;
       }
 
-      .admin-notice-ok { background: #16351f; color: #8ff0ac; }
-      .admin-notice-error { background: #3a1c1e; color: #ffb0b0; }
+      .admin-notice-ok { background: #e6f7ee; color: #0f7b4f; }
+      .admin-notice-error { background: #fdeaea; color: #b3261e; }
 
       /* --- editor -------------------------------------------------------- */
       .editor-wrap {
-        border: 1px solid #33353d;
+        border: 1px solid var(--admin-border-strong);
         border-radius: 12px;
         overflow: hidden;
-        background: #16181d;
+        background: var(--admin-surface);
       }
 
       .editor-toolbar {
@@ -258,8 +414,8 @@ export default function AdminStyles() {
         align-items: center;
         gap: 4px;
         padding: 9px 11px;
-        background: #1b1d23;
-        border-bottom: 1px solid #2a2c33;
+        background: var(--admin-surface-2);
+        border-bottom: 1px solid var(--admin-border);
       }
 
       .editor-btn {
@@ -269,32 +425,32 @@ export default function AdminStyles() {
         border-radius: 7px;
         border: 1px solid transparent;
         background: transparent;
-        color: #c9cbd3;
+        color: var(--admin-muted);
         font-size: 13px;
         font-weight: 600;
         cursor: pointer;
       }
 
-      .editor-btn:hover { background: #262932; color: #fff; }
-      .editor-btn.is-active { background: #effb53; color: #14151a; }
+      .editor-btn:hover { background: var(--admin-accent-soft); color: var(--admin-ink); }
+      .editor-btn.is-active { background: var(--admin-accent); color: #ffffff; }
 
       .editor-sep {
         width: 1px;
         height: 20px;
-        background: #33353d;
+        background: var(--admin-border-strong);
         margin: 0 5px;
       }
 
       .editor-stats {
         margin-left: auto;
         font-size: 12px;
-        color: #71747e;
+        color: var(--admin-faint);
         padding-right: 6px;
       }
 
       .editor-loading {
         padding: 28px;
-        color: #71747e;
+        color: var(--admin-faint);
         font-size: 14px;
         text-align: center;
       }
@@ -307,26 +463,26 @@ export default function AdminStyles() {
         outline: none;
         font-size: 16px;
         line-height: 1.7;
-        color: #d8d9de;
+        color: var(--admin-ink);
       }
 
       .editor-surface h2 {
         font-size: 24px;
-        color: #fff;
+        color: var(--admin-ink);
         margin: 30px 0 12px;
         font-weight: 700;
       }
 
       .editor-surface h3 {
         font-size: 19px;
-        color: #fff;
+        color: var(--admin-ink);
         margin: 24px 0 10px;
         font-weight: 700;
       }
 
       .editor-surface h4 {
         font-size: 16px;
-        color: #fff;
+        color: var(--admin-ink);
         margin: 20px 0 8px;
         font-weight: 700;
       }
@@ -334,38 +490,38 @@ export default function AdminStyles() {
       .editor-surface ul,
       .editor-surface ol { padding-left: 24px; margin: 0 0 16px; }
       .editor-surface li { margin-bottom: 6px; }
-      .editor-surface li::marker { color: #effb53; }
+      .editor-surface li::marker { color: var(--admin-accent); }
 
       .editor-surface blockquote {
         margin: 18px 0;
         padding: 12px 18px;
-        border-left: 3px solid #effb53;
-        background: #1b1d23;
+        border-left: 3px solid var(--admin-accent);
+        background: var(--admin-surface-2);
         border-radius: 0 8px 8px 0;
         font-style: italic;
-        color: #b9bbc3;
+        color: var(--admin-muted);
       }
 
       .editor-surface code {
-        background: #1b1d23;
-        border: 1px solid #2f313a;
+        background: var(--admin-surface-2);
+        border: 1px solid var(--admin-border);
         border-radius: 5px;
         padding: 1px 6px;
         font-size: 0.9em;
-        color: #effb53;
+        color: var(--admin-accent);
       }
 
       .editor-surface pre {
-        background: #1b1d23;
-        border: 1px solid #2f313a;
+        background: var(--admin-surface-2);
+        border: 1px solid var(--admin-border);
         border-radius: 9px;
         padding: 14px 16px;
         overflow-x: auto;
       }
 
-      .editor-surface pre code { background: none; border: 0; color: #d8d9de; }
+      .editor-surface pre code { background: none; border: 0; color: var(--admin-ink); }
 
-      .editor-surface a { color: #effb53; text-decoration: underline; }
+      .editor-surface a { color: var(--admin-accent); text-decoration: underline; }
 
       .editor-surface img {
         max-width: 100%;
@@ -373,11 +529,11 @@ export default function AdminStyles() {
         margin: 12px 0;
       }
 
-      .editor-surface hr { border: 0; border-top: 1px solid #2f313a; margin: 24px 0; }
+      .editor-surface hr { border: 0; border-top: 1px solid var(--admin-border-strong); margin: 24px 0; }
 
       .editor-surface p.is-editor-empty:first-child::before {
         content: attr(data-placeholder);
-        color: #5c5f68;
+        color: var(--admin-faint);
         float: left;
         height: 0;
         pointer-events: none;
@@ -406,8 +562,8 @@ export default function AdminStyles() {
       .admin-panel {
         padding: 20px;
         border-radius: 14px;
-        border: 1px solid #26272d;
-        background: #141519;
+        border: 1px solid var(--admin-border);
+        background: var(--admin-surface);
         margin-bottom: 20px;
       }
 
@@ -415,7 +571,7 @@ export default function AdminStyles() {
         font-size: 14px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: #9ea1ab;
+        color: var(--admin-muted);
         margin: 0 0 16px;
       }
 
@@ -436,15 +592,36 @@ export default function AdminStyles() {
         flex-wrap: wrap;
       }
 
-      .admin-card-head h2 { font-size: 22px; margin: 0; }
+      .admin-card-head h2 { font-size: 22px; margin: 0; color: var(--admin-ink); }
 
       .admin-meta {
-        color: #71747e;
+        color: var(--admin-faint);
         font-size: 13px;
         margin-top: 4px;
       }
 
       .admin-actions-inline { display: flex; gap: 8px; }
+
+      /* Inline <code> inside the empty-state and not-configured notices.
+
+         Scoped to a DIRECT child paragraph on purpose. A bare .admin-shell code
+         rule ties on specificity with .editor-surface code above and wins on
+         source order, which silently restyled inline code inside the editor's
+         own content. .admin-panel > p code cannot reach into the editor,
+         because the editor's paragraphs are nested one level deeper.
+
+         NOTE: this whole component is one JS template literal, so no backtick
+         may appear anywhere in here -- not even inside a CSS comment. One
+         terminates the string and the module stops parsing. */
+      .admin-panel > p code,
+      .admin-login-card p code {
+        background: var(--admin-surface-2);
+        border: 1px solid var(--admin-border);
+        border-radius: 5px;
+        padding: 1px 6px;
+        font-size: 0.92em;
+        color: var(--admin-ink);
+      }
     `}</style>
   );
 }

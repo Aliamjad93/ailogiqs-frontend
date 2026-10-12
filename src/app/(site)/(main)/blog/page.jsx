@@ -1,11 +1,40 @@
 import Link from "next/link";
 import { getAllPosts, getCategoriesWithCounts, getTags, formatPostDate } from "@/lib/posts";
+import { SITE, absoluteUrl } from "@/lib/site.config";
+
+const DESCRIPTION =
+  "Writing on AI product development, design systems and the craft of shipping intelligent software.";
 
 export const metadata = {
   title: "Blog",
-  description:
-    "Writing on AI product development, design systems and the craft of shipping intelligent software.",
-  alternates: { canonical: "/blog" },
+  description: DESCRIPTION,
+  keywords: ["AI blog", "machine learning", "AI agents", "automation", "AiLogiQs"],
+  alternates: {
+    // The listing supports ?category=, ?tag= and ?q= filters. They render the
+    // same page with a narrower set of cards, so they are duplicates of /blog
+    // and every one of them points its canonical here rather than competing
+    // with it in the index.
+    canonical: "/blog",
+  },
+  /*
+    No openGraph.title / twitter.title here on purpose.
+
+    The root layout declares `openGraph.title.template = "%s | AiLogiQs"`, and
+    that template is applied to a child's og/twitter title too -- so setting a
+    plain string here produced "Blog | AiLogiQs | AiLogiQs". Leaving them out
+    lets the template derive both from `title` above, which is the same string
+    the <title> tag gets.
+  */
+  openGraph: {
+    type: "website",
+    description: DESCRIPTION,
+    url: "/blog",
+    siteName: SITE.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    description: DESCRIPTION,
+  },
 };
 
 /** First N characters of the body, with tags stripped. Used for cards. */
@@ -65,6 +94,14 @@ export default async function BlogPage({ searchParams }) {
 
   return (
     <>
+      {/*
+        The listing has no visible page title -- the design opens straight into
+        the cover slider, whose headings are the featured posts. Without this the
+        page would have no h1 at all once the slides became h2. Hidden rather
+        than rendered, so the design is untouched.
+      */}
+      <h1 className="aiq-sr-only">AiLogiQs blog — AI agents, machine learning and automation</h1>
+
       {!isEmpty && (
       <section className="news-hero-section bg-cover">
         {/*
@@ -104,12 +141,16 @@ export default async function BlogPage({ searchParams }) {
                   removed because the same information is already on every card
                   in the listing directly below, which made the band read as a
                   landing page rather than a cover.
+
+                  <h2>, not <h1>: the slider shows up to three posts, and three
+                  h1s on one page left the listing with no single top-level
+                  heading. The page's own h1 is the hidden one above.
                 */}
                 <div className="container">
                   <div className="hero-content">
-                    <h1 data-animation="fadeInUp" data-delay="1.5s">
+                    <h2 data-animation="fadeInUp" data-delay="1.5s">
                       <Link href={`/blog/${post.slug}`}>{post.title}</Link>
-                    </h1>
+                    </h2>
                     <div className="hero-button">
                       <Link
                         href={`/blog/${post.slug}`}
@@ -287,23 +328,32 @@ export default async function BlogPage({ searchParams }) {
                   </div>
                 </div>
 
-                <div className="single-sidebar-widget">
-                  <div className="wid-title">
-                    <h3>
-                      <img src="/assets/img/star-3.png" alt="" />
-                      Tags Clouds
-                    </h3>
-                  </div>
-                  <div className="news-widget-categories">
-                    <div className="tagcloud">
-                      {tags.map((tag) => (
-                        <Link href={`/blog?tag=${tag}`} key={tag}>
-                          {tag}
-                        </Link>
-                      ))}
+                {/*
+                  The tag cloud is conditional on there actually being tags.
+                  A post's tags are authored in the admin panel and are optional,
+                  so a blog whose posts have none rendered a "Tags Clouds"
+                  heading over an empty box. getTags() returning [] is a real
+                  answer, not a reason to draw the widget.
+                */}
+                {tags.length > 0 && (
+                  <div className="single-sidebar-widget">
+                    <div className="wid-title">
+                      <h3>
+                        <img src="/assets/img/star-3.png" alt="" />
+                        Tags Clouds
+                      </h3>
+                    </div>
+                    <div className="news-widget-categories">
+                      <div className="tagcloud">
+                        {tags.map((tag) => (
+                          <Link href={`/blog?tag=${tag}`} key={tag}>
+                            {tag}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
             )}

@@ -1,72 +1,83 @@
 export const metadata = {
+  // NOTE: "Service Details" is a weak title tag — it names the template route,
+  // not the page, and nothing searches for it. The description already says what
+  // this page really is, so the title should follow suit once the copy for this
+  // page is written (e.g. "AI WhatsApp Sales Agent"). Left as-is for now rather
+  // than silently renaming a page whose content is still being built.
   title: "Service Details",
   description:
     "The AiLogiQs AI WhatsApp sales agent — from first hello to a confirmed order, 24/7, in English, Urdu, Arabic and Roman Urdu.",
+  alternates: { canonical: "/service-details" },
 };
 
 import Link from "next/link";
 import {
   RobotMark,
-  PhoneMock,
   Bubble,
-  ProductRow,
-  OrderCard,
   OkLine,
-  ImageSpace,
+  PhoneMock,
   SectionHead,
   Waveform,
 } from "@/components/aiq/AiqKit";
 
+/*
+ * Industry photography for the "Deployed across industries" grid, served
+ * straight from the Unsplash CDN: free for commercial use, no attribution
+ * required, hotlinking permitted. Requested at 640px wide as WebP (~60 KB
+ * each) to keep payload small at the card's 16/10 slot. To swap a picture,
+ * only the photo ID below changes -- the item renders it at w=640.
+ */
+const IND_IMG = (photo) =>
+  `https://images.unsplash.com/${photo}?q=70&w=640&fm=webp`;
+
 export default function ServiceDetails() {
   return (
-    <>
+    // `.aiq-service` is the hook for the page-wide readability bump at the end
+    // of overrides.css -- it lifts the aiq type scale ~1px so this page reads
+    // comfortably without touching the same classes on other pages.
+    <div className="aiq-service">
           <div className="aiq-page-head">
               <div className="container">
-                  <p className="aiq-eyebrow aiq-eyebrow-light">
-                      <RobotMark size={28} tone="light" /> // Service detail
-                  </p>
-                  <h1>
-                      AI WhatsApp <span>sales agent</span>
-                  </h1>
-                  <p>
-                      An AI agent that lives on your WhatsApp, knows your catalogue and closes orders for you —
-                      in English, Urdu, Arabic and Roman Urdu, around the clock.
-                  </p>
-              </div>
-          </div>
-
-          <section className="aiq-band">
-              <div className="container">
                   <div className="row g-5 align-items-center">
-                      <div className="col-lg-6 wow fadeInUp">
-                          <div className="aiq-head">
-                              <p className="aiq-eyebrow">
-                                  <RobotMark size={28} /> // Overview
-                              </p>
-                              <h2>
-                                  It sells while you <span className="aiq-accent">sleep</span>
-                              </h2>
-                          </div>
-                          <p className="aiq-intro">
-                              Customers message at 2 AM, in the language they actually type. The agent answers in
-                              seconds, recommends from your live stock, handles every doubt, creates the order and
-                              follows up until the parcel is delivered.
+                      <div className="col-lg-6">
+                          <p className="aiq-eyebrow">
+                              <RobotMark size={30} /> AiLogiQs // Sales agent
                           </p>
-                          <ul className="aiq-bullets">
-                              <li>One assistant behind your WhatsApp, chat links and ads</li>
-                              <li>Live catalogue, stock levels and prices from Shopify or WooCommerce</li>
-                              <li>Cash-on-delivery confirmation, then automatic delivery updates</li>
-                              <li>Ships with English, Urdu, Arabic and Roman Urdu</li>
+                          <h1>
+                              Your best salesperson is a <span>robot.</span>
+                          </h1>
+                          <p>
+                              An AI agent on your WhatsApp that sells 24/7 — in English, Urdu, Arabic and
+                              Roman Urdu. It hears voice notes, reads screenshots and closes the order.
+                          </p>
+                          <ul className="aiq-chips">
+                              <li>24/7 online</li>
+                              <li>Shopify + Woo</li>
+                              <li>COD confirm</li>
                           </ul>
+                          <div className="aiq-hero-cta">
+                              <Link href="/contact" className="aiq-btn aiq-btn-solid">
+                                  Book a demo
+                              </Link>
+                              <span className="aiq-hero-domain">ailogiqs.com</span>
+                          </div>
                       </div>
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                          <div className="aiq-faq-aside">
-                              <ImageSpace ratio="1 / 1" label="Agent at work" />
+                      <div className="col-lg-6">
+                          {/*
+                            The agent artwork: the photographed customer layered with the
+                            WhatsApp mock in one flattened PNG, so there is nothing to compose
+                            here. It is also the homepage video's poster.
+                          */}
+                          <div className="aiq-hero-art">
+                              <img
+                                  src="/assets/img/custom/agent-hero.png"
+                                  alt="A customer on the phone while the AiLogiQs agent answers, recommends a product and confirms order #1042 on WhatsApp"
+                              />
                           </div>
                       </div>
                   </div>
               </div>
-          </section>
+          </div>
 
           <section className="aiq-band aiq-tint">
               <div className="container">
@@ -77,38 +88,51 @@ export default function ServiceDetails() {
                   />
                   <div className="row g-5 align-items-center">
                       <div className="col-lg-5 wow fadeInUp">
-                          <PhoneMock title="Zara Lawn Studio">
-                              <Bubble dir="out">Salam, Eid ke liye lawn suit chahiye. Budget 6,000 tak.</Bubble>
-                              <Bubble>Walaikum salam! Aapke budget mein ye 2 bestsellers hain:</Bubble>
-                              <div className="aiq-prod-grid">
-                                  <ProductRow name="Gulnar 3-pc" price="Rs 5,490" />
-                                  <ProductRow name="Saba 2-pc" price="Rs 4,500" />
-                              </div>
-                              <Bubble dir="out">Gulnar medium mein hai?</Bubble>
-                              <Bubble>
-                                  Ji, medium available hai. Karachi delivery 2 din, COD ya card dono chalte hain.
-                                  Order kar doon?
-                              </Bubble>
-                              <Bubble dir="out">Haan, COD. Address: [customer address]</Bubble>
-                              <OrderCard name="Gulnar 3-pc · M" price="Rs 5,490" />
-                              <OkLine>Order #1043 created in Shopify</OkLine>
-                          </PhoneMock>
+                          {/*
+                            The finished WhatsApp mockup, supplied as art.
+
+                            This replaces the PhoneMock that used to be built
+                            from Bubble/ProductRow/OrderCard markup. The reason
+                            is fidelity: the real screenshot carries WhatsApp's
+                            own type, spacing and bubble tails, which the
+                            hand-built version could only approximate.
+
+                            What it costs: the chat is no longer selectable text
+                            and cannot be edited from the page. The copy is
+                            baked into the image, so changing a price or a
+                            product name now means a new export -- worth knowing
+                            before anyone edits the section's wording. The alt
+                            below is therefore doing the work the markup used to
+                            do for screen readers and search engines.
+                          */}
+                          <img
+                              className="aiq-chat-shot"
+                              src="/assets/img/custom/agent-chat.webp"
+                              width={760}
+                              height={1457}
+                              alt="WhatsApp chat with the AiLogiQs agent: the customer asks for an Eid lawn suit within a 6,000 budget, the agent recommends Gulnar 1-pc at Rs 4,980 and Saba 2-pc at Rs 4,499 from live stock, confirms medium is available with 2-3 day Karachi delivery on cash on delivery, then shows the order summary and confirms order #1043 was created in Shopify."
+                          />
                       </div>
                       <div className="col-lg-7">
                           <div className="aiq-store">
-                              <p className="aiq-store-title">
-                                  Live store data <span>· Synced</span>
-                              </p>
-                              <p className="aiq-store-row">
-                                  Catalogue <b className="aiq-on">On</b>
-                              </p>
-                              <p className="aiq-store-row">
-                                  Stock levels <b className="aiq-on">On</b>
-                              </p>
-                              <p className="aiq-store-row aiq-store-row-last">
-                                  Order creation <b className="aiq-on">On</b>
-                              </p>
-                              <span className="aiq-store-bar" />
+                              <span className="aiq-store-badge" aria-hidden="true">
+                                  <RobotMark size={46} />
+                              </span>
+                              <div className="aiq-store-body">
+                                  <p className="aiq-store-title">
+                                      Live store data <span>· Synced</span>
+                                  </p>
+                                  <p className="aiq-store-row">
+                                      Catalogue <b className="aiq-on">On</b>
+                                  </p>
+                                  <p className="aiq-store-row">
+                                      Stock levels <b className="aiq-on">On</b>
+                                  </p>
+                                  <p className="aiq-store-row aiq-store-row-last">
+                                      Order creation <b className="aiq-on">On</b>
+                                  </p>
+                                  <span className="aiq-store-bar" />
+                              </div>
                           </div>
                           <ul className="aiq-steps">
                               <li>
@@ -146,14 +170,6 @@ export default function ServiceDetails() {
                                       <p>COD confirmation, then delivery updates.</p>
                                   </div>
                               </li>
-                              <li className="aiq-step-cta">
-                                  <div>
-                                      <h4>See it close one order, live</h4>
-                                      <Link href="/contact" className="aiq-btn aiq-btn-white">
-                                          Book a demo
-                                      </Link>
-                                  </div>
-                              </li>
                           </ul>
                       </div>
                   </div>
@@ -175,33 +191,41 @@ export default function ServiceDetails() {
                                   <span className="aiq-tag">Audio input</span>
                                   <span className="aiq-panel-title">Voice notes</span>
                               </div>
-                              <div className="aiq-audio">
-                                  <span className="aiq-play">
-                                      <i className="fa-solid fa-play" />
-                                  </span>
-                                  <Waveform />
-                                  <span className="aiq-audio-time">0:14</span>
-                              </div>
-                              <p className="aiq-transcribe">Transcribed · Arabic</p>
-                              <p className="aiq-bubble aiq-bubble-in aiq-rtl" dir="rtl" lang="ar">
-                                  عندكم طقم عود للهدايا؟
-                              </p>
-                              <p className="aiq-bubble aiq-bubble-in aiq-rtl" dir="rtl" lang="ar">
-                                  أكيد! طقم العود الملكي متوفر، ونقدر نغلّفه كهدية مجاناً. تبي رابط الدفع؟
-                              </p>
-                              <Bubble dir="out" className="aiq-rtl">
-                                  إيه، أرسله
-                              </Bubble>
-                              <OkLine>Payment link sent · [amount]</OkLine>
-                              <div className="aiq-recorder">
-                                  <span className="aiq-rec-dot" />
-                                  <span className="aiq-rec-time">0:08</span>
-                                  <Waveform bars={12} />
-                                  <span className="aiq-rec-slide">Slide to cancel</span>
-                                  <span className="aiq-phone-mic aiq-phone-mic-sm">
-                                      <i className="fa-solid fa-microphone" />
-                                  </span>
-                              </div>
+                              {/*
+                                The mockup is the page's own chat device (.aiq-phone
+                                in overrides.css). The recorder is this card's input
+                                row, so the phone renders without the "Type a
+                                message" bar -- the screenshot card keeps it.
+                              */}
+                              <PhoneMock title="AiLogiQs" input={false}>
+                                  <div className="aiq-audio">
+                                      <span className="aiq-play">
+                                          <i className="fa-solid fa-play" />
+                                      </span>
+                                      <Waveform />
+                                      <span className="aiq-audio-time">0:14</span>
+                                  </div>
+                                  <p className="aiq-transcribe">Transcribed · Arabic</p>
+                                  <p className="aiq-bubble aiq-bubble-in aiq-rtl" dir="rtl" lang="ar">
+                                      عندكم طقم عود للهدايا؟
+                                  </p>
+                                  <p className="aiq-bubble aiq-bubble-in aiq-rtl" dir="rtl" lang="ar">
+                                      أكيد! طقم العود الملكي متوفر، ونقدر نغلّفه كهدية مجاناً. تبي رابط الدفع؟
+                                  </p>
+                                  <Bubble dir="out" className="aiq-rtl">
+                                      إيه، أرسله
+                                  </Bubble>
+                                  <OkLine>Payment link sent · [amount]</OkLine>
+                                  <div className="aiq-recorder">
+                                      <span className="aiq-rec-dot" />
+                                      <span className="aiq-rec-time">0:08</span>
+                                      <Waveform bars={12} />
+                                      <span className="aiq-rec-slide">Slide to cancel</span>
+                                      <span className="aiq-phone-mic aiq-phone-mic-sm">
+                                          <i className="fa-solid fa-microphone" />
+                                      </span>
+                                  </div>
+                              </PhoneMock>
                               <div className="aiq-panel-foot">
                                   <h4>Voice notes</h4>
                                   <p>Transcribed and answered in the customer&rsquo;s own language.</p>
@@ -214,23 +238,39 @@ export default function ServiceDetails() {
                                   <span className="aiq-tag">Image input</span>
                                   <span className="aiq-panel-title">Product screenshots</span>
                               </div>
-                              <div className="aiq-shot">
-                                  <ImageSpace ratio="4 / 3" label="screenshot.jpg" />
-                                  <p className="aiq-shot-name">screenshot.jpg</p>
-                              </div>
-                              <Bubble dir="out">Ye wala available hai?</Bubble>
-                              <div className="aiq-matched">
-                                  <span className="aiq-matched-title">Product matched</span>
-                                  <p>
-                                      Ji! Ye <b>Noor Embroidered Kurta</b> hai, Rs 6,200. S, M, L available hain.
-                                      Kaunsa size?
-                                  </p>
-                                  <span className="aiq-sizes">
-                                      <b>S</b>
-                                      <b className="aiq-size-active">M</b>
-                                      <b>L</b>
-                                  </span>
-                              </div>
+                              <PhoneMock title="AiLogiQs">
+                                  {/*
+                                    The photo the customer sent: client artwork
+                                    (dress_3, the maroon embroidered set), cropped
+                                    into the old 4/3 placeholder slot and labelled
+                                    like a received file.
+                                  */}
+                                  <div className="aiq-shot">
+                                      <img
+                                          className="aiq-shot-img"
+                                          src="/assets/img/custom/dress_3.jpg"
+                                          alt="Maroon embroidered three-piece set on a mannequin — the product the customer sent a screenshot of"
+                                          width={348}
+                                          height={261}
+                                          loading="lazy"
+                                          decoding="async"
+                                      />
+                                      <p className="aiq-shot-name">screenshot.jpg</p>
+                                  </div>
+                                  <Bubble dir="out">Ye wala available hai?</Bubble>
+                                  <div className="aiq-matched">
+                                      <span className="aiq-matched-title">Product matched</span>
+                                      <p>
+                                          Ji! Ye <b>Noor Embroidered Kurta</b> hai, Rs 6,200. S, M, L available hain.
+                                          Kaunsa size?
+                                      </p>
+                                      <span className="aiq-sizes">
+                                          <b>S</b>
+                                          <b className="aiq-size-active">M</b>
+                                          <b>L</b>
+                                      </span>
+                                  </div>
+                              </PhoneMock>
                               <div className="aiq-panel-foot">
                                   <h4>Product screenshots</h4>
                                   <p>Matched to the real product, price and sizes.</p>
@@ -247,40 +287,95 @@ export default function ServiceDetails() {
                       eyebrow="// Language module · 4 loaded"
                       title="It replies the way your"
                       accent="customer writes."
+                      center
                   />
-                  <div className="row g-4">
-                      <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                          <div className="aiq-lang">
-                              <span className="aiq-lang-code">[EN] English</span>
-                              <ImageSpace />
-                              <p className="aiq-bubble aiq-bubble-out">Is this available in medium?</p>
+                  {/*
+                    The four languages are laid out as a cross around the agent
+                    rather than as four equal columns: each card faces the
+                    centre, so the composition reads as one agent speaking four
+                    languages instead of four unrelated cards.
+
+                    `corner` drives the card mirroring entirely in CSS -- see
+                    .aiq-lang-tl/-tr/-bl/-br in overrides.css. The markup order
+                    is the same in every card.
+
+                    Inside each card the two bubbles are a real chat pair:
+                    the customer's question (out, blue, right) and the agent's
+                    answer (in, white, left), in the card's own language. The
+                    alignment is fixed to that chat reading in every corner --
+                    only the card itself mirrors.
+                  */}
+                  <div className="aiq-lang-grid">
+                      {[
+                          {
+                              corner: "tl",
+                              code: "[EN] English",
+                              img: "/assets/img/custom/dress_1.jpg",
+                              alt: "Pink embroidered lawn suit on a mannequin",
+                              text: "Is this available in medium?",
+                              reply: "Yes! Medium is in stock — Rs 4,980. Shall I reserve it?",
+                          },
+                          {
+                              corner: "tr",
+                              code: "[RU] Roman Urdu",
+                              img: "/assets/img/custom/dress_2.jpg",
+                              alt: "Teal embroidered lawn suit with trousers on a mannequin",
+                              text: "Ye medium mein available hai?",
+                              reply: "Ji haan! Medium available hai — Rs 4,499. Order confirm karoon?",
+                          },
+                          {
+                              corner: "bl",
+                              code: "[UR] Urdu",
+                              img: "/assets/img/custom/dress_3.jpg",
+                              alt: "Maroon embroidered three-piece set on a mannequin",
+                              text: "کیا یہ میڈیم سائز میں دستیاب ہے؟",
+                              reply: "جی ہاں! میڈیم دستیاب ہے — 6,200 روپے۔ آرڈر کنفرم کروں؟",
+                              rtl: true,
+                              lang: "ur",
+                          },
+                          {
+                              corner: "br",
+                              code: "[AR] Arabic",
+                              img: "/assets/img/custom/dress_4.jpg",
+                              alt: "Black embroidered abaya on a mannequin",
+                              text: "هل هذا متوفر بمقاس وسط؟",
+                              reply: "نعم، المقاس الوسط متوفر — 5,500 ريال. أؤكد الطلب؟",
+                              rtl: true,
+                              lang: "ar",
+                          },
+                      ].map((item) => (
+                          <div className={`aiq-lang aiq-lang-${item.corner}`} key={item.code}>
+                              <span className="aiq-lang-code">{item.code}</span>
+                              <img
+                                  className="aiq-lang-img"
+                                  src={item.img}
+                                  alt={item.alt}
+                                  width={108}
+                                  height={108}
+                                  loading="lazy"
+                                  decoding="async"
+                              />
+                              <div className="aiq-lang-chat">
+                                  <p
+                                      className="aiq-bubble aiq-bubble-out"
+                                      dir={item.rtl ? "rtl" : undefined}
+                                      lang={item.lang}
+                                  >
+                                      {item.text}
+                                  </p>
+                                  <p
+                                      className="aiq-bubble aiq-bubble-in"
+                                      dir={item.rtl ? "rtl" : undefined}
+                                      lang={item.lang}
+                                  >
+                                      {item.reply}
+                                  </p>
+                              </div>
                           </div>
-                      </div>
-                      <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay=".4s">
-                          <div className="aiq-lang">
-                              <span className="aiq-lang-code">[RU] Roman Urdu</span>
-                              <ImageSpace />
-                              <p className="aiq-bubble aiq-bubble-out">Ye medium mein available hai?</p>
-                          </div>
-                      </div>
-                      <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay=".6s">
-                          <div className="aiq-lang">
-                              <span className="aiq-lang-code">[UR] Urdu</span>
-                              <ImageSpace />
-                              <p className="aiq-bubble aiq-bubble-out aiq-rtl" dir="rtl" lang="ur">
-                                  کیا یہ میڈیم سائز میں دستیاب ہے؟
-                              </p>
-                          </div>
-                      </div>
-                      <div className="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay=".8s">
-                          <div className="aiq-lang">
-                              <span className="aiq-lang-code">[AR] Arabic</span>
-                              <ImageSpace />
-                              <p className="aiq-bubble aiq-bubble-out aiq-rtl" dir="rtl" lang="ar">
-                                  هل هذا متوفر بمقاس وسط؟
-                              </p>
-                          </div>
-                      </div>
+                      ))}
+                      <span className="aiq-lang-core" aria-hidden="true">
+                          <RobotMark size={44} />
+                      </span>
                   </div>
                   <p className="aiq-strip">
                       Auto-detects language <span>·</span> Mixed messages <span>·</span> Gulf dialect
@@ -381,6 +476,8 @@ export default function ServiceDetails() {
                               q: "Can you send the size chart for this bridal lehenga?",
                               a: "Here it is! We also offer custom fitting at no extra cost.",
                               out: "Size help · Order",
+                              photo: "photo-1441986300917-64674bd600d8",
+                              alt: "Shirts and jackets on display in a clothing boutique",
                           },
                           {
                               icon: "fa-solid fa-utensils",
@@ -389,6 +486,8 @@ export default function ServiceDetails() {
                               q: "2 family deals DHA mein deliver ho jayenge?",
                               a: "Ji, 35 min mein. Cold drink add karoon?",
                               out: "Order · Upsell · Delivery",
+                              photo: "photo-1517248135467-4c7edcad34c4",
+                              alt: "Set dining tables in a modern restaurant",
                           },
                           {
                               icon: "fa-solid fa-tooth",
@@ -397,6 +496,8 @@ export default function ServiceDetails() {
                               q: "Can I book a dental check-up tomorrow?",
                               a: "Tomorrow 4 PM or 6 PM is free. Which one should I book?",
                               out: "Appointment booked",
+                              photo: "photo-1629909613654-28e377c37b09",
+                              alt: "Dental treatment chair and equipment in a bright clinic room",
                           },
                           {
                               icon: "fa-solid fa-house",
@@ -405,6 +506,8 @@ export default function ServiceDetails() {
                               q: "أبغي شقة غرفتين في الرياض",
                               a: "عندنا ثلاث خيارات. أرسل لك الصور وموعد المعاينة؟",
                               out: "Lead qualified",
+                              photo: "photo-1560518883-ce09059eeffa",
+                              alt: "House model and key ring on a wooden table",
                           },
                           {
                               icon: "fa-solid fa-mobile-screen",
@@ -413,6 +516,8 @@ export default function ServiceDetails() {
                               q: "How long is the warranty on this phone?",
                               a: "1-year official warranty, plus a free case if you order today.",
                               out: "Question answered · Sale",
+                              photo: "photo-1511707171634-5f897ff02aa9",
+                              alt: "Smartphone screen filled with app icons",
                           },
                           {
                               icon: "fa-solid fa-wand-magic-sparkles",
@@ -421,6 +526,8 @@ export default function ServiceDetails() {
                               q: "Do you have a bridal makeup slot on Saturday?",
                               a: "Yes, 11 AM is open. Pay the advance to lock it in.",
                               out: "Slot reserved",
+                              photo: "photo-1596462502278-27bfdc403348",
+                              alt: "Makeup brushes, lipstick and powder laid out flat",
                           },
                           {
                               icon: "fa-solid fa-graduation-cap",
@@ -429,6 +536,8 @@ export default function ServiceDetails() {
                               q: "When does the next IELTS batch start?",
                               a: "On 1 November. Shall I reserve a seat for you?",
                               out: "Enrolment",
+                              photo: "photo-1509062522246-3755977927d7",
+                              alt: "Teacher giving a lesson to students in a classroom",
                           },
                           {
                               icon: "fa-solid fa-plane",
@@ -437,12 +546,22 @@ export default function ServiceDetails() {
                               q: "Do you have an Umrah package for December?",
                               a: "Yes, a 15-day package. Shall I send details and price?",
                               out: "Booking · Lead",
+                              photo: "photo-1436491865332-7a61a109cc05",
+                              alt: "Airplane wing above a sea of clouds at sunset",
                           },
                       ].map((item) => (
-                          <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" key={item.title}>
+                          <div className="col-lg-6 col-md-12 wow fadeInUp" key={item.title}>
                               <div className="aiq-ind">
                                   <div className="aiq-ind-top">
-                                      <ImageSpace ratio="16 / 10" label={item.title} />
+                                      <img
+                                          className="aiq-ind-img"
+                                          src={IND_IMG(item.photo)}
+                                          alt={item.alt}
+                                          width={640}
+                                          height={400}
+                                          loading="lazy"
+                                          decoding="async"
+                                      />
                                       <span className="aiq-ind-badge">
                                           <i className="fa-solid fa-circle" /> AI agent · active
                                       </span>
@@ -569,27 +688,22 @@ export default function ServiceDetails() {
                       </div>
                       <div className="col-lg-6">
                           <div className="aiq-faq-aside">
-                              <ImageSpace ratio="1 / 1" label="Support workspace" />
+                              {/* Same artwork as the homepage FAQ band. Plain
+                                  <img> like the rest of the site's content
+                                  images -- no next/image. */}
+                              <img
+                                  src="/assets/img/custom/faq.png"
+                                  alt="Customer chatting with the AI agent on WhatsApp"
+                                  width={606}
+                                  height={749}
+                                  loading="lazy"
+                                  decoding="async"
+                              />
                           </div>
                       </div>
                   </div>
               </div>
           </section>
-
-          <section className="aiq-cta">
-              <div className="container">
-                  <div className="aiq-cta-inner">
-                      <RobotMark size={54} tone="light" />
-                      <h2>
-                          Your best salesperson is a <span>robot.</span>
-                      </h2>
-                      <p>Book a demo and watch it close one order, live, on your WhatsApp.</p>
-                      <Link href="/contact" className="aiq-btn aiq-btn-white">
-                          Book a demo
-                      </Link>
-                  </div>
-              </div>
-          </section>
-    </>
+    </div>
   );
 }

@@ -26,8 +26,17 @@ tmp
 
 # Reference material and local-only folders. None of it is needed to build or run
 # the app: the artwork that is actually served lives in public/assets/img/custom/
-# (and public/assets/img/hero/), and these are just the original sources and the
-# WorkBuddy workspace metadata.
+# (and public/assets/img/hero/), the video in public/assets/video/, and these are
+# just the original sources and the WorkBuddy workspace metadata.
+#
+# The root video is the 12 MB master, not the copy the homepage loads. Ignore it
+# by name rather than by extension: public/assets/video/*.mp4 is served, so a
+# blanket `*.mp4` would exclude the file the site actually needs.
+/home-chatbot-video.mp4
+
+# The Photoroom export the agent chat mockup was cut from, before it was
+# downscaled and converted to public/assets/img/custom/agent-chat.webp.
+/image_*-Photoroom.png
 pdf images/
 custom images/
 .workbuddy-ai/

@@ -1,5 +1,9 @@
 export const metadata = {
   title: "Login",
+  // A sign-in form has nothing to rank for, and indexing it puts a thin,
+  // form-only page in the results. follow:true so the links out still pass on.
+  robots: { index: false, follow: true },
+  alternates: { canonical: "/login" },
 };
 
 import Link from "next/link";

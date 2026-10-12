@@ -19,26 +19,36 @@
   links straight to /.
 */
 
+/*
+  The bar is deliberately short and entirely flat -- five links, no dropdowns.
+  A visitor gets: who you are, what you sell, what you've written, how to reach
+  you. Nothing else earns a seat.
+
+  "Services" used to open a two-item dropdown (All Services / Service Details).
+  That is gone: /service-details is reached from the "more details" CTA on each
+  card of the /service listing, which is where a visitor actually wants it.
+  SiteHeader still supports parents with children, so reinstating one is a data
+  change here and nothing else.
+
+  Parked for later (removed from the nav for now, the routes still exist):
+
+  - /pricing, /team, /faq, /project, /project-details, /service-details
+
+  NOT in the nav, deliberately:
+
+  - /login, /register  auth screens. They are reached from the drawer's CTA and
+                       from the forms themselves; advertising them in the main
+                       nav reads as an unfinished template.
+  - /404               a 404 page is the destination for a broken link. Linking
+                       it on purpose is exactly the template filler being
+                       removed here.
+*/
+
 export const PRIMARY_NAV = [
   // No dropdown: one homepage variant remains, so Home points straight at it.
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  {
-    label: "Pages",
-    href: "/service",
-    children: [
-      { label: "Services", href: "/service" },
-      { label: "Service Details", href: "/service-details" },
-      { label: "Team", href: "/team" },
-      { label: "Portfolio", href: "/project" },
-      { label: "Portfolio Details", href: "/project-details" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Our Faq", href: "/faq" },
-      { label: "Login", href: "/login" },
-      { label: "Register", href: "/register" },
-      { label: "404 Page", href: "/404" },
-    ],
-  },
+  { label: "Services", href: "/service" },
   // Blog article URLs are generated from the post title in the database, so
   // there is no fixed details page to link to. Linking a hardcoded slug here
   // would 404 the moment that post is deleted or unpublished.

@@ -1,8 +1,12 @@
 export const metadata = {
   title: "Services",
+  description:
+    "AI services from AiLogiQs: conversational AI agents, machine learning models, data analytics and process automation, built and deployed for your business.",
+  alternates: { canonical: "/service" },
 };
 
 import Link from "next/link";
+import { BenefitVisual } from "@/components/service/ServiceVisuals";
 
 export default function Service() {
   return (
@@ -24,7 +28,7 @@ export default function Service() {
                       <div className="col-xl-6 wow fadeInUp" data-wow-delay=".2s">
                           <div className="service-box-items">
                               <div className="service-image">
-                                  <img src="/assets/img/service/01.jpeg" alt="AI agent development" />
+                                  <img src="/assets/img/custom/business-planing-strategy.jpeg" alt="AI agent development" />
                               </div>
                               <div className="service-content">
                                   <h3>
@@ -35,7 +39,12 @@ export default function Service() {
                                       We build autonomous AI agents that answer customers, qualify leads and handle
                                       repetitive workflows around the clock, connected to the tools you already use.
                                   </p>
-                                  <Link href="/service" className="link-btn">more details <i
+                                  {/* Was href="/service" -- a self-link, so the
+                                      card's CTA reloaded the page it sat on.
+                                      The homepage cards already point here, and
+                                      this is the page that describes a single
+                                      service in full. */}
+                                  <Link href="/service-details" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
@@ -43,7 +52,7 @@ export default function Service() {
                       <div className="col-xl-6 wow fadeInUp" data-wow-delay=".4s">
                           <div className="service-box-items">
                               <div className="service-image">
-                                  <img src="/assets/img/service/02.jpeg" alt="Data analysis services" />
+                                  <img src="/assets/img/custom/data-analysis-services.jpg" alt="Data analysis services" />
                               </div>
                               <div className="service-content">
                                   <h3>
@@ -54,7 +63,12 @@ export default function Service() {
                                       Turn raw business data into clear dashboards and insights, so you can spot trends,
                                       forecast demand and make decisions backed by numbers.
                                   </p>
-                                  <Link href="/service" className="link-btn">more details <i
+                                  {/* Was href="/service" -- a self-link, so the
+                                      card's CTA reloaded the page it sat on.
+                                      The homepage cards already point here, and
+                                      this is the page that describes a single
+                                      service in full. */}
+                                  <Link href="/service-details" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
@@ -62,7 +76,7 @@ export default function Service() {
                       <div className="col-xl-6 wow fadeInUp" data-wow-delay=".6s">
                           <div className="service-box-items">
                               <div className="service-image">
-                                  <img src="/assets/img/service/03.jpeg" alt="Machine learning models" />
+                                  <img src="/assets/img/custom/machine-learning-models.jpeg" alt="Machine learning models" />
                               </div>
                               <div className="service-content">
                                   <h3>
@@ -73,7 +87,12 @@ export default function Service() {
                                       Custom-trained models for prediction, classification and recommendation, built on
                                       your data and deployed straight into your product.
                                   </p>
-                                  <Link href="/service" className="link-btn">more details <i
+                                  {/* Was href="/service" -- a self-link, so the
+                                      card's CTA reloaded the page it sat on.
+                                      The homepage cards already point here, and
+                                      this is the page that describes a single
+                                      service in full. */}
+                                  <Link href="/service-details" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
@@ -81,7 +100,7 @@ export default function Service() {
                       <div className="col-xl-6 wow fadeInUp" data-wow-delay=".8s">
                           <div className="service-box-items mb-0">
                               <div className="service-image">
-                                  <img src="/assets/img/service/04.jpeg" alt="Custom AI solutions" />
+                                  <img src="/assets/img/custom/custom-artifical-solutions.jpeg" alt="Custom AI solutions" />
                               </div>
                               <div className="service-content">
                                   <h3>
@@ -92,7 +111,12 @@ export default function Service() {
                                       From chatbots to document processing, we design AI solutions around your exact
                                       business problem instead of forcing you into a one-size-fits-all tool.
                                   </p>
-                                  <Link href="/service" className="link-btn">more details <i
+                                  {/* Was href="/service" -- a self-link, so the
+                                      card's CTA reloaded the page it sat on.
+                                      The homepage cards already point here, and
+                                      this is the page that describes a single
+                                      service in full. */}
+                                  <Link href="/service-details" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
@@ -144,8 +168,15 @@ export default function Service() {
                               </div>
                           </div>
                           <div className="col-xl-4 col-lg-6">
+                              {/*
+                                Was a dark stock photo (benefit-image.jpg) -- a
+                                black card with a yellow glow, the last
+                                black-and-yellow surface on the route. Replaced
+                                by a drawn figure in the brand palette; see
+                                BenefitVisual in ServiceVisuals.jsx.
+                              */}
                               <div className="benefit-image">
-                                  <img src="/assets/img/benefit-image.jpg" alt="Team working with AI tools" />
+                                  <BenefitVisual />
                               </div>
                           </div>
                           <div className="col-xl-4 col-lg-6">
@@ -194,103 +225,27 @@ export default function Service() {
           </section>
 
 
-          <div className="paralax-section-2 mt-0 fix bg-cover" style={{backgroundImage: 'url(\'/assets/img/paralax-bg-2.jpg\')'}}>
-              <div className="video-text">
-                  <a href="https://www.youtube.com/watch?v=Cn4G2lZ_g2I" className="video-btn ripple video-popup">
-                      <i className="fas fa-play"></i>
-                  </a>
-                  <h3>Free training</h3>
-              </div>
-          </div>
-
-
-          <section className="news-section fix section-padding-2">
+          {/*
+            Was a "Free training" promo band: a play button linking out to
+            YouTube on top of paralax-bg-2.jpg, which is the template's grey
+            "1920X700" placeholder. The band now carries the client's own clip
+            instead, and the heading is gone -- the clip is the whole band.
+          */}
+          <section className="service-video-section fix">
               <div className="container">
-                  <div className="section-title text-center">
-                      <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="" />
-                          latest insights
-                      </h6>
-                      <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Story <span>& <b>feedback</b></span>
-                      </h2>
-                  </div>
-                  <div className="row">
-                      <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".3s">
-                          <div className="news-box-items-2">
-                              <div className="news-image">
-                                  <img src="/assets/img/news/04.jpg" alt="AI agents in customer support" />
-                              </div>
-                              <div className="news-content">
-                                  <ul className="post-cat">
-                                      <li>
-                                          <i className="fa-regular fa-calendar-days"></i>
-                                          12 sep. 2026
-                                      </li>
-                                      <li>
-                                          <i className="fa-regular fa-folder-open"></i>
-                                          ai agents
-                                      </li>
-                                  </ul>
-                                  <h3><Link href="/news-details">How AI agents cut customer
-                                          support response times
-                                          from hours to seconds</Link></h3>
-                                  <Link href="/news-details" className="icon">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
-                          <div className="news-box-items-2">
-                              <div className="news-image">
-                                  <img src="/assets/img/news/05.jpg" alt="Business automation" />
-                              </div>
-                              <div className="news-content">
-                                  <ul className="post-cat">
-                                      <li>
-                                          <i className="fa-regular fa-calendar-days"></i>
-                                          28 aug. 2026
-                                      </li>
-                                      <li>
-                                          <i className="fa-regular fa-folder-open"></i>
-                                          automation
-                                      </li>
-                                  </ul>
-                                  <h3><Link href="/news-details">Five everyday business tasks
-                                          you can automate with AI
-                                          starting this week</Link></h3>
-                                  <Link href="/news-details" className="icon">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
-                          <div className="news-box-items-2">
-                              <div className="news-image">
-                                  <img src="/assets/img/news/06.jpg" alt="Client success story" />
-                              </div>
-                              <div className="news-content">
-                                  <ul className="post-cat">
-                                      <li>
-                                          <i className="fa-regular fa-calendar-days"></i>
-                                          10 aug. 2026
-                                      </li>
-                                      <li>
-                                          <i className="fa-regular fa-folder-open"></i>
-                                          case study
-                                      </li>
-                                  </ul>
-                                  <h3><Link href="/news-details">Client story: how a retail
-                                          brand doubled its leads
-                                          with a custom AI assistant</Link></h3>
-                                  <Link href="/news-details" className="icon">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
+                  <div className="service-video-frame">
+                      <video
+                          className="service-video"
+                          src="/assets/video/services-training-video.mp4"
+                          poster="/assets/img/custom/services-training-poster.jpg"
+                          width={1920}
+                          height={1080}
+                          style={{ aspectRatio: "1920 / 1080" }}
+                          controls
+                          preload="metadata"
+                          playsInline
+                          aria-label="AiLogiQs training session"
+                      />
                   </div>
               </div>
           </section>

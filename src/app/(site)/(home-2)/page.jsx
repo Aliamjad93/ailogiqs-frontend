@@ -7,6 +7,7 @@ export const metadata = {
 };
 
 import Link from "next/link";
+import AgentVideo from "@/components/aiq/AgentVideo";
 
 export default function HomeTwo() {
   return (
@@ -150,7 +151,13 @@ export default function HomeTwo() {
                           the language your customer writes.
                       </p>
                   </div>
-                  <div className="row g-4 align-items-center">
+                  {/*
+                    No `align-items-center` here on purpose. The default
+                    `stretch` is what gives the media column the card grid's
+                    height to fill, which is how the clip is held to the same
+                    height as the four cards instead of forcing its own.
+                  */}
+                  <div className="row g-4">
                       <div className="col-xl-7">
                           <div className="row g-4 agent-cards">
                               <div className="col-md-6 wow fadeInUp" data-wow-delay=".2s">
@@ -215,10 +222,13 @@ export default function HomeTwo() {
                               </div>
                           </div>
                       </div>
-                      <div className="col-xl-5 wow fadeInUp" data-wow-delay=".3s">
+                      <div className="col-xl-5 wow fadeInUp agent-media-col" data-wow-delay=".3s">
                           <div className="service-image-2">
-                              <img src="/assets/img/custom/ai-agent-chat.png"
-                                  alt="AI sales agent closing an order on WhatsApp" />
+                              <AgentVideo
+                                  src="/assets/video/home-chatbot-video.mp4"
+                                  poster="/assets/img/custom/agent-hero.png"
+                                  label="The AiLogiQs agent answering a customer, recommending a product and confirming the order on WhatsApp"
+                              />
                           </div>
                       </div>
                   </div>

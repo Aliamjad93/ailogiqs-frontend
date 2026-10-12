@@ -59,10 +59,26 @@ export default function TemplateRuntime({ children }) {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
 
-  // Flag the homepage on <body> so global chrome that React renders outside the
-  // route tree (back-to-top) can be recoloured per page from CSS.
+  // Flag the pages that need per-page CONTENT rules on <body>.
+  //
+  // This used to be how the global chrome (back-to-top, the offcanvas drawer,
+  // the header wordmark) was recoloured page by page, because that chrome is
+  // rendered outside the route tree and CSS could not reach it any other way.
+  // That is no longer how it works: the bar, its drawer and the back-to-top
+  // disc are one indigo design on EVERY route now (see the "Nav" and "Home
+  // palette" blocks in overrides.css), so the flags below exist only for the
+  // four pages whose own content needs an accent of its own.
+  //
+  // A flag with no matching `body.route-*` rule in overrides.css is dead
+  // weight -- grep before adding one, and delete it when its last rule goes.
   useEffect(() => {
-    document.body.classList.toggle("route-home", pathname === "/");
+    document.body.classList.toggle(
+      "route-blog",
+      pathname === "/blog" || pathname.startsWith("/blog/")
+    );
+    document.body.classList.toggle("route-contact", pathname === "/contact");
+    document.body.classList.toggle("route-about", pathname === "/about");
+    document.body.classList.toggle("route-service", pathname === "/service");
   }, [pathname]);
 
   // Initialise (and re-initialise) the theme's plugins for the current route.

@@ -26,9 +26,15 @@ const VARIANTS = {
   default: {
     className: "header-1",
     wrapLeft: false,
-    actions: ["discord", "search"],
+    // Search only: the "Join now" CTA (a /login link) was removed from the
+    // inner-page bar, matching the homepage header, which carries no CTAs.
+    actions: ["search"],
     hamburger: "d-xl-block",
-    logoAccent: "#EFFB53",
+    // White, not the theme yellow. Both variants now share one bar design, and
+    // the bar is indigo on every route (.header-1 in overrides.css), so a solid
+    // white lockup is the only readable choice. The yellow accent used to be
+    // patched back to white per route in CSS; that is no longer needed.
+    logoAccent: "#FFFFFF",
   },
   home2: {
     className: "header-2",
@@ -118,12 +124,32 @@ export default function SiteHeader({ variant = "default" }) {
                   key={item.label}
                   className={item.children ? "has-dropdown" : undefined}
                 >
-                  <Link href={item.href}>
-                    {item.label}
-                    {item.children ? (
+                  {/*
+                    A parent with children and an href is a link that also opens
+                    a dropdown ("Services"). A parent WITHOUT an href -- a
+                    catch-all label with no destination of its own -- falls
+                    through to an anchor with no href attribute: the theme's
+                    `.main-menu ul li a` styling still applies, but nothing
+                    navigates. tabIndex + the :focus-within rule in
+                    overrides.css are what keep it reachable from the keyboard,
+                    since an anchor with no href is not focusable by default.
+
+                    No such item exists in PRIMARY_NAV today; the branch is kept
+                    because adding one should not require a component change.
+                  */}
+                  {item.href ? (
+                    <Link href={item.href}>
+                      {item.label}
+                      {item.children ? (
+                        <i className="fa-solid fa-chevron-down" />
+                      ) : null}
+                    </Link>
+                  ) : (
+                    <a tabIndex={0} role="button" aria-haspopup="true">
+                      {item.label}
                       <i className="fa-solid fa-chevron-down" />
-                    ) : null}
-                  </Link>
+                    </a>
+                  )}
                   {item.children ? (
                     <ul className="submenu">
                       {item.children.map((child) => (

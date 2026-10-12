@@ -1,5 +1,8 @@
 export const metadata = {
   title: "Our Team",
+  description:
+    "Meet the AiLogiQs team — engineers, data scientists and designers building applied AI products for businesses.",
+  alternates: { canonical: "/team" },
 };
 
 import Link from "next/link";

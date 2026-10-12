@@ -67,11 +67,31 @@ const SELECT = `id, slug, title, excerpt, image, category_slug, author, publishe
   reading_minutes, featured, tags, body_html, seo_title, seo_description, status,
   created_at, updated_at, (image_blob IS NOT NULL) AS has_image_blob`;
 
-/** Every post, drafts included. Admin-only. */
+/**
+ * Every live post, drafts included. Admin-only.
+ *
+ * Soft-deleted rows are EXCLUDED. This used to be a bare `SELECT ... ORDER BY
+ * status` with no WHERE clause, so a deleted post stayed in the list wearing an
+ * `admin-badge-deleted` badge that had no CSS rule -- which reads, from the
+ * panel, as "delete did nothing". Deleted posts are still recoverable; they just
+ * live in getDeletedPosts() behind the Deleted tab.
+ */
 export async function getAllPostsForAdmin() {
   if (!isDatabaseConfigured()) return [];
   return query(
-    `SELECT ${SELECT} FROM posts ORDER BY status ASC, published_at DESC, id DESC`
+    `SELECT ${SELECT} FROM posts
+     WHERE status != 'deleted'
+     ORDER BY status ASC, published_at DESC, id DESC`
+  );
+}
+
+/** Only the soft-deleted posts, most recently removed first. */
+export async function getDeletedPosts() {
+  if (!isDatabaseConfigured()) return [];
+  return query(
+    `SELECT ${SELECT} FROM posts
+     WHERE status = 'deleted'
+     ORDER BY updated_at DESC, id DESC`
   );
 }
 
@@ -121,10 +141,71 @@ function estimateReadingMinutes(html) {
   return Math.max(1, Math.round(words / 220));
 }
 
+/**
+ * Trims a free-text SEO field to a hard ceiling.
+ *
+ * The admin form already caps input with maxLength, but a server action is a
+ * public endpoint that anything can POST to, so the limit is enforced here as
+ * well rather than trusted from the form. Returns "" for anything that is not a
+ * usable string, which is what makes the `|| fallback` call sites read cleanly.
+ */
+function clamp(value, max) {
+  const text = String(value ?? "").replace(/\s+/g, " ").trim();
+  return text ? text.slice(0, max) : "";
+}
+
+/**
+ * Normalises the comma-separated tag field.
+ *
+ * Lower-cased so a tag is one tag regardless of how it was typed, and compared
+ * case-insensitively when de-duplicating. Bounded in both count and length: the
+ * tag cloud and the hashtag row both render every tag, so an unbounded list is a
+ * way to wreck the sidebar from the editor.
+ */
+function normalizeTags(raw) {
+  const seen = new Set();
+  const out = [];
+  for (const part of String(raw ?? "").split(",")) {
+    const tag = part.trim().toLowerCase().slice(0, 30);
+    if (!tag || seen.has(tag)) continue;
+    seen.add(tag);
+    out.push(tag);
+    if (out.length === 12) break;
+  }
+  return out.join(",");
+}
+
 /** Rejects categories that do not exist, so a typo cannot create a dead sidebar entry. */
 async function validateCategory(slug) {
   const categories = await getCategories();
   return categories.some((c) => c.slug === slug) ? slug : categories[0]?.slug ?? "ai-agents";
+}
+
+/**
+ * Resolves every stored field that is either authored or derived.
+ *
+ * Kept in one place so create and update cannot drift apart -- they previously
+ * each computed the excerpt, the reading time and the SEO mirror inline, which
+ * is exactly the shape of bug where one path gets a fix and the other does not.
+ *
+ * The fallbacks are the point: each SEO field is optional in the panel, and an
+ * author who leaves them blank gets the same output the panel produced before
+ * those fields existed.
+ */
+function metaFrom(input, bodyHtml, title) {
+  const derived = excerptFrom(bodyHtml);
+  const metaDescription = clamp(input.seoDescription, 320);
+
+  return {
+    // The card summary prefers the author's meta description, so the listing and
+    // the search snippet do not contradict each other. It is trimmed harder than
+    // the meta description itself because a card has less room than a snippet.
+    excerpt: metaDescription ? excerptFrom(metaDescription, 200) : derived,
+    seoTitle: clamp(input.seoTitle, 120) || title,
+    seoDescription: metaDescription || derived,
+    tags: normalizeTags(input.tags),
+    readingMinutes: estimateReadingMinutes(bodyHtml),
+  };
 }
 
 /**
@@ -196,7 +277,7 @@ export async function createPost(input) {
   if (!blob) throw new Error("Choose a cover image before saving.");
 
   const title = String(input.title ?? "Untitled").slice(0, 200);
-  const excerpt = excerptFrom(bodyHtml);
+  const meta = metaFrom(input, bodyHtml, title);
 
   const result = await execute(
     `INSERT INTO posts
@@ -207,7 +288,7 @@ export async function createPost(input) {
     [
       slug,
       title,
-      excerpt,
+      meta.excerpt,
       // `image` is the fallback path column, used by the seed content in
       // /public. An uploaded cover is served from the BLOB, so this stays empty.
       "",
@@ -216,15 +297,12 @@ export async function createPost(input) {
       categorySlug,
       AUTHOR,
       input.publishedAt || now,
-      estimateReadingMinutes(bodyHtml),
+      meta.readingMinutes,
       input.featured ? 1 : 0,
-      // No tag input in the panel; the tag cloud is derived from the body.
-      "",
+      meta.tags,
       bodyHtml,
-      // SEO fields mirror the title and the generated excerpt. Stored rather
-      // than computed at render time so a future per-post override has a home.
-      title,
-      excerpt,
+      meta.seoTitle,
+      meta.seoDescription,
       input.status === "published" ? "published" : "draft",
     ]
   );
@@ -249,18 +327,18 @@ export async function updatePost(id, input) {
   const imageArgs = blob ? [blob, input.imageUpload.mime] : [];
 
   const title = String(input.title ?? "Untitled").slice(0, 200);
-  const excerpt = excerptFrom(bodyHtml);
+  const meta = metaFrom(input, bodyHtml, title);
 
   await execute(
     `UPDATE posts SET
        slug=?, title=?, excerpt=?${imageColumns}, category_slug=?, author=?,
-       published_at=?, reading_minutes=?, featured=?, body_html=?,
+       published_at=?, reading_minutes=?, featured=?, tags=?, body_html=?,
        seo_title=?, seo_description=?, status=?, updated_at=datetime('now')
      WHERE id=?`,
     [
       slug,
       title,
-      excerpt,
+      meta.excerpt,
       ...imageArgs,
       categorySlug,
       AUTHOR,
@@ -268,11 +346,12 @@ export async function updatePost(id, input) {
       // would re-date the article every time an author fixed a typo, silently
       // re-ordering the whole blog.
       input.publishedAt || new Date().toISOString().slice(0, 10),
-      estimateReadingMinutes(bodyHtml),
+      meta.readingMinutes,
       input.featured ? 1 : 0,
+      meta.tags,
       bodyHtml,
-      title,
-      excerpt,
+      meta.seoTitle,
+      meta.seoDescription,
       input.status === "published" ? "published" : "draft",
       id,
     ]
@@ -300,9 +379,13 @@ export async function setPostStatus(id, status) {
 /**
  * Soft delete.
  *
- * Removes the row from every public read path via a deleted_at stamp instead of
- * dropping it, so a mis-click is recoverable -- see the reasoning in the
- * "soft deletes" article. Slugs are freed by appending the id.
+ * Removes the row from every public read path via a `status='deleted'` stamp
+ * instead of dropping it, so a mis-click is recoverable. The slug is suffixed to
+ * free it for reuse -- `uniqueSlug` checks the slug column without a status
+ * filter, so without this a deleted post would block a new one from taking the
+ * same URL.
+ *
+ * The suffix is exactly `-deleted-<id>`, which is what restorePost() strips.
  */
 export async function deletePost(id) {
   if (!isDatabaseConfigured()) throw new Error("Database is not configured");
@@ -312,4 +395,37 @@ export async function deletePost(id) {
   );
   invalidateCache("/blog");
   invalidateCache("/sitemap.xml");
+}
+
+/**
+ * Undoes a soft delete.
+ *
+ * Restores to DRAFT rather than to the previous state: the author should make a
+ * deliberate choice to put something back on the live blog, and "restore" is
+ * reached from a table row where a mis-click is easy.
+ *
+ * The freed slug may have been taken by a new post while this one was deleted,
+ * so uniqueness is re-checked rather than assumed.
+ */
+export async function restorePost(id) {
+  if (!isDatabaseConfigured()) throw new Error("Database is not configured");
+
+  const row = await queryOne("SELECT slug, status FROM posts WHERE id = ?", [id]);
+  if (!row) throw new Error("Post not found");
+  if (row.status !== "deleted") return;
+
+  const suffix = `-deleted-${id}`;
+  const current = String(row.slug ?? "");
+  const base = current.endsWith(suffix) ? current.slice(0, -suffix.length) : current;
+  const slug = await uniqueSlug(base || "untitled", id);
+
+  await execute(
+    "UPDATE posts SET status='draft', slug=?, updated_at=datetime('now') WHERE id=?",
+    [slug, id]
+  );
+
+  invalidateCache("/blog");
+  invalidateCache("/sitemap.xml");
+  invalidateCache(`/blog/${slug}`);
+  invalidateCache(`/admin/posts/${id}`);
 }

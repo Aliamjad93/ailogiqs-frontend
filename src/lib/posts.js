@@ -45,6 +45,10 @@ function toPost(row) {
     bodyHtml: row.body_html ?? "",
     seoTitle: row.seo_title || null,
     seoDescription: row.seo_description || null,
+    // Used by the sitemap and by the article's structured data. `updated_at` is
+    // a SQLite datetime ("YYYY-MM-DD HH:MM:SS"), so it is normalised to ISO here
+    // rather than at each call site.
+    updatedAt: row.updated_at ? String(row.updated_at).replace(" ", "T") : null,
   };
 }
 
@@ -60,7 +64,7 @@ function staticPost(post) {
 // listing of twenty posts does not drag twenty images over the wire.
 const SELECT_COLUMNS = `id, slug, title, excerpt, image, category_slug, author,
   published_at, reading_minutes, featured, tags, body_html, seo_title, seo_description,
-  (image_blob IS NOT NULL) AS has_image_blob`;
+  updated_at, (image_blob IS NOT NULL) AS has_image_blob`;
 
 // ---------------------------------------------------------------------------
 // Database-backed reads

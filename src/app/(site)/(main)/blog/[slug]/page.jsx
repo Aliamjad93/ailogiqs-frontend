@@ -9,6 +9,7 @@ import {
   getAllPostSlugs,
   formatPostDate,
 } from "@/lib/posts";
+import { SITE, absoluteUrl } from "@/lib/site.config";
 import BlogProse from "@/components/blog/BlogProse";
 
 /** Pre-renders every post at build time. */
@@ -25,28 +26,114 @@ export async function generateMetadata({ params }) {
     return { title: "Post not found", robots: { index: false, follow: false } };
   }
 
+  /*
+    The write layer used to mirror the post title into `seo_title`, so the three
+    posts created before the SEO panel existed hold a copy of their own title in
+    that column. A stored value that is byte-identical to the title is therefore
+    treated as "the author never set one" -- otherwise every pre-existing post
+    would silently lose the brand suffix the title template adds, and its <title>
+    tag would get shorter than it was.
+
+    A genuinely authored meta title is always different from the plain title
+    (it carries the brand, or a hook), so the heuristic only ever catches the
+    auto-mirrored case.
+  */
+  const authoredSeoTitle =
+    post.seoTitle && post.seoTitle !== post.title ? post.seoTitle : null;
+
+  // Both SEO fields are authored in the admin panel and both are optional, so
+  // each falls back to what the page would have shown before the fields existed.
+  const description = post.seoDescription || post.excerpt;
+  const image = absoluteUrl(post.image);
+
+  /*
+    One value, used for <title>, og:title and twitter:title, so the three can
+    never disagree.
+
+    `absolute` for an authored meta title, plain for the fallback. A meta title
+    is the whole title tag, so a post whose SEO title already ends in
+    "| AiLogiQs" must not get the root layout's `%s | AiLogiQs` template applied
+    on top -- that produced "... | AiLogiQs | AiLogiQs". `absolute` opts that one
+    string out of the template. The fallback is the bare post title, which SHOULD
+    pick the template up so it still carries the brand. The root layout applies
+    the same template to openGraph and twitter titles, so the same distinction
+    has to be made in all three places.
+  */
+  const titleTag = authoredSeoTitle ? { absolute: authoredSeoTitle } : post.title;
+
   return {
-    title: post.title,
-    description: post.excerpt,
-    keywords: post.tags,
+    title: titleTag,
+    description,
+    keywords: post.tags.length > 0 ? post.tags : undefined,
     authors: [{ name: post.author }],
+    creator: post.author,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
-      title: post.title,
-      description: post.excerpt,
+      title: titleTag,
+      description,
       url: `/blog/${post.slug}`,
+      siteName: SITE.name,
       publishedTime: post.publishedAt,
+      // `updated_at` is what an edit actually moves, so it is the honest
+      // modifiedTime. Falling back to the publish date keeps the tag present.
+      modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],
+      section: post.category,
       tags: post.tags,
-      images: [{ url: post.image, alt: post.title }],
+      // Absolute, because a crawler or a social scraper has no page context to
+      // resolve a relative path against.
+      images: [{ url: image, width: 1200, height: 750, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
-      images: [post.image],
+      title: titleTag,
+      description,
+      images: [image],
     },
+  };
+}
+
+/**
+ * Structured data for the article.
+ *
+ * Two graphs in one script: a BlogPosting, which is what earns the rich result,
+ * and a BreadcrumbList, which is what replaces the bare URL in the result with
+ * "ailogiqs.com › blog › title". Emitted from the page rather than from the
+ * layout because every field here is per-post.
+ */
+function articleJsonLd(post) {
+  const url = absoluteUrl(`/blog/${post.slug}`);
+  const image = absoluteUrl(post.image);
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${url}#article`,
+        headline: post.title.slice(0, 110),
+        description: post.seoDescription || post.excerpt,
+        image: [image],
+        datePublished: post.publishedAt,
+        dateModified: (post.updatedAt ?? post.publishedAt).slice(0, 10),
+        author: { "@type": "Organization", name: post.author },
+        publisher: { "@type": "Organization", name: SITE.name, url: SITE.url },
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        articleSection: post.category,
+        keywords: post.tags.join(", "),
+        inLanguage: "en",
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+          { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+          { "@type": "ListItem", position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
   };
 }
 
@@ -73,13 +160,32 @@ export default async function BlogPostPage({ params }) {
   return (
     <>
       <article className="news-details style-padding fix section-padding">
+        {/*
+          Structured data. Rendered here, as the first child of the article, so
+          it is part of the server-rendered HTML a crawler receives. The `<` is
+          escaped because an article body or a title containing "</script>"
+          would otherwise close the block early.
+        */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(articleJsonLd(post)).replace(/</g, "\\u003c"),
+          }}
+        />
         <div className="container">
           <div className="row g-4">
             <div className="col-12 col-lg-8">
               <div className="news-details-wrapper">
                 <div className="news-details-items">
                   <div className="news-details-thumb">
-                    <img src={post.image} alt={post.title} />
+                    {/* The cover is the largest above-the-fold element, so it is
+                        fetched eagerly and at high priority rather than lazily. */}
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      fetchPriority="high"
+                      decoding="async"
+                    />
                   </div>
                   <div className="news-details-content">
                     {/*
@@ -108,7 +214,11 @@ export default async function BlogPostPage({ params }) {
                         {post.category}
                       </li>
                     </ul>
-                    <h2>{post.title}</h2>
+                    {/* The article's own title is the page's h1. It was an h2, so
+                        the document had no top-level heading at all. The visual
+                        size is pinned in overrides.css, so promoting the element
+                        does not change how it looks. */}
+                    <h1>{post.title}</h1>
 
                     {/* Body is authored HTML from the admin panel (TipTap
                         output). Sanitise on write rather than on every read --
@@ -120,8 +230,12 @@ export default async function BlogPostPage({ params }) {
                   </div>
 
                   <div className="row tag-share-wrap mt-5 align-items-center">
+                    {/* Tags are optional in the admin panel, so an untagged post
+                        renders nothing here rather than an empty paragraph. */}
                     <div className="col-lg-8 col-12">
-                      <p>{post.tags.map((tag) => `#${tag}`).join(" ")}</p>
+                      {post.tags.length > 0 && (
+                        <p>{post.tags.map((tag) => `#${tag}`).join(" ")}</p>
+                      )}
                     </div>
                     <div className="col-lg-4 col-12 mt-3 mt-lg-0 text-lg-end">
                       <div className="social-icon">
@@ -195,15 +309,33 @@ export default async function BlogPostPage({ params }) {
                     ))}
                   </div>
 
+                  {/*
+                    Markup follows the class structure the theme styles:
+                    .image > avatar, .content > .head > .con > h5, and a
+                    .form-clt wrapper around every field (the theme's input
+                    rules hang off .form-clt, so bare inputs fell back to the
+                    browser's default widgets).
+
+                    The avatar is an initials disc rather than an <img>: every
+                    testimonial/client-*.png in the theme is a placeholder
+                    graphic -- a grey box with its own pixel size printed on it
+                    -- so an <img> there renders as a broken "80X80" tile.
+                  */}
                   <div className="comments-area">
                     <div className="comments-heading">
                       <h3>Comments</h3>
                     </div>
                     <div className="blog-single-comment d-flex gap-4 pt-4 pb-5">
-                      <img src="/assets/img/testimonial/client-1.png" alt="" />
-                      <div className="comment-text">
-                        <div className="d-flex flex-wrap justify-content-between">
-                          <h5>Epson Gorton</h5>
+                      <div className="image">
+                        <span className="comment-avatar" aria-hidden="true">
+                          EG
+                        </span>
+                      </div>
+                      <div className="content">
+                        <div className="head d-flex flex-wrap align-items-center justify-content-between gap-2">
+                          <div className="con">
+                            <h5>Epson Gorton</h5>
+                          </div>
                           <span className="comment-date">20 Jul, 2024</span>
                         </div>
                         <p>
@@ -217,13 +349,22 @@ export default async function BlogPostPage({ params }) {
                       <form>
                         <div className="row g-3">
                           <div className="col-md-6">
-                            <input type="text" placeholder="Name" />
+                            <div className="form-clt">
+                              <span>Name</span>
+                              <input type="text" placeholder="Your name" />
+                            </div>
                           </div>
                           <div className="col-md-6">
-                            <input type="email" placeholder="Email" />
+                            <div className="form-clt">
+                              <span>Email</span>
+                              <input type="email" placeholder="Your email" />
+                            </div>
                           </div>
                           <div className="col-12">
-                            <textarea rows="5" placeholder="Comment" />
+                            <div className="form-clt">
+                              <span>Comment</span>
+                              <textarea rows="5" placeholder="Write your comment" />
+                            </div>
                           </div>
                           <div className="col-12">
                             <button type="submit" className="theme-btn">
@@ -272,8 +413,13 @@ export default async function BlogPostPage({ params }) {
                   <div className="news-widget-categories">
                     <ul>
                       {categories.map((category) => (
-                        <li key={category.name}>
-                          <Link href="/blog">{category.name}</Link>{" "}
+                        <li key={category.slug}>
+                          {/* Filtered rather than a bare /blog: these links used
+                              to all point at the same URL, which gave a crawler
+                              four identical targets and gave a reader nothing. */}
+                          <Link href={`/blog?category=${category.slug}`}>
+                            {category.name}
+                          </Link>{" "}
                           <span>({String(category.count).padStart(2, "0")})</span>
                         </li>
                       ))}
@@ -317,23 +463,27 @@ export default async function BlogPostPage({ params }) {
                   <img src="/assets/img/news/Banner.png" alt="" />
                 </div>
 
-                <div className="single-sidebar-widget">
-                  <div className="wid-title">
-                    <h3>
-                      <img src="/assets/img/star-3.png" alt="" />
-                      Tags Clouds
-                    </h3>
-                  </div>
-                  <div className="news-widget-categories">
-                    <div className="tagcloud">
-                      {tags.map((tag) => (
-                        <Link href="/blog" key={tag}>
-                          {tag}
-                        </Link>
-                      ))}
+                {/* Conditional, like the listing's: tags are optional per post,
+                    so an empty tag list must not leave a heading over nothing. */}
+                {tags.length > 0 && (
+                  <div className="single-sidebar-widget">
+                    <div className="wid-title">
+                      <h3>
+                        <img src="/assets/img/star-3.png" alt="" />
+                        Tags Clouds
+                      </h3>
+                    </div>
+                    <div className="news-widget-categories">
+                      <div className="tagcloud">
+                        {tags.map((tag) => (
+                          <Link href={`/blog?tag=${tag}`} key={tag}>
+                            {tag}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

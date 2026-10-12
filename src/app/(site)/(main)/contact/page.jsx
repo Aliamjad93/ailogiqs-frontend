@@ -1,17 +1,31 @@
 export const metadata = {
   title: "Contact Us",
+  description:
+    "Contact AiLogiQs to discuss an AI agent, machine learning or data analytics project. Tell us what you are building and we will get back to you.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function Contact() {
 
   return (
     <>
-      <section className="contact-section fix style-padding section-padding bg-cover"
-              style={{backgroundImage: 'url(\'/assets/img/contact-bg.jpg\')'}}>
+      {/*
+        No cover photo. This band used /assets/img/contact-bg.jpg -- a near-black
+        photograph (mean brightness 21/255) -- which made it the only dark section
+        on an otherwise light page. Removing it leaves the page background, and
+        the section's copy is styled dark in overrides.css to match.
+        `bg-cover` is kept: it contributes position:relative, which is harmless
+        here and removing it would be a layout risk for no benefit.
+      */}
+      <section className="contact-section fix style-padding section-padding bg-cover">
               <div className="container">
                   <div className="section-title ml-200">
                       <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> contact with us
+                          {/* The homepage's eyebrow mark. /assets/img/star.png
+                              is the template's yellow one (avg rgb 238,250,82);
+                              circle-title.png is the indigo mark the homepage
+                              uses, so the eyebrow matches it. */}
+                          <img src="/assets/img/circle-title.png" alt="" /> contact with us
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
                           Contact our experts <br /> <span>any <b>assistance</b> you need</span>
@@ -112,7 +126,7 @@ export default function Contact() {
               <div className="container">
                   <div className="section-title text-center">
                       <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> Quick support info
+                          <img src="/assets/img/circle-title.png" alt="" /> Quick support info
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
                           Contact <span><b>information</b></span>
@@ -122,7 +136,11 @@ export default function Contact() {
                       <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
                           <div className="contact-box-items-4">
                               <div className="icon">
-                                  <i className="fa-sharp fa-light fa-location-dot"></i>
+                                  {/* `fa-regular`, not `fa-light`: the light face is
+                                      a 383 KB webfont that nothing else on the site
+                                      needs, so these two icons alone were pulling
+                                      it in on this page. */}
+                                  <i className="fa-regular fa-location-dot"></i>
                               </div>
                               <div className="content">
                                   <h3>Location</h3>
@@ -135,7 +153,7 @@ export default function Contact() {
                       <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s">
                           <div className="contact-box-items-4">
                               <div className="icon">
-                                  <i className="fa-light fa-envelope"></i>
+                                  <i className="fa-regular fa-envelope"></i>
                               </div>
                               <div className="content">
                                   <h3>Email us</h3>

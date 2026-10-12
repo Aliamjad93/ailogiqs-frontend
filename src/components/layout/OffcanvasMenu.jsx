@@ -34,7 +34,18 @@ export default function OffcanvasMenu() {
                 <ul>
                   <li className="d-flex align-items-center">
                     <div className="offcanvas__contact-icon">
-                      <i className="fal fa-map-marker-alt" />
+                      {/*
+                        `far`, not `fal`.
+
+                        The drawer renders on every page, so these three icons
+                        were the sole reason a 383 KB "light" webfont
+                        (fa-light-300.woff2) was fetched site-wide -- the largest
+                        single request on the site after the homepage hero. The
+                        regular face is already loaded for the phone icon just
+                        below, so switching costs nothing and removes the file
+                        from every page load entirely.
+                      */}
+                      <i className="far fa-location-dot" />
                     </div>
                     <div className="offcanvas__contact-text">
                       <a target="_blank" rel="noreferrer" href="#">
@@ -45,7 +56,7 @@ export default function OffcanvasMenu() {
                   </li>
                   <li className="d-flex align-items-center">
                     <div className="offcanvas__contact-icon mr-15">
-                      <i className="fal fa-envelope" />
+                      <i className="far fa-envelope" />
                     </div>
                     <div className="offcanvas__contact-text">
                       <a href="mailto:info@example.com">
@@ -57,7 +68,7 @@ export default function OffcanvasMenu() {
                   </li>
                   <li className="d-flex align-items-center">
                     <div className="offcanvas__contact-icon mr-15">
-                      <i className="fal fa-clock" />
+                      <i className="far fa-clock" />
                     </div>
                     <div className="offcanvas__contact-text">
                       <a target="_blank" rel="noreferrer" href="#">
