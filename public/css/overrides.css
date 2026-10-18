@@ -8,7 +8,9 @@
    main.css would win. Keeping this file as the final <link> makes the
    cascade order explicit and independent of Next's CSS pipeline.
 
-   Intentionally empty of breakpoint patches. See "Breakpoint alignment" below.
+   Breakpoint patches for the vendor grid do not live here -- that alignment
+   is done in the vendor CSS itself. The one media band this file owns is the
+   laptop stage; see "Breakpoint alignment" and "Laptop stage" below.
    ========================================================================== */
 
 /* -----------------------------------------------------------------------------
@@ -27,15 +29,63 @@
    That is why the whole site looked "zoomed in" on a 1366px laptop at 100%
    zoom yet perfect at 90%: 100% gives a ~1351px viewport, 90% gives ~1503px.
 
-   `node scripts/align-breakpoints.mjs` fixes this at the source by moving
+   `node scripts/align-breakpoints.mjs` fixes the GRID at the source by moving
    Bootstrap's xxl step 1400 -> 1200 and retargeting the theme's compaction
-   tier 1399 -> 1199. After that, 1200-1399px renders identically to >=1400px
-   and no per-component overrides are needed.
+   tier 1399 -> 1199, so 1200-1399px gets the same real grid as >=1400px:
+   container, col-xxl widths, the 4-up pricing row.
+
+   That still left the band on the >=1500px SCALE -- the 1320px container and
+   140px hero headline -- which is larger than the design intends for those
+   widths and is the other half of the "zoomed in" report. That half is the
+   "Laptop stage" section below: one `zoom` band, not a tier of the compacting
+   kind.
 
    Do NOT re-add `@media (max-width: 1399px)` patches here. They cannot express
-   "restore the >=1400px presentation" — the base rules are already correct
+   "restore the >=1400px presentation" -- the base rules are already correct
    once the tier is realigned, and an override would then fight the base value.
    -------------------------------------------------------------------------- */
+
+
+/* -----------------------------------------------------------------------------
+   Laptop stage -- 1200-1500px renders at 90%
+
+   With the grid realigned, every width from 1200px up renders the >=1500px
+   stage: a 1366px laptop at 100% browser zoom (a ~1351px viewport once the
+   scrollbar is out) gets the 1320px container -- ~14px of gutter per side --
+   and the hero sets its headline in 140px type. The same machine at 90%
+   browser zoom (a ~1503px viewport) shows the composition the design was
+   drawn for; that is the view this band reproduces at 100%.
+
+   `zoom` on the stage does what that 90% browser zoom did: it lays the
+   content out on a 1351 / 0.9 = ~1501px canvas and paints it into the 1351px
+   viewport, vendor stylesheets untouched. Verified against Chrome:
+   - media queries keep evaluating against the physical viewport width (the
+     <=1600px tier stays active across the whole band), so no tier is skipped
+     and the band can run up to 1500px, where the raw rendering's own margins
+     (~90px) already carry the reference composition;
+   - position: fixed descendants (the scrolled header, `.sticky`) stay
+     viewport-anchored and render scaled -- the same as under browser zoom.
+
+   Scope notes
+   - `.site-stage` is the wrapper TemplateRuntime draws around the header, the
+     page and the footer. The five fixed overlays it renders around that
+     wrapper (preloader, cursor, back-to-top, offcanvas, search) stay
+     unscaled: the vendor cursor positions itself from raw pointer
+     coordinates, which Chrome reports in unzoomed viewport pixels, and would
+     sit 10% off the pointer inside the scaled subtree.
+   - /admin never renders the wrapper, and the two designs with canvases of
+     their own -- /ai-services/* + /portfolio/chatbot, and
+     /portfolio/bee-virus-detection -- are excluded by their body flags.
+   - `zoom` is Baseline in current browsers; where it is unsupported the band
+     degrades to the old full-size rendering -- not the intended composition,
+     but not a broken layout either.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 1200px) and (max-width: 1500px) {
+  body:not(.route-bee):not(.route-ai-service) .site-stage {
+    zoom: 0.9;
+  }
+}
 
 
 /* =============================================================================
@@ -891,4 +941,26 @@
 body.route-project .portfolio-section .portfolio-card-items {
   max-width: 340px;
   margin-inline: auto;
+}
+
+/* =============================================================================
+   Contact info cards — one row, one height
+   =============================================================================
+   The four cards under "Contact information" (Location / Email us / Free call /
+   Opening hour) each sized to their own copy, so the row bottom read ragged:
+   the three-line address card ran 56px taller than the one-line email and
+   phone cards, with the two-line opening hours in between.
+
+   The columns were never the problem — Bootstrap rows are `align-items:
+   stretch`, so every column in a line already stands the tallest card's
+   height. The cards inside just did not fill their column. `height: 100%`
+   does that, so icon, heading and first line keep one baseline across the row
+   and the spare space lands under the shorter copy.
+
+   Below xl the grid wraps (3 per row at lg, 2 at md); every flex line then
+   stretches to its own tallest card, which is what each layout wants.
+   ========================================================================== */
+
+.contact-info-section .contact-box-items-4 {
+  height: 100%;
 }

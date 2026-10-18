@@ -188,7 +188,17 @@ export default function TemplateRuntime({ children }) {
       <BackToTop />
       <OffcanvasMenu />
       <SearchPopup />
-      {children}
+      {/*
+        The header, the page and the footer share one wrapper so overrides.css
+        can treat them as a single "stage": on 1200-1500px screens the stage
+        renders at 90% -- see "Laptop stage" in public/css/overrides.css.
+
+        The five overlays above stay OUTSIDE the wrapper on purpose. They are
+        fixed chrome, and in particular the vendor cursor positions itself with
+        raw pointer coordinates, which Chrome reports in unzoomed viewport
+        pixels -- inside a scaled subtree it would sit 10% off the pointer.
+      */}
+      <div className="site-stage">{children}</div>
     </>
   );
 }
