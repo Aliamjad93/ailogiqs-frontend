@@ -1,8 +1,5 @@
 export const metadata = {
   title: "Pricing",
-  description:
-    "Transparent AiLogiQs pricing for AI agents, machine learning and data analytics projects. Compare packages and pick the engagement that fits your team.",
-  alternates: { canonical: "/pricing" },
 };
 
 import Link from "next/link";

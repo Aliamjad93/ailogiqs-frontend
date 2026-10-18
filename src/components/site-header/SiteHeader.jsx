@@ -11,41 +11,74 @@ import { PRIMARY_NAV } from "@/content/navigation";
  *  - wrapLeft    whether the logo + nav sit inside a `.header-left` wrapper
  *  - actions     which call-to-action blocks appear on the right
  *  - hamburger   Bootstrap responsive display class for the burger
+ *  - logoAccent  colour of the "Logi" half of the wordmark (optional; the
+ *                template's theme yellow is the default, set in Logo.jsx)
  */
 /*
-  "default" styles the inner pages; "home2" is the homepage variant now in
-  use at "/" and applies the theme's header-2 styling: full-width container and
-  the nav behind the burger at EVERY size (see `hamburger` below) — the inline
-  desktop menu is hidden in overrides.css, so the drawer is the only nav.
+  `default` and `home1` are the black/yellow site's own two bars: `home1` on "/",
+  `default` on every inner page. Both are the template's `header-1`.
 
-  logoAccent tints the "Logi" half of the wordmark: the theme yellow on the
-  inner pages, and plain white on the homepage so the wordmark reads as one
-  solid white lockup against the indigo header (no tinted shade).
+  The template shipped a variant per homepage layout; five of those homepages
+  were removed (see src/content/navigation.js), taking their header styling and
+  footers with them.
+
+  `home2` and `aiService` belong to the AI-service design under /ai-services/*,
+  which is a separate design living in its own route group. They are the ONLY
+  reason this file still knows about anything but the template theme, and they
+  are reached only by those two pages.
+
+  `logoAccent` tints the "Logi" half of the wordmark. It defaults to the theme
+  yellow via Logo.jsx, which is what the black/yellow site wants; the AI-service
+  pages pass white, because their header is indigo and the wordmark there reads
+  as one solid white lockup.
 */
 const VARIANTS = {
   default: {
     className: "header-1",
     wrapLeft: false,
-    // Search only: the "Join now" CTA (a /login link) was removed from the
-    // inner-page bar, matching the homepage header, which carries no CTAs.
-    actions: ["search"],
+    actions: ["discord", "search"],
     hamburger: "d-xl-block",
-    // White, not the theme yellow. Both variants now share one bar design, and
-    // the bar is indigo on every route (.header-1 in overrides.css), so a solid
-    // white lockup is the only readable choice. The yellow accent used to be
-    // patched back to white per route in CSS; that is no longer needed.
-    logoAccent: "#FFFFFF",
+  },
+  home1: {
+    className: "header-1",
+    wrapLeft: true,
+    actions: ["discord", "search"],
+    hamburger: "d-xl-block",
   },
   home2: {
+    // /ai-services/chatbot. The theme's own home-02 bar: indigo surface, and the
+    // nav behind the burger at every size -- the inline desktop menu is hidden
+    // for this variant in ai-service.css.
     className: "header-2",
-    // Logo and nav are direct children of .header-main so the bar can be laid
-    // out as logo | nav (centred) | burger.
     wrapLeft: false,
-    // No login / sign-up CTAs: the homepage header is just logo + burger.
+    // No login / sign-up CTAs: this bar is just the wordmark and the burger.
     actions: [],
-    // Always visible, so the mobile-style burger nav is used on laptops too.
     hamburger: "d-block",
     logoAccent: "#FFFFFF",
+  },
+  aiService: {
+    // /portfolio/chatbot. `header-1`, which ai-service.css repaints indigo
+    // (`body.route-ai-service .header-1`); the search affordance is kept but the
+    // "Join now" CTA is not, so the service page does not advertise the main
+    // site's sign-in screen from inside the showcase.
+    className: "header-1",
+    wrapLeft: false,
+    actions: ["search"],
+    hamburger: "d-xl-block",
+    logoAccent: "#FFFFFF",
+  },
+  bee: {
+    // /portfolio/bee-virus-detection. Also `header-1`, repainted dark by
+    // bee-service.css (`body.route-bee .header-1`). Same reasoning as
+    // `aiService` for the action set: the showcase is self-contained, so the
+    // main site's "Join now" has no business in its bar. The wordmark takes the
+    // design's amber rather than white, which is what makes it read as BeeLens
+    // rather than as the AiLogiQs site.
+    className: "header-1",
+    wrapLeft: false,
+    actions: ["search"],
+    hamburger: "d-xl-block",
+    logoAccent: "#F2A81D",
   },
 };
 
@@ -110,7 +143,7 @@ export default function SiteHeader({ variant = "default" }) {
     <>
       <div className="logo">
         <Link href="/" className="header-logo">
-          <Logo variant="light" accent={config.logoAccent} />
+          <Logo variant="light" accent={config.logoAccent ?? "#EFFB53"} />
         </Link>
       </div>
       <div className="mean__menu-wrapper">
@@ -124,32 +157,12 @@ export default function SiteHeader({ variant = "default" }) {
                   key={item.label}
                   className={item.children ? "has-dropdown" : undefined}
                 >
-                  {/*
-                    A parent with children and an href is a link that also opens
-                    a dropdown ("Services"). A parent WITHOUT an href -- a
-                    catch-all label with no destination of its own -- falls
-                    through to an anchor with no href attribute: the theme's
-                    `.main-menu ul li a` styling still applies, but nothing
-                    navigates. tabIndex + the :focus-within rule in
-                    overrides.css are what keep it reachable from the keyboard,
-                    since an anchor with no href is not focusable by default.
-
-                    No such item exists in PRIMARY_NAV today; the branch is kept
-                    because adding one should not require a component change.
-                  */}
-                  {item.href ? (
-                    <Link href={item.href}>
-                      {item.label}
-                      {item.children ? (
-                        <i className="fa-solid fa-chevron-down" />
-                      ) : null}
-                    </Link>
-                  ) : (
-                    <a tabIndex={0} role="button" aria-haspopup="true">
-                      {item.label}
+                  <Link href={item.href}>
+                    {item.label}
+                    {item.children ? (
                       <i className="fa-solid fa-chevron-down" />
-                    </a>
-                  )}
+                    ) : null}
+                  </Link>
                   {item.children ? (
                     <ul className="submenu">
                       {item.children.map((child) => (

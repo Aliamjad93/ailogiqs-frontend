@@ -11,7 +11,7 @@ export default function OffcanvasMenu() {
               <div className="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
                 <div className="offcanvas__logo">
                   <Link href="/">
-                    <Logo variant="dark" accent="#514DE0" />
+                    <Logo variant="light" />
                   </Link>
                 </div>
                 <div className="offcanvas__close">
@@ -25,26 +25,13 @@ export default function OffcanvasMenu() {
                 businesses automate workflows, uncover insights, and scale
                 smarter, faster.
               </p>
-              {/* meanmenu() injects the mobile nav links in here below 1200px.
-                  On laptops the drawer deliberately carries NO nav links -- the
-                  header shows them inline -- so this stays empty there. */}
+              {/* meanmenu() injects the mobile nav links in here. */}
               <div className="mobile-menu fix mb-3" />
               <div className="offcanvas__contact">
                 <h4>Contact Info</h4>
                 <ul>
                   <li className="d-flex align-items-center">
                     <div className="offcanvas__contact-icon">
-                      {/*
-                        `far`, not `fal`.
-
-                        The drawer renders on every page, so these three icons
-                        were the sole reason a 383 KB "light" webfont
-                        (fa-light-300.woff2) was fetched site-wide -- the largest
-                        single request on the site after the homepage hero. The
-                        regular face is already loaded for the phone icon just
-                        below, so switching costs nothing and removes the file
-                        from every page load entirely.
-                      */}
                       <i className="far fa-location-dot" />
                     </div>
                     <div className="offcanvas__contact-text">

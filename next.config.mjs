@@ -44,6 +44,15 @@ const nextConfig = {
         destination: "/blog/blending-technology-and-creativity",
         permanent: true,
       },
+      // The AI sales-agent page moved from /ai-services/chatbot/details to
+      // /portfolio/chatbot: it is the service's own page, reached from the
+      // Portfolio card, so it now sits under /portfolio. Permanent, so the old
+      // URL keeps working.
+      {
+        source: "/ai-services/chatbot/details",
+        destination: "/portfolio/chatbot",
+        permanent: true,
+      },
     ];
   },
 };

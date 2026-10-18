@@ -1,0 +1,34 @@
+# Local-only files that should not be part of a deployment upload.
+#
+# Mirrors the "Reference material and local-only folders" note in .gitignore:
+# the app and its build never read any of this -- it is local tooling output,
+# design sources, or stray exports. Keeping it out of the upload keeps the
+# deployment small (the Pikkio installer alone is ~236 MB) without changing
+# what ships.
+
+# Oversized installer that landed in the repo root.
+Pikkio-Setup-1.3.0-x64.exe
+
+# Bee-page design sources / one-off exports. The served copies of every asset
+# live in public/assets/ (webp / mp4), not here.
+Bee Virus Detection Infographic.html
+Bee Virus Detection Infographic.pdf
+bee_diagnosis_transparent.png
+bee_hive_transparent.png
+wow.png
+_e.html
+
+# Local scratch and tooling output (screenshots, one-off verify scripts).
+tmp/
+scripts/
+.playwright-mcp/
+.workbuddy-ai/
+
+# Never-needed build artifacts -- the remote build installs fresh.
+node_modules/
+.next/
+
+# Local environment file. The remote build reads TURSO_* / ADMIN_PASSWORD
+# from the Vercel project settings instead; .env.example (the committed
+# template, no secrets) still uploads with the source.
+.env.local

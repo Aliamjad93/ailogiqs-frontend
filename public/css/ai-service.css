@@ -1,0 +1,3062 @@
+/* =============================================================================
+   AiLogiQs — AI-service stylesheet (the indigo design)
+   -----------------------------------------------------------------------------
+   This file styles the pages under /ai-services/*, which showcase the AI
+   sales-agent service. It is NOT the site's theme.
+
+   The main site runs on the template's own black/yellow theme: the vendor
+   stylesheets in public/assets/css/ plus public/css/overrides.css. Everything
+   indigo lives here, in one file, so the two designs can be told apart at a
+   glance and either one can be lifted out on its own.
+
+   Loaded from src/app/(site)/(ai-service)/layout.jsx, so main-site pages never
+   download it. Leaking is impossible regardless: EVERY rule below is scoped
+   under `body.route-ai-service` (set by TemplateRuntime for /ai-services/*) or
+   under an `.aiq-*` class that only these pages render. Note the "every" --
+   in a comma-separated selector list EVERY part has to carry the scope, not
+   just the first one. A rule added here without a scope will bleed into the
+   black/yellow site, so scope it or put it in overrides.css instead.
+
+   Cascade position: linked after overrides.css. The scoping means the order is
+   not load-bearing, but it keeps a same-specificity tie predictable.
+
+   History: this design used to be the whole site (commits a806a61 and 1984ae1).
+   It was lifted out of overrides.css verbatim when the site reverted to the
+   template theme, then re-scoped in a single mechanical pass -- 57 selectors
+   that were written site-wide were prefixed with `body.route-ai-service`, and
+   the `:root` token block became a `body.route-ai-service` block so the light
+   palette lands on <body> instead of <html>. Git tag `indigo-design-archive`
+   holds the state before the split.
+   ========================================================================== */
+
+
+/* =============================================================================
+   Light base palette — the site renders on a white background
+   -----------------------------------------------------------------------------
+   The template shipped dark (`--body-bg: #151518`), which turned every band
+   between sections black and made its own dark text (--header #151518) barely
+   visible. The design is a light one: the artwork (cards, headings, paragraph
+   text) is authored in dark tones, so the base surface flips to white and only
+   the three tone tokens follow it.
+
+   Section photographs (hero, mobile-app) are inline backgroundImages and keep
+   their blue backgrounds, as do the theme's buttons.
+   ========================================================================== */
+
+body.route-ai-service {
+  --body-bg: #ffffff;
+  --bg: #ffffff;
+  --text: #3a3a42;
+  --text2: #5c6972;
+  --border: #e4e4ec;
+
+  /*
+    Height of the site header bar. The header is position:absolute over the
+    page, so anything that has to begin exactly at its bottom edge -- the blog
+    hero band -- offsets itself by this token. One value, three consumers: the
+    bar is pinned to it, the hero is pushed down by it, and the hero's
+    min-height subtracts it. That is what lets the hero be exactly one screen
+    tall without the bar and the copy ever drifting apart.
+
+    Trimmed from 88px (user's call: the bar read a touch heavy). The nav row is
+    the constraint -- the theme gives each link 20px of vertical padding, so a
+    62px row is what used to set the floor. The link padding is cut to 15px
+    further down (see the "Bar height" block), which brings the row to ~52px and
+    leaves the 74px bar comfortably clear.
+  */
+  --aiq-header-h: 74px;
+}
+
+@media (max-width: 1199px) {
+  body.route-ai-service {
+    /* Below 1200px the inline nav gives way to the burger, so the bar is set
+       explicitly rather than left to collapse to the logo's own height. */
+    --aiq-header-h: 66px;
+  }
+}
+
+
+/* =============================================================================
+   Footer — light theme
+   -----------------------------------------------------------------------------
+   The template's footer paints a solid near-black panel (.footer-bg
+   #101012) with --white headings, which reads as a black band on the white
+   page. The footer becomes a white panel: the surface rule is replaced and
+   --white is redefined ON THE FOOTER ELEMENT so only the footer's own
+   headings/icons flip dark -- the header, hero and buttons keep white text
+   on their coloured surfaces.
+   ========================================================================== */
+
+body.route-ai-service .footer-section.footer-bg {
+  background-color: #ffffff;
+}
+
+/* Scoped to the default footer ("footer-bg") only: the homepage footer
+   variant already ships light-theme colors and must keep them. */
+body.route-ai-service .footer-section.footer-bg {
+  /* Scoped flip: descendants see dark "white"; the rest of the page does not. */
+  --white: #16161c;
+}
+
+/* Bottom-bar social icons are a #cdcdcd literal, invisible on white. */
+body.route-ai-service .footer-bottom .social-icon a {
+  color: #3a3a42;
+}
+
+/* The theme colours the icon glyph itself white (.social-icon a i), which
+   disappears on the white panel. Inherit the anchor colour instead -- scoped
+   to the footer so social icons on dark sections keep their white glyphs. */
+body.route-ai-service .footer-section .social-icon a i {
+  color: inherit;
+}
+
+
+/* =============================================================================
+   Inner pages — match the homepage theme
+   -----------------------------------------------------------------------------
+   The template left the inner-page header transparent, relying on the dark
+   body behind it: on the white page the white logo/nav vanished, and the
+   scrolled state painted a #181818 bar. Homepage header-2 gets its indigo
+   from the hero artwork (.sticky.header-2 is already theme indigo), so the
+   inner pages get the same indigo surface at rest and scrolled.
+   ========================================================================== */
+
+body.route-ai-service .header-1 {
+  background-color: var(--theme2);
+}
+
+body.route-ai-service .sticky.header-1 {
+  background-color: var(--theme2);
+}
+
+/* Buttons: the template's default was a near-black pill with yellow text,
+   authored for the dark body. The theme's own hover state is the yellow
+   fill, which is also how the homepage CTAs and the search button read, so
+   the resting state becomes yellow with dark text. Context overrides
+   (.hero-2 .theme-btn, .header-2 .theme-btn, .theme-btn-2 …) still win. */
+body.route-ai-service .theme-btn {
+  background: var(--theme);
+  color: var(--header);
+}
+
+/* Blog sidebar: search input, category pills and tags ship as #222226 panels
+   with light text. They become white panels with the light border token. */
+body.route-ai-service .main-sidebar .single-sidebar-widget {
+  border-color: var(--border);
+}
+
+body.route-ai-service .main-sidebar .single-sidebar-widget .search-widget form input,
+body.route-ai-service .main-sidebar .single-sidebar-widget .news-widget-categories ul li,
+body.route-ai-service .main-sidebar .single-sidebar-widget .tagcloud a {
+  background: #ffffff;
+  color: var(--text);
+}
+
+/* The bottom-bar logo is rendered with the light (white) wordmark, which
+   disappears on the white panel. .ailogiqs-logo carries an inline colour, so
+   only !important reaches it. */
+body.route-ai-service .footer-bottom .logo-img .ailogiqs-logo {
+  color: #16161c !important;
+}
+
+
+/* =============================================================================
+   AiLogiQs sales-agent sections (homepage + /service-details)
+   -----------------------------------------------------------------------------
+   Content is driven by the client's "AiLoqis Showcase" PDF: white surfaces,
+   royal-blue accents, light-blue tint bands. No yellow anywhere in this system �
+   the theme's #EFFB53 only survives on the inner pages (blog, pricing �).
+   All classes are prefixed `aiq-` so the vendor theme cannot collide.
+
+   Tokens used below (hard-coded, deliberately not :root overrides so the
+   rest of the site keeps its palette):
+     blue      #2B5CF6  (the showcase accent, sampled from the PDF artwork.
+                         Deliberately NOT --theme2: the homepage, the About
+                         figures and every other page run the brand indigo
+                         #514DE0, and /service-details is the one page the
+                         supplied design calls blue.)
+     blue-dark #1E46D4  (hover / gradient end)
+     sky       #9DB8FF  (accent on blue surfaces)
+     tint      #EEF2FF  (band background)
+     ink       #16161C  (= --header)
+
+   The indigo -> blue swap covers the `aiq-` component rules only. The
+   `.aiq-home ...` rules further down belong to the homepage and keep indigo.
+   ========================================================================== */
+
+/* --- Shared primitives ---------------------------------------------------- */
+
+/*
+  Sentence case. The vendor capitalises every heading
+  (`h1, h2, h3, h4, h5, h6 { text-transform: capitalize }`), which silently
+  retitles the showcase's copy -- "Your best salesperson is a robot." became
+  "Your Best Salesperson Is A Robot.", and the workflow steps became
+  "Understands The Need". Every heading in this system opts back out.
+
+  Collected in one place rather than repeated in each rule, so a new section
+  cannot quietly reintroduce Title Case.
+*/
+.aiq-page-head h1,
+.aiq-head h2,
+.aiq-cta h2,
+.aiq-steps h4,
+.aiq-card h4,
+.aiq-mod h4,
+.aiq-ind h4,
+.aiq-panel-foot h4,
+.aiq-lang h4 {
+  text-transform: none;
+}
+
+.aiq-robot {
+  display: block;
+}
+
+.aiq-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-eyebrow-light {
+  color: #9db8ff;
+}
+
+.aiq-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-btn:hover {
+  transform: translateY(-3px);
+}
+
+.aiq-btn-white {
+  background: #ffffff;
+  color: #2b5cf6;
+  box-shadow: 0 18px 42px rgba(10, 12, 48, 0.28);
+}
+
+.aiq-btn-white:hover {
+  background: #f2f3ff;
+  color: #2b5cf6;
+}
+
+.aiq-btn-solid {
+  background: #2b5cf6;
+  color: #ffffff;
+  box-shadow: 0 16px 36px rgba(43, 92, 246, 0.32);
+}
+
+.aiq-btn-solid:hover {
+  background: #1e46d4;
+  color: #ffffff;
+}
+
+.aiq-img-ph {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1.5px dashed rgba(43, 92, 246, 0.3);
+  background: rgba(43, 92, 246, 0.04);
+}
+
+.aiq-img-ph::after {
+  content: attr(data-label, "IMAGE SPACE");
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: rgba(43, 92, 246, 0.45);
+  text-align: center;
+  padding: 0 8px;
+}
+
+.aiq-band {
+  padding: clamp(70px, 8vw, 110px) 0;
+}
+
+.aiq-tint {
+  background: #eef2ff;
+}
+
+.aiq-head {
+  max-width: 760px;
+  margin-bottom: clamp(40px, 4vw, 56px);
+}
+
+.aiq-head h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.14;
+  font-weight: 900;
+  color: var(--header);
+  letter-spacing: -0.01em;
+}
+
+.aiq-accent {
+  color: #2b5cf6;
+}
+
+.aiq-intro {
+  margin: 16px 0 0;
+  font-size: 15.5px;
+  color: var(--text2);
+}
+
+.aiq-subhead {
+  margin: clamp(36px, 4vw, 54px) 0 22px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-head + .aiq-subhead {
+  margin-top: 0;
+}
+
+.aiq-strip {
+  margin: 44px 0 0;
+  text-align: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-strip span {
+  color: #2b5cf6;
+  margin: 0 6px;
+}
+
+/* --- Service-details hero -------------------------------------------------- */
+
+/*
+  The band the showcase PDF opens on: a light blue banner, not a dark one.
+
+  This replaced an earlier `.aiq-hero` block that was authored against a dark
+  photograph -- white text, white hairline chips, a translucent white grid. It
+  was never wired to a page (nothing in src referenced `.aiq-hero`), so it is
+  gone rather than overridden, and the rules below are the ones actually in use.
+
+  The header is `position: absolute` over the page, so the padding has to clear
+  it before the copy starts; see --aiq-header-h.
+*/
+.aiq-page-head {
+  position: relative;
+  overflow: hidden;
+  /*
+    One screen tall, minus the bar.
+
+    The header is position:absolute over the page, so the hero has to clear it
+    itself -- but it also has to STOP at the fold, or the section reads as
+    something the visitor has to scroll past just to find out what the page is.
+    Both come from one token: padding-top clears the bar (plus a little air) and
+    min-height subtracts it from the viewport, so the hero is exactly
+    (viewport - bar) on any screen.
+
+    `svh` rather than `vh`: on mobile Safari and Chrome `vh` is the LARGE
+    viewport -- the one with the address bar hidden -- so a 100vh hero is taller
+    than what is on screen while the bar is showing, which is the "it still
+    scrolls a bit" bug. `svh` is the small viewport, i.e. what is actually
+    visible. The `vh` line above it is the fallback for browsers without svh.
+
+    flex + align-items:center then centres the row in whatever height is left.
+    The ::before grid overlay is absolutely positioned, so it is not a flex item
+    and does not disturb the centring.
+  */
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - var(--aiq-header-h));
+  min-height: calc(100svh - var(--aiq-header-h));
+  padding-top: calc(var(--aiq-header-h) + clamp(18px, 2.2vw, 36px));
+  padding-bottom: clamp(30px, 3.5vw, 52px);
+  /*
+    Light from the top-right, as the artwork is. Kept deliberately pale: the
+    band sits directly under the indigo header, and a saturated wash here read
+    as a second coloured block rather than as the page's backdrop.
+  */
+  background:
+    radial-gradient(110% 120% at 86% 8%, rgba(186, 209, 255, 0.8) 0%, rgba(186, 209, 255, 0) 62%),
+    linear-gradient(152deg, #fbfdff 0%, #f3f7ff 48%, #e9f0ff 100%);
+  color: #0e1836;
+}
+
+/* The circuit grid, which the PDF repeats behind every section. Indigo ink on
+   a dark surface; here it has to be blue ink on a light one, or it reads as
+   dirt rather than texture. */
+.aiq-page-head::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(43, 92, 246, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 92, 246, 0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  pointer-events: none;
+}
+
+.aiq-page-head .container {
+  position: relative;
+  z-index: 1;
+  /* The section is a flex row now, so the container has to claim the full width
+     itself instead of relying on being a block in a block. */
+  width: 100%;
+}
+
+.aiq-page-head h1 {
+  margin: 16px 0 22px;
+  font-size: clamp(36px, 4.3vw, 62px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.022em;
+  color: #0e1836;
+}
+
+.aiq-page-head h1 span {
+  color: #2b5cf6;
+}
+
+/*
+  The lead paragraph only. `.aiq-eyebrow` is a <p> too, and a bare
+  `.aiq-page-head p` outranks it on specificity (0,2,0 versus 0,1,0), which
+  painted the eyebrow grey instead of blue.
+*/
+.aiq-page-head p:not(.aiq-eyebrow) {
+  max-width: 34em;
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.62;
+  color: #4c5878;
+}
+
+/* Chips. White pills on the light band, with the design's blue label. */
+.aiq-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 26px 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.aiq-chips li {
+  padding: 10px 19px;
+  border: 1px solid #d3ddf6;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #2b5cf6;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.aiq-hero-cta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.aiq-hero-domain {
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: #8894b8;
+}
+
+/* The hero artwork: the photographed agent layered with the WhatsApp mock. It
+   is one flattened PNG, so there is nothing to position -- it just needs to
+   sit above the band's own gradient. */
+.aiq-hero-art {
+  position: relative;
+}
+
+.aiq-hero-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/*
+  The supplied WhatsApp mockup.
+
+  It is a transparent-background cutout that already contains the phone bezel,
+  so it must NOT inherit `.aiq-phone`'s border and radius -- doing so would draw
+  a second frame around the one in the artwork.
+
+  Capped at 340px to match the `.aiq-phone` it replaced, so the section's
+  proportions are unchanged. `height: auto` lets the ratio come from the
+  width/height attributes rather than waiting on the image to load.
+*/
+.aiq-chat-shot {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* --- Phone mockup --------------------------------------------------------- */
+
+.aiq-phone {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: #ffffff;
+  color: var(--text);
+  border: 8px solid #16161c;
+  border-radius: 32px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+
+.aiq-phone-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+}
+
+.aiq-phone-ava {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(43, 92, 246, 0.08);
+}
+
+.aiq-phone-ava svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.aiq-phone-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.aiq-phone-meta b {
+  font-size: 13px;
+  color: var(--header);
+}
+
+.aiq-phone-meta i {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-style: normal;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #2b5cf6;
+}
+
+.aiq-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2b5cf6;
+}
+
+.aiq-phone-body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px;
+  background: #f6f8ff;
+}
+
+.aiq-phone-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+}
+
+.aiq-phone-field {
+  flex: 1;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  color: #98a0ae;
+}
+
+.aiq-phone-mic {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2b5cf6;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.aiq-phone-mic-sm {
+  flex-basis: 26px;
+  width: 26px;
+  height: 26px;
+  font-size: 10px;
+}
+
+.aiq-time {
+  margin: 0;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #98a0ae;
+}
+
+/* --- Chat pieces ---------------------------------------------------------- */
+
+.aiq-bubble {
+  max-width: 82%;
+  margin: 0;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.aiq-bubble-out {
+  align-self: flex-end;
+  background: #2b5cf6;
+  color: #ffffff;
+  border-bottom-right-radius: 4px;
+}
+
+.aiq-bubble-in {
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+
+.aiq-bubble-sm {
+  max-width: none;
+  padding: 7px 11px;
+  font-size: 11px;
+}
+
+.aiq-rtl {
+  text-align: right;
+  direction: rtl;
+}
+
+/*
+  Product cards inside the chat. The design stacks them: a photo filling the
+  card's full width, then the name and price under it -- not the thumbnail-and-
+  two-lines row this started as.
+*/
+.aiq-prod {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.aiq-prod-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f1f4fb;
+}
+
+/* Still a placeholder -- dashed, per every other image slot on the page. */
+span.aiq-prod-img {
+  border-bottom: 1px dashed rgba(43, 92, 246, 0.28);
+}
+
+img.aiq-prod-img {
+  object-fit: cover;
+}
+
+.aiq-prod-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px 10px;
+  line-height: 1.3;
+}
+
+.aiq-prod-meta b {
+  font-size: 11.5px;
+  color: var(--header);
+}
+
+.aiq-prod-meta i {
+  font-style: normal;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #2b5cf6;
+}
+
+.aiq-prod-meta u {
+  text-decoration: none;
+  font-size: 10px;
+  color: var(--text2);
+}
+
+.aiq-prod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.aiq-order {
+  max-width: 92%;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.aiq-order-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-order-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 4px;
+  font-size: 11.5px;
+  color: var(--text);
+}
+
+.aiq-order-row b {
+  color: var(--header);
+}
+
+.aiq-order-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.aiq-order-actions b {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 11px;
+  cursor: default;
+}
+
+.aiq-order-confirm {
+  background: #2b5cf6;
+  color: #ffffff;
+}
+
+.aiq-order-edit {
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.aiq-ok {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 2px 0 0;
+  padding: 7px 14px;
+  background: rgba(43, 92, 246, 0.07);
+  border: 1px solid rgba(43, 92, 246, 0.18);
+  border-radius: 999px;
+  color: #2b5cf6;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.aiq-ok i {
+  font-size: 10px;
+}
+
+/* --- Flow band (steps + store data) --------------------------------------- */
+
+.aiq-phone-float .aiq-phone {
+  margin-top: 6px;
+}
+
+/*
+  Live store data. The design tints this card rather than leaving it white, and
+  gives it the agent badge at its left -- the badge is what ties the panel to
+  the chat beside it, so it is structure, not decoration.
+*/
+.aiq-store {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 30px;
+  padding: 24px 28px;
+  background: linear-gradient(140deg, #eff4ff 0%, #e5edff 55%, #dbe6ff 100%);
+  border: 1px solid rgba(43, 92, 246, 0.18);
+  border-radius: 22px;
+}
+
+.aiq-store-badge {
+  flex: 0 0 auto;
+  width: 92px;
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1.5px solid #2b5cf6;
+  box-shadow: 0 14px 32px rgba(43, 92, 246, 0.18);
+}
+
+.aiq-store-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.aiq-store-title {
+  margin: 0 0 14px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-store-title span {
+  color: #98a0ae;
+}
+
+.aiq-store-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(43, 92, 246, 0.16);
+  font-size: 13.5px;
+  color: #0e1836;
+}
+
+.aiq-store-row-last {
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+}
+
+.aiq-on {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-store-bar {
+  display: block;
+  height: 7px;
+  border-radius: 999px;
+  background: #2b5cf6;
+}
+
+/*
+  The five-step list. The design runs it as a single column of plain rows --
+  no card per step -- with only the first badge filled, marking where the
+  conversation currently is.
+*/
+.aiq-steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aiq-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.aiq-step-num {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 11px;
+  background: #ffffff;
+  border: 1.5px solid rgba(43, 92, 246, 0.35);
+  color: #2b5cf6;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* The step in progress. */
+.aiq-steps li:first-child .aiq-step-num {
+  background: #2b5cf6;
+  border-color: #2b5cf6;
+  color: #ffffff;
+}
+
+.aiq-steps h4 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  color: var(--header);
+}
+
+.aiq-steps p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+
+/* --- Sensor panels -------------------------------------------------------- */
+
+.aiq-panel {
+  height: 100%;
+  /*
+    Sized to the device it holds. The phone mock is capped at 420px, so a card
+    left to fill a col-xl-6 (660px) stranded ~100px of white on either side of it
+    and read as a mistake. 400px leaves the phone a 16px gutter inside the
+    padding, and the column classes (col-xl-4) keep the pair close together and
+    centred rather than one per half-screen.
+  */
+  max-width: 400px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  /* Tightened twice at the user's request (12/26 -> 10/20 -> 8/16). The rest of
+     the saving is in the rows below: the audio bar, the bubbles, the recorder
+     and the "matched product" block all give back a few pixels each. No content
+     was removed to get any of it. */
+  gap: 8px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.aiq-panel-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.aiq-tag {
+  padding: 6px 12px;
+  background: rgba(43, 92, 246, 0.08);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+  white-space: nowrap;
+}
+
+.aiq-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-panel-foot {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid #f0f1f8;
+}
+
+.aiq-panel-foot h4 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: var(--header);
+}
+
+.aiq-panel-foot p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.aiq-audio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: rgba(43, 92, 246, 0.06);
+  border: 1px solid rgba(43, 92, 246, 0.14);
+  border-radius: 14px;
+}
+
+.aiq-play {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2b5cf6;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.aiq-wave {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 40px;
+}
+
+.aiq-wave i {
+  flex: 1;
+  display: block;
+  background: rgba(43, 92, 246, 0.55);
+  border-radius: 2px;
+}
+
+.aiq-audio-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2b5cf6;
+}
+
+.aiq-transcribe {
+  align-self: flex-start;
+  margin: 0;
+  padding: 4px 10px;
+  border: 1px dashed rgba(43, 92, 246, 0.4);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-recorder {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: #f6f8ff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.aiq-rec-dot {
+  flex: 0 0 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e5484d;
+}
+
+.aiq-rec-time {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.aiq-rec-slide {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: #98a0ae;
+  white-space: nowrap;
+}
+
+.aiq-recorder .aiq-wave {
+  height: 22px;
+}
+
+.aiq-shot {
+  position: relative;
+}
+
+.aiq-shot-name {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  margin: 0;
+  padding: 5px 10px;
+  background: rgba(22, 22, 28, 0.72);
+  border-radius: 8px;
+  font-size: 10.5px;
+  color: #ffffff;
+}
+
+.aiq-matched {
+  padding: 11px 14px;
+  background: #ffffff;
+  border: 1px solid rgba(43, 92, 246, 0.22);
+  border-radius: 14px;
+}
+
+.aiq-matched-title {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-matched p {
+  margin: 0 0 7px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.aiq-matched p b {
+  color: var(--header);
+}
+
+.aiq-sizes {
+  display: flex;
+  gap: 8px;
+}
+
+.aiq-sizes b {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.aiq-size-active {
+  background: #2b5cf6;
+  border-color: #2b5cf6;
+  color: #ffffff;
+}
+
+/* --- Sensor panels --------------------------------------------------------- */
+
+/* The panels hang their conversation inside the device frame, the way the
+   showcase design draws it: label and caption around a centred phone. The
+   frame stretches to the card's height and its input row is pinned to the
+   bottom, so both cards end flush. */
+.aiq-panel .aiq-phone {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /* Fills the card rather than sitting at a fixed 420px inside it: the card is
+     now phone-width, so a second cap here would just reintroduce the gap. */
+  max-width: 100%;
+  box-shadow: 0 16px 40px rgba(20, 40, 110, 0.14);
+}
+
+.aiq-panel .aiq-phone-head {
+  padding: 8px 12px;
+}
+
+/* Scoped to panels, NOT to `.aiq-phone-body` itself: the homepage renders the
+   same phone mock and its spacing is not what was being trimmed here. */
+.aiq-panel .aiq-phone-body {
+  flex: 1;
+  gap: 6px;
+  padding: 11px;
+}
+
+/*
+  Sensor cards -- the two phone mocks in "It hears voice notes. It sees
+  screenshots."
+
+  TWO THINGS ARE GOING ON HERE, and both are deliberate.
+
+  1. THE SCOPE. Every rule is written `body.route-ai-service .aiq-panel ...`
+     rather than the plain `.aiq-panel ...` the rest of this file uses for
+     page-exclusive classes. That extra scope is load-bearing: the readability
+     bump at the end of this file sizes the same elements through
+     `.aiq-service .aiq-*`, and this block has to out-rank it.
+
+     `.aiq-service` is the wrapper the page puts around everything, so the bump
+     lands inside these cards too -- which is the wrong place for it. The bump
+     exists to make the page's own body copy (FAQ answers, step copy, CTA lines)
+     comfortable at reading distance. A 368px device mock is not reading
+     distance: at the bumped sizes the chat inside the frame read oversized and
+     cramped against the bezel, which is what prompted this pass.
+     `body.route-ai-service .aiq-panel X` is (0,3,1) against the bump's (0,2,0),
+     so it wins outright with no `!important` anywhere.
+
+  2. THE SIZES. The type inside the frame now sits a notch BELOW the base scale,
+     not merely below the bump. No copy was removed and no element was dropped --
+     this is scale and spacing only.
+
+  Worth knowing if these numbers are ever revisited: the two cards are forced to
+  equal height (the row stretches them) and they hold different amounts of
+  content. The voice card is the short one and its recorder is pinned to the
+  bottom of the frame, so the slack shows up as empty chat area above it.
+  Trimming the right-hand card -- which is what actually sets the row height --
+  is the only way to shrink that slack; making the LEFT card smaller widens it.
+  The photograph below is therefore the biggest single lever in this section.
+*/
+
+/* --- Card chrome ---------------------------------------------------------- */
+
+body.route-ai-service .aiq-panel {
+  gap: 7px;
+  padding: 14px;
+}
+
+body.route-ai-service .aiq-panel .aiq-panel-top {
+  gap: 10px;
+}
+
+body.route-ai-service .aiq-panel .aiq-tag {
+  padding: 5px 10px;
+  font-size: 9.5px;
+}
+
+body.route-ai-service .aiq-panel .aiq-panel-title {
+  font-size: 10.5px;
+}
+
+body.route-ai-service .aiq-panel .aiq-panel-foot {
+  padding-top: 7px;
+}
+
+body.route-ai-service .aiq-panel .aiq-panel-foot h4 {
+  margin-bottom: 3px;
+  font-size: 15px;
+}
+
+body.route-ai-service .aiq-panel .aiq-panel-foot p {
+  font-size: 12.5px;
+}
+
+/* --- The frame ------------------------------------------------------------ */
+
+/* `.aiq-phone-meta` comes from the shared AiqKit PhoneMock and is rendered on
+   other pages too, so it only gets trimmed inside a panel. */
+body.route-ai-service .aiq-panel .aiq-phone-head {
+  padding: 7px 11px;
+}
+
+body.route-ai-service .aiq-panel .aiq-phone-meta b {
+  font-size: 12px;
+}
+
+body.route-ai-service .aiq-panel .aiq-phone-meta i {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+body.route-ai-service .aiq-panel .aiq-phone-body {
+  gap: 5px;
+  padding: 10px;
+}
+
+/* --- Chat pieces ---------------------------------------------------------- */
+
+body.route-ai-service .aiq-panel .aiq-bubble {
+  padding: 6px 10px;
+  font-size: 11.5px;
+}
+
+body.route-ai-service .aiq-panel .aiq-ok {
+  margin-top: 1px;
+  padding: 4px 11px;
+  font-size: 10.5px;
+}
+
+body.route-ai-service .aiq-panel .aiq-audio {
+  gap: 10px;
+  padding: 6px 10px;
+}
+
+body.route-ai-service .aiq-panel .aiq-play {
+  flex-basis: 28px;
+  width: 28px;
+  height: 28px;
+  font-size: 11px;
+}
+
+body.route-ai-service .aiq-panel .aiq-audio-time {
+  font-size: 11px;
+}
+
+body.route-ai-service .aiq-panel .aiq-transcribe {
+  padding: 3px 9px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+/* --- The voice card's input row (the recorder) ---------------------------- */
+
+body.route-ai-service .aiq-panel .aiq-recorder {
+  gap: 10px;
+  padding: 5px 11px;
+}
+
+body.route-ai-service .aiq-panel .aiq-rec-time {
+  font-size: 10.5px;
+}
+
+body.route-ai-service .aiq-panel .aiq-rec-slide {
+  font-size: 10px;
+}
+
+body.route-ai-service .aiq-panel .aiq-phone-mic-sm {
+  flex-basis: 24px;
+  width: 24px;
+  height: 24px;
+  font-size: 9px;
+}
+
+/* On the voice-note card the recorder IS the input row, so it drops to the
+   bottom of the frame instead of sitting right under the bubbles. Everything the
+   frame has spare ends up above it -- see the note at the top of this block. */
+body.route-ai-service .aiq-panel .aiq-phone-body .aiq-recorder {
+  margin-top: auto;
+}
+
+/* --- The screenshot card -------------------------------------------------- */
+
+/* Client artwork (dress_3), cropped into the slot the dashed placeholder used to
+   hold. Was 4/3, then 16/10, now 16/9.
+
+   This image is the tallest single block in the section, so it -- not the voice
+   card -- is what sets the row height for both, and every pixel it gives back
+   comes straight off the empty space in the other card. `object-fit: cover`
+   crops the top and bottom of the dress, not the sides, so the garment still
+   reads at this ratio; much wider than this starts to cut the set in half. */
+body.route-ai-service .aiq-panel .aiq-shot-img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 14px;
+  background: rgba(43, 92, 246, 0.04);
+}
+
+body.route-ai-service .aiq-panel .aiq-shot-name {
+  left: 14px;
+  bottom: 14px;
+  padding: 4px 9px;
+  font-size: 10px;
+}
+
+body.route-ai-service .aiq-panel .aiq-matched {
+  padding: 9px 12px;
+}
+
+body.route-ai-service .aiq-panel .aiq-matched-title {
+  margin-bottom: 4px;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+body.route-ai-service .aiq-panel .aiq-matched p {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+body.route-ai-service .aiq-panel .aiq-sizes {
+  gap: 6px;
+}
+
+body.route-ai-service .aiq-panel .aiq-sizes b {
+  width: 26px;
+  height: 26px;
+  font-size: 11.5px;
+}
+
+/* The message bar, brought down to sit level with the voice card's recorder so
+   both frames end on the same row. */
+body.route-ai-service .aiq-panel .aiq-phone-input {
+  gap: 8px;
+  padding: 8px 12px;
+}
+
+body.route-ai-service .aiq-panel .aiq-phone-field {
+  padding: 7px 14px;
+  font-size: 11.5px;
+}
+
+/* Below lg the frame no longer has to match its sibling's height. */
+@media (max-width: 991px) {
+  body.route-ai-service .aiq-panel .aiq-phone {
+    flex: 0 0 auto;
+  }
+}
+
+/* --- Language cross ------------------------------------------------------- */
+
+/*
+  Four language cards arranged as a cross around the agent, per the showcase
+  design -- not as four equal columns. Each card faces the centre.
+
+  The mirroring is done entirely here from the `aiq-lang-<corner>` modifier, so
+  the markup stays identical in all four cards:
+
+    left column  -> content hugs the left edge
+    right column -> content hugs the right edge
+    top row      -> label, then product, then the bubble leaning INWARD
+    bottom row   -> product, then bubble, then the label (CSS `order`)
+
+  `.aiq-lang-core` is the agent mark pinned to the point where the four cards
+  meet, over the 22px gutter.
+*/
+
+.aiq-lang-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 940px;
+  margin-inline: auto;
+}
+
+.aiq-lang {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.aiq-lang-code {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+/* The product shot: a square tile hugging its own outer edge. Fixed width so
+   all four read as the same object at the same scale. */
+.aiq-lang .aiq-img-ph {
+  flex: 0 0 auto;
+  width: 108px;
+  aspect-ratio: 1 / 1;
+}
+
+/* Client dress artwork (/custom images, served under /assets/img/custom/) in
+   the same slot the dashed placeholder used to hold. The portrait source is
+   cropped to the old square footprint, biased upward so the neckline -- the
+   part that identifies the product -- stays in frame.
+
+   `align-self: flex-end` overrides the card's own outer-edge mirroring: the
+   product must sit directly above the customer's question, and the question is
+   right-aligned in every card, so the tile is right-aligned in every card too
+   (otherwise the left-hand cards leave it stranded on the opposite side). */
+.aiq-lang .aiq-lang-img {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  width: 108px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 22%;
+  display: block;
+  border-radius: 14px;
+  background: rgba(43, 92, 246, 0.04);
+}
+
+.aiq-lang .aiq-bubble {
+  max-width: 100%;
+}
+
+/* The chat pair: the customer's question and the agent's answer, stacked with
+   a tighter rhythm than the card's own 18px so they read as one conversation
+   rather than two separate elements. */
+.aiq-lang-chat {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Outer-edge alignment for the label and the product tile. */
+.aiq-lang-tl,
+.aiq-lang-bl {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.aiq-lang-tr,
+.aiq-lang-br {
+  align-items: flex-end;
+  text-align: right;
+}
+
+/* The bubbles do NOT follow that mirroring: in every card the customer sits on
+   the right (out, blue) and the agent on the left (in, white), the way a real
+   WhatsApp thread reads. The card mirrors; the conversation inside it does not.
+   (.aiq-bubble-out / -in already carry align-self: flex-end / flex-start, so
+   nothing has to be restated here.) */
+
+/* Bottom row mirrors the top: product and chat first, label last. */
+.aiq-lang-bl .aiq-lang-code,
+.aiq-lang-br .aiq-lang-code {
+  order: 3;
+}
+
+.aiq-lang-bl .aiq-img-ph,
+.aiq-lang-br .aiq-img-ph,
+.aiq-lang-bl .aiq-lang-img,
+.aiq-lang-br .aiq-lang-img {
+  order: 1;
+}
+
+.aiq-lang-bl .aiq-lang-chat,
+.aiq-lang-br .aiq-lang-chat {
+  order: 2;
+}
+
+/* The agent mark at the centre of the cross. */
+.aiq-lang-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #dbe5ff;
+  box-shadow:
+    0 0 0 10px rgba(43, 92, 246, 0.06),
+    0 18px 44px rgba(20, 40, 110, 0.16);
+}
+
+/* Single column: "facing the centre" stops meaning anything, and there is no
+   centre for the mark to sit on. Every card reverts to reading the same way,
+   the way it does in the design's own narrow layout. */
+@media (max-width: 767px) {
+  .aiq-lang-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .aiq-lang-core {
+    display: none;
+  }
+
+  .aiq-lang-tr,
+  .aiq-lang-br {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .aiq-lang-bl .aiq-lang-code,
+  .aiq-lang-br .aiq-lang-code,
+  .aiq-lang-bl .aiq-img-ph,
+  .aiq-lang-br .aiq-img-ph,
+  .aiq-lang-bl .aiq-lang-img,
+  .aiq-lang-br .aiq-lang-img,
+  .aiq-lang-bl .aiq-lang-chat,
+  .aiq-lang-br .aiq-lang-chat {
+    order: 0;
+  }
+}
+
+/* --- Modules -------------------------------------------------------------- */
+
+.aiq-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 22px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: border-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-card:hover {
+  border-color: rgba(43, 92, 246, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(31, 32, 68, 0.08);
+}
+
+.aiq-card-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: rgba(43, 92, 246, 0.09);
+  color: #2b5cf6;
+  font-size: 18px;
+}
+
+.aiq-card h4 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: var(--header);
+}
+
+.aiq-card p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text2);
+}
+
+.aiq-card-active,
+.aiq-card-active:hover {
+  background: #2b5cf6;
+  border-color: #2b5cf6;
+}
+
+.aiq-card-active .aiq-card-icon {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.aiq-card-active h4 {
+  color: #ffffff;
+}
+
+.aiq-card-active p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.aiq-mod {
+  height: 100%;
+  padding: 20px;
+  background: rgba(43, 92, 246, 0.045);
+  border: 1px dashed rgba(43, 92, 246, 0.26);
+  border-radius: 18px;
+}
+
+.aiq-mod-code {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-mod h4 {
+  margin: 0 0 6px;
+  font-size: 16.5px;
+  color: var(--header);
+}
+
+.aiq-mod p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+
+/* --- Industries ----------------------------------------------------------- */
+
+/* Landscape revision: the photo sits on the left as a stretched thumbnail and
+   the copy runs beside it, so each card reads as one short wide rectangle
+   instead of a tall stack. Two cards to a row (see the col classes in
+   page.jsx); below lg the card folds back to a column with the photo on top. */
+.aiq-ind {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  transition: border-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aiq-ind:hover {
+  border-color: rgba(43, 92, 246, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 44px rgba(31, 32, 68, 0.1);
+}
+
+.aiq-ind-top {
+  position: relative;
+  flex: 0 0 210px;
+  padding: 12px;
+}
+
+.aiq-ind-top .aiq-img-ph {
+  aspect-ratio: 16 / 10;
+}
+
+.aiq-ind-badge {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1e46d4;
+}
+
+.aiq-ind-badge i {
+  font-size: 5px;
+  color: #2b5cf6;
+}
+
+.aiq-ind-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px 18px;
+}
+
+.aiq-ind-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(43, 92, 246, 0.09);
+  color: #2b5cf6;
+  font-size: 15px;
+}
+
+.aiq-ind-body h4 {
+  margin: 6px 0 0;
+  font-size: 16.5px;
+  color: var(--header);
+}
+
+.aiq-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+.aiq-tags span {
+  padding: 4px 10px;
+  background: #f4f5fa;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.aiq-ind-body .aiq-bubble {
+  max-width: 100%;
+}
+
+.aiq-outcome {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: auto 0 0;
+  padding-top: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #2b5cf6;
+}
+
+.aiq-outcome i {
+  font-size: 9px;
+}
+
+/* --- FAQ ------------------------------------------------------------------ */
+
+.aiq-faq .accordion-item {
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.aiq-faq .accordion-button {
+  padding: 18px 20px;
+  background: #ffffff;
+  box-shadow: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--header);
+}
+
+.aiq-faq .accordion-button:not(.collapsed) {
+  background: rgba(43, 92, 246, 0.04);
+  color: #2b5cf6;
+}
+
+.aiq-faq .accordion-button::after {
+  background-image: none;
+  content: "\203A";
+  font-size: 26px;
+  font-weight: 800;
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+}
+
+.aiq-faq .accordion-button:not(.collapsed)::after {
+  transform: rotate(-90deg);
+}
+
+.aiq-faq .accordion-body {
+  padding: 0 20px 20px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text2);
+}
+
+.aiq-faq-aside {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Same artwork as the homepage FAQ band (/assets/img/custom/faq.png). It is a
+   606x749 illustration that already carries its own pale panel and rounded
+   corners, so it needs no frame of its own -- fill the column, let the natural
+   ratio set the height, and centre it against the accordion beside it. This
+   replaced the dashed ImageSpace placeholder, which is why the wrapper no
+   longer sizes an .aiq-img-ph. */
+.aiq-faq-aside img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Closing CTA ---------------------------------------------------------- */
+
+.aiq-cta {
+  padding: clamp(70px, 8vw, 110px) 0;
+  background: linear-gradient(135deg, #1e46d4 0%, #2b5cf6 55%, #6a67e6 100%);
+  color: #ffffff;
+}
+
+.aiq-cta-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.aiq-cta h2 {
+  margin: 6px 0 0;
+  font-size: clamp(28px, 3.2vw, 44px);
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.aiq-cta h2 span {
+  color: #9db8ff;
+}
+
+.aiq-cta p {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 991px) {
+  .aiq-steps {
+    grid-template-columns: 1fr;
+  }
+
+  /* Stacked, the hero centres -- and the artwork follows the copy rather than
+     leading it, so it needs the gap the column gutter no longer gives it.
+
+     Two changes from the hand-tuned numbers that used to be here:
+
+     1. The top padding tracks the bar token instead of hard-coding 124px, which
+        is a number that silently goes stale the moment --aiq-header-h moves.
+
+     2. The artwork is capped by VIEWPORT HEIGHT, not width. Stacked, it is the
+        tallest thing on the screen, so a width-only cap is what pushed the hero
+        past the fold on a phone -- the exact thing the hero is supposed to
+        avoid. `svh` again, with a `vh` fallback. */
+  .aiq-page-head {
+    padding-top: calc(var(--aiq-header-h) + 28px);
+    text-align: center;
+  }
+
+  /* Centred, because the copy is. */
+  .aiq-page-head .aiq-eyebrow,
+  .aiq-chips,
+  .aiq-hero-cta {
+    justify-content: center;
+  }
+
+  .aiq-page-head p:not(.aiq-eyebrow) {
+    margin-inline: auto;
+  }
+
+  .aiq-hero-art {
+    margin-top: 24px;
+  }
+
+  .aiq-hero-art img {
+    width: auto;
+    max-width: 100%;
+    max-height: 32vh;
+    max-height: 32svh;
+    margin-inline: auto;
+  }
+}
+
+
+/* --- Feature band extras (homepage compact sections) ---------------------- */
+
+/*
+  `.aiq-bullets` lived here: the ticked list in the "It sells while you sleep"
+  overview band. That band was removed from /service-details, and nothing else
+  referenced the class, so the rules went with it rather than sitting here
+  unreachable.
+*/
+
+.aiq-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2b5cf6;
+  transition: color 0.3s ease;
+}
+
+.aiq-link i {
+  font-size: 12px;
+}
+
+.aiq-link:hover {
+  color: #1e46d4;
+}
+
+/* On the dark pages the band sits on white; keep the strips readable. */
+.aiq-band .aiq-phone {
+  box-shadow: 0 30px 80px rgba(31, 32, 68, 0.16);
+}
+
+
+/* ==========================================================================
+   Home page (scoped under .aiq-home): no yellow anywhere.
+   The theme's default --theme (#EFFB53) is yellow; the home variant uses the
+   indigo accent instead, matching its header (sky) and footer (indigo).
+   ========================================================================== */
+.aiq-home .link-btn:hover {
+  color: var(--theme2);
+}
+.aiq-home .testimonial-section .array-button .array-prev:hover,
+.aiq-home .testimonial-section .array-button .array-next {
+  background-color: var(--theme2);
+  color: #ffffff;
+}
+/* Back-to-top: the theme's floating control is a --theme (yellow) disc. It is
+   repainted on EVERY page -- the header bar and the drawer are one design
+   site-wide, so the control that sits over them is too. It used to be listed by
+   body route flag, which left it yellow on every page nobody had flagged. */
+body.route-ai-service .back-to-top {
+  background-color: #514DE0;
+  color: #ffffff;
+}
+body.route-ai-service .back-to-top:hover {
+  background-color: #3F3AC2;
+}
+
+/* ==========================================================================
+   Home-2 popular-service cards — artwork sits OUTSIDE the content card
+   --------------------------------------------------------------------------
+   Per the supplied mockup the photograph is a standalone rounded tile and the
+   card surface wraps only the copy. So the card's background, border and padding
+   move off .service-box-items-2 and onto the copy column, and the artwork column
+   keeps a right gap that reads as the space between tile and card.
+   ========================================================================== */
+
+.aiq-home .popular-service-section > .container > .row > [class*="col-"] {
+  display: flex;
+}
+
+.aiq-home .popular-service-section .service-box-items-2 {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+
+.aiq-home .popular-service-section .service-box-items-2 > .row {
+  flex: 1;
+  /* Kill the Bootstrap .g-4 gutter -- it was padding the image column away from
+     the edge -- and the .align-items-center that parked the image at its own
+     content height instead of the card height. */
+  --bs-gutter-x: 0;
+  --bs-gutter-y: 0;
+  align-items: stretch !important;
+}
+
+/* Artwork tile, sitting outside the card. The right padding is the gap. */
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-4 {
+  display: flex;
+  position: relative;
+  min-height: 240px;
+  padding-right: 16px;
+}
+
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-4 .aiq-img-ph {
+  flex: 1;
+  aspect-ratio: auto;
+  min-height: 200px;
+  border-radius: 16px;
+}
+
+/* Custom service-card artwork (from /custom images, served under
+   /assets/img/custom/). Fills the tile, cropped to cover. */
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-4 img {
+  position: static;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  display: block;
+}
+
+/* Copy column: this is now the card -- surface, border and radius live here. */
+.aiq-home .popular-service-section .service-box-items-2 .col-lg-8 {
+  display: flex;
+  align-items: center;
+  padding: 28px;
+  background-color: #F2F7FE;
+  border: 1px solid #DBE8FC;
+  border-radius: 20px;
+}
+.aiq-home .popular-service-section .service-box-items-2 .content {
+  margin-top: 0;
+}
+
+/* "More details" sat flush under the paragraph -- give it room to breathe. */
+.aiq-home .popular-service-section .service-box-items-2 .content .link-btn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Below lg the card stacks: ONE card per row, with the artwork INSIDE the card
+   sitting above the copy. Above lg the artwork stays outside the card (the
+   mockup layout). */
+@media (max-width: 991px) {
+  .aiq-home .popular-service-section .service-box-items-2 {
+    padding: 12px;
+    background-color: #F2F7FE;
+    border: 1px solid #DBE8FC;
+    border-radius: 20px;
+  }
+
+  /* Artwork: full width on top, gap underneath rather than beside. */
+  .aiq-home .popular-service-section .service-box-items-2 .col-lg-4 {
+    min-height: 0;
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
+
+  .aiq-home .popular-service-section .service-box-items-2 .col-lg-4 img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  /* Copy: no second surface -- it already sits inside the card. */
+  .aiq-home .popular-service-section .service-box-items-2 .col-lg-8 {
+    padding: 6px 10px 12px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+
+/* ==========================================================================
+   Header — inline nav kept, burger always visible
+   --------------------------------------------------------------------------
+   The homepage header is logo + inline nav links + burger at every width. The
+   burger used to be hidden above 1200px (d-xl-none in SiteHeader.jsx); it is now
+   always shown, and the drawer behind it carries the same nav plus the contact
+   details. The inline menu is deliberately NOT hidden.
+   ========================================================================== */
+
+/* Nav links centred in the bar, on the inner pages (header-1) and the homepage
+   (header-2) alike. The theme left them hugging the logo behind a 160px flex
+   gap, which parked them left of centre and left a lopsided gap on the right.
+   Grid is used rather than absolute positioning because an absolutely
+   positioned nav drops out of flow and stops driving the bar's height, which
+   made the whole header shorter. */
+@media (min-width: 1200px) {
+  body.route-ai-service :is(.header-1, .header-2) .header-main {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  body.route-ai-service :is(.header-1, .header-2) .header-main > .logo {
+    justify-self: start;
+  }
+
+  body.route-ai-service :is(.header-1, .header-2) .header-main > .header-right {
+    justify-self: end;
+  }
+}
+
+/* Bar height. Pinned to the shared token instead of being left to whatever the
+   content happens to add up to (10px padding + a 62px nav row = 88px), because
+   the blog hero sits flush against the bar's bottom edge -- a content-driven
+   height is what produced a stray 8px band of page background between them.
+   Both variants get it; below 1200px it is the burger bar. */
+body.route-ai-service :is(.header-1, .header-2) .header-main {
+  height: var(--aiq-header-h);
+}
+
+/* The nav row's own height. The theme gives every link 20px of vertical padding,
+   which made a ~62px row and put a floor under the bar no matter what the token
+   said. Cut to 15px, so the row is ~52px and the trimmed bar has room without
+   the labels looking cramped. Scoped to the AI-service pages -- the black/yellow
+   site keeps the theme's own spacing. */
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile drawer nav (meanmenu, below 1200px)
+   --------------------------------------------------------------------------
+   The theme paints these links --white--, but the drawer's panel is white as
+   well, so on phones the nav read as a stack of empty ghost rows -- only their
+   1px borders were visible. Dark ink + indigo hover makes them legible, and the
+   taller rows give the mobile nav a comfortable tap target.
+   -------------------------------------------------------------------------- */
+body.route-ai-service .mean-container .mean-nav ul li a {
+  text-align: center;
+  color: #161447;
+  padding: 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+body.route-ai-service .mean-container .mean-nav ul li a:hover {
+  color: #514de0;
+}
+
+/* The +/- submenu toggle is an <a> too, so it inherits the link colour. Keep it
+   indigo and re-centre it against the taller rows (main.css pins its padding
+   with !important, so only the offset can move). */
+body.route-ai-service .mean-container .mean-nav ul li a.mean-expand {
+  color: #514de0;
+  margin-top: 11px;
+}
+
+body.route-ai-service .mean-container .mean-nav ul li a.mean-expand:hover {
+  color: #3f3ac2;
+}
+
+
+/* ==========================================================================
+   Home palette — the last of the theme yellow
+   --------------------------------------------------------------------------
+   The site runs on the indigo accent (--theme2 #514DE0), but the page loader,
+   the header burger and the offcanvas drawer still painted the theme default
+   (--theme #EFFB53), which read as a leftover from the template.
+
+   Everything in this block is SITE-WIDE. The header bar, its drawer and the
+   back-to-top disc are rendered outside the route tree but are the same design
+   on every page, so scoping them by route only ever produced pages that had
+   been forgotten (the drawer and back-to-top were still yellow on /pricing,
+   /team, /project, /faq, /login and /register).
+   ========================================================================== */
+
+/* Page loader: spinner ring, the rotating wordmark letters and the "Loading"
+   label all used --theme. */
+body.route-ai-service .preloader .animation-preloader .spinner {
+  border-top-color: #514de0;
+}
+
+body.route-ai-service .preloader .animation-preloader .txt-loading .letters-loading {
+  color: #514de0;
+}
+
+body.route-ai-service .preloader .animation-preloader .txt-loading .letters-loading::before {
+  color: #3f3ac2;
+}
+
+body.route-ai-service .preloader p {
+  color: #514de0;
+}
+
+/* Header burger: it inherits the theme's body ink, which painted it near-black
+   against the indigo bar -- on the inner pages as well as the homepage. Pin it
+   white in both. */
+body.route-ai-service :is(.header-1, .header-2) .header__hamburger .sidebar__toggle,
+body.route-ai-service :is(.header-1, .header-2) .header__hamburger .sidebar__toggle i {
+  color: #ffffff;
+}
+
+/* Offcanvas drawer: yellow left rail, close button, contact icons, CTA button
+   and social hover all become indigo.
+
+   SITE-WIDE, not per route. These used to be listed by body route flag, which
+   meant the drawer turned yellow again on any page nobody had remembered to
+   flag (/pricing, /team, /project, /faq, /login, /register) -- while the bar
+   above it stayed indigo everywhere. The bar is one design on every page, so
+   the drawer it opens is too. */
+body.route-ai-service .offcanvas__info {
+  border-left-color: #514de0;
+}
+
+/* Close button: the theme fills it with --theme (yellow) and paints the X with
+   --header. It becomes the indigo brand pill with a white icon, matching the
+   header burger and the "Get A Quote" button. */
+body.route-ai-service .offcanvas__wrapper .offcanvas__content .offcanvas__close {
+  background-color: #514de0;
+}
+
+body.route-ai-service .offcanvas__wrapper .offcanvas__content .offcanvas__close i {
+  color: #ffffff;
+}
+
+body.route-ai-service .offcanvas__wrapper .offcanvas__content .offcanvas__close:hover {
+  background-color: #3f3ac2;
+}
+
+/* Drawer headings.
+
+   The vendor paints EVERY heading white -- `h1, h2, … h6 { color: var(--white) }`
+   in main.css -- because the template's body was near-black. Nothing in the
+   theme ever overrode that for the drawer, so "Contact Info" came out white on
+   the white panel: present in the DOM, invisible on screen.
+
+   Written for the whole heading set rather than that one <h4>, so a heading
+   added to the drawer later cannot silently disappear the same way. */
+body.route-ai-service .offcanvas__wrapper .offcanvas__content h1,
+body.route-ai-service .offcanvas__wrapper .offcanvas__content h2,
+body.route-ai-service .offcanvas__wrapper .offcanvas__content h3,
+body.route-ai-service .offcanvas__wrapper .offcanvas__content h4,
+body.route-ai-service .offcanvas__wrapper .offcanvas__content h5,
+body.route-ai-service .offcanvas__wrapper .offcanvas__content h6 {
+  color: var(--header2);
+}
+
+body.route-ai-service .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  ul
+  li
+  .offcanvas__contact-icon
+  i {
+  color: #514de0;
+}
+
+body.route-ai-service .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .header-button
+  .theme-btn {
+  background: #514de0;
+  color: #ffffff;
+}
+
+body.route-ai-service .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .header-button
+  .theme-btn::after {
+  background-color: #3f3ac2;
+}
+
+body.route-ai-service .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .header-button
+  .theme-btn:hover {
+  color: #ffffff;
+}
+
+body.route-ai-service .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .social-icon
+  a:hover {
+  background-color: #514de0;
+  color: #ffffff;
+}
+
+/* The theme paints the glyph itself white (.social-icon a i). The offcanvas
+   panel is white (--bg was flipped to #ffffff), so a white glyph on a
+   transparent anchor is invisible at rest and only appears on hover. Inherit
+   the anchor colour: dark-gray at rest, white on the indigo hover fill -- the
+   same fix the footer's social icons already use for this white panel. */
+body.route-ai-service .offcanvas__wrapper
+  .offcanvas__content
+  .offcanvas__contact
+  .social-icon
+  a i {
+  color: inherit;
+}
+
+/* ==========================================================================
+   Home-2 hero artwork — supplied robot render layered over the ring outline
+   --------------------------------------------------------------------------
+   The hero shipped with a portrait placeholder (613x729) and no width cap on
+   `.hero-2 .hero-image img`, so the supplied render (1616x1296) painted at its
+   natural size, blew straight past the 5-column box and ran off the right edge
+   of the viewport — leaving only the ring outline (circle-shape.png) visible.
+   The render is now capped to the column, centred, and stacked ON TOP of the
+   ring, which stays the larger, behind layer.
+   ========================================================================== */
+
+/*
+   The hero bleeds, so the hero clips.
+
+   `.circle-shape` is capped to the viewport (max-width: 100vw below 1200px), but
+   that cap does nothing about the ROTATION: circle-shape.png is very nearly
+   square, and a square spun by 45 degrees occupies 1.41x its own width. The
+   spin animation therefore inflated the ring's bounding box from 390px to 531px
+   at a 390px viewport -- ~70px of overflow on each side.
+
+   That overflow is not just a stray scrollbar. On mobile, Chrome sees content
+   wider than the viewport, expands the LAYOUT viewport to fit it, and reports
+   innerWidth 461 for a 390px screen. The page is then laid out 71px wider than
+   the phone, so the user gets a horizontally pannable page with a band of empty
+   space down the right-hand side -- and `body { overflow-x: hidden }` (which the
+   vendor already sets) does not stop it, because the overflow is clipped on
+   <body> rather than on the root element that owns the viewport.
+
+   `overflow-x: clip` on the section cuts the bleed at the hero's own edge --
+   which is where the viewport edge already was, so the ring looks exactly the
+   same -- and stops the ring contributing any scrollable overflow. `clip`
+   rather than `hidden` because it does not turn the hero into a scroll
+   container, so nothing inside it can be scrolled sideways. (No `hidden`
+   fallback on purpose: in a browser without `clip` that would make the hero
+   scroll vertically instead, which is a worse bug than the one being fixed.
+   `clip` has shipped in every engine since 2022.)
+
+   If the ring is ever resized, keep in mind that its ROTATED footprint is what
+   has to fit -- roughly 1.4x the width for a square image.
+*/
+body.route-ai-service .hero-2 {
+  overflow-x: clip;
+}
+
+body.route-ai-service .hero-2 .hero-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 440px;
+}
+
+/* New hero artwork: the front layer, a touch smaller than the ring behind it. */
+body.route-ai-service .hero-2 .hero-image > img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+}
+
+/* Ring outline: the previous layer, kept behind and slightly larger so the
+   robot reads as sitting inside/over it. It turns a full circle continuously. */
+body.route-ai-service .hero-2 .hero-image .circle-shape {
+  z-index: 1;
+  width: 130%;
+  max-width: 700px;
+}
+
+/* The spin goes on the IMG, never on the wrapper: the theme centres the wrapper
+   with `transform: translate(-50%, -50%)`, so animating that same property would
+   drop the centring and fling the ring into the top-left corner. The img itself
+   carries no transform, so a plain rotate() is safe here. */
+body.route-ai-service .hero-2 .hero-image .circle-shape img {
+  width: 100%;
+  height: auto;
+  /* Fade the ring so it reads as a soft backdrop behind the robot rather than
+     competing with it. */
+  opacity: 0.6;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  animation: aiq-ring-spin 24s linear infinite;
+}
+
+@keyframes aiq-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect users who ask their OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  body.route-ai-service .hero-2 .hero-image .circle-shape img {
+    animation: none;
+  }
+}
+
+/* Laptop / large screens: the theme's 80px headline read a touch heavy beside
+   the rest of the hero, so trim it slightly. Tablets (<=1199px, 70px) and
+   phones keep their own sizes from main.css. */
+@media (min-width: 1200px) {
+  body.route-ai-service .hero-2 .hero-content h1 {
+    font-size: 72px;
+  }
+}
+
+@media (max-width: 1199px) {
+  /* The theme hides the ring below 1200px; bring it back so the mobile hero
+     keeps the same layered look as the desktop one. Capped to the viewport
+     width so the outer arcs are never cropped at the screen edges (body carries
+     overflow-x: hidden, so anything wider than the viewport gets cut). */
+  body.route-ai-service .hero-2 .hero-image .circle-shape {
+    display: block;
+    width: 120%;
+    max-width: 100vw;
+  }
+
+  body.route-ai-service .hero-2 .hero-image {
+    min-height: 0;
+  }
+
+  body.route-ai-service .hero-2 .hero-image > img {
+    max-width: 520px;
+  }
+}
+
+/* Mobile: the burger header (absolutely positioned over the hero) left the
+   heading sitting right underneath it, because .section-padding drops to 80px at
+   this width. Push the whole hero block down so it clears the bar.
+
+   Expressed against the token rather than as a flat 140px, which was tuned when
+   the bar was 82px: the 58px of air is the part that was actually chosen, so it
+   is the part worth keeping. The bar can now change without this going stale. */
+@media (max-width: 991px) {
+  body.route-ai-service .hero-2.section-padding {
+    padding-top: calc(var(--aiq-header-h) + 58px);
+  }
+}
+
+
+/* ==========================================================================
+   Home-2 section rhythm — "popular services" → "AI sales agent"
+   --------------------------------------------------------------------------
+   Both bands carry .section-padding-2 (130px top + bottom), so the pair sat
+   260px apart and read as two unrelated blocks. The shared edge is tightened
+   to 60px each side (~120px total) so they read as one sequence.
+   ========================================================================== */
+
+.aiq-home .popular-service-section.aiq-tight-bottom {
+  padding-bottom: 60px;
+}
+
+.aiq-home .service-section.section-padding-2 {
+  padding-top: 60px;
+}
+
+
+/* ==========================================================================
+   Home-2 "AI sales agent" section — 2x2 feature cards + agent artwork
+   --------------------------------------------------------------------------
+   The section shipped as six .service-box-items-2 cards in a 4-up row plus a
+   photo tile. It is now the product headline: a 2x2 card grid on the left with
+   the supplied agent-chat render on the right, matching the AiLogiQs showcase.
+   ========================================================================== */
+
+/* The theme spaces these cards with a per-card margin-top, which fights the
+   Bootstrap g-4 gutter used here. The gutter is the only spacer now. */
+.aiq-home .service-section .agent-cards .service-box-items-2 {
+  margin-top: 0;
+  padding: 30px;
+  height: 100%;
+}
+
+/* Equal-height cards within each row of the 2x2 grid. */
+.aiq-home .service-section .agent-cards > [class*="col-"] {
+  display: flex;
+}
+
+/*
+  The clip is 1080x1920, so whichever dimension follows the layout, the other
+  runs away: fill the column's ~550px width and it stands ~935px tall against
+  582px of cards. So it follows neither -- it follows the CARD GRID.
+
+  The row keeps its default `align-items: stretch` (the JSX carries no
+  align-items utility), which makes this column exactly as tall as the four
+  cards beside it. `height: 100%` on the clip then adopts that height, and
+  `width: auto` lets the browser derive the width from the ratio -- ~327px.
+
+  Reaching that needs the clip taken OUT OF FLOW. Left in flow it contributes
+  its own intrinsic height, the row grows to accommodate it, and the stretch
+  then has nothing left to match -- the loop closes on the clip's size instead
+  of the cards'. Absolute positioning is what breaks the loop: the clip no
+  longer gets a say in how tall the row is.
+
+  Everything below is the STACKED case, where the two Bootstrap columns are on
+  separate lines and there is no sibling height to adopt. A width-driven box
+  with a phone-sized cap is the best available answer there.
+*/
+.aiq-home .service-section .service-image-2 video {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  margin-inline: auto;
+  border-radius: 20px;
+}
+
+/* xl and up: the two columns sit side by side, so the clip can match the grid. */
+@media (min-width: 1200px) {
+  .aiq-home .service-section .agent-media-col {
+    /* Containing block, and the height the clip inherits via stretch. */
+    position: relative;
+    /*
+      Both margins have to go, and together they are exactly the 54px that was
+      missing from the match (528 measured against 582):
+
+        margin-top: 0   cancels the `--bs-gutter-y` (24px) that Bootstrap puts
+                        on every `.row > *`. That gutter is not real vertical
+                        space here -- the card grid only reaches its 582px
+                        because the nested `.agent-cards` row pulls itself back
+                        up by -24px, so leaving the margin on would offset the
+                        clip down by the same amount.
+        margin: 0       on the wrapper cancels the theme's own
+                        `.service-image-2 { margin-top: 30px }`. With `inset: 0`
+                        a margin both pushes the box down AND shortens it, so
+                        that one cost 30px of height on top of the 24.
+    */
+    margin-top: 0;
+  }
+
+  .aiq-home .service-section .service-image-2 {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .aiq-home .service-section .service-image-2 video {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+}
+
+/* "How it works" CTA — centred under the whole grid, not tucked under the
+   artwork. */
+.aiq-home .service-section .agent-cta-row {
+  margin-top: 44px;
+}
+
+/* "How it works" CTA. The home page bans the theme's yellow, so the pill is
+   brand indigo with a darker indigo hover fill (same behaviour as .theme-btn,
+   which expands its ::after circle on hover). */
+.aiq-home .service-section .agent-cta {
+  background: #514de0;
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.aiq-home .service-section .agent-cta::after {
+  background-color: #3f3ac2;
+}
+
+.aiq-home .service-section .agent-cta:hover {
+  color: #ffffff;
+}
+
+/* Section intro sitting under the heading. */
+.aiq-home .service-section .section-title p {
+  max-width: 620px;
+  margin: 20px auto 0;
+  color: var(--text2);
+  font-size: 18px;
+  line-height: 160%;
+}
+
+
+
+/* =============================================================================
+   Nav — one header on every page
+   -----------------------------------------------------------------------------
+   The site ships two header variants: `header-2` on the homepage and `header-1`
+   on every other page. They already share the bar itself -- indigo surface,
+   white wordmark, white links, centred nav -- but the template gave the two
+   variants DIFFERENT dropdowns:
+
+     header-2   white panel, dark labels, --theme2 accents    (the designed one)
+     header-1   #120f0f panel, white labels, --theme accents   (the dark-body
+                default, never revisited for this white-background site)
+
+   So the nav changed colour the moment a visitor stepped off the homepage. The
+   rules below pin BOTH variants to the homepage treatment, and the per-route
+   copies that used to patch this on /blog, /contact, /about and the two service
+   pages are gone -- along with the yellow wordmark accent, which is now set
+   once as `logoAccent: "#FFFFFF"` in SiteHeader's default variant.
+
+   PRIMARY_NAV is flat today -- no item has children -- so the `.submenu` rules
+   below currently match nothing. They are kept because they are what makes a
+   dropdown correct, and reinstating one should be a data change in
+   navigation.js and nothing else. The `:is(.header-1, .header-2)` pairing is
+   the whole point: write any future dropdown rule for both variants or it will
+   regress to the dark panel on inner pages.
+   ========================================================================== */
+
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li .submenu {
+  background: #ffffff;
+  color: var(--header);
+  border-top-color: var(--theme2);
+  box-shadow: 0 18px 40px rgba(31, 32, 68, 0.12);
+}
+
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li .submenu li a {
+  color: var(--header);
+}
+
+/* The little rule that grows out from the left edge on hover. */
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li .submenu li a::before {
+  background: var(--theme2);
+}
+
+/* Both halves of this need !important: the vendor ships the yellow state as
+   `color: var(--theme) !important` on `li:hover > a` and on `li a:hover`. */
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li .submenu li a:hover,
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li .submenu li:hover > a {
+  color: var(--theme2) !important;
+}
+
+/* ---- Top-level bar links, on hover -------------------------------------- */
+
+/* The same two vendor rules the submenu needed, one level up: the theme paints
+   a hovered bar link --theme (yellow) via `li a:hover { color: var(--theme)
+   !important }` and `li:hover > a { color: var(--theme) }`. header-2 overrides
+   both for the homepage; header-1 never did, so the label flipped to yellow the
+   moment the cursor touched it on every other page.
+
+   Pinned to the homepage's behaviour: the label stays white. The hover state is
+   then carried by the cursor alone, exactly as it is on the homepage -- see the
+   note below if you want a visible tint instead. */
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul > li > a:hover,
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul > li:hover > a {
+  color: var(--white) !important;
+}
+
+/* The theme also colours a hovered link's ::after --theme (yellow). Nothing
+   sets `content` on that pseudo-element at this level, so it paints nothing
+   today; pinned to the indigo the homepage already uses so it stays right if
+   content is ever added. */
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul > li:hover > a::after {
+  color: var(--theme2);
+}
+
+/* ---- Dropdown parents with no destination ------------------------------- */
+
+/* SiteHeader renders a parent that has children but no `href` as an <a> with
+   no href attribute. That costs two things the theme assumes: an anchor
+   without href gets no pointer cursor, and the vendor only ever opens a submenu
+   on :hover. Neither is acceptable for a control that is really a button, so
+   the cursor is restored here and :focus-within gives the menu the keyboard
+   path the theme never had. (No nav item uses this today; kept so adding one
+   needs no component change.) */
+body.route-ai-service :is(.header-1, .header-2)
+  .header-main
+  .main-menu
+  ul
+  li.has-dropdown
+  > a:not([href]) {
+  cursor: pointer;
+}
+
+body.route-ai-service :is(.header-1, .header-2) .header-main .main-menu ul li:focus-within > .submenu {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+
+/* =============================================================================
+   Horizontal overflow — the page must never scroll sideways
+   -----------------------------------------------------------------------------
+   Two separate bleed bugs were letting the document grow wider than the
+   viewport. On a phone that is not a cosmetic problem: Chrome sees content
+   wider than the screen, expands the LAYOUT viewport to fit it (innerWidth
+   reports 461 on a 390px device), and the user gets a page they can pan
+   sideways with a band of dead space down the right edge.
+
+   The vendor's `body { overflow-x: hidden }` does not stop this -- overflow is
+   only propagated to the viewport from the ROOT element, so clipping on <body>
+   never reaches it. Both bugs are fixed at their source instead.
+   ========================================================================== */
+
+/* ---- 1. Bootstrap gutter wider than the container's own padding ---------- */
+
+/* `.g-5` sets --bs-gutter-x: 3rem, so `.row` pulls itself out by 24px a side.
+   Bootstrap's `.container` only supplies 12px of padding below 576px, so every
+   `.g-5` row hung 12px past the right edge. Only /service-details uses it.
+   Matching the gutter to the container's padding closes the gap and tightens
+   the column spacing on phones, which is what you want at that width anyway. */
+@media (max-width: 575px) {
+  .aiq-service .row.g-5 {
+    --bs-gutter-x: 1.5rem;
+  }
+}
+
+/* ---- 2. (home hero) ------------------------------------------------------ */
+
+/* The hero's spinning ring is clipped on `.hero-2` itself -- see the "Home-2
+   hero artwork" block above for why a rotation inflates a square image's
+   bounding box by ~1.4x and what that does to the mobile layout viewport. */
+
+
+/* =============================================================================
+   Drawer wordmark
+   -----------------------------------------------------------------------------
+   The drawer is rendered by OffcanvasMenu, outside the route tree, and the
+   wordmark's colour is written inline by Logo.jsx -- so the only way to reach it
+   from here is !important.
+
+   It needs reaching because the panel is white on these pages (--bg is flipped
+   to #ffffff on body.route-ai-service, above) while the wordmark the black/yellow
+   site uses is white too: on the AI pages it would be invisible. Dark ink with
+   the indigo accent, matching the header lockup.
+   ========================================================================== */
+
+body.route-ai-service .offcanvas__logo .ailogiqs-logo {
+  color: #161447 !important;
+}
+
+body.route-ai-service .offcanvas__logo .ailogiqs-logo span {
+  color: #514DE0 !important;
+}
+
+
+/* =============================================================================
+   RESTORED FROM HEAD -- lost in the black/yellow vs indigo CSS split
+   -----------------------------------------------------------------------------
+   These two blocks belong to the AI service page but were dropped when
+   overrides.css was split into overrides.css (main site) + this file: the split
+   copied lines 1-122, 1018-3226 and 5499-end of the old file, and both blocks
+   sat in the 3227-5498 gap that was skipped.
+
+   The visible symptom was the "Deployed across industries" grid: without
+   `.aiq-ind-top .aiq-ind-img` the photos rendered at their natural 640x400 size
+   inside a 210px flex slot, so each card showed a huge image and no copy.
+
+   Checked for and NOT restored, deliberately:
+     - `.aiq-sr-only`  -- unreferenced by src/ (the blog listing uses the
+       plain `.sr-only` at the end of overrides.css instead).
+     - the blog / contact / about / service blocks from the same gap -- those are
+       MAIN-SITE rules from the indigo era, and the main site is back on the
+       template theme, so they must stay deleted.
+   ========================================================================== */
+
+
+/* === Industry card images (service-details) =============================== */
+/* Generic stock photography from the Unsplash CDN fills the left thumbnail in
+   the "Deployed across industries" grid (the old dashed ImageSpace slot).
+   Stretches to the card's full height, cropped to cover; the light tint
+   shows through while the image loads. */
+.aiq-ind-top .aiq-ind-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  background: rgba(43, 92, 246, 0.04);
+}
+
+/* Below lg the card folds back to a column: photo banner on top, copy below. */
+@media (max-width: 991px) {
+  .aiq-ind {
+    flex-direction: column;
+  }
+
+  .aiq-ind-top {
+    flex: 0 0 auto;
+    padding: 10px 10px 0;
+  }
+
+  .aiq-ind-top .aiq-ind-img {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* === Service-details readability bump ===================================== */
+/* The aiq type scale was tuned for the home-2 variant; on this page the body
+   copy reads a notch small, so the content sizes are lifted by roughly 15%.
+   Headings are deliberately left alone -- the h1/h2 section titles, the h4
+   card/step/panel titles and the FAQ question all keep their original scale;
+   only the copy that sits under them grows. Scoped to `.aiq-service` (the
+   wrapper in portfolio/chatbot/page.jsx) so the same classes keep their scale
+   everywhere else. Sizes only -- no colour, spacing or layout is restated. */
+
+/* Section eyebrow, intro line and the small strip under the language cross. */
+.aiq-service .aiq-eyebrow {
+  font-size: 13.5px;
+}
+
+.aiq-service .aiq-intro {
+  font-size: 17px;
+}
+
+.aiq-service .aiq-subhead {
+  font-size: 13px;
+}
+
+.aiq-service .aiq-strip {
+  font-size: 13px;
+}
+
+/* Hero lead paragraph -- sits directly under the h1. */
+.aiq-service .aiq-page-head p:not(.aiq-eyebrow) {
+  font-size: 18px;
+}
+
+.aiq-service .aiq-chips li {
+  font-size: 12.5px;
+}
+
+.aiq-service .aiq-hero-domain {
+  font-size: 15.5px;
+}
+
+/* Chat bubbles and the small "ok" line. */
+.aiq-service .aiq-bubble {
+  font-size: 13.5px;
+}
+
+.aiq-service .aiq-bubble-sm {
+  font-size: 12.5px;
+}
+
+.aiq-service .aiq-ok {
+  font-size: 12.5px;
+}
+
+/* Live-store card. */
+.aiq-service .aiq-store-title {
+  font-size: 12px;
+}
+
+.aiq-service .aiq-store-row {
+  font-size: 15px;
+}
+
+.aiq-service .aiq-on {
+  font-size: 12.5px;
+}
+
+/* Numbered steps: the numeral and the copy, not the h4 title. */
+.aiq-service .aiq-step-num {
+  font-size: 14.5px;
+}
+
+.aiq-service .aiq-steps p {
+  font-size: 14.5px;
+}
+
+/* Voice-note / screenshot panels. */
+.aiq-service .aiq-tag {
+  font-size: 11.5px;
+}
+
+.aiq-service .aiq-panel-title {
+  font-size: 12.5px;
+}
+
+.aiq-service .aiq-panel-foot p {
+  font-size: 14.5px;
+}
+
+.aiq-service .aiq-audio-time {
+  font-size: 13.5px;
+}
+
+.aiq-service .aiq-transcribe {
+  font-size: 11px;
+}
+
+.aiq-service .aiq-rec-time {
+  font-size: 12.5px;
+}
+
+.aiq-service .aiq-rec-slide {
+  font-size: 12px;
+}
+
+.aiq-service .aiq-shot-name {
+  font-size: 12px;
+}
+
+.aiq-service .aiq-matched-title {
+  font-size: 11px;
+}
+
+.aiq-service .aiq-matched p {
+  font-size: 14px;
+}
+
+.aiq-service .aiq-sizes b {
+  font-size: 13.5px;
+}
+
+/* Language cards. */
+.aiq-service .aiq-lang-code {
+  font-size: 12.5px;
+}
+
+/* Module cards: the code label and the copy, not the h4 title. */
+.aiq-service .aiq-card p {
+  font-size: 15px;
+}
+
+.aiq-service .aiq-mod-code {
+  font-size: 11.5px;
+}
+
+.aiq-service .aiq-mod p {
+  font-size: 14.5px;
+}
+
+/* Industry cards: badge, tags and outcome line, not the h4 title. */
+.aiq-service .aiq-ind-badge {
+  font-size: 10px;
+}
+
+.aiq-service .aiq-ind-icon {
+  font-size: 16.5px;
+}
+
+.aiq-service .aiq-tags span {
+  font-size: 11px;
+}
+
+.aiq-service .aiq-outcome {
+  font-size: 11.5px;
+}
+
+/* FAQ answer copy. The question button is heading-like and keeps its size. */
+.aiq-service .aiq-faq .accordion-body {
+  font-size: 15.5px;
+}
+
+/* Closing CTA copy under the h2. */
+.aiq-service .aiq-cta p {
+  font-size: 17.5px;
+}
+
+
+/* =============================================================================
+   Walkthrough video — /portfolio/chatbot
+   =============================================================================
+   The client's 60-second clip, in the band directly above the FAQ.
+
+   The clip is landscape (1920x1080), so the cap is a WIDTH: 900px. Left to fill
+   the 1320px container a 16:9 player would stand ~742px tall and swallow the
+   band whole; at 900px it is ~506px, which is a feature rather than a wall. It
+   is centred, because a capped block left-aligned in a wide container reads as a
+   mistake instead of a choice. 900px is the same cap the clip had on /service.
+
+   The wrapper carries the radius and does the clipping, not the <video> itself:
+   a border-radius on a video element still lets the poster's square corners
+   show through in some engines while the media is loading. The dark backing is
+   what shows for the instant before the poster paints, so it is near-black
+   rather than light grey -- the clip's own first frame is a dark title card.
+   ========================================================================== */
+
+.aiq-video {
+  max-width: 900px;
+  margin-inline: auto;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #0d0d14;
+  box-shadow: 0 24px 60px rgba(20, 40, 110, 0.16);
+}
+
+/* `display: block` because a video is inline by default, which leaves a few
+   pixels of baseline gap under it inside the rounded frame. */
+.aiq-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+}

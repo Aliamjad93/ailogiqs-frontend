@@ -178,14 +178,7 @@ export default async function BlogPostPage({ params }) {
               <div className="news-details-wrapper">
                 <div className="news-details-items">
                   <div className="news-details-thumb">
-                    {/* The cover is the largest above-the-fold element, so it is
-                        fetched eagerly and at high priority rather than lazily. */}
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      fetchPriority="high"
-                      decoding="async"
-                    />
+                    <img src={post.image} alt={post.title} />
                   </div>
                   <div className="news-details-content">
                     {/*
@@ -214,11 +207,7 @@ export default async function BlogPostPage({ params }) {
                         {post.category}
                       </li>
                     </ul>
-                    {/* The article's own title is the page's h1. It was an h2, so
-                        the document had no top-level heading at all. The visual
-                        size is pinned in overrides.css, so promoting the element
-                        does not change how it looks. */}
-                    <h1>{post.title}</h1>
+                    <h2>{post.title}</h2>
 
                     {/* Body is authored HTML from the admin panel (TipTap
                         output). Sanitise on write rather than on every read --
@@ -230,12 +219,8 @@ export default async function BlogPostPage({ params }) {
                   </div>
 
                   <div className="row tag-share-wrap mt-5 align-items-center">
-                    {/* Tags are optional in the admin panel, so an untagged post
-                        renders nothing here rather than an empty paragraph. */}
                     <div className="col-lg-8 col-12">
-                      {post.tags.length > 0 && (
-                        <p>{post.tags.map((tag) => `#${tag}`).join(" ")}</p>
-                      )}
+                      <p>{post.tags.map((tag) => `#${tag}`).join(" ")}</p>
                     </div>
                     <div className="col-lg-4 col-12 mt-3 mt-lg-0 text-lg-end">
                       <div className="social-icon">
@@ -309,33 +294,15 @@ export default async function BlogPostPage({ params }) {
                     ))}
                   </div>
 
-                  {/*
-                    Markup follows the class structure the theme styles:
-                    .image > avatar, .content > .head > .con > h5, and a
-                    .form-clt wrapper around every field (the theme's input
-                    rules hang off .form-clt, so bare inputs fell back to the
-                    browser's default widgets).
-
-                    The avatar is an initials disc rather than an <img>: every
-                    testimonial/client-*.png in the theme is a placeholder
-                    graphic -- a grey box with its own pixel size printed on it
-                    -- so an <img> there renders as a broken "80X80" tile.
-                  */}
                   <div className="comments-area">
                     <div className="comments-heading">
                       <h3>Comments</h3>
                     </div>
                     <div className="blog-single-comment d-flex gap-4 pt-4 pb-5">
-                      <div className="image">
-                        <span className="comment-avatar" aria-hidden="true">
-                          EG
-                        </span>
-                      </div>
-                      <div className="content">
-                        <div className="head d-flex flex-wrap align-items-center justify-content-between gap-2">
-                          <div className="con">
-                            <h5>Epson Gorton</h5>
-                          </div>
+                      <img src="/assets/img/testimonial/client-1.png" alt="" />
+                      <div className="comment-text">
+                        <div className="d-flex flex-wrap justify-content-between">
+                          <h5>Epson Gorton</h5>
                           <span className="comment-date">20 Jul, 2024</span>
                         </div>
                         <p>
@@ -349,22 +316,13 @@ export default async function BlogPostPage({ params }) {
                       <form>
                         <div className="row g-3">
                           <div className="col-md-6">
-                            <div className="form-clt">
-                              <span>Name</span>
-                              <input type="text" placeholder="Your name" />
-                            </div>
+                            <input type="text" placeholder="Name" />
                           </div>
                           <div className="col-md-6">
-                            <div className="form-clt">
-                              <span>Email</span>
-                              <input type="email" placeholder="Your email" />
-                            </div>
+                            <input type="email" placeholder="Email" />
                           </div>
                           <div className="col-12">
-                            <div className="form-clt">
-                              <span>Comment</span>
-                              <textarea rows="5" placeholder="Write your comment" />
-                            </div>
+                            <textarea rows="5" placeholder="Comment" />
                           </div>
                           <div className="col-12">
                             <button type="submit" className="theme-btn">
@@ -413,13 +371,8 @@ export default async function BlogPostPage({ params }) {
                   <div className="news-widget-categories">
                     <ul>
                       {categories.map((category) => (
-                        <li key={category.slug}>
-                          {/* Filtered rather than a bare /blog: these links used
-                              to all point at the same URL, which gave a crawler
-                              four identical targets and gave a reader nothing. */}
-                          <Link href={`/blog?category=${category.slug}`}>
-                            {category.name}
-                          </Link>{" "}
+                        <li key={category.name}>
+                          <Link href="/blog">{category.name}</Link>{" "}
                           <span>({String(category.count).padStart(2, "0")})</span>
                         </li>
                       ))}
@@ -463,27 +416,23 @@ export default async function BlogPostPage({ params }) {
                   <img src="/assets/img/news/Banner.png" alt="" />
                 </div>
 
-                {/* Conditional, like the listing's: tags are optional per post,
-                    so an empty tag list must not leave a heading over nothing. */}
-                {tags.length > 0 && (
-                  <div className="single-sidebar-widget">
-                    <div className="wid-title">
-                      <h3>
-                        <img src="/assets/img/star-3.png" alt="" />
-                        Tags Clouds
-                      </h3>
-                    </div>
-                    <div className="news-widget-categories">
-                      <div className="tagcloud">
-                        {tags.map((tag) => (
-                          <Link href={`/blog?tag=${tag}`} key={tag}>
-                            {tag}
-                          </Link>
-                        ))}
-                      </div>
+                <div className="single-sidebar-widget">
+                  <div className="wid-title">
+                    <h3>
+                      <img src="/assets/img/star-3.png" alt="" />
+                      Tags Clouds
+                    </h3>
+                  </div>
+                  <div className="news-widget-categories">
+                    <div className="tagcloud">
+                      {tags.map((tag) => (
+                        <Link href="/blog" key={tag}>
+                          {tag}
+                        </Link>
+                      ))}
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>

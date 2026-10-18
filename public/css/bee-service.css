@@ -1,0 +1,1948 @@
+/* =============================================================================
+   AiLogiQs — BeeLens stylesheet (the dark / amber design)
+   -----------------------------------------------------------------------------
+   Styles /portfolio/bee-virus-detection, the BeeLens service page. It is NOT
+   the site's theme, and it is not the indigo AI-sales-agent design either.
+
+   Three designs now live in this repo:
+
+     main site        black / yellow   public/css/overrides.css + vendor css
+     AI sales agent   indigo           public/css/ai-service.css
+     BeeLens          dark / amber     THIS FILE
+
+   Loaded from src/app/(site)/(bee-service)/layout.jsx, so no other page
+   downloads it. Leaking is impossible regardless: EVERY rule below is scoped
+   under `body.route-bee` (set by TemplateRuntime for /portfolio/bee-virus-
+   detection) or under a `.bee-*` class that only this page renders. Note the
+   "every" -- in a comma-separated selector list EVERY part has to carry the
+   scope, not just the first one.
+
+   Colours are the reference infographic's own, read off its computed styles
+   rather than eyeballed: amber #F2A81D, ink #16130E, cream #F4EEE2, card
+   surface #221D16, muted #CFC6B4, alert #FF6B3D, clean #4A8C5C.
+
+   Type is Archivo (headings), IBM Plex Sans (body) and IBM Plex Mono (labels),
+   all self-hosted from /assets/fonts/bee/. Archivo and IBM Plex Sans are the
+   variable cuts, so one file covers every weight the design uses.
+   ========================================================================== */
+
+
+/* =============================================================================
+   Fonts — self-hosted, latin subset only
+   -----------------------------------------------------------------------------
+   The reference links these from Google Fonts. They are vendored here instead:
+   no third-party request, no render-blocking stylesheet, and the build stays
+   offline-safe. Archivo and IBM Plex Sans are served as single variable files
+   (Google returns the same file for every weight we asked for), so the
+   `font-weight` ranges below are what let one file cover 700-900 and 400-600.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/assets/fonts/bee/archivo-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/fonts/bee/ibm-plex-sans-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/bee/ibm-plex-mono-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/bee/ibm-plex-mono-500.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/fonts/bee/ibm-plex-mono-600.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+/* =============================================================================
+   Tokens
+   -----------------------------------------------------------------------------
+   Declared on <body> rather than :root so the palette lands on the page and
+   cannot be inherited by anything outside this route.
+   ========================================================================== */
+
+body.route-bee {
+  --bee-amber: #f2a81d;
+  --bee-amber-deep: #d98f0c; /* hover / pressed */
+  --bee-amber-ink: #8a5a0c; /* amber text on cream, where amber itself fails contrast */
+
+  --bee-ink: #16130e; /* the near-black the whole design is built on */
+  --bee-ink-2: #0d0b08; /* one step deeper, for wells and the phone */
+  --bee-surface: #221d16; /* card on dark */
+  --bee-surface-2: #2a2318; /* raised card on dark */
+  --bee-line: #3a3226; /* hairline on dark */
+
+  --bee-cream: #f4eee2; /* cream TEXT on dark */
+  --bee-cream-bg: #f4eee2; /* cream SURFACE (the one light band) */
+  --bee-cream-card: #ffffff;
+  --bee-cream-tile: #efe6d3;
+  --bee-cream-line: #ded3bc;
+  --bee-cream-ink: #16130e;
+  --bee-cream-muted: #6b5e48;
+
+  --bee-muted: #cfc6b4; /* body copy on dark */
+  --bee-muted-2: #9a917f; /* secondary copy on dark */
+
+  --bee-alert: #ff6b3d;
+  --bee-clean: #4a8c5c;
+
+  --bee-font-head: "Archivo", "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --bee-font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bee-font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /*
+    Height of the site header bar.
+
+    ONE value, THREE consumers, exactly like the indigo design's --aiq-header-h:
+    the bar is pinned to it, the hero's padding-top clears it, and the hero's
+    min-height subtracts it. That is what lets the hero be exactly one screen
+    tall without the bar and the copy ever drifting apart. Change this token,
+    never the three numbers.
+  */
+  --bee-header-h: 74px;
+
+  background-color: var(--bee-ink);
+}
+
+@media (max-width: 1199px) {
+  body.route-bee {
+    /* Below 1200px the inline nav gives way to the burger, so the bar is set
+       explicitly rather than left to collapse to the logo's own height. */
+    --bee-header-h: 66px;
+  }
+}
+
+/* The page wrapper. Everything below is written against a dark surface, so the
+   wrapper carries the palette instead of relying on the vendor body colour. */
+.bee-service {
+  background-color: var(--bee-ink);
+  color: var(--bee-cream);
+  font-family: var(--bee-font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  overflow-x: clip;
+}
+
+
+/* =============================================================================
+   Header
+   -----------------------------------------------------------------------------
+   The site's `header-1` is position:absolute over the page and was authored for
+   the template's own dark body. It is close to what this design wants, so it
+   only needs the surface pinned (it is transparent at rest, which over a dark
+   hero means the logo floats with no bar) and its yellow accents moved to
+   amber.
+   ========================================================================== */
+
+body.route-bee .header-1,
+body.route-bee .sticky.header-1 {
+  background-color: var(--bee-ink);
+  border-bottom: 1px solid var(--bee-line);
+}
+
+/* Bar height, pinned to the token. See --bee-header-h. */
+body.route-bee .header-1 .header-main {
+  height: var(--bee-header-h);
+}
+
+/* The theme gives every nav link 20px of vertical padding, which puts a ~62px
+   floor under the bar no matter what the token says. Cut to 15px so the row is
+   ~52px and the trimmed bar has room without the labels looking cramped. */
+body.route-bee .header-1 .header-main .main-menu ul li a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: var(--bee-font-body);
+}
+
+/* Accents: the theme's hover colour is its own yellow (#EFFB53). */
+body.route-bee .header-1 .header-main .main-menu ul > li > a:hover,
+body.route-bee .header-1 .header-main .main-menu ul > li:hover > a,
+body.route-bee .header-1 .header-main .main-menu ul li .submenu li a:hover,
+body.route-bee .header-1 .header-main .main-menu ul li .submenu li:hover > a {
+  color: var(--bee-amber);
+}
+
+body.route-bee .header-1 .header-main .main-menu ul li .submenu {
+  background-color: var(--bee-surface);
+  border-color: var(--bee-line);
+}
+
+body.route-bee .header-1 .search-trigger:hover,
+body.route-bee .header-1 .header__hamburger .sidebar__toggle,
+body.route-bee .header-1 .header__hamburger .sidebar__toggle i {
+  color: var(--bee-cream);
+}
+
+/* Mobile drawer (meanmenu). The theme paints the panel dark and the links
+   white, which is already right here -- only the hover accent and the +/- 
+   toggles need moving off the theme yellow. */
+body.route-bee .mean-container .mean-nav ul li a:hover,
+body.route-bee .mean-container .mean-nav ul li a.mean-expand,
+body.route-bee .mean-container .mean-nav ul li a.mean-expand:hover {
+  color: var(--bee-amber);
+}
+
+
+/* =============================================================================
+   Floating chrome — the back-to-top disc and the offcanvas drawer
+   -----------------------------------------------------------------------------
+   Both are rendered by TemplateRuntime, outside the (bee-service) group, so —
+   exactly like the header above — the only way in is `body.route-bee`.
+
+   main.css paints every accent in them on `--theme` (#EFFB53, the template
+   lime); each rule below moves one of those onto the design's amber pair
+   (--bee-amber / --bee-amber-deep, declared on body.route-bee). One rule per
+   vendor rule it replaces, so the substitutions stay greppable.
+   ========================================================================== */
+
+/* Amber fill, ink glyph — the .bee-btn-solid pair. The vendor hover
+   (near-black fill, white glyph) is the main site's control language, so the
+   hover deepens the amber instead and keeps the glyph ink. */
+body.route-bee .back-to-top {
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+}
+
+body.route-bee .back-to-top:hover {
+  background-color: var(--bee-amber-deep);
+  color: var(--bee-ink);
+}
+
+/* The panel takes the design's ink rather than the site's --bg, so the seam
+   against the bee page it slides over never shows; the edge stripe goes amber. */
+body.route-bee .offcanvas__info {
+  background-color: var(--bee-ink);
+  border-left-color: var(--bee-amber);
+}
+
+/* Close pill: amber fill, ink glyph (vendor: lime fill, --header glyph). */
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__close {
+  background-color: var(--bee-amber);
+}
+
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__close i {
+  color: var(--bee-ink);
+}
+
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__close:hover {
+  background-color: var(--bee-amber-deep);
+}
+
+/* Contact glyphs also run on the theme lime in the vendor sheet. */
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__contact ul li .offcanvas__contact-icon i {
+  color: var(--bee-amber);
+}
+
+/* The drawer's CTA: the vendor pill is dark with a lime label and a lime hover
+   fill; re-dressed to the .bee-btn-solid pair (amber fill, ink label, deeper
+   amber on hover) so the drawer matches every button on the page. */
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__contact .header-button .theme-btn {
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+}
+
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__contact .header-button .theme-btn::after {
+  background-color: var(--bee-amber-deep);
+}
+
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__contact .header-button .theme-btn:hover {
+  color: var(--bee-ink);
+}
+
+/* Social pills: amber hover fill with an ink glyph. The glyph rule is needed
+   because main.css pins `.social-icon a i` to white, which would then sit on
+   the amber fill; inheriting lets the glyph flip with the anchor. */
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__contact .social-icon a:hover {
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+}
+
+body.route-bee .offcanvas__wrapper .offcanvas__content .offcanvas__contact .social-icon a i {
+  color: inherit;
+}
+
+/* The wordmark: Logo.jsx writes the accent colour inline (#EFFB53 unless the
+   route passes its own), so the stylesheet needs !important to reach "Logi" —
+   the same lever ai-service.css pulls on this panel. The header passes
+   #F2A81D as a prop; the drawer cannot, because TemplateRuntime renders it
+   outside every route's scope. */
+body.route-bee .offcanvas__logo .ailogiqs-logo span {
+  color: var(--bee-amber) !important;
+}
+
+
+/* =============================================================================
+   Shared type
+   ========================================================================== */
+
+/*
+  The vendor theme capitalises every heading (`h1..h6 { text-transform:
+  capitalize }` in main.css), which would render "See Varroa And Viruses Before
+  They Spread." -- the reference is sentence case throughout. Switched off for
+  everything this page renders, the accordion's <button> included, since that is
+  not a heading and would otherwise be missed.
+
+  Scoped under .bee-service, so the black/yellow site keeps the theme's own
+  capitalisation.
+*/
+.bee-service :is(h1, h2, h3, h4, h5, h6, .accordion-button) {
+  text-transform: none;
+}
+
+.bee-eyebrow {
+  margin: 0 0 14px;
+  font-family: var(--bee-font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bee-amber);
+}
+
+.bee-head {
+  max-width: 900px;
+  margin-bottom: clamp(28px, 3vw, 48px);
+}
+
+.bee-head-center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.bee-title {
+  margin: 0;
+  font-family: var(--bee-font-head);
+  font-weight: 900;
+  font-size: clamp(28px, 3.5vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--bee-cream);
+}
+
+.bee-title span {
+  color: var(--bee-amber);
+}
+
+.bee-intro {
+  margin: 18px 0 0;
+  max-width: 46em;
+  font-size: 17px;
+  color: var(--bee-muted);
+}
+
+.bee-head-center .bee-intro {
+  margin-inline: auto;
+}
+
+/* Head on the left, a CTA on the right — the benefits band.
+
+   `align-items: center`, not `flex-end`: the button reads as part of the heading
+   statement when it is centred against it, and as a stray right-aligned chip
+   when it is dropped to the baseline. The margin-bottom is what keeps the card
+   grid below from running flush into the heading — without it the only
+   separation is the grid's own gap, which is a third of what the section needs. */
+.bee-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 32px;
+  margin-bottom: clamp(28px, 3vw, 44px);
+}
+
+.bee-head-row .bee-head {
+  margin-bottom: 0;
+  flex: 1 1 420px;
+}
+
+
+/* =============================================================================
+   Buttons
+   ========================================================================== */
+
+.bee-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 14px 28px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-family: var(--bee-font-body);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.18s ease, border-color 0.18s ease,
+    color 0.18s ease, transform 0.18s ease;
+}
+
+.bee-btn-lg {
+  padding: 17px 34px;
+  font-size: 16px;
+}
+
+.bee-btn-solid {
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+}
+
+.bee-btn-solid:hover {
+  background-color: var(--bee-amber-deep);
+  color: var(--bee-ink);
+  transform: translateY(-1px);
+}
+
+/* Outlined on the dark hero. */
+.bee-btn-ghost {
+  background-color: transparent;
+  border-color: #5c5143;
+  color: var(--bee-cream);
+}
+
+.bee-btn-ghost:hover {
+  border-color: var(--bee-cream);
+  color: var(--bee-cream);
+}
+
+/* Used on the amber CTA band, where the solid amber button would vanish. */
+.bee-btn-dark {
+  background-color: var(--bee-ink);
+  color: var(--bee-cream);
+}
+
+.bee-btn-dark:hover {
+  background-color: #2a2318;
+  color: var(--bee-cream);
+  transform: translateY(-1px);
+}
+
+
+/* =============================================================================
+   Hero — exactly one screen, no scroll
+   -----------------------------------------------------------------------------
+   Same contract as the indigo hero: the header is position:absolute over the
+   page, so the hero clears it with padding-top AND stops at the fold with
+   min-height, both driven by the one --bee-header-h token.
+
+   `svh`, never `vh`: on mobile Chrome/Safari `vh` is the LARGE viewport (the
+   one with the address bar hidden), so a 100vh hero is taller than what is on
+   screen and scrolls by exactly the height of the address bar -- the classic
+   "the hero still scrolls a bit" bug. `svh` is the small viewport, i.e. what is
+   actually visible. The `vh` line is the fallback for browsers without svh.
+
+   Every child below is capped so the copy can never outgrow the box. That is
+   the part that actually holds the promise: min-height alone sets a floor, not
+   a ceiling, so without the caps a long heading simply pushes the fold down.
+   ========================================================================== */
+
+.bee-hero {
+  position: relative;
+  overflow: clip;
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - var(--bee-header-h));
+  min-height: calc(100svh - var(--bee-header-h));
+  /*
+    The hero's own vertical padding, as TOKENS.
+
+    Not just tidiness: the artwork's height cap is derived from them (see
+    .bee-hero-art img), so that "the image fills whatever the copy does not
+    need" stays true at every breakpoint. Every media query below therefore
+    overrides these two values rather than writing a padding, which is what
+    keeps the cap and the box in step -- the same reason the indigo hero keeps
+    its bar height in one token.
+  */
+  --bee-hero-pad-t: clamp(16px, 1.9vw, 34px);
+  --bee-hero-pad-b: clamp(20px, 2.4vw, 44px);
+  padding-top: calc(var(--bee-header-h) + var(--bee-hero-pad-t));
+  padding-bottom: var(--bee-hero-pad-b);
+  background:
+    radial-gradient(90% 70% at 78% 22%, rgba(242, 168, 29, 0.09) 0%, rgba(242, 168, 29, 0) 62%),
+    var(--bee-ink);
+}
+
+/* The honeycomb watermark, bottom-left, half off-canvas — the reference's own
+   decoration. Drawn as a tiling SVG so it costs no request and stays sharp. */
+.bee-hex {
+  position: absolute;
+  left: -170px;
+  bottom: -230px;
+  width: 760px;
+  height: 760px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='62' viewBox='0 0 36 62'%3E%3Cg fill='none' stroke='%23F2A81D' stroke-width='1.2'%3E%3Cpolygon points='9,0 27,0 36,15.5 27,31 9,31 0,15.5'/%3E%3Cpolygon points='27,31 45,31 54,46.5 45,62 27,62 18,46.5'/%3E%3Cpolygon points='-9,31 9,31 18,46.5 9,62 -9,62 -18,46.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 108px 186px;
+  opacity: 0.085;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(closest-side, #000 38%, transparent 76%);
+  mask-image: radial-gradient(closest-side, #000 38%, transparent 76%);
+}
+
+.bee-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.bee-hero-grid {
+  display: grid;
+  /*
+    Slight bias to the artwork column. It carries the page's whole argument, and
+    the copy only needs enough width for the heading to break in three lines --
+    so the artwork takes the extra, which is what lets it grow on a wide screen
+    where the column, not the viewport height, is what limits it.
+  */
+  grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+  align-items: center;
+  gap: clamp(24px, 3.2vw, 52px);
+}
+
+.bee-hero-title {
+  margin: 0 0 18px;
+  font-family: var(--bee-font-head);
+  font-weight: 900;
+  /* Capped hard: this is the one element that decides whether the hero fits. */
+  font-size: clamp(30px, 4vw, 58px);
+  line-height: 1.03;
+  letter-spacing: -0.022em;
+  color: var(--bee-cream);
+  max-width: 12em;
+}
+
+.bee-hero-title span {
+  color: var(--bee-amber);
+}
+
+.bee-hero-intro {
+  margin: 0 0 26px;
+  max-width: 34em;
+  font-size: clamp(15px, 1.1vw, 17px);
+  color: var(--bee-muted);
+}
+
+.bee-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.bee-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bee-checks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14.5px;
+  color: var(--bee-cream);
+}
+
+.bee-checks svg {
+  color: var(--bee-amber);
+  flex-shrink: 0;
+}
+
+
+/* --- The hero artwork ------------------------------------------------------ */
+
+/*
+  The whole hero composition -- device, detection boxes and the two read-outs --
+  supplied by the client as one transparent PNG, exported here to WebP (781 KB
+  -> 84 KB with the alpha channel intact).
+
+  This replaces the hand-built device, callout cards and clip meter that used to
+  live here. The reference's export carries its own type, spacing and shadows,
+  which markup could only approximate; the sales-agent page made the same call
+  with its WhatsApp mockup.
+
+  What it costs: the read-outs are no longer selectable text and cannot be
+  edited from the page. Changing "Mite load / High" now means a new export.
+  The alt text below is therefore doing the work the markup used to do for
+  screen readers and search engines -- keep it in step with the artwork.
+
+  Sizing: capped by VIEWPORT HEIGHT, like everything else in the hero. The
+  image is 0.88 wide-to-tall, so a width-only cap is what would push the hero
+  past the fold; the height cap plus `width: auto` keeps both dimensions and
+  the aspect ratio in one number. `max-width` is the belt-and-braces for a very
+  narrow column.
+*/
+/*
+  Sizing.
+
+  `max-height` + `max-width: 100%` with both dimensions `auto`, NOT a fixed
+  height: the image then fills whichever limit binds first and always keeps its
+  aspect ratio. A fixed height plus a max-width would squash it the moment the
+  column was the tighter of the two.
+
+  The height cap is the hero's own budget -- viewport, minus the bar, minus the
+  hero's padding, minus a little air -- so the artwork is as large as the box
+  allows at every size and can never push the hero past the fold. The width cap
+  takes over on wide screens, where the grid column is what limits it.
+*/
+.bee-hero-art {
+  display: grid;
+  place-items: center;
+}
+
+.bee-hero-art img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(
+    100svh - var(--bee-header-h) - var(--bee-hero-pad-t) - var(--bee-hero-pad-b) - 4px
+  );
+  margin-inline: auto;
+}
+
+/* --- The clip read-out ---------------------------------------------------- */
+
+.bee-meter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 14px 16px 12px;
+  background: linear-gradient(to top, rgba(13, 11, 8, 0.94), rgba(13, 11, 8, 0));
+}
+
+.bee-meter-track {
+  height: 3px;
+  border-radius: 999px;
+  background-color: rgba(244, 238, 226, 0.28);
+  overflow: hidden;
+}
+
+.bee-meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--bee-amber);
+}
+
+.bee-meter-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+  font-family: var(--bee-font-mono);
+  font-size: 11.5px;
+  color: var(--bee-cream);
+}
+
+.bee-meter-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bee-meter-play {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: rgba(244, 238, 226, 0.16);
+  color: var(--bee-cream);
+  flex-shrink: 0;
+}
+
+.bee-meter-status {
+  color: var(--bee-amber);
+  white-space: nowrap;
+}
+
+/*
+  The clip read-out adapts to its FRAME, not to the viewport.
+
+  The frame's width comes from its grid column, so the same ~200px frame appears
+  at several different media widths (a short desktop window and a tablet both
+  produce one). A media query would have to guess; a container query just asks.
+
+  Below ~260px the filename and the status line cannot both fit, so the status
+  line goes and the progress bar stays. It is the bar that reads as "analysing"
+  at a glance anyway.
+*/
+@container (max-width: 260px) {
+  .bee-meter {
+    padding: 10px 11px 9px;
+  }
+
+  .bee-meter-row {
+    display: none;
+  }
+}
+
+
+/* =============================================================================
+   Photo in, diagnosis out — the band under the hero
+   --------------------------------------------------------------------------
+   A statement band, then three beats on one baseline: the frame being analysed,
+   the join, and the report. The report is now markup, so the middle column is
+   sized by the card rather than by an image's aspect ratio.
+   ========================================================================== */
+
+.bee-flow-intro {
+  max-width: 640px;
+  margin-bottom: clamp(34px, 3.6vw, 60px);
+}
+
+.bee-flow-title {
+  margin: 0 0 18px;
+  font-family: var(--bee-font-head);
+  font-weight: 900;
+  font-size: clamp(30px, 4vw, 58px);
+  line-height: 1.03;
+  letter-spacing: -0.022em;
+  color: var(--bee-cream);
+}
+
+.bee-flow-title span {
+  color: var(--bee-amber);
+}
+
+.bee-flow-lead {
+  margin: 0;
+  max-width: 34em;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--bee-muted);
+}
+
+.bee-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) auto minmax(0, 1.55fr);
+  align-items: center;
+  gap: clamp(22px, 3.4vw, 56px);
+}
+
+/* The phone is deliberately capped in width rather than allowed to fill its
+   column: at column width it would tower over the report, and the three beats
+   stop reading as one row. */
+.bee-flow-art {
+  width: 100%;
+  max-width: 320px;
+}
+
+/*
+  The dashed join. Built from two pseudo-elements rather than a character so it
+  scales with the section, and so the arrowhead keeps its geometry at any size.
+*/
+.bee-flow-arrow {
+  display: flex;
+  align-items: center;
+  width: clamp(44px, 6.5vw, 116px);
+  color: var(--bee-amber);
+}
+
+.bee-flow-arrow::before {
+  content: "";
+  flex: 1;
+  border-top: 3px dashed currentColor;
+}
+
+.bee-flow-arrow::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  margin-left: 3px;
+  border-left: 15px solid currentColor;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+
+
+/* --- The diagnosis report -------------------------------------------------- */
+
+.bee-report {
+  padding: clamp(22px, 2.2vw, 32px);
+  border-radius: 22px;
+  background-color: var(--bee-cream-bg);
+  border: 1px solid var(--bee-cream-line);
+  color: var(--bee-cream-ink);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.38);
+}
+
+.bee-report-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: clamp(18px, 1.8vw, 26px);
+}
+
+.bee-report p {
+  margin: 0;
+}
+
+.bee-report-eyebrow {
+  font-family: var(--bee-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bee-amber-ink);
+}
+
+.bee-report-meta {
+  font-family: var(--bee-font-mono);
+  font-size: 11.5px;
+  color: #8a8175;
+}
+
+.bee-report-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 15px;
+  border-radius: 999px;
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.bee-report-title {
+  margin: 14px 0 6px;
+  font-family: var(--bee-font-head);
+  font-weight: 900;
+  font-size: clamp(26px, 2.5vw, 40px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--bee-ink);
+}
+
+.bee-report-sub {
+  margin: 0 0 clamp(20px, 2vw, 28px);
+  font-size: 16px;
+  color: var(--bee-cream-muted);
+}
+
+.bee-report-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 28px;
+  padding-top: clamp(18px, 1.8vw, 24px);
+  border-top: 1px solid var(--bee-cream-line);
+}
+
+.bee-report-fact-label {
+  font-family: var(--bee-font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bee-amber-ink);
+}
+
+.bee-report-fact-text {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--bee-cream-ink);
+}
+
+.bee-report-step {
+  margin-top: clamp(20px, 2vw, 26px);
+  padding: 18px 20px;
+  border-radius: 14px;
+  background-color: var(--bee-ink);
+}
+
+.bee-report-step-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bee-amber);
+}
+
+.bee-report-step-text {
+  margin-top: 8px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--bee-muted);
+}
+
+
+/* =============================================================================
+   Bands
+   ========================================================================== */
+
+.bee-band {
+  position: relative;
+  padding: clamp(56px, 6vw, 104px) 0;
+  background-color: var(--bee-ink);
+}
+
+/* One step lifted, so consecutive dark bands still read as separate sections. */
+.bee-band-tint {
+  background-color: #1b1710;
+}
+
+/* The single light band. Everything in it flips to ink-on-cream. */
+.bee-band-cream {
+  background-color: var(--bee-cream-bg);
+  color: var(--bee-cream-ink);
+}
+
+.bee-band-cream .bee-title {
+  color: var(--bee-cream-ink);
+}
+
+.bee-band-cream .bee-title span {
+  color: var(--bee-amber-ink);
+}
+
+.bee-band-cream .bee-eyebrow {
+  color: var(--bee-amber-ink);
+}
+
+.bee-band-cream .bee-intro {
+  color: var(--bee-cream-muted);
+}
+
+
+/* =============================================================================
+   What it looks for — the visible-signs board
+   --------------------------------------------------------------------------
+   Sits on the page background rather than a tinted band: the band above
+   ("How it works") already carries the section separation, and the cards
+   themselves provide the surface. Heading is centred through SectionHead, like
+   the band above it.
+   ========================================================================== */
+
+.bee-symptom {
+  padding: 22px 22px 24px;
+  border: 1px solid var(--bee-line);
+  border-radius: 16px;
+  background-color: var(--bee-surface);
+}
+
+.bee-symptom-code {
+  margin: 0 0 10px;
+  font-family: var(--bee-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--bee-muted-2);
+}
+
+.bee-symptom h3 {
+  margin: 0 0 10px;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.2;
+  color: var(--bee-cream);
+}
+
+.bee-symptom-text {
+  margin: 0;
+  font-size: 15px;
+  color: var(--bee-muted);
+}
+
+
+/* =============================================================================
+   Grids
+   ========================================================================== */
+
+.bee-grid {
+  display: grid;
+  gap: clamp(16px, 1.6vw, 22px);
+}
+
+.bee-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bee-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bee-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.bee-grid-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+
+/* =============================================================================
+   How it works — the four pipeline steps
+   ========================================================================== */
+
+.bee-step {
+  position: relative;
+  padding: 26px 24px 24px;
+  border: 1px solid var(--bee-line);
+  border-radius: 20px;
+  background-color: var(--bee-surface);
+  overflow: hidden;
+  transition: transform 0.25s ease, border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* The lift reads against the flat band, and the amber edge walks the card
+   toward the colour of its own icon chip. */
+.bee-step:hover {
+  transform: translateY(-4px);
+  border-color: rgba(242, 168, 29, 0.38);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.38);
+}
+
+.bee-step-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+  transition: transform 0.25s ease;
+}
+
+.bee-step:hover .bee-step-icon {
+  transform: scale(1.06);
+}
+
+/*
+   The step number stays a compact counter in the icon row's whitespace —
+   kept small (the watermark treatment was tried and it shouted over the
+   cards) so the reading order of the four steps stays quiet. The gradient is
+   clipped to the text so the digits sink a shade below the body copy. */
+.bee-step-n {
+  position: absolute;
+  top: 24px;
+  right: 20px;
+  font-family: var(--bee-font-head);
+  font-weight: 800;
+  font-size: clamp(24px, 2vw, 30px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background-image: linear-gradient(
+    180deg,
+    rgba(244, 238, 226, 0.30),
+    rgba(244, 238, 226, 0.16)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+}
+
+.bee-step h3 {
+  margin: 20px 0 8px;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--bee-cream);
+}
+
+.bee-step p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--bee-muted);
+}
+
+/* --- The band's big-screen arrangement -------------------------------------
+ 
+   Steps left as a 2x2, the walkthrough cut right. This holds from 992px up;
+   below that the band stacks (see Responsive — the fixed 720px container-md
+   cannot carry both a readable 2x2 and a full-square clip).
+
+   The band keeps the container's own 1320px measure — the same band every
+   section above and below runs at; the narrower composition it used to carry
+   read as shoved in from the sides. The wider row goes to the clip: ~560px
+   square, up from the 460px it ran at the narrower measure, while the cards
+   hold the ~350px they were tuned to.
+
+   The SQUARE cut is what lets the two columns share one height: a 1:1 frame
+   in a ~560px column is ~560px tall — a little taller than the two rows of
+   step cards want with their text wrapped at that width — so the rows take
+   the difference as equal stretch and the clip still sets the band's height.
+   `align-items: stretch` keeps the column edges level while the other side
+   fills exactly; no more vertically-centred ragged top and bottom. Residual
+   pixels are absorbed by the frame (see the 992px block below).
+
+   The track CANNOT be left to `auto` sizing: a <video> contributes its
+   intrinsic width (1080px here) as its max-content size, and an auto track
+   happily takes it — which crushes the 1fr column to a sliver and lets the
+   frame run past the container. `min(560px, 42vw)` is a DEFINITE size (vw is
+   definite, unlike the percentage it replaces), so the track is immune to
+   what is inside it: 560px from ~1333px up, proportional below. */
+.bee-how {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) min(560px, 42vw);
+  align-items: stretch;
+  gap: clamp(24px, 3vw, 48px);
+}
+
+.bee-how-media {
+  width: 100%;
+  position: relative;
+}
+
+/* A soft amber halo behind the clip — separation from the ink band without
+   adding another surface. The ::before paints before the frame in tree order,
+   so the video sits on top of it. */
+.bee-how-media::before {
+  content: "";
+  position: absolute;
+  inset: -6% -14%;
+  background: radial-gradient(
+    closest-side,
+    rgba(242, 168, 29, 0.12),
+    rgba(242, 168, 29, 0) 74%
+  );
+  pointer-events: none;
+}
+
+/* The clip is the band's focal point, so it gets the deeper shadow of the two
+   video treatments; the steps beside it stay flat cards. */
+.bee-how-media .bee-video {
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.42);
+}
+
+/*
+   The stretch mechanics — and how they differ between laptop and tablet.
+
+   From 992px up the columns share one height: the card grid is given its
+   column's whole height and split into two `auto` rows, each flooring at its
+   content with `align-content`'s stretch splitting whatever is left equally,
+   so the two rows stay level however uneven the four blurb wraps are. The
+   clip fills its column the same way; during row sizing its height resolves
+   through the reserved 1:1 aspect-ratio (the `100%` reads as `auto` there),
+   so it sets the band's height when it is the taller column. `contain` on
+   the element is the safety net — a clip whose frame is a hair taller than
+   its box letterboxes instead of ever cutting its edges.
+
+   On tablets (768–991) the same two columns cannot share a height: the
+   container is too narrow for both a readable 2x2 and a full-square clip, so
+   the clip keeps its ratio and floats centred between the rows, its amber
+   halo filling the slack above and below. Never cropped. */
+@media (min-width: 992px) {
+  .bee-how-media .bee-video {
+    height: 100%;
+  }
+
+  .bee-how-media .bee-video-el {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* The stretch leftover splits between the row gutter and the cards: the
+     gutter takes half of it (22px where the clip matches the rows, up to 72px
+     beside the full-size clip), the rows take the rest — so the four cards
+     stay close to the height they were tuned to and still edge the clip. */
+  .bee-how-steps .bee-grid {
+    height: 100%;
+    grid-template-rows: repeat(2, auto);
+    row-gap: clamp(22px, calc(21vw - 208px), 72px);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .bee-how-media {
+    align-self: center;
+  }
+}
+
+/*
+   How it works below 992: the band stacks, the 2x2 holds (two cards abreast
+   still fits), and the clip drops below, centred. Deliberately NOT the 767px
+   breakout the band used to wait for: BETWEEN 768 and 991 the container-md
+   is a fixed 720px, which side-by-side turns into ~140px cards and a
+   centre-floated square with dead air top and bottom — the stacked version
+   gives each choice its room. (The old tablet side-by-side instruction was
+   written for the 9:16 cut and its narrower track; the square cut's mandate
+   — full frame visible, band heights matched — wins the narrower widths.) */
+@media (max-width: 991px) {
+  .bee-how {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .bee-how-media {
+    width: 100%;
+    max-width: 340px;
+    margin-inline: auto;
+  }
+}
+
+
+/* =============================================================================
+   Split bands (Varroa detection, FAQ)
+   ========================================================================== */
+
+.bee-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 64px);
+}
+
+/* FAQ puts the copy first in the DOM but the art on the left. */
+.bee-split-reverse {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+}
+
+.bee-split-copy .bee-head {
+  margin-bottom: clamp(24px, 2.6vw, 36px);
+}
+
+/* The hive frame in a card, with the clip read-out pinned inside it. */
+.bee-frame {
+  position: relative;
+  /*
+    `container-type` so the clip read-out inside can adapt to the FRAME's width
+    rather than the viewport's. The frame's width comes from its grid column, so
+    a media query would have to guess at it; a container query just asks. See
+    the @container block under the read-out.
+  */
+  container-type: inline-size;
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--bee-line);
+  background-color: var(--bee-ink-2);
+  aspect-ratio: 4 / 5;
+}
+
+.bee-frame > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bee-frame-tall {
+  aspect-ratio: 3 / 5;
+  max-height: 620px;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 400px;
+}
+
+/*
+  The Varroa frame, where the split is side-by-side. Its art column is wider
+  than the scene needs: at full column width the 4/5 card stood ~60% taller
+  than the copy beside it (714px vs 447px at a 1362px viewport), so the
+  artwork dominated the band. Capped and centred so the two columns read as a
+  pair -- the card keeps a slight overhang above and below the copy, nothing
+  more.
+  Below 992px the split stacks and the frame fills its column like every other
+  band, so the cap applies above that only.
+*/
+@media (min-width: 992px) {
+  .bee-frame-sm {
+    max-width: 420px;
+    margin-inline: auto;
+  }
+}
+
+/* Varroa capability cards. */
+.bee-mini {
+  padding: 20px;
+  border: 1px solid var(--bee-line);
+  border-radius: 16px;
+  background-color: var(--bee-surface-2);
+}
+
+.bee-mini h4 {
+  margin: 0 0 6px;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--bee-cream);
+}
+
+.bee-mini p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--bee-muted);
+}
+
+
+/* =============================================================================
+   What BeeLens detects — specimen cards on the cream band
+   ========================================================================== */
+
+.bee-threat {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  border-radius: 20px;
+  background-color: var(--bee-cream-card);
+  border: 1px solid var(--bee-cream-line);
+}
+
+.bee-threat-art {
+  display: grid;
+  place-items: center;
+  height: 96px;
+  border-radius: 14px;
+  background-color: var(--bee-cream-tile);
+  margin-bottom: 16px;
+}
+
+.bee-threat-code {
+  margin: 0 0 6px;
+  font-family: var(--bee-font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--bee-amber-ink);
+}
+
+.bee-threat h4 {
+  margin: 0 0 8px;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.2;
+  color: var(--bee-cream-ink);
+}
+
+.bee-threat-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--bee-cream-muted);
+}
+
+/* Varroa — the headline pest, so its card inverts to stay the loudest. */
+.bee-threat-feature {
+  background-color: var(--bee-ink);
+  border-color: var(--bee-ink);
+}
+
+.bee-threat-feature .bee-threat-art {
+  background-color: #2a2318;
+}
+
+.bee-threat-feature .bee-threat-code {
+  color: var(--bee-amber);
+}
+
+.bee-threat-feature h4 {
+  color: var(--bee-cream);
+}
+
+.bee-threat-feature .bee-threat-text {
+  color: var(--bee-muted);
+}
+
+
+/* =============================================================================
+   Benefits
+   ========================================================================== */
+
+.bee-benefit {
+  padding: 26px 24px;
+  border: 1px solid var(--bee-line);
+  border-radius: 20px;
+  background-color: var(--bee-surface);
+}
+
+.bee-benefit-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+}
+
+.bee-benefit h3 {
+  margin: 18px 0 8px;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--bee-cream);
+}
+
+.bee-benefit p {
+  margin: 0;
+  font-size: 15px;
+  color: var(--bee-muted);
+}
+
+
+/* =============================================================================
+   Video frames — the client's BeeLens clips
+   -----------------------------------------------------------------------------
+   One component (BeeVideo) renders all four cuts; this is its frame. The clips
+   are dark brand animations, so the frame is a well rather than a card: deeper
+   than the band, hairline border, generous shadow — the same treatment the
+   report card gets, at video scale. The control bar (play/pause + sound) is
+   custom, bottom-right, and mostly hidden: it appears on hover, on keyboard
+   focus, while the clip is paused, and always on touch, where there is no hover
+   to reveal it. WCAG 2.2.2 needs the pause control to exist; it does not need
+   it shouting from the first paint.
+   ========================================================================== */
+
+/* The slot decides how much of the band the clip may take. */
+.bee-video-slot {
+  max-width: 880px;
+  margin: clamp(36px, 4vw, 56px) auto 0;
+}
+
+/* The Varroa clip is full container width — the detection boxes need the room. */
+.bee-video-slot-wide {
+  max-width: 1040px;
+}
+
+.bee-video {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--bee-line);
+  background-color: var(--bee-ink-2);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+}
+
+.bee-video-el {
+  display: block;
+  width: 100%;
+  height: auto;
+  /*
+    Safety net: the box is already pinned to the clip's own ratio (inline
+    aspect-ratio on the element), so this is a no-op in the normal case. If a
+    track or a cap ever distorts the box, the frame CROPS instead of stretching
+    — a cropped brand clip is a smaller sin than a squashed one.
+  */
+  object-fit: cover;
+}
+
+/*
+   The controls are the browser's own bar now — BeeVideo renders the native
+   player (play/pause, scrub, volume, fullscreen), the same as the sales-agent
+   clip on the chatbot page. Nothing custom to style here any more.
+   ======================================================================== */
+
+/* The clip sits in the band's own card, so nothing further is needed. */
+
+
+/* =============================================================================
+   Closing CTA — full-bleed amber
+   ========================================================================== */
+
+/* One centred column — heading, pitch line, button. The band used to share
+   the amber with the portrait clip card; with the clip gone (the two earlier
+   bands already tell the walkthrough story) the CTA closes poster-style.
+
+   The horizontal measure stays capped so a very wide heading never spans the
+   container edge to edge; `text-align` centres the block's own lines. */
+.bee-cta {
+  padding: clamp(56px, 6vw, 96px) 0;
+  background-color: var(--bee-amber);
+  color: var(--bee-ink);
+  text-align: center;
+}
+
+.bee-cta-copy {
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+.bee-cta h2 {
+  margin: 0 0 14px;
+  font-family: var(--bee-font-head);
+  font-weight: 900;
+  font-size: clamp(28px, 3.6vw, 52px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--bee-ink);
+}
+
+.bee-cta p {
+  margin: 0 0 28px;
+  font-size: 17px;
+  color: rgba(22, 19, 14, 0.78);
+}
+
+
+/* =============================================================================
+   FAQ — the vendor accordion, repainted for a dark band
+   ========================================================================== */
+
+.bee-faq .accordion-item {
+  margin-bottom: 12px;
+  border: 1px solid var(--bee-line);
+  border-radius: 14px;
+  background-color: var(--bee-surface);
+  overflow: hidden;
+}
+
+.bee-faq .accordion-button {
+  padding: 18px 22px;
+  background-color: transparent;
+  box-shadow: none;
+  font-family: var(--bee-font-head);
+  font-weight: 700;
+  font-size: 16.5px;
+  line-height: 1.3;
+  color: var(--bee-cream);
+}
+
+.bee-faq .accordion-button:not(.collapsed) {
+  background-color: transparent;
+  color: var(--bee-amber);
+}
+
+.bee-faq .accordion-button::after {
+  filter: invert(1) sepia(1) saturate(4) hue-rotate(350deg);
+  opacity: 0.75;
+}
+
+.bee-faq .accordion-body {
+  padding: 0 22px 20px;
+  font-size: 15.5px;
+  color: var(--bee-muted);
+}
+
+.bee-faq .accordion-button:focus-visible {
+  outline: 2px solid var(--bee-amber);
+  outline-offset: -2px;
+}
+
+
+/* =============================================================================
+   Footer
+   -----------------------------------------------------------------------------
+   The page renders the template's own footer (`classic`), which is already a
+   near-black panel — the right surface for this design. Only its accents need
+   moving off the theme yellow.
+   ========================================================================== */
+
+body.route-bee .footer-section.footer-bg .footer-content h3,
+body.route-bee .footer-section.footer-bg .widget-head h3 {
+  font-family: var(--bee-font-head);
+}
+
+body.route-bee .footer-section.footer-bg .list-items li a:hover,
+body.route-bee .footer-section.footer-bg .social-icon a:hover,
+body.route-bee .footer-section.footer-bg .newsletter-btn:hover {
+  color: var(--bee-amber);
+}
+
+body.route-bee .footer-section.footer-bg .theme-btn,
+body.route-bee .footer-section.footer-bg .footer-input button {
+  background-color: var(--bee-amber);
+}
+
+body.route-bee .footer-bottom .social-icon a:hover i {
+  color: var(--bee-amber);
+}
+
+
+/* =============================================================================
+   Responsive
+   -----------------------------------------------------------------------------
+   The hero is the constraint at every one of these. Each step does two things:
+   it re-flows the layout, and it re-caps whatever got taller.
+   ========================================================================== */
+
+@media (max-width: 1199px) {
+  .bee-grid-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bee-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 991px) {
+  .bee-hero {
+    /*
+      Stacked, the copy and the artwork share one screen, so the padding comes
+      in and the gaps tighten. Overriding the tokens, not a padding, so the
+      artwork's height cap follows automatically.
+
+      A definite HEIGHT here, not the min-height the desktop hero uses. That is
+      deliberate and load-bearing: the hero is defined as exactly one screen on
+      a phone, and only a definite height gives the flex column something to
+      divide up. With min-height the box stays content-sized and the artwork has
+      no leftover space to grow into -- which is exactly why it was rendering at
+      a hard-coded 22svh.
+
+      `margin-top` pushes the whole hero below the absolute bar, and `padding-top`
+      is then just the section's own air. Getting this pair wrong is what put the
+      eyebrow and the h1 underneath the nav.
+    */
+    margin-top: var(--bee-header-h);
+    height: calc(100vh - var(--bee-header-h));
+    height: calc(100svh - var(--bee-header-h));
+    padding-top: var(--bee-hero-pad-t);
+    padding-bottom: var(--bee-hero-pad-b);
+    --bee-hero-pad-t: 20px;
+    --bee-hero-pad-b: 20px;
+  }
+
+  /* Fill the hero's box, so the column below has a definite height to split. */
+  .bee-hero .container {
+    align-self: stretch;
+    height: 100%;
+  }
+
+  .bee-hero-grid {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
+
+  /*
+    The artwork ABSORBS whatever the copy does not use.
+
+    `flex: 1` with `min-height: 0` makes this structural rather than arithmetic:
+    if a line of copy wraps the image gets smaller, if the copy runs short it
+    gets bigger, and in neither case can the hero exceed one screen -- there is
+    no copy-height number in here to go stale. The image is then fitted to that
+    box with max-width/max-height on `auto` dimensions, so it keeps its aspect
+    ratio whichever limit binds first.
+
+    `min-height` is the floor, so the artwork never collapses to nothing.
+  */
+  .bee-hero-copy {
+    flex: 0 0 auto;
+  }
+
+  .bee-hero-art {
+    flex: 1 1 auto;
+    min-height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bee-hero-art img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin-inline: auto;
+  }
+
+  .bee-hero-title,
+  .bee-hero-intro {
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  .bee-hero-cta,
+  .bee-checks {
+    justify-content: center;
+  }
+
+  .bee-hero-intro {
+    margin-bottom: 18px;
+  }
+
+  .bee-checks {
+    margin-top: 16px;
+  }
+
+  /* Stacked, the join has to point down rather than across. Redrawn rather than
+     rotated, so the arrowhead keeps its proportions instead of being skewed. */
+  .bee-flow {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 24px;
+  }
+
+  .bee-flow-intro {
+    max-width: none;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .bee-flow-lead {
+    margin-inline: auto;
+  }
+
+  .bee-flow-art {
+    max-width: 250px;
+  }
+
+  /* Two facts side by side is too narrow once the card is full width. */
+  .bee-report-facts {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .bee-flow-arrow {
+    width: 0;
+    height: 44px;
+    flex-direction: column;
+  }
+
+  .bee-flow-arrow::before {
+    flex: 1;
+    height: 100%;
+    border-top: 0;
+    border-left: 3px dashed currentColor;
+  }
+
+  .bee-flow-arrow::after {
+    margin-left: 0;
+    margin-top: 3px;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-bottom: 0;
+    border-top: 15px solid currentColor;
+  }
+
+  .bee-split,
+  .bee-split-reverse {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .bee-split-reverse .bee-split-art {
+    order: 2;
+  }
+
+  .bee-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bee-grid-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bee-head-row {
+    align-items: flex-start;
+  }
+}
+
+/*
+  How it works stacks below 992 — see the Responsive block next to the
+  stretch mechanics for why the old tablet side-by-side gave way.
+
+  Very short desktop windows (a 500px-tall browser window). Same problem as a
+  landscape phone: the heading alone fills the box. The type and the gaps come
+  in so the hero still lands inside one screen -- the copy stays complete, it
+  just stops shouting.
+*/
+@media (min-width: 992px) and (max-height: 580px) {
+  .bee-hero {
+    --bee-hero-pad-t: 6px;
+    --bee-hero-pad-b: 8px;
+  }
+
+  .bee-hero-title {
+    font-size: clamp(28px, 3.6vw, 46px);
+    margin-bottom: 12px;
+  }
+
+  .bee-hero-intro {
+    margin-bottom: 18px;
+  }
+
+  .bee-checks {
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 575px) {
+  .bee-service {
+    font-size: 16px;
+  }
+
+  /*
+    Phones are where the one-screen promise is hardest to keep: the copy wraps
+    to more lines at 320-430px while the viewport is at its shortest, so every
+    element in the hero is tightened here rather than only re-flowed. The
+    heading and the intro are the two that decide it.
+  */
+  .bee-hero {
+    --bee-hero-pad-t: 18px;
+    --bee-hero-pad-b: 18px;
+  }
+
+  .bee-hero-title {
+    font-size: clamp(26px, 7.6vw, 34px);
+    margin-bottom: 14px;
+  }
+
+  .bee-hero-intro {
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+
+  .bee-hero-cta {
+    gap: 10px;
+  }
+
+  /* No image cap here: the flex column above already sizes the artwork to
+     whatever the copy leaves. A second cap would only shrink it again. */
+
+  .bee-grid-3,
+  .bee-grid-4,
+  .bee-grid-5 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bee-checks {
+    margin-top: 16px;
+    gap: 6px 14px;
+  }
+
+  .bee-checks li {
+    font-size: 13px;
+  }
+
+  .bee-btn {
+    padding: 13px 22px;
+    font-size: 14.5px;
+  }
+
+  .bee-frame {
+    border-radius: 20px;
+  }
+
+  /* A phone column cannot carry two step cards abreast. */
+  .bee-how-steps .bee-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The video frames follow the frame's own radius down, and the wide Varroa
+     clip gives back the width a phone cannot use. */
+  .bee-video {
+    border-radius: 18px;
+  }
+
+  .bee-video-slot-wide {
+    max-width: 620px;
+  }
+}
+
+/*
+  Short phones (and any small viewport under ~700px tall). Even tightened, the
+  copy plus the device no longer fit inside one screen, and a hero that scrolls
+  is exactly what this design is supposed to avoid -- so the device leaves the
+  hero and the copy gets the whole box. Nothing is lost: the same hive frame,
+  with the same detection boxes, is the first thing in the Varroa band directly
+  below.
+*/
+@media (max-width: 575px) and (max-height: 700px) {
+  .bee-hero-art {
+    display: none;
+  }
+}
+
+/*
+  Landscape phones and other very short viewports: at this height the copy
+  alone fills the screen, so the device leaves the hero rather than forcing a
+  scroll. It is still on the page, in the Varroa band directly below.
+*/
+@media (max-height: 560px) and (max-width: 991px) {
+  .bee-hero-art {
+    display: none;
+  }
+}
+
+/*
+  Very short viewports — a phone held sideways is ~360px tall, and no amount of
+  re-flowing fits an eyebrow, a heading, a paragraph, two buttons and a row of
+  ticks into the ~270px that is left under the bar. The hero becomes a compact
+  statement instead: heading and CTA, which is what a visitor actually needs
+  before scrolling. The intro and the ticks are the first things restored as
+  soon as there is room.
+*/
+@media (max-width: 991px) and (max-height: 460px) {
+  .bee-hero {
+    padding-top: calc(var(--bee-header-h) + 14px);
+    padding-bottom: 14px;
+  }
+
+  .bee-hero-title {
+    font-size: clamp(22px, 4.2vw, 30px);
+    margin-bottom: 12px;
+  }
+
+  .bee-hero-intro,
+  .bee-checks {
+    display: none;
+  }
+
+  .bee-eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .bee-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Respect the OS "reduce motion" setting: the hover lift is decoration. */
+@media (prefers-reduced-motion: reduce) {
+  .bee-btn {
+    transition: none;
+  }
+
+  .bee-btn:hover {
+    transform: none;
+  }
+}

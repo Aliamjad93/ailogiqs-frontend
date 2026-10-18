@@ -1,8 +1,5 @@
 export const metadata = {
   title: "FAQ",
-  description:
-    "Answers to common questions about AiLogiQs AI agents, integrations, languages, data handling and how a project gets delivered.",
-  alternates: { canonical: "/faq" },
 };
 
 import Link from "next/link";

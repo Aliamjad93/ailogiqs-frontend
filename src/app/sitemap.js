@@ -5,7 +5,14 @@ const STATIC_ROUTES = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/service", changeFrequency: "monthly", priority: 0.7 },
-  { path: "/service-details", changeFrequency: "monthly", priority: 0.6 },
+  /*
+    The AI sales-agent showcase. It is one of the services, and it lives in its
+    own route group because it carries its own design -- see
+    src/app/(site)/(ai-service)/. The listing page and the service page are
+    separate URLs, so both are listed.
+  */
+  { path: "/ai-services/chatbot", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/portfolio/chatbot", changeFrequency: "monthly", priority: 0.6 },
   { path: "/team", changeFrequency: "monthly", priority: 0.6 },
   { path: "/project", changeFrequency: "monthly", priority: 0.6 },
   { path: "/project-details", changeFrequency: "monthly", priority: 0.4 },

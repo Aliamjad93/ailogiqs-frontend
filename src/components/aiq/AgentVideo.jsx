@@ -1,5 +1,10 @@
 /**
- * The agent demo clip in the homepage's "AI sales agent" column.
+ * The agent demo clip, used by the AI-service pages.
+ *
+ * Rendered in the homepage's "AI sales agent" column and on the service page
+ * (/portfolio/chatbot). The two clips are different shapes -- the homepage's is
+ * portrait, the service page's is landscape -- so the dimensions are props, not
+ * constants. See DEFAULT_* below for why they matter.
  *
  * Deliberately NOT autoplaying. A 60-second screen recording that starts on its
  * own takes the choice away from the visitor, and it was also the only reason
@@ -13,19 +18,21 @@
  *   controls   the native player, so play/pause, scrub and fullscreen are all
  *              available and keyboard-accessible for free.
  *   preload    "metadata" only. Enough to resolve the duration for the control
- *              bar without pulling 12 MB for a clip most visitors will not
+ *              bar without pulling 12-14 MB for a clip most visitors will not
  *              start. "none" would leave the bar blank.
- *   poster     the still that fills the column before playback, and the only
- *              thing shown at all if the browser never fetches the media.
+ *   poster     the still that fills the frame before playback, and the only
+ *              thing shown at all if the browser never fetches the media. Both
+ *              clips are dark-at-frame-0 title cards, so a missing poster shows
+ *              as a black box.
  *   src        set directly rather than via <source>, because there is one file
  *              and no fallback format to negotiate.
  *
- * No `muted`: the clip carries an audio track and the viewer chose to press
+ * No `muted`: both clips carry an audio track and the viewer chose to press
  * play, so the sound is theirs to control from the same bar.
  */
 
 /*
- * The clip's real dimensions, recorded once.
+ * The homepage clip's real dimensions, used when a caller passes none.
  *
  * These are load-bearing, not documentation. A <video> takes its intrinsic
  * aspect ratio from the POSTER until the first frame has actually painted,
@@ -33,20 +40,29 @@
  * place the column reserved a landscape box, and the panel then snapped to
  * portrait on play: a ~470px layout shift mid-section. Declaring the ratio on
  * the element pins the box from first paint, and the attributes stay for the
- * pre-CSS case. Change the clip, change these.
+ * pre-CSS case.
+ *
+ * So: change the clip, pass its real width and height. The service page's clip
+ * is 1920x1080.
  */
-const WIDTH = 1080;
-const HEIGHT = 1920;
+const DEFAULT_WIDTH = 1080;
+const DEFAULT_HEIGHT = 1920;
 
-export default function AgentVideo({ src, poster, label }) {
+export default function AgentVideo({
+  src,
+  poster,
+  label,
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+}) {
   return (
     <video
       className="aiq-agent-video"
       src={src}
       poster={poster}
-      width={WIDTH}
-      height={HEIGHT}
-      style={{ aspectRatio: `${WIDTH} / ${HEIGHT}` }}
+      width={width}
+      height={height}
+      style={{ aspectRatio: `${width} / ${height}` }}
       controls
       preload="metadata"
       aria-label={label}

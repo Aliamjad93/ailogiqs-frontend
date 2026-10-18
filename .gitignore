@@ -40,3 +40,17 @@ tmp
 pdf images/
 custom images/
 .workbuddy-ai/
+
+# Root-level working files from the service-page builds: the BeeLens source
+# deck and its cut-out PNGs, scratch exports and a stray installer. Reference
+# material only -- none of it builds or runs the site.
+/Bee Virus Detection Infographic.html
+/Bee Virus Detection Infographic.pdf
+/_e.html
+/bee_diagnosis_transparent.png
+/bee_hive_transparent.png
+/wow.png
+/Pikkio-Setup-*.exe
+
+# Playwright MCP's session logs, written during the layout audits.
+/.playwright-mcp/

@@ -19,7 +19,6 @@ CSS TABLE OF CONTENTS
 07. swiper slider
 08. search popup
 09. mousecursor 
-09. preloader 
 
 
 ------------------------------------------------------------------*/
@@ -641,15 +640,12 @@ CSS TABLE OF CONTENTS
 
 
 
-    function loader() {
-        $(window).on('load', function() {
-            // Animate loader off screen
-            $(".preloader").addClass('loaded');                    
-            $(".preloader").delay(600).fadeOut();                       
-        });
-    }
-
-    loader();
+    // NOTE: the preloader's dismissal lives in React now -- the loader effect
+    // in src/components/layout/TemplateRuntime.jsx adds the `loaded` class and
+    // then hides the element. It used to run from here as well, on a window
+    // "load" handler; on fast loads that handler beat hydration, so the class
+    // landed on the element while React was still diffing it and React
+    // reported a hydration mismatch on every fast reload.
    
 
 })(jQuery); // End jQuery

@@ -4,19 +4,20 @@ import Logo from "@/components/shared/Logo";
 /**
  * Site footer.
  *
- * The homepage 02 footer (indigo accents, Company/Integration columns,
- * newsletter, styled bottom bar) is the DEFAULT and is used on every route --
- * `/`, the inner pages and the 404 screen all render `<Footer />` unchanged.
+ * TWO footers live here, one per design.
  *
- * It is safe to use site-wide because every colour it references comes from
- * `:root` in main.css (`--theme2`, `--header2`, `--text2`) and no route-scoped
- * override in overrides.css targets the footer. Nothing about it depended on
- * being on the homepage.
+ * `classic` is the DEFAULT: the template's own footer, which is what the
+ * black/yellow site uses on every route (`/`, the inner pages, the 404 screen --
+ * all of them render `<Footer />` unchanged).
  *
- * `variant="classic"` still renders the template's original footer. No route
- * uses it any more; it is kept so the switch is one word to reverse.
+ * `home2` is the indigo footer that belongs to the AI-service design under
+ * /ai-services/*. Those pages render it explicitly, `<Footer variant="home2" />`.
+ *
+ * The indigo one is safe to keep here rather than in the AI-service route group
+ * because it references only `:root` tokens from main.css (`--theme2`,
+ * `--header2`, `--text2`) and is never reached unless a page asks for it by name.
  */
-export default function Footer({ variant = "home2" }) {
+export default function Footer({ variant = "classic" }) {
   if (variant !== "classic") {
     return (
       <footer
@@ -191,195 +192,193 @@ export default function Footer({ variant = "home2" }) {
   }
 
   /*
-    The template's original footer, kept only as `variant="classic"`.
-
-    Nothing renders it: every route uses the homepage 02 footer above. Its
-    overrides in overrides.css are scoped to `.footer-section.footer-bg`, so they
-    now apply to nothing either -- both are harmless, and deleting them would be a
-    bigger change than the one that was asked for.
+    The template's original footer -- the black/yellow site's footer, and the
+    default above. It paints a solid near-black panel (.footer-section.footer-bg)
+    with --white headings, which is the template's own dark treatment and needs no
+    overrides.
   */
   return (
-<footer className="footer-section footer-bg">
-            <div className="container">
-                <div className="footer-widgets-wrapper">
-                    <div className="row">
-                        <div className="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                            <div className="single-footer-widget">
-                                <div className="footer-content">
-                                    <h3 className="mb-3">
-                                        Subscribe our
-                                        newsletter
-                                    </h3>
-                                    <p>Join us today, get update everyday</p>
-                                    <div className="footer-input">
-                                        <input type="email" id="email" placeholder="Enter email..." />
-                                        <button className="newsletter-btn" type="submit">
-                                            <img src="/assets/img/circle-check.png" alt="img" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-2 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp" data-wow-delay=".4s">
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <h3>Company</h3>
-                                </div>
-                                <ul className="list-items">
-                                    <li>
-                                        <Link href="/about">
-                                            About us
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/contact">
-                                            Opportunity
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/contact">
-                                            Events
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/contact">
-                                            Consulting
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/news">
-                                            Our blog
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/contact">
-                                            Contact us
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/contact">
-                                            Careers
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/login">
-                                            User login
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp" data-wow-delay=".6s">
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <h3>Company</h3>
-                                </div>
-                                <ul className="list-items">
-                                    <li>
-                                        <Link href="/service">
-                                            Graphic design
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Marketing
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Photography
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Art generate
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Face swap
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Interior design
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Face swap
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/service">
-                                            Mockup create
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-lg-4 col-md-6 ps-lg-3 wow fadeInUp" data-wow-delay=".8s">
-                            <div className="single-footer-widget">
-                                <div className="widget-head">
-                                    <h3>Instagram</h3>
-                                </div>
-                                <div className="row g-3">
-                                    <div className="col-md-6 col-sm-4 col-4">
-                                        <div className="footer-thumb">
-                                            <img src="/assets/img/footer/gallery-1.jpg" alt="img" />
-                                            <Link href="/" className="icon">
-                                                <i className="fa-brands fa-instagram"></i>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-sm-4 col-4">
-                                        <div className="footer-thumb">
-                                            <img src="/assets/img/footer/gallery-2.jpg" alt="img" />
-                                            <Link href="/" className="icon">
-                                                <i className="fa-brands fa-instagram"></i>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-sm-4 col-4">
-                                        <div className="footer-thumb">
-                                            <img src="/assets/img/footer/gallery-3.jpg" alt="img" />
-                                            <Link href="/" className="icon">
-                                                <i className="fa-brands fa-instagram"></i>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 col-sm-4 col-4">
-                                        <div className="footer-thumb">
-                                            <img src="/assets/img/footer/gallery-4.jpg" alt="img" />
-                                            <Link href="/" className="icon">
-                                                <i className="fa-brands fa-instagram"></i>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="footer-bottom">
+        <footer className="footer-section footer-bg">
                 <div className="container">
-                    <div className="footer-bottom-wrapper">
-                        <div className="logo-img wow fadeInUp" data-wow-delay=".3s">
-                            <Link href="/">
-                                <Logo variant="dark" />
-                            </Link>
-                        </div>
-                        <p className="wow fadeInUp" data-wow-delay=".5s">AiLogiQs © 2026. All Rights Reserved.</p>
-                        <div className="social-icon wow fadeInUp" data-wow-delay=".7s">
-                            <a href="#"><i className="fa-brands fa-discord"></i></a>
-                            <a href="#"><i className="fa-brands fa-facebook-f"></i></a>
-                            <a href="#"><i className="fa-brands fa-linkedin-in"></i></a>
-                            <a href="#"><i className="fa-brands fa-youtube"></i></a>
+                    <div className="footer-widgets-wrapper">
+                        <div className="row">
+                            <div className="col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                                <div className="single-footer-widget">
+                                    <div className="footer-content">
+                                        <h3 className="mb-3">
+                                            Subscribe our
+                                            newsletter
+                                        </h3>
+                                        <p>Join us today, get update everyday</p>
+                                        <div className="footer-input">
+                                            <input type="email" id="email" placeholder="Enter email..." />
+                                            <button className="newsletter-btn" type="submit">
+                                                <img src="/assets/img/circle-check.png" alt="img" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-xl-2 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp" data-wow-delay=".4s">
+                                <div className="single-footer-widget">
+                                    <div className="widget-head">
+                                        <h3>Company</h3>
+                                    </div>
+                                    <ul className="list-items">
+                                        <li>
+                                            <Link href="/about">
+                                                About us
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/contact">
+                                                Opportunity
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/contact">
+                                                Events
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/contact">
+                                                Consulting
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/news">
+                                                Our blog
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/contact">
+                                                Contact us
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/contact">
+                                                Careers
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/login">
+                                                User login
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="col-xl-3 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp" data-wow-delay=".6s">
+                                <div className="single-footer-widget">
+                                    <div className="widget-head">
+                                        <h3>Company</h3>
+                                    </div>
+                                    <ul className="list-items">
+                                        <li>
+                                            <Link href="/service">
+                                                Graphic design
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Marketing
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Photography
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Art generate
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Face swap
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Interior design
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Face swap
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link href="/service">
+                                                Mockup create
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="col-xl-3 col-lg-4 col-md-6 ps-lg-3 wow fadeInUp" data-wow-delay=".8s">
+                                <div className="single-footer-widget">
+                                    <div className="widget-head">
+                                        <h3>Instagram</h3>
+                                    </div>
+                                    <div className="row g-3">
+                                        <div className="col-md-6 col-sm-4 col-4">
+                                            <div className="footer-thumb">
+                                                <img src="/assets/img/footer/gallery-1.jpg" alt="img" />
+                                                <Link href="/" className="icon">
+                                                    <i className="fa-brands fa-instagram"></i>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-4 col-4">
+                                            <div className="footer-thumb">
+                                                <img src="/assets/img/footer/gallery-2.jpg" alt="img" />
+                                                <Link href="/" className="icon">
+                                                    <i className="fa-brands fa-instagram"></i>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-4 col-4">
+                                            <div className="footer-thumb">
+                                                <img src="/assets/img/footer/gallery-3.jpg" alt="img" />
+                                                <Link href="/" className="icon">
+                                                    <i className="fa-brands fa-instagram"></i>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-4 col-4">
+                                            <div className="footer-thumb">
+                                                <img src="/assets/img/footer/gallery-4.jpg" alt="img" />
+                                                <Link href="/" className="icon">
+                                                    <i className="fa-brands fa-instagram"></i>
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </footer>
+                <div className="footer-bottom">
+                    <div className="container">
+                        <div className="footer-bottom-wrapper">
+                            <div className="logo-img wow fadeInUp" data-wow-delay=".3s">
+                                <Link href="/">
+                                    <Logo variant="light" />
+                                </Link>
+                            </div>
+                            <p className="wow fadeInUp" data-wow-delay=".5s">AiLogiQs © 2026. All Rights Reserved.</p>
+                            <div className="social-icon wow fadeInUp" data-wow-delay=".7s">
+                                <a href="#"><i className="fa-brands fa-discord"></i></a>
+                                <a href="#"><i className="fa-brands fa-facebook-f"></i></a>
+                                <a href="#"><i className="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#"><i className="fa-brands fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
   );
 }

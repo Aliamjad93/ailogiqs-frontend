@@ -1,8 +1,5 @@
 export const metadata = {
   title: "Register",
-  // See the note on /login: a sign-up form is not a landing page.
-  robots: { index: false, follow: true },
-  alternates: { canonical: "/register" },
 };
 
 import Link from "next/link";

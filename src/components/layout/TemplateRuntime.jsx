@@ -59,26 +59,78 @@ export default function TemplateRuntime({ children }) {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname]);
 
-  // Flag the pages that need per-page CONTENT rules on <body>.
+  // Flag the AI-service pages on <body>.
   //
-  // This used to be how the global chrome (back-to-top, the offcanvas drawer,
-  // the header wordmark) was recoloured page by page, because that chrome is
-  // rendered outside the route tree and CSS could not reach it any other way.
-  // That is no longer how it works: the bar, its drawer and the back-to-top
-  // disc are one indigo design on EVERY route now (see the "Nav" and "Home
-  // palette" blocks in overrides.css), so the flags below exist only for the
-  // four pages whose own content needs an accent of its own.
+  // The site carries two designs. The main one is the template's black/yellow
+  // theme (public/css/overrides.css). The other is the indigo AI sales-agent
+  // design, which lives under /ai-services/* and /portfolio/chatbot, and is
+  // styled entirely by public/css/ai-service.css.
+  //
+  // That stylesheet is linked from the (ai-service) route group's layout, but
+  // the header, the offcanvas drawer, the preloader and the back-to-top disc
+  // are rendered by this component -- OUTSIDE the route tree -- so CSS cannot
+  // reach them from inside the group. `route-ai-service` is how it does: every
+  // rule in ai-service.css that is not already scoped to an `.aiq-*` class is
+  // written as `body.route-ai-service ...`.
+  //
+  // The flag is keyed off the PATHNAME, so it has to list every URL that renders
+  // the indigo design -- including /portfolio/chatbot, which does not sit under
+  // the /ai-services prefix. It MUST stay in step with the (ai-service) route
+  // group: anything rendering that design but missing here renders unstyled.
+  //
+  // A flag with no matching rule in ai-service.css is dead weight -- grep
+  // before adding one, and delete it when its last rule goes. The previous
+  // route-blog / route-contact / route-about / route-service flags were
+  // removed with the indigo inner pages they belonged to.
+  useEffect(() => {
+    document.body.classList.toggle(
+      "route-ai-service",
+      pathname === "/ai-services" ||
+        pathname.startsWith("/ai-services/") ||
+        pathname === "/portfolio/chatbot" ||
+        pathname.startsWith("/portfolio/chatbot/")
+    );
+  }, [pathname]);
+
+  // Flag the BeeLens showcase page on <body>.
+  //
+  // The third design in the repo. It is styled entirely by
+  // public/css/bee-service.css, which is linked from the (bee-service) route
+  // group's layout -- but the header, the offcanvas drawer, the preloader and
+  // the back-to-top disc are rendered by this component, OUTSIDE the route
+  // tree, so CSS cannot reach them from inside the group. `route-bee` is how it
+  // does: every rule in bee-service.css that is not already scoped to a `.bee-*`
+  // class is written as `body.route-bee ...`.
+  //
+  // Keyed off the PATHNAME, like route-ai-service, because the group name is
+  // invisible in the URL: the page serves /portfolio/bee-virus-detection, which
+  // shares no prefix with the folder it lives in. Anything rendering this design
+  // but missing here renders completely unstyled -- the stylesheet is written
+  // against a dark surface and the site's own theme is light.
+  useEffect(() => {
+    document.body.classList.toggle(
+      "route-bee",
+      pathname === "/portfolio/bee-virus-detection" ||
+        pathname.startsWith("/portfolio/bee-virus-detection/")
+    );
+  }, [pathname]);
+
+  // Flag pages whose own CONTENT needs a rule of its own, on <body>.
+  //
+  // These are content hooks, not chrome. The header, its drawer and the
+  // back-to-top disc are one design on every route and are not recoloured page
+  // by page any more, so a flag here means "this page's markup needs something
+  // the shared classes cannot express".
+  //
+  // `route-project` sizes the single portfolio card on /project. It has to be a
+  // page flag rather than a plain class rule because /project-details renders
+  // the same `.portfolio-section .portfolio-card-items` markup, three cards to a
+  // row: a size meant for one card would have shrunk that row too.
   //
   // A flag with no matching `body.route-*` rule in overrides.css is dead
   // weight -- grep before adding one, and delete it when its last rule goes.
   useEffect(() => {
-    document.body.classList.toggle(
-      "route-blog",
-      pathname === "/blog" || pathname.startsWith("/blog/")
-    );
-    document.body.classList.toggle("route-contact", pathname === "/contact");
-    document.body.classList.toggle("route-about", pathname === "/about");
-    document.body.classList.toggle("route-service", pathname === "/service");
+    document.body.classList.toggle("route-project", pathname === "/project");
   }, [pathname]);
 
   // Initialise (and re-initialise) the theme's plugins for the current route.

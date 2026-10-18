@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getAllPosts, getCategoriesWithCounts, getTags, formatPostDate } from "@/lib/posts";
-import { SITE, absoluteUrl } from "@/lib/site.config";
+import { SITE } from "@/lib/site.config";
 
 const DESCRIPTION =
   "Writing on AI product development, design systems and the craft of shipping intelligent software.";
@@ -100,7 +100,7 @@ export default async function BlogPage({ searchParams }) {
         page would have no h1 at all once the slides became h2. Hidden rather
         than rendered, so the design is untouched.
       */}
-      <h1 className="aiq-sr-only">AiLogiQs blog — AI agents, machine learning and automation</h1>
+      <h1 className="sr-only">AiLogiQs blog — AI agents, machine learning and automation</h1>
 
       {!isEmpty && (
       <section className="news-hero-section bg-cover">
@@ -141,10 +141,6 @@ export default async function BlogPage({ searchParams }) {
                   removed because the same information is already on every card
                   in the listing directly below, which made the band read as a
                   landing page rather than a cover.
-
-                  <h2>, not <h1>: the slider shows up to three posts, and three
-                  h1s on one page left the listing with no single top-level
-                  heading. The page's own h1 is the hidden one above.
                 */}
                 <div className="container">
                   <div className="hero-content">
@@ -329,11 +325,11 @@ export default async function BlogPage({ searchParams }) {
                 </div>
 
                 {/*
-                  The tag cloud is conditional on there actually being tags.
-                  A post's tags are authored in the admin panel and are optional,
-                  so a blog whose posts have none rendered a "Tags Clouds"
-                  heading over an empty box. getTags() returning [] is a real
-                  answer, not a reason to draw the widget.
+                  The tag cloud is conditional on there actually being tags. A
+                  post's tags are authored in the admin panel and are optional, so
+                  a blog whose posts have none rendered a "Tags Clouds" heading
+                  over an empty box. getTags() returning [] is a real answer, not
+                  a reason to draw the widget.
                 */}
                 {tags.length > 0 && (
                   <div className="single-sidebar-widget">
