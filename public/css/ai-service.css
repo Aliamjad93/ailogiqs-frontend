@@ -497,6 +497,53 @@ body.route-ai-service .footer-bottom .logo-img .ailogiqs-logo {
   height: auto;
 }
 
+/* Page fold fit -- the hero's "one screen tall" promise, kept at page level.
+
+   min-height makes the hero at least (viewport - bar) tall, but its row can
+   be taller than that: on a 1366x768 laptop at 100% the row measures 542px
+   (the artwork is 624x542 at the 1320px stage) and, with ~151px of padding,
+   the hero ends 35-80px past the fold -- the CTAs go under it. The stacked
+   layout caps the artwork by viewport height for exactly this reason (see
+   the responsive block); on desktop the row is width-driven and every
+   column would need its own cap, so the fit is done where the design
+   already draws its scale line: the Stage.
+
+   At 1200-1500px this page takes the same 0.9 the main site's stage takes,
+   and below ~700px of height the factor deepens just enough that the hero
+   ends exactly at the fold: `min(0.9, viewport / hero)`, where `hero` is
+   the hero's untransformed height -- 542px of row plus the bar token and
+   the two padding clamps, all read from the same tokens the hero itself
+   uses. Above the band the page stays raw, with the height fit still
+   available for short, wide windows.
+
+   The stage is the wrapper TemplateRuntime draws around the header, the
+   page and the footer, so all three scale together -- that is what keeps
+   the sections and the hero reading at one size. The drawer and the search
+   popup render outside the stage, so they take the same factor directly;
+   the cursor stays raw (it positions by pointer coordinates).
+
+   `:has(.aiq-service)` scopes all of this to this page: no other route
+   renders that wrapper. Engines without calc() length division keep the
+   flat 0.9 / 1 above each pair below. */
+@media (min-width: 1200px) and (max-width: 1500px) {
+  .site-stage:has(.aiq-service),
+  body:has(.aiq-service) .offcanvas__info,
+  body:has(.aiq-service) .search-wrap {
+    zoom: 0.9;
+    zoom: min(0.9, calc(100vh / (616px + clamp(18px, 2.2vw, 36px) + clamp(30px, 3.5vw, 52px))));
+    zoom: min(0.9, calc(100svh / (616px + clamp(18px, 2.2vw, 36px) + clamp(30px, 3.5vw, 52px))));
+  }
+}
+
+@media (min-width: 1501px) {
+  .site-stage:has(.aiq-service),
+  body:has(.aiq-service) .offcanvas__info,
+  body:has(.aiq-service) .search-wrap {
+    zoom: min(1, calc(100vh / (616px + clamp(18px, 2.2vw, 36px) + clamp(30px, 3.5vw, 52px))));
+    zoom: min(1, calc(100svh / (616px + clamp(18px, 2.2vw, 36px) + clamp(30px, 3.5vw, 52px))));
+  }
+}
+
 /*
   The supplied WhatsApp mockup.
 
