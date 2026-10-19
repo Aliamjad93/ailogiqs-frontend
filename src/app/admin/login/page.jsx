@@ -29,7 +29,7 @@ export default async function LoginPage() {
     <div className="admin-login">
       <div className="admin-login-card">
         <h1>AiLogiQs Admin</h1>
-        <p>Sign in to manage blog posts.</p>
+        <p>Sign in to manage blogs, leads and careers.</p>
         <LoginForm />
       </div>
     </div>

@@ -32,6 +32,7 @@ import {
   sessionToken,
 } from "@/lib/admin-auth";
 import { createPost, updatePost, setPostStatus, deletePost, restorePost as restorePostData, setCacheInvalidator, readUploadedImage } from "@/lib/admin-posts";
+import { setLeadStatus, deleteLead as deleteLeadData } from "@/lib/admin-leads";
 
 /**
  * Cache invalidation is wired in from here, once, rather than imported into
@@ -216,4 +217,39 @@ export async function restorePost(formData) {
   nextCache.revalidatePath("/admin/posts");
   nextCache.revalidatePath(`/admin/posts/${id}`);
   redirect("/admin/posts?restored=1");
+}
+
+// --- leads ------------------------------------------------------------------
+
+/**
+ * Moves a lead between triage buckets (new -> contacted -> archived).
+ *
+ * `redirectTo` keeps the operator on the tab they were working rather than
+ * bouncing them to the default New view after every action, which would make
+ * triaging a batch of enquiries tedious.
+ */
+export async function updateLeadStatus(formData) {
+  await requireAuth();
+  const id = Number(formData.get("id"));
+  const status = String(formData.get("status"));
+  await setLeadStatus(id, status);
+  nextCache.revalidatePath("/admin");
+  nextCache.revalidatePath("/admin/leads");
+  redirect(backTo(formData, "/admin/leads"));
+}
+
+/**
+ * Removes a lead permanently.
+ *
+ * Hard delete, unlike posts: leads are personal data, so there is deliberately
+ * no deleted-leads shelf to leave them sitting on. The confirm prompt in the
+ * table spells out that it cannot be undone.
+ */
+export async function deleteLead(formData) {
+  await requireAuth();
+  const id = Number(formData.get("id"));
+  await deleteLeadData(id);
+  nextCache.revalidatePath("/admin");
+  nextCache.revalidatePath("/admin/leads");
+  redirect(backTo(formData, "/admin/leads"));
 }

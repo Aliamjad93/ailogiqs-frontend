@@ -1577,14 +1577,24 @@ body.route-bee .footer-section.footer-bg .widget-head h3 {
 }
 
 body.route-bee .footer-section.footer-bg .list-items li a:hover,
-body.route-bee .footer-section.footer-bg .social-icon a:hover,
-body.route-bee .footer-section.footer-bg .newsletter-btn:hover {
+body.route-bee .footer-section.footer-bg .social-icon a:hover {
   color: var(--bee-amber);
 }
 
-body.route-bee .footer-section.footer-bg .theme-btn,
-body.route-bee .footer-section.footer-bg .footer-input button {
+body.route-bee .footer-section.footer-bg .theme-btn {
   background-color: var(--bee-amber);
+}
+
+/* The classic footer's newsletter signup was replaced by a "Get in touch"
+   block (see src/components/site-footer/Footer.jsx); its icon accent takes
+   the amber too, and the CTA hover text follows the amber fill. */
+body.route-bee .footer-section.footer-bg .footer-contact-item i,
+body.route-bee .footer-section.footer-bg .footer-contact-item a:hover {
+  color: var(--bee-amber);
+}
+
+body.route-bee .footer-section.footer-bg .theme-btn:hover {
+  color: var(--bee-ink);
 }
 
 body.route-bee .footer-bottom .social-icon a:hover i {

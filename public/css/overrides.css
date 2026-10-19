@@ -1048,3 +1048,139 @@ body.route-project .portfolio-section .portfolio-card-items {
 .service-box-items .service-image img {
   max-height: 320px;
 }
+
+/* =============================================================================
+   Footer — "Get in touch" contact rows
+   -----------------------------------------------------------------------------
+   Both footer variants replaced their newsletter signup with this contact
+   block (see src/components/site-footer/Footer.jsx). These rows sit outside
+   the theme's .list-items link treatment -- that one animates a hover
+   underline and slides an arrow in, which reads as affordance for navigation,
+   not for an address. A plain flex row with a themed icon is quieter.
+
+   Text colour is inherited so each variant keeps its own surface: the classic
+   footer is a near-black panel (body --text), the indigo style-2 footer a
+   light one (--text2). Only the icon accent is set here.
+   ========================================================================== */
+
+.footer-section .footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.footer-section .footer-contact-item i {
+  margin-top: 7px;
+  font-size: 16px;
+}
+
+.footer-section .footer-contact-item a {
+  color: inherit;
+  word-break: break-word;
+}
+
+.footer-section .footer-contact-item a:hover {
+  color: var(--theme);
+}
+
+/* Classic footer (near-black panel): yellow icon accent. */
+.footer-section.footer-bg .footer-contact-item i {
+  color: var(--theme);
+}
+
+/* Indigo footer (style-2): indigo icon accent, indigo hover. */
+.footer-widgets-wrapper.style-2 .footer-contact-item i {
+  color: var(--theme2);
+}
+
+.footer-widgets-wrapper.style-2 .footer-contact-item a:hover {
+  color: var(--theme2);
+}
+
+/* ==========================================================================
+   Contact form (functional)
+   The template's Subject control was a `nice-select` div faking a dropdown
+   with dummy numbered options; the site never had a contact.php to post to
+   either. The form now submits through a server action, so the subject is a
+   real <select>. These rules make it sit exactly where the old widget was and
+   match the input styling (dark fill, 10px radius, yellow affordance).
+   ========================================================================== */
+
+.contact-wrapper .contact-form-items-area .contact-form-items .form-clt select {
+  width: 100%;
+  padding: 18px 46px 18px 20px; /* room for the chevron at right */
+  border-radius: 10px;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  background: #222226;
+  color: #cdcdcd;
+  font-weight: 500;
+  font-size: 16px;
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+/* The dropdown list itself renders in the OS/agent layer on some platforms;
+   give the open list a dark surface so white options stay readable. */
+.contact-wrapper .contact-form-items-area .contact-form-items .form-clt select option {
+  background: #222226;
+  color: #cdcdcd;
+}
+
+/* Hidden-from-humans honeypot field (src/components/contact/ContactForm.jsx).
+   Off-screen rather than display:none, which is what some bots recognise. */
+.contact-form-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Success receipt, shown in place of the form. */
+.contact-form-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 26px 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(53, 195, 127, 0.35);
+  background: rgba(53, 195, 127, 0.08);
+}
+
+.contact-form-success .icon {
+  font-size: 34px;
+  line-height: 1;
+  color: #35c37f;
+  margin-top: 2px;
+}
+
+.contact-form-success .content h3 {
+  color: #ffffff;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.contact-form-success .content p {
+  color: #cdcdcd;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Inline validation error above the submit button. */
+.contact-form-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 143, 138, 0.35);
+  background: rgba(192, 50, 47, 0.12);
+  color: #ff9d97;
+  font-size: 15px;
+  font-weight: 500;
+}

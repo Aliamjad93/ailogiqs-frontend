@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { isAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
-import { getAllPostsForAdmin, getDeletedPosts } from "@/lib/admin-posts";
+import { getAllPostsForAdmin } from "@/lib/admin-posts";
 import AdminTopBar from "@/components/admin/AdminTopBar";
 import PostTable from "./posts/PostTable";
 
@@ -23,31 +23,20 @@ export default async function AdminPage() {
 
   if (!isAuthenticated(await cookies())) redirect("/admin/login");
 
-  const [posts, deletedPosts] = await Promise.all([
-    getAllPostsForAdmin(),
-    getDeletedPosts(),
-  ]);
+  const posts = await getAllPostsForAdmin();
   const published = posts.filter((p) => p.status === "published").length;
   const drafts = posts.filter((p) => p.status === "draft").length;
 
   return (
     <>
-      <AdminTopBar active="dashboard" />
+      <AdminTopBar active="blogs" />
 
       <main className="admin-wrap">
         <div className="admin-card-head">
           <div>
-            <h2>Posts</h2>
+            <h2>Blogs</h2>
             <p className="admin-meta">
               {published} published · {drafts} draft{drafts === 1 ? "" : "s"}
-              {deletedPosts.length > 0 && (
-                <>
-                  {" · "}
-                  <a href="/admin/posts?status=deleted">
-                    {deletedPosts.length} deleted
-                  </a>
-                </>
-              )}
             </p>
           </div>
           <a className="admin-btn admin-btn-primary" href="/admin/posts/new">

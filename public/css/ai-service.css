@@ -139,6 +139,25 @@ body.route-ai-service .theme-btn {
   color: var(--header);
 }
 
+/* Footer exception: the indigo footer is a light panel whose own accent is
+   the page's indigo, and a yellow CTA there reads as a stray highlight from
+   the black/yellow design. Scoped to the footer (the only .theme-btn the
+   footer renders is its "Contact us" CTA), so the page-wide yellow above
+   keeps its intent. Hover swaps in the darker --header2 fill with white
+   text, which is the treatment theme-btn-2 gives the same button. */
+body.route-ai-service .footer-section .theme-btn {
+  background: var(--theme2);
+  color: var(--white);
+}
+
+body.route-ai-service .footer-section .theme-btn::after {
+  background-color: var(--header2);
+}
+
+body.route-ai-service .footer-section .theme-btn:hover {
+  color: var(--white);
+}
+
 /* Blog sidebar: search input, category pills and tags ship as #222226 panels
    with light text. They become white panels with the light border token. */
 body.route-ai-service .main-sidebar .single-sidebar-widget {

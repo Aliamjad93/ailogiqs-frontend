@@ -1,34 +1,26 @@
 import { signOut } from "@/app/admin/actions";
+import AdminSectionTabs from "@/components/admin/AdminSectionTabs";
 
 /**
- * Shared admin top bar.
+ * Shared admin top bar: brand, section tabs, view-site, sign-out.
  *
- * Previously this markup was copy-pasted into the dashboard, the all-posts
- * screen and the edit screen, and the three copies had already drifted apart --
- * the edit screen offered no way to reach the dashboard, and the dashboard's
- * sign-out button posted to /admin/actions, a route that does not exist, so it
- * 404'd instead of signing the user out. One component removes the drift.
+ * The bar used to carry Dashboard / All posts / New post links, which only
+ * described the blog half of the panel and are now redundant: the sections
+ * live in AdminSectionTabs, and "New post" is a page-level action on the blogs
+ * screens where it belongs. What is left is what every screen needs.
  *
- * `active` highlights the current section. Links are plain <a> rather than
- * <Link>: the admin sits outside the public route group, so a client-side
- * router prefetch here would fetch route payloads no client component consumes.
+ * Section links render inside the bar rather than as a separate strip so the
+ * panel reads as three tabs under one roof, which is also why this component
+ * no longer takes an `active` prop -- the tabs highlight themselves.
  */
 export default function AdminTopBar({ active = "" }) {
   return (
     <header className="admin-topbar">
       <h1>AiLogiQs Admin</h1>
-      <nav>
+      <AdminSectionTabs active={active} />
+      <nav className="admin-topbar-end">
         <a className="admin-btn admin-btn-small" href="/blog" target="_blank" rel="noopener">
           View site
-        </a>
-        <a className="admin-btn admin-btn-small" href="/admin">
-          {active === "dashboard" ? <strong>Dashboard</strong> : "Dashboard"}
-        </a>
-        <a className="admin-btn admin-btn-small" href="/admin/posts">
-          {active === "posts" ? <strong>All posts</strong> : "All posts"}
-        </a>
-        <a className="admin-btn admin-btn-small" href="/admin/posts/new">
-          New post
         </a>
         {/* signOut is a server action, so the form must post through it rather
             than to a URL. */}

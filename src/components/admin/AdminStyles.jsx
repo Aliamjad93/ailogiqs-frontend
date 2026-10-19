@@ -61,6 +61,80 @@ export default function AdminStyles() {
         display: flex;
         gap: 18px;
         align-items: center;
+        flex-wrap: wrap;
+      }
+
+      /* --- section nav (Blogs / Leads / Careers) ---------------------------
+         Pill links inside the top bar rather than a separate strip, so the
+         panel reads as three tabs under one roof. The active pill is the only
+         place the brand indigo is used at full strength in the bar, which is
+         what makes "where am I" answerable without reading. */
+      .admin-sections {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .admin-section-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 7px 14px;
+        border-radius: 9px;
+        border: 1px solid transparent;
+        color: var(--admin-muted);
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      .admin-section-link:hover {
+        color: var(--admin-ink);
+        background: var(--admin-surface-2);
+      }
+
+      .admin-section-link.is-active {
+        color: var(--admin-accent);
+        background: var(--admin-accent-soft);
+      }
+
+      .admin-section-link span {
+        display: inline-block;
+        min-width: 20px;
+        padding: 1px 6px;
+        border-radius: 999px;
+        background: var(--admin-surface);
+        color: var(--admin-accent);
+        font-size: 11px;
+        text-align: center;
+      }
+
+      /* The right-hand group (View site + Sign out) keeps its spacing from the
+         section nav instead of hugging it. */
+      .admin-topbar-end {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      /* Narrow screens: the bar stacks brand, then sections, then the end
+         group. Two lines is fewer surprises than five squished pills. */
+      @media (max-width: 900px) {
+        .admin-topbar {
+          flex-wrap: wrap;
+          row-gap: 12px;
+        }
+        .admin-sections {
+          order: 3;
+          width: 100%;
+        }
+        .admin-topbar-end {
+          margin-left: auto;
+        }
       }
 
       .admin-wrap {
@@ -333,6 +407,12 @@ export default function AdminStyles() {
       /* Was missing entirely, so a deleted post rendered an unstyled badge. */
       .admin-badge-deleted { background: #fdeaea; color: #b3261e; }
 
+      /* Lead triage states. The "new" state wears the brand accent because it
+         is the one that wants a reply; the other two recede. */
+      .admin-badge-new { background: var(--admin-accent-soft); color: var(--admin-accent); }
+      .admin-badge-contacted { background: #e6f7ee; color: #0f7b4f; }
+      .admin-badge-archived { background: #eef0f5; color: #5f6480; }
+
       /* --- row actions and tabs ------------------------------------------ */
 
       /* Publish + Delete side by side in a table cell. Wrapping is allowed but
@@ -598,6 +678,28 @@ export default function AdminStyles() {
         color: var(--admin-faint);
         font-size: 13px;
         margin-top: 4px;
+      }
+
+      /* Lead messages are clamped to two lines so one long enquiry cannot
+         push the rest of the table off screen; the full text sits in the
+         cell's title attribute. */
+      .admin-cell-multiline {
+        max-width: 340px;
+        color: var(--admin-muted);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Body copy inside a panel, for the Careers placeholder and any other
+         screen that needs a sentence rather than a meta line. */
+      .admin-empty-lead {
+        color: var(--admin-muted);
+        font-size: 15px;
+        line-height: 1.65;
+        max-width: 640px;
+        margin: 0 0 14px;
       }
 
       .admin-actions-inline { display: flex; gap: 8px; }

@@ -5,6 +5,8 @@ export const metadata = {
   alternates: { canonical: "/contact" },
 };
 
+import ContactForm from "@/components/contact/ContactForm";
+
 export default function Contact() {
 
   return (
@@ -30,68 +32,7 @@ export default function Contact() {
                           <div className="col-lg-8">
                               <div className="contact-form-items-area">
                                   <h2 className="wow fadeInUp" data-wow-delay=".3s">Get in touch</h2>
-                                  <form action="contact.php" id="contact-form" method="POST" className="contact-form-items">
-                                      <div className="row g-4">
-                                          <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                                              <div className="form-clt">
-                                                  <div className="icon">
-                                                      <i className="fa-regular fa-user"></i>
-                                                  </div>
-                                                  <input type="text" name="name" id="name" placeholder="Your name" />
-                                              </div>
-                                          </div>
-                                          <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
-                                              <div className="form-clt">
-                                                  <div className="icon">
-                                                      <i className="fa-regular fa-phone"></i>
-                                                  </div>
-                                                  <input type="text" name="phone" id="phone" placeholder="Phone" />
-                                              </div>
-                                          </div>
-                                          <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                                              <div className="form-clt">
-                                                  <div className="icon">
-                                                      <i className="fa-regular fa-envelope"></i>
-                                                  </div>
-                                                  <input type="text" name="email" id="email12" placeholder="Email here" />
-                                              </div>
-                                          </div>
-                                          <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
-                                              <div className="form-clt">
-                                                  <div className="nice-select" tabIndex="0">
-                                                      <span className="current">
-                                                          Subject
-                                                      </span>
-                                                      <ul className="list">
-                                                          <li data-value="1" className="option selected">
-                                                              01
-                                                          </li>
-                                                          <li data-value="1" className="option">
-                                                              02
-                                                          </li>
-                                                          <li data-value="1" className="option">
-                                                              03
-                                                          </li>
-                                                      </ul>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="col-lg-12 wow fadeInUp" data-wow-delay=".3s">
-                                              <div className="form-clt">
-                                                  <textarea name="message" id="message"
-                                                      placeholder="Write your comment"></textarea>
-                                                  <div className="icon">
-                                                      <i className="fa-regular fa-comment"></i>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="col-lg-7 wow fadeInUp" data-wow-delay=".5s">
-                                              <button type="submit" className="theme-btn">
-                                                  Send message <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                              </button>
-                                          </div>
-                                      </div>
-                                  </form>
+                                  <ContactForm />
                               </div>
                           </div>
                       </div>

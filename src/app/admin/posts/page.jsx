@@ -27,7 +27,7 @@ export default async function AllPostsPage({ searchParams }) {
 
   return (
     <>
-      <AdminTopBar active="posts" />
+      <AdminTopBar active="blogs" />
 
       <main className="admin-wrap">
         <div className="admin-card-head">
