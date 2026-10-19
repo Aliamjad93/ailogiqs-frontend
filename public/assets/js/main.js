@@ -148,6 +148,22 @@ CSS TABLE OF CONTENTS
 			});
 
 			//>> Wow Animation Start <<//
+			// WOW 1.3.0 finds its trigger points with offsetTop/offsetParent
+			// walks, which stay in layout (canvas) pixels inside the 0.9
+			// "Laptop stage" zoom (see public/css/overrides.css), while it
+			// compares them against the physical scroll position. Every
+			// reveal therefore fired ~11% of its document offset late, and
+			// boxes whose canvas offset ended up past the last scrollable
+			// pixel -- every box in the footer -- never fired at all and
+			// stayed at visibility: hidden. getBoundingClientRect already
+			// includes the zoom, so measuring with it puts both sides of
+			// the comparison in the same pixels. Prototype-level, so the
+			// re-inits on client-side routes inherit it too.
+			if (window.WOW) {
+				window.WOW.prototype.offsetTop = function (el) {
+					return el.getBoundingClientRect().top + window.pageYOffset;
+				};
+			}
 			new WOW().init();
 
 			//>> Nice Select Start <<//
