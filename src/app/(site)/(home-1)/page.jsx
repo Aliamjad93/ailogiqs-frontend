@@ -307,8 +307,8 @@ export default function HomeOne() {
                           popular services
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Exclusive AI-powered <br />
-                          <span>idea & <b>automation</b> services</span>
+                          AI Integration & Chatbots, <br />
+                          <span>Built for Your <b>Business</b></span>
                       </h2>
                   </div>
                   <div className="row">
@@ -319,12 +319,11 @@ export default function HomeOne() {
                               </div>
                               <div className="service-content">
                                   <h3>
-                                      Business strategy
-                                      planning
+                                      AI Agent
+                                      Development
                                   </h3>
                                   <p>
-                                      Duise sagettis rosend accumsas magna onest curos adipiscine contacting the agency
-                                      secondar
+                                      Smart autonomous agents that automate tasks and support customers 24/7.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
@@ -338,12 +337,11 @@ export default function HomeOne() {
                               </div>
                               <div className="service-content">
                                   <h3>
-                                      Data analysis
-                                      services
+                                      Machine Learning
+                                      Models
                                   </h3>
                                   <p>
-                                      Duise sagettis rosend accumsas magna onest curos adipiscine contacting the agency
-                                      secondar
+                                      Custom predictive models that turn your data into smarter decisions.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
@@ -357,12 +355,11 @@ export default function HomeOne() {
                               </div>
                               <div className="service-content">
                                   <h3>
-                                      Machine learning
-                                      models
+                                      Custom AI
+                                      Solutions
                                   </h3>
                                   <p>
-                                      Duise sagettis rosend accumsas magna onest curos adipiscine contacting the agency
-                                      secondar
+                                      Tailored AI built and integrated around your unique business needs.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
@@ -376,12 +373,11 @@ export default function HomeOne() {
                               </div>
                               <div className="service-content">
                                   <h3>
-                                      Custom artificial
-                                      solutions
+                                      Data Analysis
+                                      Services
                                   </h3>
                                   <p>
-                                      Duise sagettis rosend accumsas magna onest curos adipiscine contacting the agency
-                                      secondar
+                                      Clear insights and real-time dashboards that drive business growth.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
