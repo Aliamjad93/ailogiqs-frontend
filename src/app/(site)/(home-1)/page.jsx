@@ -65,8 +65,8 @@ export default function HomeOne() {
                           <img src="/assets/img/star.png" alt="img" /> Who we are
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Explore the AI power <br />
-                          <span>& our <b>innovative</b> solutions</span>
+                          Discover the Power of AI <br />
+                          <span>& Our <b>Smart</b> Solutions</span>
                       </h2>
                   </div>
                   <div className="about-wrapper mt-4 mt-md-0">
@@ -92,8 +92,10 @@ export default function HomeOne() {
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
-                                          Duise sagittis accumsan magna on adipiscine laoreet ultrices magna consectetuer
-                                          eiaculis rutrum morbie habitasse orcids libero porttitor molestie mollise
+                                          Our mission is to make artificial intelligence practical, accessible
+                                          and valuable for every business. We design tailored AI solutions
+                                          that automate the routine, turn data into clear decisions and help
+                                          our clients grow with confidence, securely and responsibly.
                                       </p>
                                       <ul className="list-items">
                                           <li>
@@ -148,8 +150,9 @@ export default function HomeOne() {
                               <div className="about-items">
                                   <div className="about-content">
                                       <p className="wow fadeInUp" data-wow-delay=".3s">
-                                          Duise sagittis accumsan magna on adipiscine laoreet ultrices magna consectetuer
-                                          eiaculis rutrum morbie habitasse orcids libero porttitor molestie mollise
+                                          To be a trusted global leader in AI innovation, empowering businesses
+                                          of every size to think smarter, work faster and shape a future where
+                                          intelligent technology drives real human progress.
                                       </p>
                                       <ul className="list-items wow fadeInUp" data-wow-delay=".5s">
                                           <li>
@@ -204,8 +207,9 @@ export default function HomeOne() {
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
-                                          Duise sagittis accumsan magna on adipiscine laoreet ultrices magna consectetuer
-                                          eiaculis rutrum morbie habitasse orcids libero porttitor molestie mollise
+                                          AiLogiQs builds custom AI that automates tasks, delivers real-time
+                                          insights and integrates seamlessly with your systems. Secure, scalable
+                                          and always optimized, our solutions help your business grow smarter.
                                       </p>
                                       <ul className="list-items">
                                           <li>
