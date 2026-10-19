@@ -94,9 +94,15 @@
 
   /* The drawer and the search popup render outside the stage (see scope
      notes above), so they carry their own 0.9 -- without it they read as 10%
-     larger than the page behind them. */
-  body:not(.route-bee):not(.route-ai-service) .offcanvas__info,
-  body:not(.route-bee):not(.route-ai-service) .search-wrap {
+     larger than the page behind them. The bee page is excluded from the
+     stage band only because its design owns its canvas; its drawer is the
+     same shared chrome every other page shows, and at raw scale it read
+     400px wide against the 360px every other page draws, so it takes the
+     0.9 too. The ai-service pages are excluded here: /portfolio/chatbot
+     scales its drawer from ai-service.css to match its own stage factor,
+     and the landing page keeps raw chrome next to its raw stage. */
+  body:not(.route-ai-service) .offcanvas__info,
+  body:not(.route-ai-service) .search-wrap {
     zoom: 0.9;
   }
 }
