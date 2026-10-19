@@ -24,7 +24,7 @@ export default function Service() {
                       </h2>
                   </div>
                   <div className="row">
-                      <div className="col-xl-6 wow fadeInUp" data-wow-delay=".2s">
+                      <div className="col-12 wow fadeInUp" data-wow-delay=".2s">
                           <div className="service-box-items">
                               <div className="service-image">
                                   <img src="/assets/img/service/01.jpeg" alt="AI agent development" />
@@ -35,34 +35,25 @@ export default function Service() {
                                       development
                                   </h3>
                                   <p>
-                                      We build autonomous AI agents that answer customers, qualify leads and handle
-                                      repetitive workflows around the clock, connected to the tools you already use.
+                                      We build autonomous AI agents that think, plan and act on your behalf, handling tasks
+                                      like customer support, scheduling, research and workflow management. Powered by the
+                                      latest large language models, our agents work 24/7 and learn to get better over time.
+                                  </p>
+                                  <h4>Trending features</h4>
+                                  <p className="trending-list">
+                                      <span>Agentic AI workflows</span>
+                                      <span>Multi-agent systems</span>
+                                      <span>LLM-powered assistants (GPT, Claude, Gemini)</span>
+                                      <span>Tool and API integration</span>
+                                      <span>Voice-enabled agents</span>
+                                      <span>WhatsApp and web chatbot agents</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
-                      <div className="col-xl-6 wow fadeInUp" data-wow-delay=".4s">
-                          <div className="service-box-items">
-                              <div className="service-image">
-                                  <img src="/assets/img/service/02.jpeg" alt="Data analysis services" />
-                              </div>
-                              <div className="service-content">
-                                  <h3>
-                                      Data analysis
-                                      services
-                                  </h3>
-                                  <p>
-                                      Turn raw business data into clear dashboards and insights, so you can spot trends,
-                                      forecast demand and make decisions backed by numbers.
-                                  </p>
-                                  <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-6 wow fadeInUp" data-wow-delay=".6s">
+                      <div className="col-12 wow fadeInUp" data-wow-delay=".4s">
                           <div className="service-box-items">
                               <div className="service-image">
                                   <img src="/assets/img/service/03.jpeg" alt="Machine learning models" />
@@ -73,27 +64,77 @@ export default function Service() {
                                       models
                                   </h3>
                                   <p>
-                                      Custom-trained models for prediction, classification and recommendation, built on
-                                      your data and deployed straight into your product.
+                                      We design, train and deploy custom machine learning models that predict trends, detect
+                                      patterns and automate decisions using your own data. From forecasting sales to spotting
+                                      fraud, our models turn information into a competitive advantage.
+                                  </p>
+                                  <h4>Trending features</h4>
+                                  <p className="trending-list">
+                                      <span>Predictive analytics</span>
+                                      <span>Recommendation engines</span>
+                                      <span>Fraud and anomaly detection</span>
+                                      <span>NLP and sentiment analysis</span>
+                                      <span>Computer vision</span>
+                                      <span>Fine-tuned LLMs</span>
+                                      <span>MLOps for continuous model improvement</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
-                      <div className="col-xl-6 wow fadeInUp" data-wow-delay=".8s">
-                          <div className="service-box-items mb-0">
+                      <div className="col-12 wow fadeInUp" data-wow-delay=".6s">
+                          <div className="service-box-items">
                               <div className="service-image">
                                   <img src="/assets/img/service/04.jpeg" alt="Custom AI solutions" />
                               </div>
                               <div className="service-content">
                                   <h3>
-                                      Custom artificial
+                                      Custom AI
                                       solutions
                                   </h3>
                                   <p>
-                                      From chatbots to document processing, we design AI solutions around your exact
-                                      business problem instead of forcing you into a one-size-fits-all tool.
+                                      Every business is different, so we build AI tailored to your exact goals, processes and
+                                      systems. We handle everything from strategy and development to integration with your
+                                      CRM, ERP, website or apps.
+                                  </p>
+                                  <h4>Trending features</h4>
+                                  <p className="trending-list">
+                                      <span>Generative AI apps</span>
+                                      <span>RAG (AI that answers from your company documents)</span>
+                                      <span>AI-powered automation</span>
+                                      <span>Private and secure AI deployment</span>
+                                      <span>Seamless API integration</span>
+                                      <span>Scalable cloud solutions</span>
+                                  </p>
+                                  <Link href="/service" className="link-btn">more details <i
+                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              </div>
+                          </div>
+                      </div>
+                      <div className="col-12 wow fadeInUp" data-wow-delay=".8s">
+                          <div className="service-box-items mb-0">
+                              <div className="service-image">
+                                  <img src="/assets/img/service/02.jpeg" alt="Data analysis services" />
+                              </div>
+                              <div className="service-content">
+                                  <h3>
+                                      Data analysis
+                                      services
+                                  </h3>
+                                  <p>
+                                      We transform raw data into clear insights, interactive dashboards and reports that drive
+                                      smarter decisions. Our experts clean, analyze and visualize your data so you always know
+                                      what's working and what's next.
+                                  </p>
+                                  <h4>Trending features</h4>
+                                  <p className="trending-list">
+                                      <span>Real-time dashboards</span>
+                                      <span>AI-powered business intelligence</span>
+                                      <span>Predictive forecasting</span>
+                                      <span>Natural-language data queries ("ask your data")</span>
+                                      <span>Data cleaning and pipelines</span>
+                                      <span>Power BI and Tableau reporting</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
                                           className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>

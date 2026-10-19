@@ -1002,3 +1002,49 @@ body.route-project .portfolio-section .portfolio-card-items {
 .contact-info-section .contact-box-items-4 {
   height: 100%;
 }
+
+
+/* =============================================================================
+   Service cards — "Trending features" line
+   -----------------------------------------------------------------------------
+   The long-form cards (/service) show each service's features as one inline
+   run of bulleted items under a small heading, instead of a paragraph. Set in
+   the brand yellow so the keywords pop against the card's dark panel.
+
+   The two rules at the end are about the image panel: the rows crop their
+   photo with `object-fit: cover`, so every extra pixel of row height zooms the
+   260x300 source. The 320px cap keeps the crop near 1:1 whatever the copy
+   does later, and the flex centring holds the photo mid-panel instead of
+   letting it ride up when the cap is reached.
+   ========================================================================== */
+
+.service-box-items .service-content h4 {
+  margin: 4px 0 12px;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.service-box-items .service-content .trending-list {
+  margin: 0 0 22px;
+  color: var(--theme);
+}
+
+.service-box-items .service-content .trending-list span {
+  margin-right: 20px;
+}
+
+.service-box-items .service-content .trending-list span::before {
+  content: "•";
+  margin-right: 8px;
+}
+
+.service-box-items .service-image {
+  display: flex;
+  align-items: center;
+}
+
+.service-box-items .service-image img {
+  max-height: 320px;
+}
