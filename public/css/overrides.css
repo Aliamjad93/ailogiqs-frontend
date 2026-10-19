@@ -907,6 +907,24 @@
 
 
 /* =============================================================================
+   Home hero — headline size
+   -----------------------------------------------------------------------------
+   The theme sets the hero h1 at 140px on the desktop tier, tuned for the
+   original short two-word title. The banner copy is now the longer
+   "AI, Simplified, Beyond Automation."; 120px keeps the three-line
+   composition ("AI, Simplified," / "Beyond" / "Automation.") balanced.
+   Scoped to desktop only -- the theme's own mobile reductions stay in charge
+   below 1200px.
+   ========================================================================== */
+
+@media (min-width: 1200px) {
+  .hero-1 .hero-content h1 {
+    font-size: 120px;
+  }
+}
+
+
+/* =============================================================================
    Screen-reader-only text
    -----------------------------------------------------------------------------
    Content that has to be in the DOM for assistive tech and for crawlers, but

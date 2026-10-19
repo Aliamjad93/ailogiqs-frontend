@@ -20,11 +20,10 @@ export default function HomeOne() {
                               <div className="color-bg">
                                   <img src="/assets/img/hero/color-bg.png" alt="img" />
                               </div>
-                              <p className="wow fadeInUp">Intelligent Solution</p>
                               <h1 className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.1s">
-                                  Innovative{" "}
+                                  AI, Simplified,{" "}
                                   <br />
-                                  <b>AI</b> <span className="text-2">solutions</span>
+                                  <b>Beyond</b> <span className="text-2">Automation.</span>
                               </h1>
                           </div>
                       </div>
