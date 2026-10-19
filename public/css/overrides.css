@@ -68,11 +68,17 @@
 
    Scope notes
    - `.site-stage` is the wrapper TemplateRuntime draws around the header, the
-     page and the footer. The five fixed overlays it renders around that
-     wrapper (preloader, cursor, back-to-top, offcanvas, search) stay
-     unscaled: the vendor cursor positions itself from raw pointer
-     coordinates, which Chrome reports in unzoomed viewport pixels, and would
-     sit 10% off the pointer inside the scaled subtree.
+     page and the footer. The fixed overlays it renders around that wrapper
+     stay outside the scaled subtree: the vendor cursor positions itself from
+     raw pointer coordinates, which Chrome reports in unzoomed viewport
+     pixels, and would sit 10% off the pointer inside it.
+   - Two of those overlays carry content the user reads at full size -- the
+     offcanvas drawer and the search popup -- so they take the same 0.9
+     directly on their own fixed panels (rule below). Those panels are
+     viewport-sized and stay flush to the viewport under `zoom` (verified:
+     the 400px drawer renders 360px wide, full height, at right: 0). The
+     preloader, cursor, back-to-top and the flat offcanvas backdrop carry no
+     readable scale and stay unscaled.
    - /admin never renders the wrapper, and the two designs with canvases of
      their own -- /ai-services/* + /portfolio/chatbot, and
      /portfolio/bee-virus-detection -- are excluded by their body flags.
@@ -83,6 +89,14 @@
 
 @media (min-width: 1200px) and (max-width: 1500px) {
   body:not(.route-bee):not(.route-ai-service) .site-stage {
+    zoom: 0.9;
+  }
+
+  /* The drawer and the search popup render outside the stage (see scope
+     notes above), so they carry their own 0.9 -- without it they read as 10%
+     larger than the page behind them. */
+  body:not(.route-bee):not(.route-ai-service) .offcanvas__info,
+  body:not(.route-bee):not(.route-ai-service) .search-wrap {
     zoom: 0.9;
   }
 }

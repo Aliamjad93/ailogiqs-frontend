@@ -197,6 +197,9 @@ export default function TemplateRuntime({ children }) {
         fixed chrome, and in particular the vendor cursor positions itself with
         raw pointer coordinates, which Chrome reports in unzoomed viewport
         pixels -- inside a scaled subtree it would sit 10% off the pointer.
+        The two that carry readable content -- the offcanvas drawer and the
+        search popup -- take the same 0.9 directly from the same overrides.css
+        band, so their content scales with the stage.
       */}
       <div className="site-stage">{children}</div>
     </>
