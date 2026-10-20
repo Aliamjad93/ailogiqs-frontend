@@ -89,7 +89,11 @@
 
 @media (min-width: 1200px) and (max-width: 1500px) {
   body:not(.route-bee):not(.route-ai-service) .site-stage {
-    zoom: 0.9;
+    /* Also exposed as a custom property: viewport-sized elements inside the
+       stage divide their height by this to cancel the scale. See the blog hero
+       in this file. */
+    --stage-zoom: 0.9;
+    zoom: var(--stage-zoom);
   }
 
   /* The drawer and the search popup render outside the stage (see scope
@@ -523,15 +527,21 @@
    =========================================================================== */
 
 .news-hero-section {
-  padding: 0;
   /*
+    Height of the band's header gap, kept in one place because the viewport
+    height calculation below subtracts it: the margin and the height have to
+    describe the same offset or the band either overshoots the screen or leaves
+    a strip of the next section showing.
+
     The site header is position:absolute over the page, so with the hero flush
     to the top of the document the cover ran underneath the nav and the logo and
     menu sat directly on the photograph. A top margin drops the whole band below
     the header instead, leaving the page background behind the nav rather than
     the cover. Sized to the header's own height (padding + ~70px logo row).
   */
-  margin-top: 96px;
+  --news-hero-offset: 96px;
+  padding: 0;
+  margin-top: var(--news-hero-offset);
 }
 
 /* The theme's scrim, disabled. See point 2 above. */
@@ -549,13 +559,33 @@
   position: relative;
   display: flex;
   align-items: center;
-  /* Fixed height, not min-height. The covers are stacked for the fade and the
-     band is full-bleed, so a min-height let the hero resize between slides: a
-     one-line title produced a 405px band and a two-line title 495px, and the
-     shorter slide left the taller one showing below it. A fixed height makes
-     every slide occupy exactly the same band. */
-  height: 480px;
-  min-height: 0;
+  /*
+    The band fills the first screen instead of a fixed 480px strip: viewport
+    height minus the header offset it starts under, so no page background (or
+    the next section's top padding) shows beneath the cover.
+
+    The covers are stacked for the fade and the band is full-bleed, so all
+    three of the section, the track and the slide carry the same height -- a
+    min-height would let the hero resize between slides (a one-line title
+    produced a 405px band and a two-line title 495px, leaving the taller slide
+    showing below the shorter one).
+
+    svh, not just vh: on mobile browsers vh includes the retracted address bar,
+    so the band would be taller than the visible screen and reveal a strip of
+    the next section on first paint. The vh declaration stays first as the
+    fallback for browsers without svh.
+
+    The stage is zoomed to 0.9 on 1200-1500px laptops (see the band note at the
+    top of this file). Zoom scales the rendered height too, so a plain
+    `100svh - 96px` painted 10% short and left exactly the gap this is meant to
+    remove. Dividing by --stage-zoom cancels the scale before it is applied.
+  */
+  height: calc(100vh / var(--stage-zoom, 1) - var(--news-hero-offset));
+  height: calc(100svh / var(--stage-zoom, 1) - var(--news-hero-offset));
+  /* Floor for very short viewports (landscape phones): the band keeps a usable
+     band for the title and button and pushes the listing below the fold rather
+     than clipping the copy. */
+  min-height: 480px;
   padding: 60px 0;
   /* Width, not just height: the slide is a direct child of the section now, so
      it spans the viewport and the cover reaches both page edges. */
@@ -605,19 +635,23 @@
   width: 100%;
 }
 
-/* The track must carry the same fixed height as the slides. Without it the
+/* The track must carry the same viewport height as the slides. Without it the
    wrapper sizes to its tallest child, so the band still changed between
    slides. */
 .news-hero-section .news-hero-slider,
 .news-hero-section .swiper-wrapper {
-  height: 480px;
+  height: calc(100vh / var(--stage-zoom, 1) - var(--news-hero-offset));
+  height: calc(100svh / var(--stage-zoom, 1) - var(--news-hero-offset));
+  min-height: 480px;
 }
 
+/* The floors shrink with the smaller type, but the height stays viewport-based
+   at every breakpoint -- a fixed height here is what caused the gap. */
 @media (max-width: 991px) {
   .news-hero-section .news-hero-slider,
   .news-hero-section .swiper-wrapper,
   .news-hero-section .news-hero-slide {
-    height: 400px;
+    min-height: 400px;
   }
 
   .news-hero-section .news-hero-slide {
@@ -629,7 +663,7 @@
   .news-hero-section .news-hero-slider,
   .news-hero-section .swiper-wrapper,
   .news-hero-section .news-hero-slide {
-    height: 340px;
+    min-height: 340px;
   }
 
   .news-hero-section .news-hero-slide {
@@ -1011,11 +1045,11 @@ body.route-project .portfolio-section .portfolio-card-items {
    run of bulleted items under a small heading, instead of a paragraph. Set in
    the brand yellow so the keywords pop against the card's dark panel.
 
-   The two rules at the end are about the image panel: the rows crop their
-   photo with `object-fit: cover`, so every extra pixel of row height zooms the
-   260x300 source. The 320px cap keeps the crop near 1:1 whatever the copy
-   does later, and the flex centring holds the photo mid-panel instead of
-   letting it ride up when the cap is reached.
+   The image panel runs the full height of the card. The rows crop their photo
+   with `object-fit: cover`, which is what lets a 260x300 source fill a taller
+   panel without stretching. A max-height cap here used to stop the photo short
+   and centre it, leaving dark bands above and below while the copy beside it
+   kept growing the card -- the panel now follows the card height instead.
    ========================================================================== */
 
 .service-box-items .service-content h4 {
@@ -1038,15 +1072,6 @@ body.route-project .portfolio-section .portfolio-card-items {
 .service-box-items .service-content .trending-list span::before {
   content: "•";
   margin-right: 8px;
-}
-
-.service-box-items .service-image {
-  display: flex;
-  align-items: center;
-}
-
-.service-box-items .service-image img {
-  max-height: 320px;
 }
 
 /* =============================================================================
