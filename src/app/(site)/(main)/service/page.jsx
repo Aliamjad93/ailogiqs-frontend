@@ -49,7 +49,7 @@ export default function Service() {
                                       <span>WhatsApp and web chatbot agents</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -79,7 +79,7 @@ export default function Service() {
                                       <span>MLOps for continuous model improvement</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -108,7 +108,7 @@ export default function Service() {
                                       <span>Scalable cloud solutions</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -137,7 +137,7 @@ export default function Service() {
                                       <span>Power BI and Tableau reporting</span>
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -155,7 +155,7 @@ export default function Service() {
                       </h2>
                       <Link href="/contact" className="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s"
                           style={{visibility: 'visible', animationDelay: '0.5s', animationName: 'fadeInUp'}}>get a free consultation <i
-                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              className="fa-solid fa-arrow-up-right"></i></Link>
                   </div>
               </div>
           </div>
@@ -184,7 +184,7 @@ export default function Service() {
                                       that never leave the lab.
                                   </p>
                                   <Link href="/about" className="theme-btn wow fadeInUp" data-wow-delay=".5s">learn about us <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                           <div className="col-xl-4 col-lg-6">
@@ -237,101 +237,81 @@ export default function Service() {
               </div>
           </section>
 
+          {/*
+            Was a blog teaser: "latest insights / Story & feedback", three cards
+            stamped with dates and categories and pointing at /news-details (a
+            legacy redirect). On a services page that read as filler -- posts
+            about work we had not described yet.
 
-          <div className="paralax-section-2 mt-0 fix bg-cover" style={{backgroundImage: 'url(\'/assets/img/paralax-bg-2.jpg\')'}}>
-              <div className="video-text">
-                  <a href="https://www.youtube.com/watch?v=Cn4G2lZ_g2I" className="video-btn ripple video-popup">
-                      <i className="fas fa-play"></i>
-                  </a>
-                  <h3>Free training</h3>
-              </div>
-          </div>
-
-
+            The artwork is kept exactly as it was, and the copy now says what
+            each picture actually shows: the 0.8s reply, the one-email/three-
+            tasks flow, the 2x leads chart. No dates -- a date is the thing that
+            makes a card read as a blog. Each card points at the page that
+            proves it instead of a redirect.
+          */}
           <section className="news-section fix section-padding-2">
               <div className="container">
                   <div className="section-title text-center">
                       <h6 className="wow fadeInUp">
                           <img src="/assets/img/star.png" alt="" />
-                          latest insights
+                          what we build
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Story <span>& <b>feedback</b></span>
+                          Three ways AI <span>earns its <b>keep</b></span>
                       </h2>
                   </div>
                   <div className="row">
                       <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".3s">
                           <div className="news-box-items-2">
                               <div className="news-image">
-                                  <img src="/assets/img/news/04.jpg" alt="AI agents in customer support" />
+                                  <img src="/assets/img/news/04.jpg"
+                                      alt="An AI agent answering an order-status question in 0.8 seconds" />
                               </div>
                               <div className="news-content">
                                   <ul className="post-cat">
-                                      <li>
-                                          <i className="fa-regular fa-calendar-days"></i>
-                                          12 sep. 2026
-                                      </li>
                                       <li>
                                           <i className="fa-regular fa-folder-open"></i>
                                           ai agents
                                       </li>
                                   </ul>
-                                  <h3><Link href="/news-details">How AI agents cut customer
-                                          support response times
-                                          from hours to seconds</Link></h3>
-                                  <Link href="/news-details" className="icon">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                  </Link>
+                                  <h3><Link href="/portfolio/chatbot">Order questions answered in 0.8
+                                          seconds, not the next working day</Link></h3>
                               </div>
                           </div>
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
                           <div className="news-box-items-2">
                               <div className="news-image">
-                                  <img src="/assets/img/news/05.jpg" alt="Business automation" />
+                                  <img src="/assets/img/news/05.jpg"
+                                      alt="One incoming email triggering a CRM update, a drafted reply and a booked meeting" />
                               </div>
                               <div className="news-content">
                                   <ul className="post-cat">
-                                      <li>
-                                          <i className="fa-regular fa-calendar-days"></i>
-                                          28 aug. 2026
-                                      </li>
                                       <li>
                                           <i className="fa-regular fa-folder-open"></i>
                                           automation
                                       </li>
                                   </ul>
-                                  <h3><Link href="/news-details">Five everyday business tasks
-                                          you can automate with AI
-                                          starting this week</Link></h3>
-                                  <Link href="/news-details" className="icon">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                  </Link>
+                                  <h3><Link href="/service">One email in, three jobs done: CRM
+                                          updated, reply drafted, meeting booked</Link></h3>
                               </div>
                           </div>
                       </div>
                       <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
                           <div className="news-box-items-2">
                               <div className="news-image">
-                                  <img src="/assets/img/news/06.jpg" alt="Client success story" />
+                                  <img src="/assets/img/news/06.jpg"
+                                      alt="Lead volume roughly doubling over six months" />
                               </div>
                               <div className="news-content">
                                   <ul className="post-cat">
                                       <li>
-                                          <i className="fa-regular fa-calendar-days"></i>
-                                          10 aug. 2026
-                                      </li>
-                                      <li>
                                           <i className="fa-regular fa-folder-open"></i>
-                                          case study
+                                          results
                                       </li>
                                   </ul>
-                                  <h3><Link href="/news-details">Client story: how a retail
-                                          brand doubled its leads
-                                          with a custom AI assistant</Link></h3>
-                                  <Link href="/news-details" className="icon">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
-                                  </Link>
+                                  <h3><Link href="/project">Twice the leads in 90 days, with the
+                                          same team answering them</Link></h3>
                               </div>
                           </div>
                       </div>

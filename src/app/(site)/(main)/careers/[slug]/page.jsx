@@ -7,6 +7,7 @@ import {
 } from "@/lib/careers";
 import { absoluteUrl, SITE } from "@/lib/site.config";
 import ApplicationForm from "@/components/careers/ApplicationForm";
+import CareersIcon from "@/components/careers/CareersIcon";
 import JobCard from "@/components/careers/JobCard";
 
 export const dynamic = "force-dynamic";
@@ -144,25 +145,25 @@ export default async function JobPage({ params }) {
             <div className="career-detail-meta">
               {job.location && (
                 <span>
-                  <i className="fas fa-location-dot" aria-hidden="true" />
+                  <CareersIcon name="location" />
                   {job.location}
                 </span>
               )}
               {job.workMode && (
                 <span>
-                  <i className="fas fa-building" aria-hidden="true" />
+                  <CareersIcon name="building" />
                   {job.workMode}
                 </span>
               )}
               {job.employmentType && (
                 <span>
-                  <i className="fas fa-clock" aria-hidden="true" />
+                  <CareersIcon name="clock" />
                   {job.employmentType}
                 </span>
               )}
               {job.experienceLevel && (
                 <span>
-                  <i className="fas fa-chart-line" aria-hidden="true" />
+                  <CareersIcon name="trendingUp" />
                   {job.experienceLevel}
                 </span>
               )}
@@ -170,8 +171,7 @@ export default async function JobPage({ params }) {
 
             <div className="careers-hero-actions">
               <a className="theme-btn" href="#apply">
-                Apply for this role{" "}
-                <i className="fas fa-arrow-right" aria-hidden="true" />
+                Apply for this role <CareersIcon name="arrowRight" />
               </a>
               <Link className="theme-btn bt-white-outline" href="/careers">
                 All openings
@@ -239,7 +239,7 @@ export default async function JobPage({ params }) {
                 </ul>
 
                 <a className="theme-btn career-apply-link" href="#apply">
-                  Apply now <i className="fas fa-arrow-right" aria-hidden="true" />
+                  Apply now <CareersIcon name="arrowRight" />
                 </a>
                 <p className="career-sidebar-note">
                   Every application is reviewed by a person on the team.
@@ -255,7 +255,7 @@ export default async function JobPage({ params }) {
           <div className="careers-apply-shell">
             <div className="careers-apply-intro">
               <span className="careers-eyebrow">
-                <img src="/assets/img/star.png" alt="" />
+                <CareersIcon name="sparkles" />
                 apply now
               </span>
               <h2>
@@ -270,15 +270,15 @@ export default async function JobPage({ params }) {
 
               <ul className="careers-apply-points">
                 <li>
-                  <i className="fas fa-file-arrow-up" aria-hidden="true" />
+                  <CareersIcon name="fileUp" />
                   Resume as PDF, DOC or DOCX, under 3 MB.
                 </li>
                 <li>
-                  <i className="fas fa-user-check" aria-hidden="true" />
+                  <CareersIcon name="userCheck" />
                   Reviewed by a person, not an automated filter.
                 </li>
                 <li>
-                  <i className="fas fa-clock" aria-hidden="true" />
+                  <CareersIcon name="clock" />
                   We usually reply within 10 working days.
                 </li>
               </ul>
@@ -295,7 +295,7 @@ export default async function JobPage({ params }) {
             <div className="careers-section-head">
               <div className="section-title">
                 <h6>
-                  <img src="/assets/img/star.png" alt="" />
+                  <CareersIcon name="sparkles" />
                   keep looking
                 </h6>
                 <h2>

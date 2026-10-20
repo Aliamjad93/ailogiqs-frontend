@@ -36,7 +36,7 @@ export default function Login() {
                                           <form action="#" className="mt-4">
                                               <div className="input-item">
                                                   <span className="lable-text">Email Address</span>
-                                                  <input id="email1" type="email" placeholder="info@example.com" />
+                                                  <input id="email1" type="email" placeholder="you@company.com" />
                                                   <div className="icon">
                                                       <i className="fa-regular fa-envelope"></i>
                                                   </div>
@@ -59,7 +59,7 @@ export default function Login() {
                                               </div>
                                               <div className="button-items">
                                                   <button type="submit" className="theme-btn">Sign in <i
-                                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></button>
+                                                          className="fa-solid fa-arrow-up-right"></i></button>
                                               </div>
                                               <p>Don’t have an account?<Link href="/login">Sign Up</Link></p>
                                           </form>

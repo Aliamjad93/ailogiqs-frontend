@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CareersIcon from "@/components/careers/CareersIcon";
 
 /**
  * One open role in the listing (and in the "more roles" strip on a detail page).
@@ -20,25 +21,25 @@ export default function JobCard({ job }) {
         <div className="careers-job-meta">
           {job.location && (
             <span>
-              <i className="fas fa-location-dot" aria-hidden="true" />
+              <CareersIcon name="location" />
               {job.location}
             </span>
           )}
           {job.workMode && (
             <span>
-              <i className="fas fa-building" aria-hidden="true" />
+              <CareersIcon name="building" />
               {job.workMode}
             </span>
           )}
           {job.employmentType && (
             <span>
-              <i className="fas fa-clock" aria-hidden="true" />
+              <CareersIcon name="clock" />
               {job.employmentType}
             </span>
           )}
           {job.experienceLevel && (
             <span>
-              <i className="fas fa-chart-line" aria-hidden="true" />
+              <CareersIcon name="trendingUp" />
               {job.experienceLevel}
             </span>
           )}
@@ -46,7 +47,7 @@ export default function JobCard({ job }) {
       </div>
 
       <span className="careers-job-arrow" aria-hidden="true">
-        <i className="fas fa-arrow-right" />
+        <CareersIcon name="arrowRight" />
       </span>
     </Link>
   );

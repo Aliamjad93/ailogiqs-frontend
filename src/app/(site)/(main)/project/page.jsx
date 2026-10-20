@@ -37,6 +37,7 @@ const SERVICES = [
     eyebrow: "ai sales agent",
     title: "AI Chatbot & Sales Agent",
     href: "/portfolio/chatbot",
+    desc: "An agent that answers product and order questions from your own catalogue and order data, then hands a qualified conversation to a human with the context already written down.",
   },
   {
     img: "/assets/img/custom/beelens-portfolio.jpg",
@@ -44,6 +45,7 @@ const SERVICES = [
     eyebrow: "ai hive diagnostics",
     title: "BeeLens — Bee Virus Detection",
     href: "/portfolio/bee-virus-detection",
+    desc: "Frame-level hive inspection from a phone photo or a short video. It flags Varroa, deformed wing and other brood problems while the frame is still in your hands.",
   },
 ];
 
@@ -51,20 +53,38 @@ export default function Project() {
 
   return (
     <>
-      <div className="breadcrumb-wrapper bg-cover" style={{backgroundImage: 'url(\'/assets/img/breadcrumb-bg.jpg\')'}}>
-              <div className="container">
-                  <div className="page-heading">
-                      <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> our work
-                      </h6>
-                      <h1 className="wow fadeInUp" data-wow-delay=".3s">AI products we’ve <span>shipped</span></h1>
-                  </div>
-              </div>
-          </div>
+      {/*
+        The breadcrumb banner ("our work" / "AI products we've shipped") is
+        gone at the user's request -- it repeated the section title sitting
+        directly beneath it.
 
-    
+        Its h1 text survives as a visually hidden heading on purpose. The
+        section title below is an h2, so without this the page would ship with
+        no h1 at all; and "AI products we've shipped" is still what the page is,
+        which is why the metadata above says the same thing. Changing the h2 to
+        an h1 instead is not a drop-in: the global h1 is 150px/900 against the
+        h2's 65px/700, and `.section-title h2 span/b` (the Marcellus face and
+        the yellow accent) are keyed to h2.
+      */}
+      <h1 className="sr-only">AI products we’ve shipped</h1>
+
           <section className="portfolio-section section-padding section-bg">
               <div className="container">
+                  {/* The page used to open straight onto two cards with no copy
+                      at all, which read as an unfinished grid. This intro says
+                      what the cards are and what opening one gets you. */}
+                  <div className="section-title text-center mb-5">
+                      <h6 className="wow fadeInUp">
+                          <img src="/assets/img/star.png" alt="" /> selected work
+                      </h6>
+                      <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                          Built, shipped, <span>still <b>running</b></span>
+                      </h2>
+                      <p className="wow fadeInUp" data-wow-delay=".5s">
+                          Each card opens the build itself: what the product does, the agent or
+                          model behind it, and what changed for the client once it went live.
+                      </p>
+                  </div>
                   {/* Centred so two cards sit as a balanced pair rather than
                       hanging off the left third of a three-column grid. */}
                   <div className="row justify-content-center">
@@ -74,13 +94,14 @@ export default function Project() {
                                   <div className="portfolio-image">
                                       <img src={s.img} alt={s.alt} />
                                       <Link href={s.href} className="lets-circle">
-                                          <i className="fa-sharp fa-regular fa-arrow-up-right"></i> <br />
+                                          <i className="fa-solid fa-arrow-up-right"></i> <br />
                                           View service
                                       </Link>
                                   </div>
                                   <div className="portfolio-content">
                                       <h6><span>//</span> {s.eyebrow}</h6>
                                       <h3><Link href={s.href}>{s.title}</Link></h3>
+                                      <p>{s.desc}</p>
                                   </div>
                               </div>
                           </div>
@@ -134,7 +155,7 @@ export default function Project() {
 
     
           <section className="cta-discuss-section fix section-padding bg-cover"
-              style={{backgroundImage: 'url(\'/assets/img/cta-discuss-bg.jpg\')'}}>
+              style={{backgroundImage: 'url(\'/assets/img/cta-dark-bg.svg\')'}}>
               <div className="container">
                   <div className="cta-discuss-content">
                       <h2>
@@ -147,7 +168,7 @@ export default function Project() {
                           for it.
                       </p>
                       <Link href="/contact" className="theme-btn">get a free consultation <i
-                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              className="fa-solid fa-arrow-up-right"></i></Link>
                   </div>
               </div>
           </section>

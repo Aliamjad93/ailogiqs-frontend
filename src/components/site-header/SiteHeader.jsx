@@ -36,13 +36,17 @@ const VARIANTS = {
   default: {
     className: "header-1",
     wrapLeft: false,
-    actions: ["discord", "search"],
+    actions: ["cta"],
     hamburger: "d-xl-block",
   },
   home1: {
     className: "header-1",
-    wrapLeft: true,
-    actions: ["discord", "search"],
+    // Was `true`. `.header-1 .header-left` is a flex group with a 160px gap,
+    // which parked the logo and the menu against the left edge instead of
+    // letting `space-between` centre the menu the way every inner page does.
+    // The home bar is now identical to `default`.
+    wrapLeft: false,
+    actions: ["cta"],
     hamburger: "d-xl-block",
   },
   home2: {
@@ -63,7 +67,7 @@ const VARIANTS = {
     // site's sign-in screen from inside the showcase.
     className: "header-1",
     wrapLeft: false,
-    actions: ["search"],
+    actions: [],
     hamburger: "d-xl-block",
     logoAccent: "#FFFFFF",
   },
@@ -76,7 +80,7 @@ const VARIANTS = {
     // rather than as the AiLogiQs site.
     className: "header-1",
     wrapLeft: false,
-    actions: ["search"],
+    actions: [],
     hamburger: "d-xl-block",
     logoAccent: "#F2A81D",
   },
@@ -85,17 +89,15 @@ const VARIANTS = {
 function HeaderActions({ actions }) {
   const render = (action) => {
     switch (action) {
-      case "discord":
+      case "cta":
+        // Was a "Join now" link carrying a Discord logo and pointing at /login,
+        // which is a decorative form that submits nowhere. A visitor who
+        // clicked it hit a dead end. Now it asks for the thing the contact
+        // form actually delivers, and matches the drawer's button.
         return (
-          <Link href="/login" className="join-text">
-            <img src="/assets/img/discord.svg" alt="" /> Join now
+          <Link href="/contact" className="join-text">
+            Get a quote
           </Link>
-        );
-      case "search":
-        return (
-          <a href="#0" className="search-trigger search-icon" aria-label="Search">
-            <i className="fa-regular fa-magnifying-glass" />
-          </a>
         );
       case "login":
         return (
@@ -116,7 +118,7 @@ function HeaderActions({ actions }) {
             className="theme-btn d-md-block d-none py-3 px-4 theme-btn-3"
           >
             APPOINTMENT NOW
-            <i className="fa-sharp fa-regular fa-arrow-up-right" />
+            <i className="fa-solid fa-arrow-up-right" />
           </Link>
         );
       case "trial":

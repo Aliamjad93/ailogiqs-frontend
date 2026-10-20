@@ -43,7 +43,7 @@ export default function Faq() {
                                           <span>contact</span> us
                                       </h2>
                                       <Link href="/contact" className="theme-btn">contact us <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                               </div>
                           </div>
@@ -242,7 +242,7 @@ export default function Faq() {
 
     
           <section className="cta-discuss-section fix section-padding bg-cover"
-              style={{backgroundImage: 'url(\'/assets/img/cta-discuss-bg.jpg\')'}}>
+              style={{backgroundImage: 'url(\'/assets/img/cta-dark-bg.svg\')'}}>
               <div className="container">
                   <div className="cta-discuss-content">
                       <h2>
@@ -254,7 +254,7 @@ export default function Faq() {
                           high-quality images and videos in few seconds
                       </p>
                       <Link href="/contact" className="theme-btn">contact us <i
-                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              className="fa-solid fa-arrow-up-right"></i></Link>
                   </div>
               </div>
           </section>

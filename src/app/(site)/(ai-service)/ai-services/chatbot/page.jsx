@@ -38,7 +38,7 @@ export default function ChatbotLandingPage() {
                                     From AI chatbots and agents to automation and data <br /> platforms — practical AI, built to grow your business.
                                 </p>
                                 <Link href="/portfolio/chatbot" className="theme-btn wow fadeInUp" data-wow-delay=".7s">explore now <i
-                                        className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                        className="fa-solid fa-arrow-up-right"></i></Link>
                             </div>
                         </div>
                         <div className="col-lg-5 wow fadeInUp" data-wow-delay=".3s">
@@ -78,7 +78,7 @@ export default function ChatbotLandingPage() {
                                                 technology with your business goals.
                                             </p>
                                             <Link href="/portfolio/chatbot" className="link-btn">More Details <i
-                                                    className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                                    className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +99,7 @@ export default function ChatbotLandingPage() {
                                                 dashboards and reporting.
                                             </p>
                                             <Link href="/portfolio/chatbot" className="link-btn">More Details <i
-                                                    className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                                    className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@ export default function ChatbotLandingPage() {
                                                 recommendations.
                                             </p>
                                             <Link href="/portfolio/chatbot" className="link-btn">More Details <i
-                                                    className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                                    className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@ export default function ChatbotLandingPage() {
                                                 your workflow.
                                             </p>
                                             <Link href="/portfolio/chatbot" className="link-btn">More Details <i
-                                                    className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                                    className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@ export default function ChatbotLandingPage() {
                     </div>
                     <div className="agent-cta-row text-center wow fadeInUp" data-wow-delay=".4s">
                         <Link href="/portfolio/chatbot" className="theme-btn agent-cta">
-                            how it works <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                            how it works <i className="fa-solid fa-arrow-up-right"></i>
                         </Link>
                     </div>
                 </div>

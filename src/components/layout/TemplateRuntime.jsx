@@ -6,7 +6,6 @@ import Preloader from "./Preloader";
 import MouseCursor from "./MouseCursor";
 import BackToTop from "./BackToTop";
 import OffcanvasMenu from "./OffcanvasMenu";
-import SearchPopup from "./SearchPopup";
 
 /**
  * Resolves once window.AiLogiQsInitTemplate exists.
@@ -187,19 +186,22 @@ export default function TemplateRuntime({ children }) {
       <MouseCursor />
       <BackToTop />
       <OffcanvasMenu />
-      <SearchPopup />
       {/*
         The header, the page and the footer share one wrapper so overrides.css
         can treat them as a single "stage": on 1200-1500px screens the stage
         renders at 90% -- see "Laptop stage" in public/css/overrides.css.
 
-        The five overlays above stay OUTSIDE the wrapper on purpose. They are
+        The four overlays above stay OUTSIDE the wrapper on purpose. They are
         fixed chrome, and in particular the vendor cursor positions itself with
         raw pointer coordinates, which Chrome reports in unzoomed viewport
         pixels -- inside a scaled subtree it would sit 10% off the pointer.
-        The two that carry readable content -- the offcanvas drawer and the
-        search popup -- take the same 0.9 directly from the same overrides.css
-        band, so their content scales with the stage.
+        The one that carries readable content -- the offcanvas drawer -- takes
+        the same 0.9 directly from the same overrides.css band, so its content
+        scales with the stage.
+
+        The search popup used to be the fifth overlay. It is gone: it was a
+        `method="get"` form with no action, so it searched nothing, and the
+        header trigger that opened it has been removed too.
       */}
       <div className="site-stage">{children}</div>
     </>

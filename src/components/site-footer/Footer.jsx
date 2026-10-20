@@ -215,7 +215,7 @@ export default function Footer({ variant = "classic" }) {
                     </p>
                     <ContactRows />
                     <Link href="/contact" className="theme-btn mt-3">
-                      Contact us <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                      Contact us <i className="fa-solid fa-arrow-up-right"></i>
                     </Link>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export default function Footer({ variant = "classic" }) {
                                         <p>Tell us about your project — we reply within one business day.</p>
                                         <ContactRows />
                                         <Link href="/contact" className="theme-btn mt-4">
-                                            Contact us <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                            Contact us <i className="fa-solid fa-arrow-up-right"></i>
                                         </Link>
                                     </div>
                                 </div>

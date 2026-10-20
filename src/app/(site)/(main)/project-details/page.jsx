@@ -60,7 +60,7 @@ export default function ProjectDetails() {
                                           <span>contact</span> us
                                       </h2>
                                       <Link href="/contact" className="theme-btn">contact us <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                               </div>
                           </div>
@@ -195,7 +195,7 @@ export default function ProjectDetails() {
                               <div className="portfolio-image">
                                   <img src="/assets/img/project/12.jpg" alt="img" />
                                   <Link href="/contact" className="lets-circle">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i> <br />
+                                      <i className="fa-solid fa-arrow-up-right"></i> <br />
                                       Project
                                       details
                                   </Link>
@@ -211,7 +211,7 @@ export default function ProjectDetails() {
                               <div className="portfolio-image">
                                   <img src="/assets/img/project/13.jpg" alt="img" />
                                   <Link href="/contact" className="lets-circle">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i> <br />
+                                      <i className="fa-solid fa-arrow-up-right"></i> <br />
                                       Project
                                       details
                                   </Link>
@@ -227,7 +227,7 @@ export default function ProjectDetails() {
                               <div className="portfolio-image">
                                   <img src="/assets/img/project/14.jpg" alt="img" />
                                   <Link href="/contact" className="lets-circle">
-                                      <i className="fa-sharp fa-regular fa-arrow-up-right"></i> <br />
+                                      <i className="fa-solid fa-arrow-up-right"></i> <br />
                                       Project
                                       details
                                   </Link>

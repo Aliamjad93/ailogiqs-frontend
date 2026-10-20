@@ -243,20 +243,20 @@ export default async function BlogPostPage({ params }) {
                   <div className="prev-next-button">
                     {olderPost ? (
                       <Link href={`/blog/${olderPost.slug}`} className="prev-button">
-                        <i className="fa-sharp fa-regular fa-arrow-up-left" /> prev
+                        <i className="fa-solid fa-arrow-up-left" /> prev
                       </Link>
                     ) : (
                       <span className="prev-button disabled">
-                        <i className="fa-sharp fa-regular fa-arrow-up-left" /> prev
+                        <i className="fa-solid fa-arrow-up-left" /> prev
                       </span>
                     )}
                     {newerPost ? (
                       <Link href={`/blog/${newerPost.slug}`} className="next-button">
-                        next <i className="fa-sharp fa-regular fa-arrow-up-right" />
+                        next <i className="fa-solid fa-arrow-up-right" />
                       </Link>
                     ) : (
                       <span className="next-button disabled">
-                        next <i className="fa-sharp fa-regular fa-arrow-up-right" />
+                        next <i className="fa-solid fa-arrow-up-right" />
                       </span>
                     )}
                   </div>
@@ -286,7 +286,7 @@ export default async function BlogPostPage({ params }) {
                               <Link href={`/blog/${entry.slug}`}>{entry.title}</Link>
                             </h3>
                             <Link href={`/blog/${entry.slug}`} className="icon">
-                              <i className="fa-sharp fa-regular fa-arrow-up-right" />
+                              <i className="fa-solid fa-arrow-up-right" />
                             </Link>
                           </div>
                         </div>

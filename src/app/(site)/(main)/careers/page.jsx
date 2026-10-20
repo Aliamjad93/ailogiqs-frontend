@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getOpenJobs } from "@/lib/careers";
 import JobCard from "@/components/careers/JobCard";
+import CareersIcon from "@/components/careers/CareersIcon";
 
 const DESCRIPTION =
   "Build AI products that reach real users. Explore engineering, data, design and growth roles at AiLogiQs in Lahore and remote.";
@@ -60,7 +61,7 @@ export default async function CareersPage({ searchParams }) {
           <div className="careers-hero-grid">
             <div className="careers-hero-copy-wrap">
               <span className="careers-eyebrow">
-                <img src="/assets/img/star.png" alt="" />
+                <CareersIcon name="sparkles" />
                 We&rsquo;re hiring
               </span>
 
@@ -69,32 +70,31 @@ export default async function CareersPage({ searchParams }) {
               </h1>
 
               <p className="careers-hero-copy">
-                AiLogiQs is a small, senior team turning AI into products that
-                businesses use every day. If you like owning outcomes, learning
-                fast and working close to the problem, you will fit right in.
+                We&rsquo;re a small, senior team turning AI into products
+                businesses use every day. If you like owning outcomes,
+                you&rsquo;ll fit right in.
               </p>
 
               <div className="careers-hero-actions">
                 <a className="theme-btn" href="#openings">
-                  Explore open roles{" "}
-                  <i className="fas fa-arrow-right" aria-hidden="true" />
+                  Explore open roles <CareersIcon name="arrowRight" />
                 </a>
-                <Link className="theme-btn bt-white-outline" href="/team">
-                  Meet the team
+                <Link className="theme-btn bt-white-outline" href="/contact">
+                  Contact us
                 </Link>
               </div>
 
               <div className="careers-hero-chips">
                 <span>
-                  <i className="fas fa-location-dot" aria-hidden="true" />
+                  <CareersIcon name="location" />
                   Lahore, Pakistan
                 </span>
                 <span>
-                  <i className="fas fa-globe" aria-hidden="true" />
+                  <CareersIcon name="globe" />
                   Hybrid &amp; remote roles
                 </span>
                 <span>
-                  <i className="fas fa-graduation-cap" aria-hidden="true" />
+                  <CareersIcon name="graduationCap" />
                   Paid internships
                 </span>
               </div>
@@ -108,7 +108,7 @@ export default async function CareersPage({ searchParams }) {
           <div className="careers-section-head">
             <div className="section-title">
               <h6>
-                <img src="/assets/img/star.png" alt="" />
+                <CareersIcon name="sparkles" />
                 open positions
               </h6>
               <h2>
@@ -158,7 +158,7 @@ export default async function CareersPage({ searchParams }) {
           {jobs.length === 0 ? (
             <div className="careers-empty">
               <span className="careers-empty-icon">
-                <i className="fas fa-briefcase" aria-hidden="true" />
+                <CareersIcon name="briefcase" />
               </span>
               <h3>
                 {activeDepartment === "all"
@@ -204,8 +204,7 @@ export default async function CareersPage({ searchParams }) {
             </div>
             <div className="careers-cta-actions">
               <Link className="theme-btn" href="/contact">
-                Start a conversation{" "}
-                <i className="fas fa-arrow-right" aria-hidden="true" />
+                Start a conversation <CareersIcon name="arrowRight" />
               </Link>
               <a className="careers-cta-mail" href="mailto:bd@ailogiqs.com">
                 bd@ailogiqs.com

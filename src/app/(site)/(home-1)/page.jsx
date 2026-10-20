@@ -41,7 +41,7 @@ export default function HomeOne() {
                               <span className="hero-title-line hero-title-line-accent">built to <b>ship</b></span>
                           </h2>
                           <Link href="/contact" className="theme-btn">get started <i
-                                  className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                  className="fa-solid fa-arrow-up-right"></i></Link>
                       </div>
                   </div>
 </div>
@@ -139,7 +139,7 @@ export default function HomeOne() {
                                           </li>
                                       </ul>
                                       <Link href="/about" className="theme-btn">explore now <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
                                       <img src="/assets/img/about/01.png" alt="img" />
@@ -196,7 +196,7 @@ export default function HomeOne() {
                                           </li>
                                       </ul>
                                       <Link href="/about" className="theme-btn wow fadeInUp" data-wow-delay=".3s">explore now <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image wow fadeInUp" data-wow-delay=".3s">
                                       <img src="/assets/img/about/01.png" alt="img" />
@@ -253,7 +253,7 @@ export default function HomeOne() {
                                           </li>
                                       </ul>
                                       <Link href="/about" className="theme-btn">explore now <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
                                       <img src="/assets/img/about/01.png" alt="img" />
@@ -263,6 +263,14 @@ export default function HomeOne() {
                       </div>
                   </div>
               </div>
+              {/*
+                Three distinct stats, matching /project and /about.
+
+                The template shipped "236 Finished Projects" three times over --
+                the same card repeated, which read as a placeholder to anyone
+                looking at it. Keep all three pages on the same three figures so
+                they never contradict each other.
+              */}
               <div className="counter-section section-padding pb-0">
                   <div className="container">
                       <div className="counter-wrapper">
@@ -271,8 +279,8 @@ export default function HomeOne() {
                                   <img src="/assets/img/icon/01.svg" alt="img" />
                               </div>
                               <div className="content">
-                                  <h2><span className="count">236</span></h2>
-                                  <p>Finished Projects</p>
+                                  <h2><span className="count">120</span></h2>
+                                  <p>AI Projects Delivered</p>
                               </div>
                           </div>
                           <div className="counter-items wow fadeInUp" data-wow-delay=".5s">
@@ -280,8 +288,8 @@ export default function HomeOne() {
                                   <img src="/assets/img/icon/01.svg" alt="img" />
                               </div>
                               <div className="content">
-                                  <h2><span className="count">236</span></h2>
-                                  <p>Finished Projects</p>
+                                  <h2><span className="count">45</span></h2>
+                                  <p>Businesses Automated</p>
                               </div>
                           </div>
                           <div className="counter-items wow fadeInUp" data-wow-delay=".7s">
@@ -289,8 +297,8 @@ export default function HomeOne() {
                                   <img src="/assets/img/icon/01.svg" alt="img" />
                               </div>
                               <div className="content">
-                                  <h2><span className="count">236</span></h2>
-                                  <p>Finished Projects</p>
+                                  <h2><span className="count">12</span></h2>
+                                  <p>Industries Served</p>
                               </div>
                           </div>
                       </div>
@@ -326,7 +334,7 @@ export default function HomeOne() {
                                       Smart autonomous agents that automate tasks and support customers 24/7.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -344,7 +352,7 @@ export default function HomeOne() {
                                       Custom predictive models that turn your data into smarter decisions.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -362,7 +370,7 @@ export default function HomeOne() {
                                       Tailored AI built and integrated around your unique business needs.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -380,7 +388,7 @@ export default function HomeOne() {
                                       Clear insights and real-time dashboards that drive business growth.
                                   </p>
                                   <Link href="/service" className="link-btn">more details <i
-                                          className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                          className="fa-solid fa-arrow-up-right"></i></Link>
                               </div>
                           </div>
                       </div>
@@ -416,8 +424,8 @@ export default function HomeOne() {
                               <p>
                                   Custom machine learning models that learn from your data to predict trends, automate decisions, and cut manual guesswork
                               </p>
-                              <Link href="/project-details" className="theme-btn">explore now <i
-                                      className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              <Link href="/project" className="theme-btn">explore now <i
+                                      className="fa-solid fa-arrow-up-right"></i></Link>
                           </div>
                       </div>
                       <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
@@ -432,8 +440,8 @@ export default function HomeOne() {
                               <p>
                                   Turn raw business data into clear, actionable dashboards that help you spot opportunities before the competition does
                               </p>
-                              <Link href="/project-details" className="theme-btn">explore now <i
-                                      className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              <Link href="/project" className="theme-btn">explore now <i
+                                      className="fa-solid fa-arrow-up-right"></i></Link>
                           </div>
                       </div>
                       <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
@@ -458,8 +466,8 @@ export default function HomeOne() {
                               <p>
                                   AI-driven campaigns that target the right audience, optimize ad spend, and boost conversions automatically
                               </p>
-                              <Link href="/project-details" className="theme-btn">explore now <i
-                                      className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              <Link href="/project" className="theme-btn">explore now <i
+                                      className="fa-solid fa-arrow-up-right"></i></Link>
                           </div>
                       </div>
                   </div>
@@ -488,7 +496,7 @@ export default function HomeOne() {
                               <div className="faq-content">
                                   <div className="section-title">
                                       <h6>
-                                          <img src="/assets/img/star.png" alt="img" /> key feature
+                                          <img src="/assets/img/star.png" alt="img" /> common questions
                                       </h6>
                                       <h2>
                                           Harnessing AI for
@@ -499,32 +507,34 @@ export default function HomeOne() {
                                       <div className="accordion" id="accordion">
                                           <div className="accordion-item wow fadeInUp" data-wow-delay=".2s">
                                               <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false"
-                                                      aria-controls="faq2">
-                                                      Consultation booking system
-                                                  </button>
-                                              </h5>
-                                              <div id="faq2" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      Rhoncus duis urna lobortis at fusce cum accumsan tempor ads orci etiam
-                                                      litora dignissim ipsum lacinia hendrerit convallis vitae Consequat enim
-                                                      phasellus purus
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item  wow fadeInUp" data-wow-delay=".4s">
-                                              <h5 className="accordion-header">
                                                   <button className="accordion-button" type="button" data-bs-toggle="collapse"
                                                       data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
-                                                      Personalized dashboard
+                                                      What can AiLogiQs build for my business?
                                                   </button>
                                               </h5>
                                               <div id="faq1" className="accordion-collapse show" data-bs-parent="#accordion">
                                                   <div className="accordion-body">
-                                                      Rhoncus duis urna lobortis at fusce cum accumsan tempor ads orci etiam
-                                                      litora dignissim ipsum lacinia hendrerit convallis vitae Consequat enim
-                                                      phasellus purus
+                                                      AI agents that handle support and sales conversations around the
+                                                      clock, machine learning models that predict trends and spot fraud,
+                                                      and dashboards that turn raw data into decisions. Every build is
+                                                      tailored to your processes and connects to the tools you use now.
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div className="accordion-item wow fadeInUp" data-wow-delay=".4s">
+                                              <h5 className="accordion-header">
+                                                  <button className="accordion-button collapsed" type="button"
+                                                      data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false"
+                                                      aria-controls="faq2">
+                                                      How do you work with us?
+                                                  </button>
+                                              </h5>
+                                              <div id="faq2" className="accordion-collapse collapse" data-bs-parent="#accordion">
+                                                  <div className="accordion-body">
+                                                      We scope the work first, then build it, then train it on your
+                                                      products, FAQs and data so it answers like your team. Once it is live we
+                                                      keep monitoring it and improving it, so the solution keeps working as
+                                                      your business changes.
                                                   </div>
                                               </div>
                                           </div>
@@ -533,14 +543,15 @@ export default function HomeOne() {
                                                   <button className="accordion-button collapsed" type="button"
                                                       data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false"
                                                       aria-controls="faq3">
-                                                      AI insights and analytics
+                                                      How do we get started?
                                                   </button>
                                               </h5>
                                               <div id="faq3" className="accordion-collapse collapse" data-bs-parent="#accordion">
                                                   <div className="accordion-body">
-                                                      Rhoncus duis urna lobortis at fusce cum accumsan tempor ads orci etiam
-                                                      litora dignissim ipsum lacinia hendrerit convallis vitae Consequat enim
-                                                      phasellus purus
+                                                      With a free consultation. We look at the workflow you want to
+                                                      change, map the data and the systems involved, and come back with a
+                                                      scoped proposal, a timeline and the criteria we will measure it
+                                                      against.
                                                   </div>
                                               </div>
                                           </div>
@@ -554,13 +565,10 @@ export default function HomeOne() {
           </section>
 
     
-          <div className="paralax-section fix section-padding pt-0">
-              <div className="paralax-image">
-                  <img src="/assets/img/paralax-bg.jpg" alt="img" />
-              </div>
-          </div>
-
-    
+          {/* The decorative parallax banner that sat here is gone -- it was a
+              single full-bleed image between the FAQ and the packages with no
+              content of its own. The FAQ keeps its own 120px bottom padding, so
+              the pricing section still breathes. */}
           <section className="pricing-section fix section-padding pt-0">
               <div className="container">
                   <div className="section-title-area">
@@ -651,7 +659,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -718,7 +726,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -785,7 +793,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -852,7 +860,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -923,7 +931,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -990,7 +998,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -1057,7 +1065,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -1124,7 +1132,7 @@ export default function HomeOne() {
                                       </ul>
                                       <div className="pricing-button">
                                           <Link href="/pricing" className="theme-btn">
-                                              Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                              Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                           </Link>
                                       </div>
                                   </div>
@@ -1143,57 +1151,32 @@ export default function HomeOne() {
               <div className="container">
                   <div className="message-items">
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Have any query
-                          <span> send us <b>message</b></span>
+                          Have a project
+                          <span> in <b>mind</b>?</span>
                       </h2>
                       <div className="circle-bg wow fadeInUp" data-wow-delay=".3s">
                           <img src="/assets/img/circle-bg.png" alt="img" />
                       </div>
                       <div className="lets-talk-items wow fadeInUp" data-wow-delay=".5s">
                           <Link href="/contact" className="lets-circle">
-                              <i className="fa-sharp fa-regular fa-arrow-up-right"></i> <br />
+                              <i className="fa-solid fa-arrow-up-right"></i> <br />
                               Let’s talk
                           </Link>
                           <p>
-                              Duise sagittis accumsan magna on adipiscing laoreet ultrices magna consectetuer eiaculis rutrum
-                              morbie habitasse orci libero porttitor scelerisque acid vivamus molestie mollise
+                              Tell us what you are trying to automate — a support inbox, a
+                              sales funnel, a report nobody has time to build. We will come
+                              back with a scoped plan, a timeline and a clear price.
                           </p>
                       </div>
                   </div>
               </div>
-              <div className="brand-section section-padding pb-0">
-                  <div className="container">
-                      <div className="swiper brand-slider">
-                          <div className="swiper-wrapper">
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/01.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/02.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/03.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/04.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/05.png" alt="img" />
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+              {/*
+                The client-logo marquee that sat here (FE / rico / Futaba / box /
+                ISEKI) is gone. Those are the template's invented brands, not
+                AiLogiQs clients, so it was advertising work that does not exist.
+                Swiper init in main.js is length-guarded, and /about still has a
+                brand slider, so nothing breaks.
+              */}
           </section>
     </>
   );

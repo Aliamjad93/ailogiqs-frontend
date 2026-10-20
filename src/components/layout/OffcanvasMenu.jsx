@@ -46,11 +46,7 @@ export default function OffcanvasMenu() {
                       <i className="far fa-envelope" />
                     </div>
                     <div className="offcanvas__contact-text">
-                      <a href="mailto:info@example.com">
-                        <span className="mailto:info@example.com">
-                          bd@ailogiqs.com
-                        </span>
-                      </a>
+                      <a href="mailto:bd@ailogiqs.com">bd@ailogiqs.com</a>
                     </div>
                   </li>
                   <li className="d-flex align-items-center">
@@ -58,9 +54,7 @@ export default function OffcanvasMenu() {
                       <i className="far fa-clock" />
                     </div>
                     <div className="offcanvas__contact-text">
-                      <a target="_blank" rel="noreferrer" href="#">
-                        Monday - Friday, 09am - 05pm
-                      </a>
+                      <span>Monday - Friday, 9:00am - 5:00pm</span>
                     </div>
                   </li>
                   <li className="d-flex align-items-center">

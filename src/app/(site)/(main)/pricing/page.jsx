@@ -81,7 +81,7 @@ export default function Pricing() {
                               </ul>
                               <div className="pricing-button">
                                   <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                   </Link>
                               </div>
                           </div>
@@ -148,7 +148,7 @@ export default function Pricing() {
                               </ul>
                               <div className="pricing-button">
                                   <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                   </Link>
                               </div>
                           </div>
@@ -215,7 +215,7 @@ export default function Pricing() {
                               </ul>
                               <div className="pricing-button">
                                   <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                   </Link>
                               </div>
                           </div>
@@ -282,7 +282,7 @@ export default function Pricing() {
                               </ul>
                               <div className="pricing-button">
                                   <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-sharp fa-regular fa-arrow-up-right"></i>
+                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
                                   </Link>
                               </div>
                           </div>
@@ -301,7 +301,7 @@ export default function Pricing() {
                       </h2>
                       <Link href="/contact" className="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s"
                           style={{visibility: 'visible', animationDelay: '0.5s', animationName: 'fadeInUp'}}>free generate <i
-                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              className="fa-solid fa-arrow-up-right"></i></Link>
                   </div>
               </div>
           </div>

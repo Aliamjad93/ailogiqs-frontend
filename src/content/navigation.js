@@ -14,35 +14,30 @@
 
   If another variant is ever wanted, add the folder back under
   src/app/(site)/(home-N)/ with its own layout.jsx and footer component, then add
-  the entry here. The single current variant does not need a dropdown, so Home
-  links straight to /.
+  the entry here.
 */
 
+/*
+  FLAT MENU -- no dropdowns. Every label here is a real page a visitor can land
+  on. SiteHeader still supports `children` (it renders a submenu when present),
+  so a dropdown can be reintroduced by adding that key, but there is none today
+  by request.
+
+  Order is the order a buyer moves through: who we are, what we do, proof of it,
+  who works here, what we think, how to reach us.
+
+  Pricing and FAQ are not in the bar. Both are linked from the footer
+  (Footer.jsx ~line 366/371), which is where secondary pages belong. The two
+  showcases (/portfolio/chatbot, /portfolio/bee-virus-detection) are reached
+  from the /project cards and the footer, deliberately not from the bar.
+*/
 export const PRIMARY_NAV = [
-  // No dropdown: one homepage variant remains, so Home points straight at it.
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  // Portfolio is a top-level link, NOT a "Pages" child. It is a real destination
-  // of its own, and its first card is the only way into the AI sales-agent
-  // showcase (/ai-services/chatbot) -- which deliberately has no entry of its
-  // own, so this link has to be findable rather than buried in the dropdown.
+  { label: "Services", href: "/service" },
   { label: "Portfolio", href: "/project" },
-  {
-    label: "Pages",
-    href: "/service",
-    children: [
-      { label: "Services", href: "/service" },
-      { label: "Team", href: "/team" },
-      { label: "Portfolio Details", href: "/project-details" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Our Faq", href: "/faq" },
-      { label: "Login", href: "/login" },
-      { label: "Register", href: "/register" },
-      { label: "404 Page", href: "/404" },
-    ],
-  },
-  // Careers is a top-level destination, not a "Pages" child: it is a live
-  // hiring surface that changes independently of the marketing pages.
+  // Careers is top-level: it is a live hiring surface with its own admin
+  // section (postings + applications), not a marketing page.
   { label: "Careers", href: "/careers" },
   // Blog article URLs are generated from the post title in the database, so
   // there is no fixed details page to link to. Linking a hardcoded slug here
@@ -50,3 +45,19 @@ export const PRIMARY_NAV = [
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
+
+/*
+  Dropped from the menu, deliberately:
+
+  - "Pages"          -- a template placeholder, not a label a business uses.
+  - "Portfolio Details" (/project-details) -- demo copy ("Bold & vibrant
+                        design") describing no real project.
+  - "Login" / "Register" -- the pages are decorative: /login renders
+                        `<form action="#">` and submits nowhere. Advertising a
+                        sign-in that cannot sign anyone in is worse than not
+                        having one. Routes kept, menu entry removed.
+  - "404 Page"       -- a nav link to an error screen is a template artifact.
+  - "Team"           -- now reached from the footer, which already links it.
+
+  Any of these can come back with a real page behind it.
+*/

@@ -21,7 +21,7 @@ export default function Team() {
                   </div>
                   <div className="team-title-items">
                       <Link href="/contact" className="mt-3 mt-md-0 theme-btn wow fadeInUp" data-wow-delay=".5s">Get in touch <i
-                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                              className="fa-solid fa-arrow-up-right"></i></Link>
                       <p>
                           Duise sagittis accumsan magna on adipiscing laoreet ultrices magna consectetuer eiaculis rutrum
                           morbie habitasse orci libero porttitor scelerisque acid vivamus molestie mollise

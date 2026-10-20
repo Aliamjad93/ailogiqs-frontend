@@ -109,7 +109,7 @@ export default function About() {
                                           </li>
                                       </ul>
                                       <Link href="/about" className="theme-btn">explore now <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
                                       <img src="/assets/img/about/01.png" alt="img" />
@@ -164,7 +164,7 @@ export default function About() {
                                           </li>
                                       </ul>
                                       <Link href="/about" className="theme-btn wow fadeInUp" data-wow-delay=".3s">explore now <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image wow fadeInUp" data-wow-delay=".3s">
                                       <img src="/assets/img/about/01.png" alt="img" />
@@ -219,7 +219,7 @@ export default function About() {
                                           </li>
                                       </ul>
                                       <Link href="/about" className="theme-btn">explore now <i
-                                              className="fa-sharp fa-regular fa-arrow-up-right"></i></Link>
+                                              className="fa-solid fa-arrow-up-right"></i></Link>
                                   </div>
                                   <div className="about-image">
                                       <img src="/assets/img/about/01.png" alt="img" />
@@ -414,6 +414,8 @@ export default function About() {
           </section>
 
     
+          {/* Same three stats as "/" and "/project" -- see the note on the home
+              page counter block. All three pages must agree. */}
           <div className="counter-section section-padding pt-0">
               <div className="container">
                   <div className="counter-wrapper">
@@ -422,8 +424,8 @@ export default function About() {
                               <img src="/assets/img/icon/01.svg" alt="img" />
                           </div>
                           <div className="content">
-                              <h2><span className="count">236</span></h2>
-                              <p>Finished Projects</p>
+                              <h2><span className="count">120</span></h2>
+                              <p>AI Projects Delivered</p>
                           </div>
                       </div>
                       <div className="counter-items wow fadeInUp" data-wow-delay=".5s">
@@ -431,8 +433,8 @@ export default function About() {
                               <img src="/assets/img/icon/01.svg" alt="img" />
                           </div>
                           <div className="content">
-                              <h2><span className="count">236</span></h2>
-                              <p>Finished Projects</p>
+                              <h2><span className="count">45</span></h2>
+                              <p>Businesses Automated</p>
                           </div>
                       </div>
                       <div className="counter-items wow fadeInUp" data-wow-delay=".7s">
@@ -440,8 +442,8 @@ export default function About() {
                               <img src="/assets/img/icon/01.svg" alt="img" />
                           </div>
                           <div className="content">
-                              <h2><span className="count">236</span></h2>
-                              <p>Finished Projects</p>
+                              <h2><span className="count">12</span></h2>
+                              <p>Industries Served</p>
                           </div>
                       </div>
                   </div>

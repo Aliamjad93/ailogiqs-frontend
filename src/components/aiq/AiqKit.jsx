@@ -163,7 +163,7 @@ export function CtaLink({ href, children }) {
   return (
     <Link href={href} className="aiq-link">
       {children}
-      <i className="fa-sharp fa-regular fa-arrow-up-right" />
+      <i className="fa-solid fa-arrow-up-right" />
     </Link>
   );
 }

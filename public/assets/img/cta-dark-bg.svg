@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" preserveAspectRatio="xMidYMid slice" role="presentation">
+  <!--
+    Background for `.cta-discuss-section` ("Ready to put AI to work in your
+    business?"). Replaces cta-discuss-bg.jpg, which was a grey placeholder with
+    the literal text "1920X700" printed on it.
+
+    Kept as SVG on purpose: it is 2KB, scales to any viewport without
+    blurring under `background-attachment: fixed`, and the palette is the
+    site's own theme yellow (#EFFB53) rather than a stock photo that would
+    fight the brand. The glows sit in the corners so the centred headline
+    stays on flat black.
+  -->
+  <defs>
+    <radialGradient id="glowA" cx="16%" cy="18%" r="58%">
+      <stop offset="0%" stop-color="#EFFB53" stop-opacity="0.20" />
+      <stop offset="55%" stop-color="#EFFB53" stop-opacity="0.05" />
+      <stop offset="100%" stop-color="#EFFB53" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowB" cx="88%" cy="88%" r="52%">
+      <stop offset="0%" stop-color="#EFFB53" stop-opacity="0.11" />
+      <stop offset="100%" stop-color="#EFFB53" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="mesh" width="96" height="96" patternUnits="userSpaceOnUse">
+      <path d="M96 0H0V96" fill="none" stroke="#FFFFFF" stroke-opacity="0.03" stroke-width="1" />
+    </pattern>
+  </defs>
+
+  <rect width="1920" height="700" fill="#0A0A0A" />
+  <rect width="1920" height="700" fill="url(#mesh)" />
+
+  <!-- Thin accent rings, off to the right so they never sit behind the copy. -->
+  <circle cx="1560" cy="150" r="270" fill="none" stroke="#EFFB53" stroke-opacity="0.09" stroke-width="1.5" />
+  <circle cx="1560" cy="150" r="380" fill="none" stroke="#EFFB53" stroke-opacity="0.05" stroke-width="1.5" />
+  <circle cx="300" cy="620" r="220" fill="none" stroke="#EFFB53" stroke-opacity="0.06" stroke-width="1.5" />
+
+  <rect width="1920" height="700" fill="url(#glowA)" />
+  <rect width="1920" height="700" fill="url(#glowB)" />
+</svg>

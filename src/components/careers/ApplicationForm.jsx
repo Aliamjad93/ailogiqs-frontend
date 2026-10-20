@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { submitApplication } from "@/app/(site)/(main)/careers/actions";
+import CareersIcon from "@/components/careers/CareersIcon";
 
 /**
  * Application form for one open role.
@@ -62,7 +63,7 @@ export default function ApplicationForm({ job }) {
     return (
       <div className="careers-form-success" role="status">
         <span className="careers-form-success-icon">
-          <i className="fas fa-check" aria-hidden="true" />
+          <CareersIcon name="check" />
         </span>
         <div>
           <h3>Application received</h3>
@@ -90,7 +91,7 @@ export default function ApplicationForm({ job }) {
 
       {state?.error && (
         <div className="careers-form-error" role="alert">
-          <i className="fas fa-circle-exclamation" aria-hidden="true" />
+          <CareersIcon name="alertCircle" />
           <span>{state.error}</span>
         </div>
       )}
@@ -195,7 +196,7 @@ export default function ApplicationForm({ job }) {
         <div className="careers-field careers-field-wide">
           <label htmlFor="applicant-resume">Resume</label>
           <label className="careers-file" htmlFor="applicant-resume">
-            <i className="fas fa-paperclip" aria-hidden="true" />
+            <CareersIcon name="paperclip" />
             <span>{resumeName || "Attach a PDF, DOC or DOCX (max 3 MB)"}</span>
             <input
               id="applicant-resume"
@@ -245,7 +246,7 @@ export default function ApplicationForm({ job }) {
       <div className="careers-form-submit">
         <button className="theme-btn" type="submit" disabled={pending}>
           {pending ? "Submitting…" : "Submit application"}{" "}
-          <i className="fas fa-arrow-right" aria-hidden="true" />
+          <CareersIcon name="arrowRight" />
         </button>
         <p>
           We review every application. If there is a fit, we usually reply within
