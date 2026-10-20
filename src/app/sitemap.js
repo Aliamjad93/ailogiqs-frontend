@@ -22,6 +22,14 @@ const STATIC_ROUTES = [
   { path: "/careers", changeFrequency: "weekly", priority: 0.8 },
   { path: "/blog", changeFrequency: "daily", priority: 0.9 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
+  /*
+    Legal pages. Low priority and `yearly` because they change when the policy
+    changes, not on a schedule -- but they must be IN the file: a policy no
+    crawler can reach is the one page of a site that compliance reviewers ask
+    for by URL.
+  */
+  { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.3 },
+  { path: "/terms-of-service", changeFrequency: "yearly", priority: 0.3 },
   // /login and /register are deliberately absent. They are noindex (a sign-in
   // form is not a landing page), and listing a noindex URL in the sitemap is a
   // contradiction: Search Console reports it as "Excluded by noindex tag" and it

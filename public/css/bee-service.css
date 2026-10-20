@@ -1601,6 +1601,13 @@ body.route-bee .footer-bottom .social-icon a:hover i {
   color: var(--bee-amber);
 }
 
+/* The legal row (Privacy Policy / Terms of Service) is shared chrome, added to
+   the classic footer for every page. On this design its hover has to be amber
+   like the rest of the footer, not the site yellow. */
+body.route-bee .footer-bottom .footer-legal a:hover {
+  color: var(--bee-amber);
+}
+
 
 /* =============================================================================
    Responsive

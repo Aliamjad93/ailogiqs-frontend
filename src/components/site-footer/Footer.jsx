@@ -206,13 +206,13 @@ export default function Footer({ variant = "classic" }) {
               <p className="wow fadeInUp" data-wow-delay=".3s">AiLogiQs &copy; 2026. All Rights Reserved.</p>
               <ul className="footer-menu wow fadeInUp" data-wow-delay=".5s">
                 <li>
-                  <Link href="/contact">Privacy policy -</Link>
+                  <Link href="/privacy-policy">Privacy Policy</Link>
                 </li>
                 <li>
-                  <Link href="/contact">Contact -</Link>
+                  <Link href="/terms-of-service">Terms of Service</Link>
                 </li>
                 <li>
-                  <Link href="/contact">Terms &amp; conditions</Link>
+                  <Link href="/contact">Contact</Link>
                 </li>
               </ul>
             </div>
@@ -374,13 +374,36 @@ export default function Footer({ variant = "classic" }) {
                 </div>
                 <div className="footer-bottom">
                     <div className="container">
+                        {/*
+                          Copyright and the legal links share ONE centred
+                          column. They used to be two separate rows: the
+                          copyright sat in the flex middle (which is the middle
+                          of the space left over between the logo and the social
+                          icons, not the middle of the page) while the links
+                          below were centred on the container -- so the two
+                          lines missed each other by ~40px on every desktop
+                          width. A 1fr / auto / 1fr grid puts the column on the
+                          page's true centre, and both lines inherit it.
+                        */}
                         <div className="footer-bottom-wrapper">
                             <div className="logo-img wow fadeInUp" data-wow-delay=".3s">
                                 <Link href="/">
                                     <Logo variant="light" />
                                 </Link>
                             </div>
-                            <p className="wow fadeInUp" data-wow-delay=".5s">AiLogiQs © 2026. All Rights Reserved.</p>
+                            <div className="footer-bottom-center">
+                                <p className="wow fadeInUp" data-wow-delay=".5s">AiLogiQs © 2026. All Rights Reserved.</p>
+                                {/* The template's footer had no policy links at
+                                    all, and the indigo footer's three pointed at
+                                    /contact -- which is not a policy. */}
+                                <div className="footer-legal wow fadeInUp" data-wow-delay=".6s">
+                                    <Link href="/privacy-policy">Privacy Policy</Link>
+                                    <span className="footer-legal-sep" aria-hidden="true" />
+                                    <Link href="/terms-of-service">Terms of Service</Link>
+                                    <span className="footer-legal-sep" aria-hidden="true" />
+                                    <Link href="/contact">Contact</Link>
+                                </div>
+                            </div>
                             <SocialIcons className="social-icon wow fadeInUp" data-wow-delay=".7s" />
                         </div>
                     </div>

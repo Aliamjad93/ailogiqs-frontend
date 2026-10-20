@@ -1227,6 +1227,97 @@ body.route-project .portfolio-section .portfolio-card-items .portfolio-content p
   color: var(--theme2);
 }
 
+/* -----------------------------------------------------------------------------
+   Footer — bottom bar alignment
+   -----------------------------------------------------------------------------
+   The vendor bar is `flex` + `space-between`, so its middle item is centred on
+   the space LEFT OVER between the logo and the social icons — not on the page.
+   With the legal links added under the copyright, the two lines landed ~40px
+   apart and read as two unrelated rows.
+
+   1fr / auto / 1fr fixes it properly: the side columns are equal by
+   definition, so the centre column is on the container's true centre whatever
+   the logo and icon widths are, and the copyright and the links above it share
+   that axis.
+
+   Scoped to `.footer-bg` (the classic footer) on purpose — the indigo
+   `style-2` bar has its own two-item flex row that is already correct.
+   -------------------------------------------------------------------------- */
+
+.footer-section.footer-bg .footer-bottom .footer-bottom-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-section.footer-bg
+  .footer-bottom
+  .footer-bottom-wrapper
+  > .social-icon {
+  justify-self: end;
+}
+
+.footer-bottom-center {
+  text-align: center;
+}
+
+/* --- legal row ------------------------------------------------------------ */
+
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+
+.footer-legal a {
+  color: #8f8f99;
+  transition: color 0.25s ease;
+}
+
+.footer-legal a:hover {
+  color: var(--theme);
+}
+
+/* An empty span rather than a "·" character: a true dot at any font size,
+   and it cannot be read out by a screen reader. */
+.footer-legal-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #55555f;
+}
+
+@media (max-width: 991px) {
+  /* One column, stacked and centred — the grid's side columns have nothing
+     left to balance on a phone. */
+  .footer-section.footer-bg .footer-bottom .footer-bottom-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .footer-section.footer-bg
+    .footer-bottom
+    .footer-bottom-wrapper
+    > .social-icon {
+    justify-self: auto;
+  }
+}
+
+@media (max-width: 575px) {
+  .footer-legal {
+    gap: 6px 10px;
+    font-size: 13.5px;
+  }
+}
+
 /* ==========================================================================
    Contact form (functional)
    The template's Subject control was a `nice-select` div faking a dropdown
@@ -2838,5 +2929,729 @@ body.route-project .portfolio-section .portfolio-card-items .portfolio-content p
 @media (max-width: 575px) {
   .pricing-home .pricing-box-items .pricing-header h2 {
     font-size: 36px;
+  }
+}
+
+/* =============================================================================
+   Legal pages — /privacy-policy and /terms-of-service
+   -----------------------------------------------------------------------------
+   Two documents, one layout (src/components/legal/LegalPage.jsx): hero, a
+   sticky "on this page" index, numbered sections, closing CTA.
+
+   Deliberately the calmest surface on the site. Every other inner page opens
+   with a marketing hero, and a policy that opens with a marketing hero reads
+   as something other than a policy. So: the same palette and type as the rest
+   of the dark theme — near-black bands, theme-yellow accents, Marcellus for
+   the display line — but a document measure and no scroll animations
+   competing with the text.
+
+   Type scale runs one step larger than the rest of the site's body copy. A
+   policy is read line by line, often by someone looking for one clause, and
+   at 19px/1.75 the paragraphs hold up at arm's length on a laptop. The measure
+   is capped at 760px so the larger size does not turn into 110-character
+   lines.
+
+   `text-transform: none` on the headings is not a style preference. The vendor
+   `h1..h6` rule capitalises every word, which is what turns "bd@ailogiqs.org"
+   into "Bd@AiLogiQs.Org" elsewhere on the site. Legal headings quote product
+   and company names, so they stay exactly as written.
+   ========================================================================== */
+
+/* Inline line icons (LegalIcon.jsx). `1em` keeps each one in step with the text
+   size of whatever it sits in — the same contract the template's <i> had. */
+.legal-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}
+
+/* --- hero ----------------------------------------------------------------- */
+
+.legal-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 176px 0 84px;
+  background: #0f0f12;
+  border-bottom: 1px solid rgba(207, 208, 212, 0.1);
+}
+
+/* Centred headline, so the light sits behind the middle of the block rather
+   than off to one side. The indigo wash stays bottom-right as the counterweight
+   the yellow glow needs. */
+.legal-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(239, 251, 83, 0.12), transparent 46%),
+    radial-gradient(circle at 86% 92%, rgba(81, 77, 224, 0.16), transparent 46%);
+  pointer-events: none;
+}
+
+.legal-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.14) 1px,
+    transparent 1px
+  );
+  background-size: 27px 27px;
+  opacity: 0.22;
+  mask-image: linear-gradient(to bottom, #000, transparent 82%);
+  pointer-events: none;
+}
+
+.legal-hero .container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.legal-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 26px;
+  color: #7f7f8a;
+  font-size: 14.5px;
+  line-height: 1;
+}
+
+.legal-breadcrumb a {
+  color: #9d9da7;
+  transition: color 0.25s ease;
+}
+
+.legal-breadcrumb a:hover {
+  color: var(--theme);
+}
+
+.legal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 251, 83, 0.3);
+  background: rgba(239, 251, 83, 0.06);
+  color: var(--theme);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.legal-eyebrow .legal-icon {
+  color: var(--theme);
+  font-size: 15px;
+}
+
+.legal-hero h1 {
+  max-width: 1000px;
+  margin: 28px auto 0;
+  color: #ffffff;
+  font-size: clamp(50px, 5.6vw, 84px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  text-transform: none;
+}
+
+/* One line: "Privacy Policy" / "Terms of Service". The span used to be a block,
+   which stacked the serif accent under the sans lead and cost a whole extra
+   line of hero height for two short words. Inline keeps the two-typeface
+   treatment without the break. */
+.legal-hero h1 span {
+  display: inline;
+  font-family: "Marcellus", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.legal-hero h1 span b {
+  color: var(--theme);
+  font-weight: 400;
+}
+
+.legal-hero-copy {
+  max-width: 700px;
+  margin: 26px auto 0;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+.legal-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.legal-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 17px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: #c4c4cc;
+  font-size: 15.5px;
+  line-height: 1;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.legal-meta-item .legal-icon {
+  color: var(--theme);
+  font-size: 15px;
+}
+
+a.legal-meta-item:hover {
+  border-color: rgba(239, 251, 83, 0.4);
+  color: #ffffff;
+}
+
+/* --- body: index + document ----------------------------------------------- */
+
+.legal-body {
+  padding: 88px 0 96px;
+}
+
+.legal-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 72px;
+  align-items: start;
+}
+
+.legal-aside {
+  position: sticky;
+  top: 118px;
+}
+
+.legal-toc-label {
+  margin-bottom: 16px;
+  color: #8a8a94;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* The rail is a 1px line on the list; the active item draws its own 2px marker
+   over it with a -1px pull, so the highlight sits ON the rail rather than
+   beside it. */
+.legal-toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid rgba(207, 208, 212, 0.14);
+}
+
+.legal-toc a {
+  display: flex;
+  gap: 10px;
+  margin-left: -1px;
+  padding: 10px 0 10px 17px;
+  border-left: 2px solid transparent;
+  color: #9d9da7;
+  font-size: 17.5px;
+  line-height: 1.45;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.legal-toc a:hover {
+  color: #ffffff;
+}
+
+.legal-toc a[aria-current="location"] {
+  border-left-color: var(--theme);
+  color: var(--theme);
+}
+
+.legal-toc-num {
+  padding-top: 3px;
+  color: #5c5c66;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: color 0.25s ease;
+}
+
+.legal-toc a[aria-current="location"] .legal-toc-num {
+  color: var(--theme);
+}
+
+/* "Questions?" card under the index. Hidden below 992px, where the closing CTA
+   already carries the same invitation and the index has to stay out of the
+   way of the text. */
+.legal-help {
+  margin-top: 30px;
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  border: 1px solid rgba(239, 251, 83, 0.2);
+  background: rgba(239, 251, 83, 0.045);
+}
+
+.legal-help > .legal-icon {
+  color: var(--theme);
+  font-size: 21px;
+}
+
+.legal-help h2 {
+  margin: 12px 0 8px;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.legal-help p {
+  margin: 0 0 16px;
+  color: #a8a8b2;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.legal-help-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--theme);
+  font-size: 16px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.legal-help-btn .legal-icon {
+  font-size: 14px;
+  transition: transform 0.25s ease;
+}
+
+.legal-help-btn:hover .legal-icon {
+  transform: translateX(4px);
+}
+
+/* --- the document --------------------------------------------------------- */
+
+/* 800px is the reading measure (~76 characters at 21px). The index column
+   stays flush with the hero's left edge; the document centres in what is left
+   of the row, so the wide container's slack is split around the text instead
+   of piling up on one side. */
+.legal-doc {
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.legal-section {
+  padding-bottom: 42px;
+  margin-bottom: 42px;
+  border-bottom: 1px solid rgba(207, 208, 212, 0.08);
+  /* Clears the fixed header when an index link jumps here. */
+  scroll-margin-top: 120px;
+}
+
+.legal-section:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.legal-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: clamp(28px, 2.7vw, 37px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  text-transform: none;
+}
+
+/* The number is a chip, not a typographic marker: it aligns to the cap height
+   of the heading and stays legible at any heading size. */
+.legal-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 251, 83, 0.28);
+  background: rgba(239, 251, 83, 0.07);
+  color: var(--theme);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.legal-doc p {
+  margin: 0 0 18px;
+  color: #b6b6c0;
+  font-size: 21px;
+  line-height: 1.75;
+}
+
+.legal-doc p a,
+.legal-list a {
+  color: var(--theme);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(239, 251, 83, 0.4);
+  transition: text-decoration-color 0.25s ease;
+}
+
+.legal-doc p a:hover,
+.legal-list a:hover {
+  text-decoration-color: var(--theme);
+}
+
+.legal-list {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.legal-list li {
+  position: relative;
+  padding-left: 30px;
+  color: #b6b6c0;
+  font-size: 20.5px;
+  line-height: 1.7;
+}
+
+/* A small rotated square rather than a disc — the site's mark is a diamond,
+   and a round bullet next to it reads like a different brand. */
+.legal-list li::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--theme);
+  transform: rotate(45deg);
+}
+
+.legal-list strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.legal-section > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Contact panel — the closing section of the policy. */
+.legal-contact {
+  margin-top: 24px;
+  padding: 26px 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(207, 208, 212, 0.14);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.012)
+  );
+}
+
+.legal-contact-name {
+  margin: 0 0 15px;
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.legal-contact .legal-contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin: 0 0 13px;
+  color: #b6b6c0;
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.legal-contact .legal-contact-row:last-child {
+  margin-bottom: 0;
+}
+
+.legal-contact-row .legal-icon {
+  margin-top: 6px;
+  color: var(--theme);
+  font-size: 17px;
+}
+
+.legal-contact-row a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.legal-contact-row a:hover {
+  color: var(--theme);
+}
+
+/* --- closing CTA ---------------------------------------------------------- */
+
+.legal-cta {
+  padding: 0 0 100px;
+}
+
+.legal-cta-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px 40px;
+  padding: 44px 48px;
+  border-radius: 24px;
+  border: 1px solid rgba(239, 251, 83, 0.16);
+  background:
+    radial-gradient(circle at 88% 15%, rgba(239, 251, 83, 0.13), transparent 48%),
+    #141419;
+}
+
+.legal-cta-inner h2 {
+  color: #ffffff;
+  font-size: clamp(26px, 2.8vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-transform: none;
+}
+
+.legal-cta-inner p {
+  margin: 8px 0 0;
+  color: #a8a8b2;
+  font-size: 19px;
+  line-height: 1.6;
+}
+
+.legal-cta .theme-btn .legal-icon {
+  margin-left: 10px;
+}
+
+/* --- responsive ----------------------------------------------------------- */
+
+@media (max-width: 1199px) {
+  .legal-layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .legal-hero {
+    padding-top: 156px;
+  }
+}
+
+/* Below the desktop grid the index stops being a column and becomes a chip
+   scroller above the document: the same navigation, no sticky panel eating a
+   third of a phone screen. */
+@media (max-width: 991px) {
+  .legal-hero {
+    padding: 148px 0 62px;
+  }
+
+  .legal-layout {
+    display: block;
+  }
+
+  .legal-aside {
+    position: static;
+    margin-bottom: 40px;
+  }
+
+  .legal-help {
+    display: none;
+  }
+
+  .legal-toc ol {
+    display: flex;
+    gap: 9px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    border-left: 0;
+    scrollbar-width: thin;
+  }
+
+  .legal-toc li {
+    flex: 0 0 auto;
+  }
+
+  .legal-toc a {
+    margin-left: 0;
+    padding: 10px 15px;
+    border: 1px solid rgba(207, 208, 212, 0.16);
+    border-radius: 999px;
+    font-size: 13.5px;
+    white-space: nowrap;
+  }
+
+  .legal-toc a[aria-current="location"] {
+    border-color: rgba(239, 251, 83, 0.5);
+    background: rgba(239, 251, 83, 0.08);
+  }
+
+  .legal-toc-num {
+    display: none;
+  }
+
+  .legal-body {
+    padding: 54px 0 72px;
+  }
+
+  .legal-cta {
+    padding-bottom: 76px;
+  }
+}
+
+@media (max-width: 575px) {
+  .legal-hero {
+    padding: 132px 0 48px;
+  }
+
+  .legal-hero h1 {
+    font-size: 42px;
+  }
+
+  .legal-hero-copy {
+    margin-top: 20px;
+    font-size: 19.5px;
+  }
+
+  .legal-meta-item {
+    font-size: 14px;
+  }
+
+  .legal-section {
+    padding-bottom: 34px;
+    margin-bottom: 34px;
+    scroll-margin-top: 96px;
+  }
+
+  .legal-section h2 {
+    gap: 12px;
+    font-size: 24px;
+  }
+
+  .legal-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    font-size: 13px;
+  }
+
+  .legal-doc p,
+  .legal-list li {
+    font-size: 19px;
+  }
+
+  .legal-list li {
+    padding-left: 24px;
+  }
+
+  .legal-list li::before {
+    top: 13px;
+    width: 7px;
+    height: 7px;
+  }
+
+  .legal-contact {
+    padding: 22px;
+  }
+
+  .legal-contact .legal-contact-row {
+    font-size: 17.5px;
+  }
+
+  .legal-cta-inner {
+    padding: 32px 24px;
+  }
+}
+
+/* 320px-class phones (iPhone SE 1st gen and older Androids): "Terms of
+   Service" is 16 characters and wrapped onto a second line at 42px, which is
+   the one thing this heading must not do. */
+@media (max-width: 359px) {
+  .legal-hero h1 {
+    font-size: 36px;
+  }
+}
+
+/* --- print ---------------------------------------------------------------- */
+
+/* A policy gets printed or saved as a PDF, usually by whoever has to review it.
+   The chrome, the index and the CTA are navigation — they have no meaning on
+   paper, and the dark panels would drain a toner cartridge. */
+@media print {
+  #header-sticky,
+  .footer-section,
+  .legal-aside,
+  .legal-cta,
+  .legal-hero::before,
+  .legal-hero::after {
+    display: none !important;
+  }
+
+  .legal-hero,
+  .legal-body {
+    padding: 0 !important;
+    background: #ffffff !important;
+    border: 0;
+  }
+
+  .legal-hero h1,
+  .legal-hero h1 span b,
+  .legal-section h2,
+  .legal-list strong,
+  .legal-contact-name {
+    color: #000000 !important;
+  }
+
+  .legal-hero-copy,
+  .legal-doc p,
+  .legal-list li,
+  .legal-contact-row,
+  .legal-meta-item,
+  .legal-breadcrumb {
+    color: #222222 !important;
+  }
+
+  .legal-num,
+  .legal-eyebrow,
+  .legal-contact {
+    border-color: #bbbbbb !important;
+    background: transparent !important;
+  }
+
+  .legal-section {
+    page-break-inside: avoid;
+    border-bottom-color: #dddddd;
+  }
+
+  .legal-doc {
+    max-width: none;
   }
 }
