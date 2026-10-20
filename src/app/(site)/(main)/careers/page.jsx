@@ -34,48 +34,6 @@ export const metadata = {
  */
 export const dynamic = "force-dynamic";
 
-const VALUES = [
-  {
-    icon: "fa-solid fa-bullseye",
-    title: "Own the outcome",
-    copy: "You will not hand work to three layers of people. Engineers, designers and analysts own what they build, from the first sketch to the release that reaches users.",
-  },
-  {
-    icon: "fa-solid fa-rocket",
-    title: "Ship, learn, repeat",
-    copy: "We prefer working software and real feedback to a perfect plan. Weekly releases, short decisions, and the honesty to change course when the evidence says so.",
-  },
-  {
-    icon: "fa-solid fa-brain",
-    title: "AI is the daily tool",
-    copy: "We build with the same models and agents we sell. You will use them in your own workflow, see where they break, and bring that judgement back into the products.",
-  },
-  {
-    icon: "fa-solid fa-seedling",
-    title: "Grow deliberately",
-    copy: "Mentorship, a learning budget and exposure to every part of delivery. We want people who are better at their craft a year from now than they are today.",
-  },
-];
-
-const PROCESS = [
-  {
-    title: "Intro conversation",
-    copy: "A 20-minute call about your experience, what you want to do next, and what the role actually involves. No scripted screening.",
-  },
-  {
-    title: "Craft deep-dive",
-    copy: "A conversation with the people you would work with. We go through real decisions, trade-offs and work you are proud of.",
-  },
-  {
-    title: "Practical round",
-    copy: "A short, scoped exercise or portfolio walkthrough. We pay for exercises that take more than an hour of your time.",
-  },
-  {
-    title: "Offer & onboarding",
-    copy: "A clear offer, an honest conversation about it, and a first week with a named mentor and a real project.",
-  },
-];
-
 export default async function CareersPage({ searchParams }) {
   const params = await searchParams;
   const allJobs = await getOpenJobs();
@@ -141,74 +99,6 @@ export default async function CareersPage({ searchParams }) {
                 </span>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="careers-values-section">
-        <div className="container">
-          <div className="careers-section-head">
-            <div className="section-title">
-              <h6>
-                <img src="/assets/img/star.png" alt="" />
-                life at AiLogiQs
-              </h6>
-              <h2>
-                Small team.
-                <br />
-                <span>Serious <b>ownership.</b></span>
-              </h2>
-            </div>
-            <p className="careers-section-intro">
-              We are deliberately small. That means less process, more trust and a
-              direct line between the work you do and the result a client sees.
-            </p>
-          </div>
-
-          <div className="careers-values-grid">
-            {VALUES.map((value) => (
-              <article key={value.title} className="careers-value-card">
-                <span className="careers-value-icon">
-                  <i className={value.icon} aria-hidden="true" />
-                </span>
-                <h3>{value.title}</h3>
-                <p>{value.copy}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="careers-process-section">
-        <div className="container">
-          <div className="careers-section-head">
-            <div className="section-title">
-              <h6>
-                <img src="/assets/img/star.png" alt="" />
-                how we hire
-              </h6>
-              <h2>
-                A clear process,
-                <br />
-                <span>no <b>guesswork.</b></span>
-              </h2>
-            </div>
-            <p className="careers-section-intro">
-              Most processes take two to three weeks from first call to offer. You
-              will always know which stage you are in and who you are meeting next.
-            </p>
-          </div>
-
-          <div className="careers-process-grid">
-            {PROCESS.map((step, index) => (
-              <article key={step.title} className="careers-step">
-                <span className="careers-step-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
-              </article>
-            ))}
           </div>
         </div>
       </section>
