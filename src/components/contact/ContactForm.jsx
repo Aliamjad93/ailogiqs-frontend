@@ -121,7 +121,11 @@ export default function ContactForm() {
   }
 
   return (
-    <form action={formAction} id="contact-form" method="POST" className="contact-form-items">
+    /* No `method` or `encType` here. When `action` is a function React owns
+       both -- it submits the form itself and sets them on the way through -- so
+       declaring `method="POST"` (which this carried over from the template's
+       static form) only earns a console warning telling you it is ignored. */
+    <form action={formAction} id="contact-form" className="contact-form-items">
       <div className="row g-4">
         <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
           <div className="form-clt">
