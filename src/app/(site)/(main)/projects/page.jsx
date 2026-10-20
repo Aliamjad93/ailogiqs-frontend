@@ -1,14 +1,14 @@
 export const metadata = {
-  title: "Portfolio",
+  title: "Projects",
   description:
     "Selected work from AiLogiQs — AI agents, machine-learning models and data products we have designed, built and shipped for our clients.",
-  alternates: { canonical: "/project" },
+  alternates: { canonical: "/projects" },
 };
 
 import Link from "next/link";
 
 /*
-  The portfolio page is deliberately thin: real work only.
+  The projects page is deliberately thin: real work only.
 
   The template shipped five category tabs (show All / creative / anime / animal /
   graphic) holding around fifty filler cards -- stock artwork, invented titles,
@@ -16,7 +16,7 @@ import Link from "next/link";
   three times over. None of it described AiLogiQs work, so all of it is gone.
 
   What is left are the two real services, and each card doubles as the only way
-  into its showcase: neither /portfolio/chatbot nor /portfolio/bee-virus-
+  into its showcase: neither /projects/chatbot nor /projects/bee-virus-
   detection has a nav entry of its own, so these cards are the routes in.
 
   Add more cards by adding an object to SERVICES. Keep the markup shape
@@ -24,7 +24,7 @@ import Link from "next/link";
   .portfolio-content) and artwork at 420x505 -- 840x1010 at 2x, like
   custom/agent-portfolio.jpg -- so a row of cards stays even.
 
-  Note the card renders narrower than its column: `body.route-project
+  Note the card renders narrower than its column: `body.route-projects
   .portfolio-card-items` in overrides.css caps it at 340px and centres it. The
   artwork is composed larger than it displays on purpose -- it is headroom for
   the cap being raised, or for a dense display where 340 CSS pixels is more than
@@ -36,7 +36,7 @@ const SERVICES = [
     alt: "AI chatbot and sales agent handling a customer order",
     eyebrow: "ai sales agent",
     title: "AI Chatbot & Sales Agent",
-    href: "/portfolio/chatbot",
+    href: "/projects/chatbot",
     desc: "An agent that answers product and order questions from your own catalogue and order data, then hands a qualified conversation to a human with the context already written down.",
   },
   {
@@ -44,12 +44,12 @@ const SERVICES = [
     alt: "BeeLens analysing a hive video frame and flagging a Varroa mite and a deformed wing",
     eyebrow: "ai hive diagnostics",
     title: "BeeLens — Bee Virus Detection",
-    href: "/portfolio/bee-virus-detection",
+    href: "/projects/bee-virus-detection",
     desc: "Frame-level hive inspection from a phone photo or a short video. It flags Varroa, deformed wing and other brood problems while the frame is still in your hands.",
   },
 ];
 
-export default function Project() {
+export default function Projects() {
 
   return (
     <>

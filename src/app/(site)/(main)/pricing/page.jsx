@@ -1,389 +1,189 @@
 export const metadata = {
   title: "Pricing",
+  description:
+    "AiLogiQs pricing: start free, then move to AI Starter, AI Growth or AI Pro. AI agents, order taking, COD confirmation, follow-ups and Shopify — priced in PKR.",
+  alternates: { canonical: "/pricing" },
 };
 
 import Link from "next/link";
-export default function Pricing() {
+import Check from "@/components/shared/Check";
+/*
+  The plan cards, the note under them and the FAQ answers are read from
+  src/content, the same place the homepage pricing section reads from. This
+  page used to carry the theme template's own cards -- Standard $25,
+  Professional $29, Business $49, Enterprise $54, all four with the same four
+  filler lines -- while the homepage showed the real plans. Anyone who compared
+  the two pages saw two different companies.
+*/
+import { PLANS, PRICING_NOTE, PLAN_INCLUDES } from "@/content/pricing";
+import { PRICING_FAQS } from "@/content/faqs";
 
+export default function Pricing() {
   return (
     <>
-      <section className="pricing-section style-padding fix section-padding">
-              <div className="container">
-                  <div className="section-title text-center">
-                      <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> popular package
-                      </h6>
-                      <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Competitive package <br />
-                          <span> best AI <b>expertise</b></span>
-                      </h2>
-                  </div>
-                  <div className="row">
-                      <div className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                          <div className="pricing-box-items">
-                              <div className="icon">
-                                  <img src="/assets/img/icon/02.svg" alt="img" />
-                              </div>
-                              <div className="pricing-header">
-                                  <h3>Standard</h3>
-                                  <p>Ideal for personal project</p>
-                                  <h2>$25</h2>
-                              </div>
-                              <ul className="pricing-list">
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Access AI tool</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Exclusive feature</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>24/7 support</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Discord access</span>
-                                  </li>
-                              </ul>
-                              <div className="pricing-button">
-                                  <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s">
-                          <div className="pricing-box-items">
-                              <div className="icon">
-                                  <img src="/assets/img/icon/02.svg" alt="img" />
-                              </div>
-                              <div className="pricing-header">
-                                  <h3>Professional</h3>
-                                  <p>Ideal for personal project</p>
-                                  <h2>$29</h2>
-                              </div>
-                              <ul className="pricing-list">
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Access AI tool</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Exclusive feature</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>24/7 support</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Discord access</span>
-                                  </li>
-                              </ul>
-                              <div className="pricing-button">
-                                  <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".6s">
-                          <div className="pricing-box-items">
-                              <div className="icon">
-                                  <img src="/assets/img/icon/02.svg" alt="img" />
-                              </div>
-                              <div className="pricing-header">
-                                  <h3>Business</h3>
-                                  <p>Ideal for personal project</p>
-                                  <h2>$49</h2>
-                              </div>
-                              <ul className="pricing-list">
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Access AI tool</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Exclusive feature</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>24/7 support</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Discord access</span>
-                                  </li>
-                              </ul>
-                              <div className="pricing-button">
-                                  <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xxl-3 col-xl-4 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".8s">
-                          <div className="pricing-box-items">
-                              <div className="icon">
-                                  <img src="/assets/img/icon/02.svg" alt="img" />
-                              </div>
-                              <div className="pricing-header">
-                                  <h3>Enterprise</h3>
-                                  <p>Ideal for personal project</p>
-                                  <h2>$54</h2>
-                              </div>
-                              <ul className="pricing-list">
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Access AI tool</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Exclusive feature</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>24/7 support</span>
-                                  </li>
-                                  <li>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12"
-                                          fill="none">
-                                          <path
-                                              d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-                                              fill="#CDCDCD" />
-                                          <path
-                                              d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-                                              fill="#CDCDCD" />
-                                      </svg>
-                                      <span>Discord access</span>
-                                  </li>
-                              </ul>
-                              <div className="pricing-button">
-                                  <Link href="/pricing" className="theme-btn">
-                                      Start Now <i className="fa-solid fa-arrow-up-right"></i>
-                                  </Link>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
-
-    
-          <div className="cta-section-4 fix">
-              <div className="container">
-                  <div className="cta-wrapper mt-0 bg-cover" style={{backgroundImage: 'url(\'/assets/img/cta-bg.jpg\')'}}>
-                      <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Experience the future of <br />
-                          <span></span> creation
-                      </h2>
-                      <Link href="/contact" className="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s"
-                          style={{visibility: 'visible', animationDelay: '0.5s', animationName: 'fadeInUp'}}>free generate <i
-                              className="fa-solid fa-arrow-up-right"></i></Link>
-                  </div>
-              </div>
+      <section className="pricing-section pricing-home fix section-padding">
+        <div className="container">
+          <div className="section-title text-center">
+            <h6 className="wow fadeInUp">
+              <img src="/assets/img/star.png" alt="" /> pricing
+            </h6>
+            <h2 className="wow fadeInUp" data-wow-delay=".3s">
+              Start free, <br />
+              <span>grow when it <b>pays</b></span>
+            </h2>
           </div>
-
-    
-          <section className="faq-section  fix section-padding section-bg">
-              <div className="container">
-                  <div className="faq-wrapper">
-                      <div className="row g-4 align-items-center">
-                          <div className="col-lg-6">
-                              <div className="faq-image-4 wow fadeInUp" data-wow-delay=".3s">
-                                  <img src="/assets/img/faq/03.jpg" alt="img" />
-                              </div>
-                          </div>
-                          <div className="col-lg-6">
-                              <div className="faq-content">
-                                  <div className="section-title">
-                                      <h6>
-                                          <img src="/assets/img/star.png" alt="img" /> customer query
-                                      </h6>
-                                      <h2>
-                                          Frequently asked customers
-                                          <span><b>question</b></span> & answer
-                                      </h2>
-                                  </div>
-                                  <div className="faq-accordion">
-                                      <div className="accordion" id="accordion">
-                                          <div className="accordion-item wow fadeInUp" data-wow-delay=".2s">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false"
-                                                      aria-controls="faq2">
-                                                      Consultation booking system
-                                                  </button>
-                                              </h5>
-                                              <div id="faq2" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      Rhoncus duis urna lobortis at fusce cum accumsan tempor ads orci etiam
-                                                      litora dignissim ipsum lacinia hendrerit convallis vitae Consequat enim
-                                                      phasellus purus
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item  wow fadeInUp" data-wow-delay=".4s">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button" type="button" data-bs-toggle="collapse"
-                                                      data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
-                                                      Personalized dashboard
-                                                  </button>
-                                              </h5>
-                                              <div id="faq1" className="accordion-collapse show" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      Rhoncus duis urna lobortis at fusce cum accumsan tempor ads orci etiam
-                                                      litora dignissim ipsum lacinia hendrerit convallis vitae Consequat enim
-                                                      phasellus purus
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item wow fadeInUp" data-wow-delay=".6s">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false"
-                                                      aria-controls="faq3">
-                                                      AI insights and analytics
-                                                  </button>
-                                              </h5>
-                                              <div id="faq3" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      Rhoncus duis urna lobortis at fusce cum accumsan tempor ads orci etiam
-                                                      litora dignissim ipsum lacinia hendrerit convallis vitae Consequat enim
-                                                      phasellus purus
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+          <div className="row">
+            {PLANS.map((plan, i) => (
+              <div
+                className="col-xxl-3 col-xl-4 col-lg-4 col-md-6"
+                key={plan.name}
+              >
+                <div
+                  className="pricing-box-items wow fadeInUp"
+                  data-wow-delay={`${(0.2 * (i + 1)).toFixed(1)}s`}
+                >
+                  <div className="icon">
+                    <img src="/assets/img/icon/02.svg" alt="" />
                   </div>
+                  <div className="pricing-header">
+                    <h3>{plan.name}</h3>
+                    <p>{plan.blurb}</p>
+                    <h2>{plan.price}</h2>
+                  </div>
+                  <ul className="pricing-list">
+                    {plan.features.map((feature) => (
+                      <li key={feature}>
+                        <Check />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="pricing-button">
+                    <Link href="/contact" className="theme-btn">
+                      {plan.cta} <i className="fa-solid fa-arrow-up-right"></i>
+                    </Link>
+                  </div>
+                </div>
               </div>
-          </section>
+            ))}
+          </div>
+          <p className="pricing-note wow fadeInUp" data-wow-delay=".5s">
+            {PRICING_NOTE}
+          </p>
+        </div>
+      </section>
+
+      {/*
+        What a plan actually contains. The cards above sell volume — this
+        answers the question the cards cannot: what happens on the day the
+        agent goes live, whichever plan was bought.
+      */}
+      <section className="pricing-section fix section-padding pt-0">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-5">
+              <div className="section-title">
+                <h6 className="wow fadeInUp">
+                  <img src="/assets/img/star.png" alt="" /> what you get
+                </h6>
+                <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                  The same agent, <br />
+                  <span>on <b>every</b> plan</span>
+                </h2>
+                <p className="wow fadeInUp" data-wow-delay=".4s">
+                  Plans differ in volume, seats and integrations — not in the quality of
+                  the build. Every plan gets the same agent, trained on your own
+                  products and FAQs, and the same team behind it after launch.
+                </p>
+              </div>
+            </div>
+            <div className="col-lg-7">
+              <div className="pricing-box-items wow fadeInUp" data-wow-delay=".3s">
+                <div className="pricing-header">
+                  <h3>Included in every plan</h3>
+                  <p>What the agent does from day one</p>
+                </div>
+                <ul className="pricing-list">
+                  {PLAN_INCLUDES.map((item) => (
+                    <li key={item}>
+                      <Check />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="cta-section-4 fix">
+        <div className="container">
+          <div className="cta-wrapper mt-0 bg-cover" style={{backgroundImage: 'url(\'/assets/img/cta-bg.jpg\')'}}>
+            <h2 className="wow fadeInUp" data-wow-delay=".3s">
+              Ready to put an agent <br />
+              <span></span> on your team?
+            </h2>
+            <Link href="/contact" className="theme-btn style-2 wow fadeInUp" data-wow-delay=".5s"
+              style={{visibility: 'visible', animationDelay: '0.5s', animationName: 'fadeInUp'}}>book a consultation <i
+                className="fa-solid fa-arrow-up-right"></i></Link>
+          </div>
+        </div>
+      </div>
+
+      <section className="faq-section fix section-padding section-bg">
+        <div className="container">
+          <div className="faq-wrapper">
+            <div className="row g-4 align-items-center">
+              <div className="col-lg-6">
+                <div className="faq-image-4 wow fadeInUp" data-wow-delay=".3s">
+                  <img src="/assets/img/faq/03.jpg" alt="Chat conversation with an AiLogiQs agent" />
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <div className="faq-content">
+                  <div className="section-title">
+                    <h6>
+                      <img src="/assets/img/star.png" alt="" /> pricing questions
+                    </h6>
+                    <h2>
+                      Frequently asked <span><b>questions</b></span>
+                    </h2>
+                  </div>
+                  <div className="faq-accordion">
+                    <div className="accordion" id="pricing-accordion">
+                      {PRICING_FAQS.map((item, i) => {
+                        const id = `pricing-faq-${i + 1}`;
+                        const open = i === 0;
+                        return (
+                          <div className="accordion-item wow fadeInUp"
+                            data-wow-delay={`${(0.2 * (i + 1)).toFixed(1)}s`}
+                            key={item.question}
+                          >
+                            <h5 className="accordion-header">
+                              <button className={`accordion-button ${open ? "" : "collapsed"}`} type="button"
+                                data-bs-toggle="collapse" data-bs-target={`#${id}`}
+                                aria-expanded={open ? "true" : "false"} aria-controls={id}>
+                                {item.question}
+                              </button>
+                            </h5>
+                            <div id={id} className={`accordion-collapse ${open ? "show" : "collapse"}`}
+                              data-bs-parent="#pricing-accordion">
+                              <div className="accordion-body">
+                                {item.answer}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

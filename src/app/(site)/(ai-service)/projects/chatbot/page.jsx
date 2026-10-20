@@ -6,12 +6,12 @@ export const metadata = {
   description:
     "The AiLogiQs AI WhatsApp sales agent — from first hello to a confirmed order, 24/7, in English, Urdu, Arabic and Roman Urdu.",
   /*
-    This page owns /portfolio/chatbot. It used to sit at
+    This page owns /projects/chatbot. It used to sit at
     /ai-services/chatbot/details; that URL now 308s here (see next.config.mjs), so
     the canonical is the current one and there is exactly one indexable address
     for the page.
   */
-  alternates: { canonical: "/portfolio/chatbot" },
+  alternates: { canonical: "/projects/chatbot" },
 };
 
 import Link from "next/link";

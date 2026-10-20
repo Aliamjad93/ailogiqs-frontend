@@ -2305,7 +2305,7 @@ body.route-ai-service .mean-container .mean-nav ul li a.mean-expand:hover {
    back-to-top disc are rendered outside the route tree but are the same design
    on every page, so scoping them by route only ever produced pages that had
    been forgotten (the drawer and back-to-top were still yellow on /pricing,
-   /team, /project, /faq, /login and /register).
+   /team, /projects, /faq, /login and /register).
    ========================================================================== */
 
 /* Page loader: spinner ring, the rotating wordmark letters and the "Loading"
@@ -2339,7 +2339,7 @@ body.route-ai-service :is(.header-1, .header-2) .header__hamburger .sidebar__tog
 
    SITE-WIDE, not per route. These used to be listed by body route flag, which
    meant the drawer turned yellow again on any page nobody had remembered to
-   flag (/pricing, /team, /project, /faq, /login, /register) -- while the bar
+   flag (/pricing, /team, /projects, /faq, /login, /register) -- while the bar
    above it stayed indigo everywhere. The bar is one design on every page, so
    the drawer it opens is too. */
 body.route-ai-service .offcanvas__info {
@@ -2933,7 +2933,7 @@ body.route-ai-service .offcanvas__logo .ailogiqs-logo span {
    Headings are deliberately left alone -- the h1/h2 section titles, the h4
    card/step/panel titles and the FAQ question all keep their original scale;
    only the copy that sits under them grows. Scoped to `.aiq-service` (the
-   wrapper in portfolio/chatbot/page.jsx) so the same classes keep their scale
+   wrapper in projects/chatbot/page.jsx) so the same classes keep their scale
    everywhere else. Sizes only -- no colour, spacing or layout is restated. */
 
 /* Section eyebrow, intro line and the small strip under the language cross. */
@@ -3093,7 +3093,7 @@ body.route-ai-service .offcanvas__logo .ailogiqs-logo span {
 
 
 /* =============================================================================
-   Walkthrough video — /portfolio/chatbot
+   Walkthrough video — /projects/chatbot
    =============================================================================
    The client's 60-second clip, in the band directly above the FAQ.
 

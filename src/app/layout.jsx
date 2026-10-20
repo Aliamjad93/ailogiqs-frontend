@@ -47,7 +47,7 @@ export const metadata = {
     Metadata is inherited: a canonical declared in the root layout is emitted on
     EVERY page that does not override it. Declaring the homepage's URL here
     therefore told search engines that /about, /pricing, /service, /team,
-    /contact, /faq and /project were all duplicates of "/", which is the one
+    /contact, /faq and /projects were all duplicates of "/", which is the one
     signal that reliably keeps a page out of the index. Each page now declares
     its own canonical instead.
   */

@@ -13,9 +13,11 @@ const STATIC_ROUTES = [
     separate URLs, so both are listed.
   */
   { path: "/ai-services/chatbot", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/portfolio/chatbot", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/projects/chatbot", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/projects/bee-virus-detection", changeFrequency: "monthly", priority: 0.6 },
   { path: "/team", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/project", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/projects", changeFrequency: "monthly", priority: 0.6 },
+  { path: "/portfolio", changeFrequency: "monthly", priority: 0.6 },
   { path: "/project-details", changeFrequency: "monthly", priority: 0.4 },
   { path: "/pricing", changeFrequency: "monthly", priority: 0.6 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },

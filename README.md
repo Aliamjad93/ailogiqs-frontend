@@ -57,7 +57,7 @@ network round trip — it is not a substitute for a configured database.
 | `/`            | Home variant 1 (there are 6 templates, `home-2`…`home-6`) |
 | `/blog`        | Listing: hero carousel, cards, sidebar, filters          |
 | `/blog/[slug]` | Article page                                              |
-| `/about`, `/service`, `/team`, `/project`, `/project-details`, `/pricing`, `/faq`, `/contact`, `/login`, `/register` | Migrated template pages |
+| `/about`, `/service`, `/team`, `/projects`, `/project-details`, `/pricing`, `/faq`, `/contact`, `/login`, `/register` | Migrated template pages |
 
 Legacy template paths `/news` and `/news-details` redirect to `/blog` — see
 `next.config.mjs`.

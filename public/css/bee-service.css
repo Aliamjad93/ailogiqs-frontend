@@ -1,7 +1,7 @@
 /* =============================================================================
    AiLogiQs — BeeLens stylesheet (the dark / amber design)
    -----------------------------------------------------------------------------
-   Styles /portfolio/bee-virus-detection, the BeeLens service page. It is NOT
+   Styles /projects/bee-virus-detection, the BeeLens service page. It is NOT
    the site's theme, and it is not the indigo AI-sales-agent design either.
 
    Three designs now live in this repo:
@@ -12,7 +12,7 @@
 
    Loaded from src/app/(site)/(bee-service)/layout.jsx, so no other page
    downloads it. Leaking is impossible regardless: EVERY rule below is scoped
-   under `body.route-bee` (set by TemplateRuntime for /portfolio/bee-virus-
+   under `body.route-bee` (set by TemplateRuntime for /projects/bee-virus-
    detection) or under a `.bee-*` class that only this page renders. Note the
    "every" -- in a comma-separated selector list EVERY part has to carry the
    scope, not just the first one.

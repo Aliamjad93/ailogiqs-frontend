@@ -3,10 +3,10 @@
  *
  * Renders the client's 10-second BeeLens brand animations (the explainer cuts
  * in public/assets/video/bee/) with the same player as the sales-agent clips
- * on /portfolio/chatbot: the NATIVE controls, press-to-play.
+ * on /projects/chatbot: the NATIVE controls, press-to-play.
  *
  * Why the simpler player: the pages now look consistent — every video on the
- * portfolio showcase works the same way. The parts that carry over from
+ * projects showcase works the same way. The parts that carry over from
  * AgentVideo:
  *
  *   controls    play/pause, scrub, volume and fullscreen from the browser,

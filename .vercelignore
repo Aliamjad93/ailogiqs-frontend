@@ -30,6 +30,10 @@ scripts/
 careers-*.png
 job-*.png
 
+# Source material for the /portfolio page (WhatsApp screenshots and notes).
+# The served images live in public/assets/img/projects/.
+portfolio-content/
+
 # Never-needed build artifacts -- the remote build installs fresh.
 node_modules/
 .next/

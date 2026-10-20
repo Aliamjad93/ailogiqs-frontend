@@ -37,7 +37,7 @@ export default function ChatbotLandingPage() {
                                 <p className="wow fadeInUp" data-wow-delay=".5s">
                                     From AI chatbots and agents to automation and data <br /> platforms — practical AI, built to grow your business.
                                 </p>
-                                <Link href="/portfolio/chatbot" className="theme-btn wow fadeInUp" data-wow-delay=".7s">explore now <i
+                                <Link href="/projects/chatbot" className="theme-btn wow fadeInUp" data-wow-delay=".7s">explore now <i
                                         className="fa-solid fa-arrow-up-right"></i></Link>
                             </div>
                         </div>
@@ -77,7 +77,7 @@ export default function ChatbotLandingPage() {
                                                 Practical AI strategy and automation roadmaps that align
                                                 technology with your business goals.
                                             </p>
-                                            <Link href="/portfolio/chatbot" className="link-btn">More Details <i
+                                            <Link href="/projects/chatbot" className="link-btn">More Details <i
                                                     className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
@@ -98,7 +98,7 @@ export default function ChatbotLandingPage() {
                                                 Turn raw data into clear, decision-ready insight with
                                                 dashboards and reporting.
                                             </p>
-                                            <Link href="/portfolio/chatbot" className="link-btn">More Details <i
+                                            <Link href="/projects/chatbot" className="link-btn">More Details <i
                                                     className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
@@ -119,7 +119,7 @@ export default function ChatbotLandingPage() {
                                                 Purpose-built models for forecasting, classification and
                                                 recommendations.
                                             </p>
-                                            <Link href="/portfolio/chatbot" className="link-btn">More Details <i
+                                            <Link href="/projects/chatbot" className="link-btn">More Details <i
                                                     className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@ export default function ChatbotLandingPage() {
                                                 Tailored AI systems, chatbots and integrations built around
                                                 your workflow.
                                             </p>
-                                            <Link href="/portfolio/chatbot" className="link-btn">More Details <i
+                                            <Link href="/projects/chatbot" className="link-btn">More Details <i
                                                     className="fa-solid fa-arrow-up-right"></i></Link>
                                         </div>
                                     </div>
@@ -245,7 +245,7 @@ export default function ChatbotLandingPage() {
                         </div>
                     </div>
                     <div className="agent-cta-row text-center wow fadeInUp" data-wow-delay=".4s">
-                        <Link href="/portfolio/chatbot" className="theme-btn agent-cta">
+                        <Link href="/projects/chatbot" className="theme-btn agent-cta">
                             how it works <i className="fa-solid fa-arrow-up-right"></i>
                         </Link>
                     </div>

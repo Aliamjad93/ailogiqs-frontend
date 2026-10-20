@@ -385,7 +385,7 @@ export default function About() {
           </section>
 
     
-          {/* Same three stats as "/" and "/project" -- see the note on the home
+          {/* Same three stats as "/" and "/projects" -- see the note on the home
               page counter block. All three pages must agree. */}
           <div className="counter-section section-padding pt-0">
               <div className="container">

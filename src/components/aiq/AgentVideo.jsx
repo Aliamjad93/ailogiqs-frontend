@@ -2,7 +2,7 @@
  * The agent demo clip, used by the AI-service pages.
  *
  * Rendered in the homepage's "AI sales agent" column and on the service page
- * (/portfolio/chatbot). The two clips are different shapes -- the homepage's is
+ * (/projects/chatbot). The two clips are different shapes -- the homepage's is
  * portrait, the service page's is landscape -- so the dimensions are props, not
  * constants. See DEFAULT_* below for why they matter.
  *

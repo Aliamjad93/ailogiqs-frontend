@@ -80,8 +80,8 @@
      preloader, cursor, back-to-top and the flat offcanvas backdrop carry no
      readable scale and stay unscaled.
    - /admin never renders the wrapper, and the two designs with canvases of
-     their own -- /ai-services/* + /portfolio/chatbot, and
-     /portfolio/bee-virus-detection -- are excluded by their body flags.
+     their own -- /ai-services/* + /projects/chatbot, and
+     /projects/bee-virus-detection -- are excluded by their body flags.
    - `zoom` is Baseline in current browsers; where it is unsupported the band
      degrades to the old full-size rendering -- not the intended composition,
      but not a broken layout either.
@@ -102,7 +102,7 @@
      stage band only because its design owns its canvas; its drawer is the
      same shared chrome every other page shows, and at raw scale it read
      400px wide against the 360px every other page draws, so it takes the
-     0.9 too. The ai-service pages are excluded here: /portfolio/chatbot
+     0.9 too. The ai-service pages are excluded here: /projects/chatbot
      scales its drawer from ai-service.css to match its own stage factor,
      and the landing page keeps raw chrome next to its raw stage. */
   body:not(.route-ai-service) .offcanvas__info {
@@ -1001,9 +1001,9 @@ a[href^="mailto:"] {
 
 
 /* =============================================================================
-   Portfolio card size — /project only
+   Projects card size — /projects only
    =============================================================================
-   The portfolio page holds a single card, and at the theme's own sizing it read
+   The projects page holds a single card, and at the theme's own sizing it read
    as a poster rather than a card: `col-xl-4` inside the 1320px container gives a
    408px content box, and the artwork is portrait (840x1010), so the photograph
    alone stood ~490px tall before the title was even reached.
@@ -1014,7 +1014,7 @@ a[href^="mailto:"] {
    `width: 100%`: one number moves both dimensions and the artwork keeps its
    aspect ratio, so it can never letterbox.
 
-   Scoped to `body.route-project` (set in TemplateRuntime) and NOT to
+   Scoped to `body.route-projects` (set in TemplateRuntime) and NOT to
    `.portfolio-card-items` alone: /project-details renders the same
    `.portfolio-section .portfolio-card-items` markup with three cards to a row,
    and a cap written for one card would have pulled that row in as well.
@@ -1027,25 +1027,25 @@ a[href^="mailto:"] {
    To resize the card, change the one number. Everything else follows from it.
    ========================================================================== */
 
-body.route-project .portfolio-section .portfolio-card-items {
+body.route-projects .portfolio-section .portfolio-card-items {
   max-width: 340px;
   margin-inline: auto;
 }
 
 /* =============================================================================
-   /project — page top, now that the breadcrumb is gone
+   /projects — page top, now that the breadcrumb is gone
    =============================================================================
    `.header-1` is `position: absolute`, so on every other inner page the
    breadcrumb banner is what holds the content clear of the bar (`.page-heading`
-   pads 170px top). /project no longer has one, which left the cards section
+   pads 170px top). /projects no longer has one, which left the cards section
    starting at its own 120px `section-padding` -- just clearing the bar, with
    none of the air the rest of the site opens with.
 
-   Scoped to `body.route-project` and to the section, not to `.portfolio-section`
+   Scoped to `body.route-projects` and to the section, not to `.portfolio-section`
    generally: /project-details still has its breadcrumb and must keep 120px.
    ========================================================================== */
 
-body.route-project .portfolio-section {
+body.route-projects .portfolio-section {
   position: relative;
   padding-top: 200px;
 }
@@ -1060,7 +1060,7 @@ body.route-project .portfolio-section {
    frame — the page would read as flat black, i.e. as if nothing had been
    restored. Masking it to fade into `--bg` over the bottom half also means
    there is no hard seam where the image ends. */
-body.route-project .portfolio-section::before {
+body.route-projects .portfolio-section::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
@@ -1072,25 +1072,25 @@ body.route-project .portfolio-section::before {
   z-index: 0;
 }
 
-body.route-project .portfolio-section > .container {
+body.route-projects .portfolio-section > .container {
   position: relative;
   z-index: 1;
 }
 
 @media (max-width: 991px) {
-  body.route-project .portfolio-section {
+  body.route-projects .portfolio-section {
     padding-top: 160px;
   }
 }
 
 @media (max-width: 767px) {
-  body.route-project .portfolio-section {
+  body.route-projects .portfolio-section {
     padding-top: 130px;
   }
 }
 
 /* =============================================================================
-   /project — intro line + card copy
+   /projects — intro line + card copy
    =============================================================================
    The page previously had no copy of its own: a breadcrumb, two cards and a
    counter row. Both paragraphs below are new, and neither has a vendor rule --
@@ -1099,12 +1099,12 @@ body.route-project .portfolio-section > .container {
    container as one centred line and the card text would inherit the body size.
 
    Colour matches the eyebrow (#CDCDCD) so the hierarchy stays eyebrow -> title
-   -> body. Scoped to `body.route-project`: /project-details reuses
+   -> body. Scoped to `body.route-projects`: /project-details reuses
    `.portfolio-section .portfolio-card-items` with a different card, and must
    not pick these up.
    ========================================================================== */
 
-body.route-project .portfolio-section .section-title p {
+body.route-projects .portfolio-section .section-title p {
   max-width: 620px;
   margin: 18px auto 0;
   font-size: 17px;
@@ -1112,11 +1112,756 @@ body.route-project .portfolio-section .section-title p {
   color: #cdcdcd;
 }
 
-body.route-project .portfolio-section .portfolio-card-items .portfolio-content p {
+body.route-projects .portfolio-section .portfolio-card-items .portfolio-content p {
   margin-top: 12px;
   font-size: 15px;
   line-height: 1.65;
   color: #cdcdcd;
+}
+
+
+/* =============================================================================
+   Selected AI engineering projects — /portfolio
+   =============================================================================
+   The page is a long-form showcase rather than a card grid: a hero, two
+   numbered case studies, an engineering-focus panel, then the shared CTA.
+
+   Everything is scoped under the unique `pf-` prefix so none of it leaks into
+   /project-details or the rest of the theme. Colours, radii and the Marcellus
+   accent face come from main.css -- only the composition is new.
+   ========================================================================== */
+
+.pf-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 210px 0 100px;
+  background: #101012;
+}
+
+.pf-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/assets/img/breadcrumb-bg.jpg") center top / cover no-repeat;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.pf-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(21, 21, 24, 0.05) 0%,
+    rgba(21, 21, 24, 0.42) 54%,
+    var(--body-bg) 100%
+  );
+  pointer-events: none;
+}
+
+.pf-hero > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.pf-hero-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pf-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 18px;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.pf-eyebrow img {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.pf-hero h1 {
+  max-width: 980px;
+  margin: 0 auto;
+  color: var(--white);
+  font-size: clamp(52px, 6.6vw, 92px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+  text-transform: none;
+}
+
+.pf-hero h1 span {
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-weight: 400;
+}
+
+.pf-hero-context {
+  margin: 26px 0 12px;
+  color: var(--theme);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.pf-hero-lede {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #d2d2d2;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.pf-hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 38px;
+}
+
+.pf-hero-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  border: 1px solid rgba(207, 208, 212, 0.24);
+  border-radius: 100px;
+  background: rgba(21, 21, 24, 0.5);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 700;
+  transition: border-color 0.35s ease, color 0.35s ease, transform 0.35s ease;
+}
+
+.pf-hero-links a span {
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.pf-hero-links a svg {
+  flex: 0 0 auto;
+  color: var(--theme);
+}
+
+.pf-hero-links a:hover {
+  color: var(--theme);
+  border-color: var(--theme);
+  transform: translateY(-2px);
+}
+
+.pf-work {
+  background: var(--body-bg);
+}
+
+.pf-project {
+  padding: 110px 0 80px;
+  border-top: 1px solid rgba(207, 208, 212, 0.14);
+  scroll-margin-top: 130px;
+}
+
+.pf-project:first-child {
+  padding-top: 90px;
+  border-top: 0;
+}
+
+.pf-project-head {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+  padding-bottom: 52px;
+}
+
+.pf-project-index {
+  color: rgba(239, 251, 83, 0.16);
+  font-family: "Marcellus", sans-serif;
+  font-size: clamp(76px, 8vw, 118px);
+  line-height: 0.72;
+  -webkit-text-stroke: 1px rgba(239, 251, 83, 0.55);
+}
+
+.pf-kicker {
+  margin: 0 0 12px;
+  color: #cdcdcd;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.pf-kicker span {
+  color: var(--theme);
+  margin-right: 6px;
+}
+
+.pf-project-title h2 {
+  margin: 0 0 18px;
+  color: var(--white);
+  font-size: clamp(48px, 5.4vw, 76px);
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-transform: none;
+}
+
+.pf-project-title > p:last-child {
+  max-width: 760px;
+  margin: 0;
+  color: #cdcdcd;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.pf-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.85fr);
+  gap: 64px;
+  align-items: start;
+}
+
+.pf-copy h3,
+.pf-stack h3 {
+  margin: 0 0 16px;
+  color: var(--theme);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.pf-copy p {
+  margin: 0 0 18px;
+  color: #cdcdcd;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.pf-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.pf-sidebar {
+  padding: 28px;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 24px;
+  background: #1d1d21;
+}
+
+.pf-meta {
+  display: grid;
+  gap: 18px;
+  margin: 0 0 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(207, 208, 212, 0.14);
+}
+
+.pf-meta dt {
+  margin-bottom: 4px;
+  color: #8f8f8f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.pf-meta dd {
+  margin: 0;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.pf-stack h3 {
+  margin-bottom: 14px;
+}
+
+.pf-stack ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pf-stack li {
+  padding: 7px 12px;
+  border: 1px solid rgba(207, 208, 212, 0.18);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #cdcdcd;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.pf-features {
+  margin-top: 64px;
+}
+
+.pf-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(207, 208, 212, 0.16);
+  color: var(--theme);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.pf-label > span {
+  color: #8f8f8f;
+  font-family: "Marcellus", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.pf-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pf-feature-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pf-feature-grid li {
+  padding: 26px;
+  border: 1px solid rgba(207, 208, 212, 0.18);
+  border-radius: 20px;
+  background: #1d1d21;
+  transition: border-color 0.35s ease, transform 0.35s ease;
+}
+
+.pf-feature-grid li:hover {
+  border-color: rgba(239, 251, 83, 0.45);
+  transform: translateY(-3px);
+}
+
+.pf-feature-num {
+  display: block;
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.pf-feature-grid h4 {
+  margin: 12px 0 8px;
+  color: var(--white);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.pf-feature-grid p {
+  margin: 0;
+  color: #b8b8b8;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.pf-contribution {
+  margin-top: 64px;
+  padding: 32px 36px;
+  border-left: 3px solid var(--theme);
+  border-radius: 0 20px 20px 0;
+  background: linear-gradient(
+    90deg,
+    rgba(239, 251, 83, 0.08) 0%,
+    rgba(239, 251, 83, 0) 100%
+  );
+}
+
+.pf-contribution .pf-label {
+  display: block;
+  margin-bottom: 14px;
+  padding: 0;
+  border: 0;
+}
+
+.pf-contribution p {
+  max-width: 1050px;
+  margin: 0;
+  color: #dedede;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.pf-gallery-block {
+  margin-top: 72px;
+}
+
+.pf-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pf-gallery--shopagent .pf-shot--lead {
+  grid-column: 1 / -1;
+}
+
+.pf-gallery--chadbot {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.pf-shot {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(207, 208, 212, 0.18);
+  border-radius: 20px;
+  background: #101012;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.35s ease;
+}
+
+.pf-shot:hover {
+  border-color: rgba(239, 251, 83, 0.38);
+}
+
+.pf-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pf-shot figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 14px 18px;
+  border-top: 1px solid rgba(207, 208, 212, 0.14);
+  background: #17171a;
+  color: #9c9c9c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.pf-shot figcaption span {
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.pf-focus {
+  padding: 20px 0 120px;
+  background: var(--body-bg);
+}
+
+.pf-focus-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 64px;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 30px;
+  background: #1d1d21;
+}
+
+.pf-focus-panel::before {
+  content: "";
+  position: absolute;
+  top: -220px;
+  right: -160px;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(239, 251, 83, 0.16) 0%,
+    rgba(239, 251, 83, 0) 68%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.pf-focus-heading {
+  max-width: 900px;
+}
+
+.pf-focus-heading .pf-eyebrow {
+  margin-bottom: 16px;
+}
+
+.pf-focus-heading h2 {
+  margin: 0 0 20px;
+  color: var(--white);
+  font-size: clamp(42px, 4.8vw, 64px);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: none;
+}
+
+.pf-focus-heading h2 span {
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-weight: 400;
+}
+
+.pf-focus-heading > p:last-child {
+  max-width: 780px;
+  margin: 0;
+  color: #cdcdcd;
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.pf-focus-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 46px;
+}
+
+.pf-focus-grid li {
+  padding-top: 20px;
+  border-top: 1px solid rgba(207, 208, 212, 0.18);
+}
+
+.pf-focus-grid li > span {
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.pf-focus-grid h3 {
+  margin: 10px 0 8px;
+  color: var(--white);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.pf-focus-grid p {
+  margin: 0;
+  color: #a9a9a9;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.pf-note {
+  max-width: 780px;
+  margin: 44px 0 0;
+  color: #7f7f7f;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1199px) {
+  .pf-hero {
+    padding: 170px 0 90px;
+  }
+
+  .pf-project {
+    padding: 90px 0 70px;
+  }
+
+  .pf-project:first-child {
+    padding-top: 80px;
+  }
+
+  .pf-overview {
+    gap: 44px;
+  }
+
+  .pf-focus-panel {
+    padding: 52px;
+  }
+}
+
+@media (max-width: 991px) {
+  .pf-hero {
+    padding: 155px 0 80px;
+  }
+
+  .pf-project {
+    padding: 78px 0 60px;
+  }
+
+  .pf-project:first-child {
+    padding-top: 70px;
+  }
+
+  .pf-project-head {
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 24px;
+    padding-bottom: 42px;
+  }
+
+  .pf-overview {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+
+  .pf-feature-grid--three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pf-focus-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 22px;
+  }
+
+  .pf-focus {
+    padding-bottom: 100px;
+  }
+
+  .pf-focus-panel {
+    padding: 44px;
+  }
+}
+
+@media (max-width: 767px) {
+  .pf-hero {
+    padding: 135px 0 68px;
+  }
+
+  .pf-hero-lede {
+    font-size: 17px;
+  }
+
+  .pf-hero-links {
+    margin-top: 30px;
+  }
+
+  .pf-project {
+    padding: 64px 0 50px;
+  }
+
+  .pf-project:first-child {
+    padding-top: 58px;
+  }
+
+  .pf-project-head {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .pf-project-index {
+    font-size: 68px;
+  }
+
+  .pf-project-title > p:last-child {
+    font-size: 17px;
+  }
+
+  .pf-feature-grid,
+  .pf-feature-grid--three {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pf-contribution {
+    padding: 26px 24px;
+  }
+
+  .pf-contribution p {
+    font-size: 16px;
+  }
+
+  .pf-gallery,
+  .pf-gallery--chadbot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pf-gallery--shopagent .pf-shot--lead {
+    grid-column: auto;
+  }
+
+  .pf-gallery-block {
+    margin-top: 56px;
+  }
+
+  .pf-focus {
+    padding: 10px 0 80px;
+  }
+
+  .pf-focus-panel {
+    padding: 34px 26px;
+    border-radius: 24px;
+  }
+
+  .pf-focus-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin-top: 36px;
+  }
+
+  .pf-note {
+    margin-top: 34px;
+  }
+}
+
+@media (max-width: 575px) {
+  .pf-hero h1 {
+    font-size: 44px;
+  }
+
+  .pf-hero-context {
+    font-size: 12px;
+  }
+
+  .pf-hero-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pf-hero-links a {
+    justify-content: center;
+  }
+
+  .pf-project-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .pf-project-index {
+    font-size: 54px;
+    line-height: 0.8;
+  }
+
+  .pf-project-title h2 {
+    font-size: 44px;
+  }
+
+  .pf-sidebar,
+  .pf-feature-grid li {
+    padding: 22px;
+  }
 }
 
 /* =============================================================================
@@ -2930,6 +3675,29 @@ body.route-project .portfolio-section .portfolio-card-items .portfolio-content p
   .pricing-home .pricing-box-items .pricing-header h2 {
     font-size: 36px;
   }
+}
+
+/* =============================================================================
+   FAQ page — /faq
+   -----------------------------------------------------------------------------
+   The search box on this page used to submit to "#" and do nothing. It now
+   filters the answers, and a search that matches nothing needs to say so --
+   otherwise the page looks broken: an empty column under the sidebar.
+   ========================================================================== */
+
+.faq-content .faq-empty {
+  color: #cdcdcd;
+  font-size: 17px;
+  line-height: 1.7;
+  padding: 20px 0;
+}
+
+/* The accordion on this page is driven by React, not by Bootstrap's collapse
+   plugin, so the button needs the same hover reset the plugin's markup got
+   for free: without it the theme's own button rules show a focus ring on
+   every click. */
+.faq-content .accordion-button:focus {
+  box-shadow: none;
 }
 
 /* =============================================================================

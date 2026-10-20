@@ -116,8 +116,8 @@ export default function Footer({ variant = "classic" }) {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/project">
-                        Portfolio
+                      <Link href="/projects">
+                        Projects
                       </Link>
                     </li>
                     <li>
@@ -150,12 +150,12 @@ export default function Footer({ variant = "classic" }) {
                   </div>
                   <ul className="list-items">
                     <li>
-                      <Link href="/portfolio/chatbot">
+                      <Link href="/projects/chatbot">
                         AI sales agent
                       </Link>
                     </li>
                     <li>
-                      <Link href="/portfolio/bee-virus-detection">
+                      <Link href="/projects/bee-virus-detection">
                         BeeLens
                       </Link>
                     </li>
@@ -264,8 +264,8 @@ export default function Footer({ variant = "classic" }) {
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/project">
-                                                Portfolio
+                                            <Link href="/projects">
+                                                Projects
                                             </Link>
                                         </li>
                                         <li>
@@ -298,12 +298,12 @@ export default function Footer({ variant = "classic" }) {
                                     </div>
                                     <ul className="list-items">
                                         <li>
-                                            <Link href="/portfolio/chatbot">
+                                            <Link href="/projects/chatbot">
                                                 AI Chatbot &amp; Sales Agent
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/portfolio/bee-virus-detection">
+                                            <Link href="/projects/bee-virus-detection">
                                                 BeeLens — Bee Virus Detection
                                             </Link>
                                         </li>
@@ -351,21 +351,18 @@ export default function Footer({ variant = "classic" }) {
                                                 FAQ
                                             </Link>
                                         </li>
-                                        <li>
-                                            <Link href="/register">
-                                                Create account
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/login">
-                                                User login
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="/project-details">
-                                                Project details
-                                            </Link>
-                                        </li>
+                                        {/*
+                                          "Create account", "User login" and
+                                          "Project details" are gone from this
+                                          list. The first two point at pages
+                                          whose forms submit nowhere -- there
+                                          is no account to sign in to -- and
+                                          the third describes a demo project
+                                          the company never shipped. The
+                                          routes still exist; advertising
+                                          them in the footer was worse than
+                                          not having them.
+                                        */}
                                     </ul>
                                 </div>
                             </div>

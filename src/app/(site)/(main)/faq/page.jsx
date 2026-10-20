@@ -1,10 +1,22 @@
 export const metadata = {
   title: "FAQ",
+  description:
+    "Answers to the questions we get most: what the AiLogiQs plans cost, what the AI agents do, how a build is scoped and delivered, and how your data is handled.",
+  alternates: { canonical: "/faq" },
 };
 
 import Link from "next/link";
-export default function Faq() {
+import FaqBrowser from "@/components/faq/FaqBrowser";
+/*
+  The answers live in src/content/faqs.js, shared with the homepage FAQ and
+  the pricing page. This page used to ship twelve template questions -- all of
+  them about a generic chatbot, all of them answered with the same paragraph
+  ("I love how easy it is to use this chatbot...") -- so it described nothing
+  AiLogiQs actually does.
+*/
+import { FAQ_SECTIONS } from "@/content/faqs";
 
+export default function Faq() {
   return (
     <>
       <section className="faq-section fix  style-padding section-padding  bg-cover"
@@ -13,10 +25,10 @@ export default function Faq() {
                   <div className="faq-banner">
                       <div className="section-title text-center">
                           <h6>
-                              <img src="/assets/img/star.png" alt="img" /> general FAQ
+                              <img src="/assets/img/star.png" alt="img" /> questions, answered
                           </h6>
                           <h2>
-                              Clients <span><b>query</b></span>
+                              Everything you want to <span><b>know</b></span>
                           </h2>
                       </div>
                       {/* Banner removed: faq/04.jpg was a grey "1170X400"
@@ -24,235 +36,22 @@ export default function Faq() {
                           wrapper around its <img>, so nothing else depended
                           on it. */}
                   </div>
-                  <div className="faq-wrapper style-inner-page">
-                      <div className="row g-4">
-                          <div className="col-lg-4">
-                              <div className="faq-sidebar">
-                                  <div className="search-widget">
-                                      <form action="#">
-                                          <input type="text" placeholder="Search keyword..." />
-                                          <button type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>
-                                      </form>
-                                  </div>
-                                  <div className="contact-info-box">
-                                      <div className="icon">
-                                          <i className="fa-regular fa-phone-volume"></i>
-                                      </div>
-                                      <h2>
-                                          Have any
-                                          project
-                                          <span>contact</span> us
-                                      </h2>
-                                      <Link href="/contact" className="theme-btn">contact us <i
-                                              className="fa-solid fa-arrow-up-right"></i></Link>
-                                  </div>
-                              </div>
-                          </div>
-                          <div className="col-lg-8">
-                              <div className="faq-content">
-                                  <h2>General questions</h2>
-                                  <div className="faq-accordion">
-                                      <div className="accordion" id="accordion2">
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false"
-                                                      aria-controls="faq2">
-                                                      How does the chatbot improve over time?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq2" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button" type="button" data-bs-toggle="collapse"
-                                                      data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
-                                                      Is my data safe when using the chatbot?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq1" className="accordion-collapse show" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false"
-                                                      aria-controls="faq3">
-                                                      What languages does chatbot support?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq3" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false"
-                                                      aria-controls="faq3">
-                                                      What is an AI Image and Video Generator?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq4" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false"
-                                                      aria-controls="faq4">
-                                                      Can I customize the generated content?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq5" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq6" aria-expanded="false"
-                                                      aria-controls="faq6">
-                                                      What should I do if I encounter an error?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq6" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <h2 className="mb-3 mt-5">General questions</h2>
-                                  <div className="faq-accordion">
-                                      <div className="accordion" id="accordion">
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button" type="button" data-bs-toggle="collapse"
-                                                      data-bs-target="#faq7" aria-expanded="true" aria-controls="faq7">
-                                                      How does the chatbot improve over time?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq7" className="accordion-collapse show" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq8" aria-expanded="false"
-                                                      aria-controls="faq8">
-                                                      What makes your AI different from others?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq8" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq9" aria-expanded="false"
-                                                      aria-controls="faq9">
-                                                      Do I need any skills to use the platform?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq9" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq10" aria-expanded="false"
-                                                      aria-controls="faq10">
-                                                      What happens when subscription expires?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq10" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq11" aria-expanded="false"
-                                                      aria-controls="faq11">
-                                                      Can I save and revisit my projects later?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq11" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      I love how easy it is to use this chatbot. Whether I’m looking for
-                                                      product recommendations or just need help with a task, it’s always there
-                                                      with the perfect response. A true game-changer
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                  <FaqBrowser sections={FAQ_SECTIONS} />
               </div>
           </section>
 
-    
-          <section className="cta-discuss-section fix section-padding bg-cover"
+      <section className="cta-discuss-section fix section-padding bg-cover"
               style={{backgroundImage: 'url(\'/assets/img/cta-dark-bg.svg\')'}}>
               <div className="container">
                   <div className="cta-discuss-content">
                       <h2>
-                          Let’s discuss how we <br />
-                          <span>support <b>creative</b> vision</span>
+                          Tell us what you want <br />
+                          <span>to <b>automate</b></span>
                       </h2>
                       <p>
-                          Unlock the power of AI to generate the
-                          high-quality images and videos in few seconds
+                          A support inbox, a sales funnel, a report nobody has time to
+                          build. We will come back with a scoped plan, a timeline and a
+                          clear price.
                       </p>
                       <Link href="/contact" className="theme-btn">contact us <i
                               className="fa-solid fa-arrow-up-right"></i></Link>

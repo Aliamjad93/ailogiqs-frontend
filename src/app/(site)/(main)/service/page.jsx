@@ -274,7 +274,7 @@ export default function Service() {
                                           ai agents
                                       </li>
                                   </ul>
-                                  <h3><Link href="/portfolio/chatbot">Order questions answered in 0.8
+                                  <h3><Link href="/projects/chatbot">Order questions answered in 0.8
                                           seconds, not the next working day</Link></h3>
                               </div>
                           </div>
@@ -310,7 +310,7 @@ export default function Service() {
                                           results
                                       </li>
                                   </ul>
-                                  <h3><Link href="/project">Twice the leads in 90 days, with the
+                                  <h3><Link href="/projects">Twice the leads in 90 days, with the
                                           same team answering them</Link></h3>
                               </div>
                           </div>

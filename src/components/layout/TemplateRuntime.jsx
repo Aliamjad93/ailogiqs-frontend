@@ -62,7 +62,7 @@ export default function TemplateRuntime({ children }) {
   //
   // The site carries two designs. The main one is the template's black/yellow
   // theme (public/css/overrides.css). The other is the indigo AI sales-agent
-  // design, which lives under /ai-services/* and /portfolio/chatbot, and is
+  // design, which lives under /ai-services/* and /projects/chatbot, and is
   // styled entirely by public/css/ai-service.css.
   //
   // That stylesheet is linked from the (ai-service) route group's layout, but
@@ -73,7 +73,7 @@ export default function TemplateRuntime({ children }) {
   // written as `body.route-ai-service ...`.
   //
   // The flag is keyed off the PATHNAME, so it has to list every URL that renders
-  // the indigo design -- including /portfolio/chatbot, which does not sit under
+  // the indigo design -- including /projects/chatbot, which does not sit under
   // the /ai-services prefix. It MUST stay in step with the (ai-service) route
   // group: anything rendering that design but missing here renders unstyled.
   //
@@ -86,8 +86,8 @@ export default function TemplateRuntime({ children }) {
       "route-ai-service",
       pathname === "/ai-services" ||
         pathname.startsWith("/ai-services/") ||
-        pathname === "/portfolio/chatbot" ||
-        pathname.startsWith("/portfolio/chatbot/")
+        pathname === "/projects/chatbot" ||
+        pathname.startsWith("/projects/chatbot/")
     );
   }, [pathname]);
 
@@ -102,15 +102,15 @@ export default function TemplateRuntime({ children }) {
   // class is written as `body.route-bee ...`.
   //
   // Keyed off the PATHNAME, like route-ai-service, because the group name is
-  // invisible in the URL: the page serves /portfolio/bee-virus-detection, which
+  // invisible in the URL: the page serves /projects/bee-virus-detection, which
   // shares no prefix with the folder it lives in. Anything rendering this design
   // but missing here renders completely unstyled -- the stylesheet is written
   // against a dark surface and the site's own theme is light.
   useEffect(() => {
     document.body.classList.toggle(
       "route-bee",
-      pathname === "/portfolio/bee-virus-detection" ||
-        pathname.startsWith("/portfolio/bee-virus-detection/")
+      pathname === "/projects/bee-virus-detection" ||
+        pathname.startsWith("/projects/bee-virus-detection/")
     );
   }, [pathname]);
 
@@ -121,15 +121,15 @@ export default function TemplateRuntime({ children }) {
   // by page any more, so a flag here means "this page's markup needs something
   // the shared classes cannot express".
   //
-  // `route-project` sizes the single portfolio card on /project. It has to be a
+  // `route-projects` sizes the service cards on /projects. It has to be a
   // page flag rather than a plain class rule because /project-details renders
-  // the same `.portfolio-section .portfolio-card-items` markup, three cards to a
-  // row: a size meant for one card would have shrunk that row too.
+  // the same `.portfolio-section .portfolio-card-items` markup with a different
+  // card: a size meant for the listing would have shrunk that page too.
   //
   // A flag with no matching `body.route-*` rule in overrides.css is dead
   // weight -- grep before adding one, and delete it when its last rule goes.
   useEffect(() => {
-    document.body.classList.toggle("route-project", pathname === "/project");
+    document.body.classList.toggle("route-projects", pathname === "/projects");
   }, [pathname]);
 
   // Initialise (and re-initialise) the theme's plugins for the current route.

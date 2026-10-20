@@ -54,3 +54,8 @@ custom images/
 
 # Playwright MCP's session logs, written during the layout audits.
 /.playwright-mcp/
+
+# Source material for the /portfolio page: the WhatsApp screenshots and the
+# portfolio.txt.txt notes the case studies were written from. The served images
+# live in public/assets/img/projects/ -- this folder is only the source.
+portfolio-content/

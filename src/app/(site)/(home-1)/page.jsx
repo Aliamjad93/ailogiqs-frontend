@@ -8,68 +8,14 @@ export const metadata = {
 
 import Link from "next/link";
 import ScrollCue from "@/components/layout/ScrollCue";
-
+import Check from "@/components/shared/Check";
 /*
-  Plans, in the order they are sold. Prices are fixed, so there is no
-  annual/monthly toggle any more. `blurb` is the one line under the plan name --
-  keep it short, it sits between the title and the price.
-
-  Every CTA points at /contact: there is no self-serve checkout, so "choose a
-  plan" has to become a conversation.
+  The plans and the FAQ answers live in src/content so the homepage, /pricing
+  and /faq all read from the same copy -- a plan that changes on one page used
+  to change on one page only.
 */
-const PLANS = [
-  {
-    name: "Free",
-    blurb: "For trying things out",
-    price: "Rs 0",
-    features: ["Team inbox", "Contacts", "Templates", "25 AI trial chats"],
-    cta: "Get started",
-  },
-  {
-    name: "AI Starter",
-    blurb: "For your first AI agent",
-    price: "Rs 5,499",
-    features: ["AI agent", "300 AI conversations", "Order taking"],
-    cta: "Get started",
-  },
-  {
-    name: "AI Growth",
-    blurb: "For growing stores",
-    price: "Rs 9,999",
-    features: [
-      "COD confirmation",
-      "Follow-ups",
-      "Shopify",
-      "750 AI conversations",
-    ],
-    cta: "Get started",
-  },
-  {
-    name: "AI Pro",
-    blurb: "For teams at volume",
-    price: "Rs 17,999",
-    features: ["5 seats", "2,000 AI conversations", "Priority support"],
-    cta: "Get started",
-  },
-];
-
-/* The tick that opens every pricing line. Inline rather than a Font Awesome
-   glyph: the theme's icon webfonts are 7-9KB subsets, so most glyphs render as
-   tofu (see the note in ContactForm.jsx). */
-function Check() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="12" viewBox="0 0 20 12" fill="none">
-      <path
-        d="M10.3553 12C10.0508 12 9.84772 11.8857 9.64467 11.6571L5.38071 6.85714C4.97462 6.4 4.97462 5.71429 5.38071 5.25714C5.7868 4.8 6.39594 4.8 6.80203 5.25714L10.3553 9.25714L18.2741 0.342857C18.6802 -0.114286 19.2893 -0.114286 19.6954 0.342857C20.1015 0.8 20.1015 1.48571 19.6954 1.94286L11.066 11.6571C10.9645 11.8857 10.6599 12 10.3553 12Z"
-        fill="#CDCDCD"
-      />
-      <path
-        d="M5.27919 12C4.97462 12 4.77157 11.8857 4.56853 11.6571L0.304569 6.85714C-0.101523 6.4 -0.101523 5.71429 0.304569 5.25714C0.71066 4.8 1.3198 4.8 1.72589 5.25714L5.98985 10.0571C6.39594 10.5143 6.39594 11.2 5.98985 11.6571C5.88833 11.8857 5.58376 12 5.27919 12ZM10.6599 6.05714C10.3553 6.05714 10.1523 5.94286 9.94924 5.71429C9.54315 5.25714 9.54315 4.57143 9.94924 4.11429L13.198 0.342857C13.6041 -0.114286 14.2132 -0.114286 14.6193 0.342857C15.0254 0.8 15.0254 1.48571 14.6193 1.94286L11.3706 5.71429C11.1675 5.94286 10.9645 6.05714 10.6599 6.05714Z"
-        fill="#CDCDCD"
-      />
-    </svg>
-  );
-}
+import { PLANS, PRICING_NOTE } from "@/content/pricing";
+import { HOME_FAQS } from "@/content/faqs";
 
 export default function HomeOne() {
 
@@ -327,7 +273,7 @@ export default function HomeOne() {
                   </div>
               </div>
               {/*
-                Three distinct stats, matching /project and /about.
+                Three distinct stats, matching /projects and /about.
 
                 The template shipped "236 Finished Projects" three times over --
                 the same card repeated, which read as a placeholder to anyone
@@ -487,7 +433,7 @@ export default function HomeOne() {
                               <p>
                                   Custom machine learning models that learn from your data to predict trends, automate decisions, and cut manual guesswork
                               </p>
-                              <Link href="/project" className="theme-btn">explore now <i
+                              <Link href="/projects" className="theme-btn">explore now <i
                                       className="fa-solid fa-arrow-up-right"></i></Link>
                           </div>
                       </div>
@@ -503,7 +449,7 @@ export default function HomeOne() {
                               <p>
                                   Turn raw business data into clear, actionable dashboards that help you spot opportunities before the competition does
                               </p>
-                              <Link href="/project" className="theme-btn">explore now <i
+                              <Link href="/projects" className="theme-btn">explore now <i
                                       className="fa-solid fa-arrow-up-right"></i></Link>
                           </div>
                       </div>
@@ -529,7 +475,7 @@ export default function HomeOne() {
                               <p>
                                   AI-driven campaigns that target the right audience, optimize ad spend, and boost conversions automatically
                               </p>
-                              <Link href="/project" className="theme-btn">explore now <i
+                              <Link href="/projects" className="theme-btn">explore now <i
                                       className="fa-solid fa-arrow-up-right"></i></Link>
                           </div>
                       </div>
@@ -570,56 +516,30 @@ export default function HomeOne() {
                                   </div>
                                   <div className="faq-accordion">
                                       <div className="accordion" id="accordion">
-                                          <div className="accordion-item wow fadeInUp" data-wow-delay=".2s">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button" type="button" data-bs-toggle="collapse"
-                                                      data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
-                                                      What can AiLogiQs build for my business?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq1" className="accordion-collapse show" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      AI agents that handle support and sales conversations around the
-                                                      clock, machine learning models that predict trends and spot fraud,
-                                                      and dashboards that turn raw data into decisions. Every build is
-                                                      tailored to your processes and connects to the tools you use now.
+                                          {HOME_FAQS.map((item, i) => {
+                                              const id = `home-faq-${i + 1}`;
+                                              const open = i === 0;
+                                              return (
+                                                  <div className="accordion-item wow fadeInUp"
+                                                      data-wow-delay={`${(0.2 * (i + 1)).toFixed(1)}s`}
+                                                      key={item.question}>
+                                                      <h5 className="accordion-header">
+                                                          <button className={`accordion-button ${open ? "" : "collapsed"}`}
+                                                              type="button" data-bs-toggle="collapse"
+                                                              data-bs-target={`#${id}`} aria-expanded={open ? "true" : "false"}
+                                                              aria-controls={id}>
+                                                          {item.question}
+                                                          </button>
+                                                      </h5>
+                                                      <div id={id} className={`accordion-collapse ${open ? "show" : "collapse"}`}
+                                                          data-bs-parent="#accordion">
+                                                          <div className="accordion-body">
+                                                              {item.answer}
+                                                          </div>
+                                                      </div>
                                                   </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item wow fadeInUp" data-wow-delay=".4s">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false"
-                                                      aria-controls="faq2">
-                                                      How do you work with us?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq2" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      We scope the work first, then build it, then train it on your
-                                                      products, FAQs and data so it answers like your team. Once it is live we
-                                                      keep monitoring it and improving it, so the solution keeps working as
-                                                      your business changes.
-                                                  </div>
-                                              </div>
-                                          </div>
-                                          <div className="accordion-item wow fadeInUp" data-wow-delay=".6s">
-                                              <h5 className="accordion-header">
-                                                  <button className="accordion-button collapsed" type="button"
-                                                      data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false"
-                                                      aria-controls="faq3">
-                                                      How do we get started?
-                                                  </button>
-                                              </h5>
-                                              <div id="faq3" className="accordion-collapse collapse" data-bs-parent="#accordion">
-                                                  <div className="accordion-body">
-                                                      With a free consultation. We look at the workflow you want to
-                                                      change, map the data and the systems involved, and come back with a
-                                                      scoped proposal, a timeline and the criteria we will measure it
-                                                      against.
-                                                  </div>
-                                              </div>
-                                          </div>
+                                              );
+                                          })}
                                       </div>
                                   </div>
                               </div>
@@ -691,7 +611,7 @@ export default function HomeOne() {
                       ))}
                   </div>
                   <p className="pricing-note wow fadeInUp" data-wow-delay=".5s">
-                      All prices in PKR.
+                      {PRICING_NOTE}
                   </p>
               </div>
           </section>

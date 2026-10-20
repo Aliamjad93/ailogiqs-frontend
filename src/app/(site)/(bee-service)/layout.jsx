@@ -8,12 +8,12 @@
  *
  * The group currently holds one route:
  *
- *   (bee-service)/portfolio/bee-virus-detection/page.jsx
- *     -> /portfolio/bee-virus-detection
+ *   (bee-service)/projects/bee-virus-detection/page.jsx
+ *     -> /projects/bee-virus-detection
  *
  * Note the URL does NOT sit under the group name. The group is invisible in
- * the URL, and the page is reached from a card on /project rather than from the
- * nav -- exactly like /portfolio/chatbot. `route-bee` in TemplateRuntime has to
+ * the URL, and the page is reached from a card on /projects rather than from the
+ * nav -- exactly like /projects/chatbot. `route-bee` in TemplateRuntime has to
  * list the real pathname for that reason.
  *
  * `body.route-bee` is the hook every rule in bee-service.css is scoped under.

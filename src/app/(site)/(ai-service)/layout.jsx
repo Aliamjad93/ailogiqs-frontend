@@ -19,15 +19,15 @@
  * The group holds two routes, and note they do NOT share a URL prefix:
  *
  *   (ai-service)/ai-services/chatbot/page.jsx -> /ai-services/chatbot (landing)
- *   (ai-service)/portfolio/chatbot/page.jsx   -> /portfolio/chatbot (the service
- *                                                page, reached from the Portfolio
- *                                                card on /project)
+ *   (ai-service)/projects/chatbot/page.jsx    -> /projects/chatbot (the service
+ *                                                page, reached from the Projects
+ *                                                card on /projects)
  *
  * That is why the `route-ai-service` flag below has to list both prefixes: the
  * body class is keyed off the PATHNAME, not off membership of this group.
  *
  * `body.route-ai-service` is set by TemplateRuntime for everything under
- * /ai-services/* and for /portfolio/chatbot. It is the hook every rule in
+ * /ai-services/* and for /projects/chatbot. It is the hook every rule in
  * ai-service.css is scoped under, which is what keeps this design from reaching
  * the main site.
  */

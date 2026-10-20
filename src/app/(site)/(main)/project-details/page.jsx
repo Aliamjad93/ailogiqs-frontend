@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Portfolio Details",
+  title: "Project Details",
 };
 
 import Link from "next/link";
@@ -11,7 +11,7 @@ export default function ProjectDetails() {
               <div className="container">
                   <div className="page-heading">
                       <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> portfolio details
+                          <img src="/assets/img/star.png" alt="img" /> project details
                       </h6>
                       <h1 className="wow fadeInUp" data-wow-delay=".3s">Bold & <span>vibrant</span> design</h1>
                   </div>

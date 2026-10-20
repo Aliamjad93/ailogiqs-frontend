@@ -13,8 +13,8 @@
 /** Product name, used in the eyebrow, the metadata and the breadcrumb. */
 export const BRAND = "BeeLens";
 
-/** Canonical route. The Portfolio card on /project links here. */
-export const HREF = "/portfolio/bee-virus-detection";
+/** Canonical route. The Projects card on /projects links here. */
+export const HREF = "/projects/bee-virus-detection";
 
 export const hero = {
   eyebrow: "AI video hive diagnostics",

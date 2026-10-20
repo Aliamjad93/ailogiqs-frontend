@@ -46,12 +46,27 @@ const nextConfig = {
         permanent: true,
       },
       // The AI sales-agent page moved from /ai-services/chatbot/details to
-      // /portfolio/chatbot: it is the service's own page, reached from the
-      // Portfolio card, so it now sits under /portfolio. Permanent, so the old
+      // /projects/chatbot: it is the service's own page, reached from the
+      // Projects card, so it now sits under /projects. Permanent, so the old
       // URL keeps working.
       {
         source: "/ai-services/chatbot/details",
-        destination: "/portfolio/chatbot",
+        destination: "/projects/chatbot",
+        permanent: true,
+      },
+      // The listing moved from /project to /projects. The old showcase paths
+      // (/portfolio/chatbot, /portfolio/bee-virus-detection) moved under
+      // /projects too, but /portfolio itself is now a real page -- the
+      // selected-work portfolio -- so it must not redirect.
+      { source: "/project", destination: "/projects", permanent: true },
+      {
+        source: "/portfolio/chatbot",
+        destination: "/projects/chatbot",
+        permanent: true,
+      },
+      {
+        source: "/portfolio/bee-virus-detection",
+        destination: "/projects/bee-virus-detection",
         permanent: true,
       },
     ];

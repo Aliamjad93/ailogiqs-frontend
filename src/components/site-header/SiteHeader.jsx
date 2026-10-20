@@ -61,7 +61,7 @@ const VARIANTS = {
     logoAccent: "#FFFFFF",
   },
   aiService: {
-    // /portfolio/chatbot. `header-1`, which ai-service.css repaints indigo
+    // /projects/chatbot. `header-1`, which ai-service.css repaints indigo
     // (`body.route-ai-service .header-1`); the search affordance is kept but the
     // "Join now" CTA is not, so the service page does not advertise the main
     // site's sign-in screen from inside the showcase.
@@ -72,7 +72,7 @@ const VARIANTS = {
     logoAccent: "#FFFFFF",
   },
   bee: {
-    // /portfolio/bee-virus-detection. Also `header-1`, repainted dark by
+    // /projects/bee-virus-detection. Also `header-1`, repainted dark by
     // bee-service.css (`body.route-bee .header-1`). Same reasoning as
     // `aiService` for the action set: the showcase is self-contained, so the
     // main site's "Join now" has no business in its bar. The wordmark takes the

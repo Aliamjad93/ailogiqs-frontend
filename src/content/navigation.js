@@ -23,19 +23,24 @@
   so a dropdown can be reintroduced by adding that key, but there is none today
   by request.
 
-  Order is the order a buyer moves through: who we are, what we do, proof of it,
-  who works here, what we think, how to reach us.
+  Order is the order a buyer moves through: who we are, what we do, proof of
+  it, who works here, what we think, how to reach us. "Projects" is the
+  company's shipped work; the separate "Portfolio" is the founder-level case
+  studies (/portfolio), so both sit together as proof.
 
   Pricing and FAQ are not in the bar. Both are linked from the footer
   (Footer.jsx ~line 366/371), which is where secondary pages belong. The two
-  showcases (/portfolio/chatbot, /portfolio/bee-virus-detection) are reached
-  from the /project cards and the footer, deliberately not from the bar.
+  showcases (/projects/chatbot, /projects/bee-virus-detection) are reached
+  from the /projects cards and the footer, deliberately not from the bar.
 */
 export const PRIMARY_NAV = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Services", href: "/service" },
-  { label: "Portfolio", href: "/project" },
+  { label: "Projects", href: "/projects" },
+  // Distinct from "Projects": /portfolio carries the detailed case-study
+  // showcase (ChadBot, ShopAgent CRM) as one long page.
+  { label: "Portfolio", href: "/portfolio" },
   // Careers is top-level: it is a live hiring surface with its own admin
   // section (postings + applications), not a marketing page.
   { label: "Careers", href: "/careers" },
@@ -50,7 +55,7 @@ export const PRIMARY_NAV = [
   Dropped from the menu, deliberately:
 
   - "Pages"          -- a template placeholder, not a label a business uses.
-  - "Portfolio Details" (/project-details) -- demo copy ("Bold & vibrant
+  - "Project Details" (/project-details) -- demo copy ("Bold & vibrant
                         design") describing no real project.
   - "Login" / "Register" -- the pages are decorative: /login renders
                         `<form action="#">` and submits nowhere. Advertising a

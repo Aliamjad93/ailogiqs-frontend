@@ -2,7 +2,7 @@ export const metadata = {
   title: "BeeLens — AI Bee Virus & Varroa Detection",
   description:
     "BeeLens reads a photo or short video of your bees and flags Varroa mites and the visible signs of honey bee viruses — Deformed Wing, Sacbrood, Chronic Paralysis and Black Queen Cell — in seconds.",
-  alternates: { canonical: "/portfolio/bee-virus-detection" },
+  alternates: { canonical: "/projects/bee-virus-detection" },
 };
 
 import Link from "next/link";
@@ -24,11 +24,11 @@ import {
 } from "@/content/bee-service";
 
 /*
-  BeeLens — the second service page in the Portfolio showcase.
+  BeeLens — the second service page in the Projects showcase.
 
-  It is the sibling of /portfolio/chatbot: same job (explain one service and
+  It is the sibling of /projects/chatbot: same job (explain one service and
   sell it), same shape (hero, how it works, capability bands, benefits, FAQ),
-  and reached the same way — from a card on /project, not from the nav.
+  and reached the same way — from a card on /projects, not from the nav.
 
   It is NOT the same design. The AI sales agent is indigo; BeeLens is the dark
   and amber system from the client's "Bee Virus Detection Infographic" PDF,
