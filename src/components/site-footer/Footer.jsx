@@ -157,7 +157,7 @@ export default function Footer({ variant = "classic" }) {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/contact">
+                      <Link href="/careers">
                         Careers
                       </Link>
                     </li>
@@ -300,7 +300,7 @@ export default function Footer({ variant = "classic" }) {
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/contact">
+                                            <Link href="/careers">
                                                 Careers
                                             </Link>
                                         </li>

@@ -41,6 +41,9 @@ export const PRIMARY_NAV = [
       { label: "404 Page", href: "/404" },
     ],
   },
+  // Careers is a top-level destination, not a "Pages" child: it is a live
+  // hiring surface that changes independently of the marketing pages.
+  { label: "Careers", href: "/careers" },
   // Blog article URLs are generated from the post title in the database, so
   // there is no fixed details page to link to. Linking a hardcoded slug here
   // would 404 the moment that post is deleted or unpublished.

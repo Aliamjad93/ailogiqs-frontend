@@ -20,11 +20,12 @@ const nextConfig = {
 
   experimental: {
     serverActions: {
-      // Default is 1 MB, which a cover upload blows through: the admin form is a
-      // single multipart POST and the file is stored as a BLOB, so the whole
-      // image travels in that one request. 6 MB leaves headroom over the 5 MB
-      // per-image cap enforced in src/lib/admin-posts.js for the multipart
-      // envelope, the TipTap HTML and the other fields.
+      // Default is 1 MB, which an upload blows through: the admin post form and
+      // the public application form are each a single multipart POST, and files
+      // are stored as BLOBs, so the whole image or resume travels in that one
+      // request. 6 MB leaves headroom over the 5 MB per-image cap (admin-posts)
+      // and the 3 MB resume cap (careers) for the multipart envelope and the
+      // other form fields.
       //
       // This is a cap on inbound request size, not an allowance: the per-file
       // limit is still enforced in the write layer, which rejects an oversized

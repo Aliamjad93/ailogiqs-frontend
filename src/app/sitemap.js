@@ -1,4 +1,5 @@
 import { getAllPosts } from "@/lib/posts";
+import { getOpenJobs } from "@/lib/careers";
 import { absoluteUrl } from "@/lib/site.config";
 
 const STATIC_ROUTES = [
@@ -18,6 +19,7 @@ const STATIC_ROUTES = [
   { path: "/project-details", changeFrequency: "monthly", priority: 0.4 },
   { path: "/pricing", changeFrequency: "monthly", priority: 0.6 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/careers", changeFrequency: "weekly", priority: 0.8 },
   { path: "/blog", changeFrequency: "daily", priority: 0.9 },
   { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
   // /login and /register are deliberately absent. They are noindex (a sign-in
@@ -33,7 +35,7 @@ const STATIC_ROUTES = [
  * Drafts never appear: getAllPosts() reads only `status = 'published'`.
  */
 export default async function sitemap() {
-  const posts = await getAllPosts();
+  const [posts, jobs] = await Promise.all([getAllPosts(), getOpenJobs()]);
 
   return [
     ...STATIC_ROUTES.map((route) => ({
@@ -55,6 +57,14 @@ export default async function sitemap() {
       ),
       changeFrequency: "monthly",
       priority: 0.7,
+    })),
+    ...jobs.map((job) => ({
+      url: absoluteUrl(`/careers/${job.slug}`),
+      lastModified: new Date(
+        `${String(job.updatedAt ?? job.createdAt).slice(0, 10)}T00:00:00Z`
+      ),
+      changeFrequency: "weekly",
+      priority: 0.6,
     })),
   ];
 }

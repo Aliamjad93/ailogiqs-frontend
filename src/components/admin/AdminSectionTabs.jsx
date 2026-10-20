@@ -1,4 +1,5 @@
 import { getLeadCounts } from "@/lib/admin-leads";
+import { getApplicationCounts } from "@/lib/admin-careers";
 
 /**
  * Panel-wide section switcher: Blogs / Leads / Careers.
@@ -8,10 +9,10 @@ import { getLeadCounts } from "@/lib/admin-leads";
  * This nav is the tab strip that separates them, rendered inside the top bar
  * so it is reachable from every screen including the editor.
  *
- * An async server component on purpose: the Leads badge carries the count of
- * unhandled enquiries, so the tabs fetch it themselves rather than every page
- * having to remember to pass it down. A failed count must never take the panel
- * down, so it degrades to no badge.
+ * An async server component on purpose: the Leads and Careers badges carry the
+ * count of unhandled enquiries and new applications, so the tabs fetch them
+ * themselves rather than every page having to pass them down. A failed count
+ * must never take the panel down, so it degrades to no badge.
  *
  * Links are plain <a>, not <Link>: the admin sits outside the public route
  * group and nothing here consumes the client router payload.
@@ -23,14 +24,20 @@ const SECTIONS = [
 ];
 
 export default async function AdminSectionTabs({ active = "" }) {
-  // Only NEW leads are badged. The total would grow forever and stop meaning
-  // anything; the number that earns attention is the unhandled one.
+  // Only unhandled items are badged. A total would grow forever and stop
+  // meaning anything; the number that earns attention is the one waiting for a
+  // human response.
   let newLeads = 0;
+  let newApplications = 0;
   try {
-    const counts = await getLeadCounts();
-    newLeads = counts.new;
+    const [leadCounts, applicationCounts] = await Promise.all([
+      getLeadCounts(),
+      getApplicationCounts(),
+    ]);
+    newLeads = leadCounts.new;
+    newApplications = applicationCounts.new;
   } catch {
-    // Leave the badge off. If the database is truly down the section page
+    // Leave the badges off. If the database is truly down the section page
     // itself will surface the error; this must not be the thing that throws.
   }
 
@@ -45,6 +52,9 @@ export default async function AdminSectionTabs({ active = "" }) {
         >
           {section.label}
           {section.key === "leads" && newLeads > 0 && <span>{newLeads}</span>}
+          {section.key === "careers" && newApplications > 0 && (
+            <span>{newApplications}</span>
+          )}
         </a>
       ))}
     </nav>

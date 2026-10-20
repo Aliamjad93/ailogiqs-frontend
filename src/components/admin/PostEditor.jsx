@@ -22,36 +22,35 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *
  * Kept visually plain on purpose: this is a tool, not a showcase.
  */
-const EXTENSIONS = [
-  StarterKit.configure({
-    heading: { levels: [2, 3, 4] },
-    // TipTap emits <h1> for level 1; the article body has no h1 because the
-    // page title already is one. Disallow it so headings stay semantic.
-    codeBlock: {},
-    // StarterKit bundles its own Link. Registering the standalone extension on
-    // top of it gives the editor two extensions named "link", which TipTap warns
-    // about and which can make link commands hit an arbitrary one of the two.
-    // Disabling the bundled copy leaves a single Link, configured below.
-    link: false,
-  }),
-  Placeholder.configure({
-    placeholder:
-      "Write the article body here. Use H2 for section headings, lists for steps, and the quote block for pull quotes.",
-  }),
-  Link.configure({
-    openOnClick: false,
-    autolink: true,
-    // Anything not http/https/mailto is rejected by the sanitiser on save, so
-    // prevent it at the point of entry instead of silently dropping it later.
-    protocols: ["http", "https", "mailto"],
-    HTMLAttributes: { rel: "noopener noreferrer" },
-  }),
-  // The Image extension is deliberately absent. Registered, it accepts pasted
-  // and dropped images and would happily insert a blob: or data: URL that no
-  // longer resolves after a reload. With no image command in the toolbar and no
-  // extension, in-body images cannot be created at all -- the cover upload is
-  // the only way an image enters a post.
-];
+function buildExtensions(placeholder) {
+  return [
+    StarterKit.configure({
+      heading: { levels: [2, 3, 4] },
+      // TipTap emits <h1> for level 1; the content body has no h1 because the
+      // page title already is one. Disallow it so headings stay semantic.
+      codeBlock: {},
+      // StarterKit bundles its own Link. Registering the standalone extension on
+      // top of it gives the editor two extensions named "link", which TipTap warns
+      // about and which can make link commands hit an arbitrary one of the two.
+      // Disabling the bundled copy leaves a single Link, configured below.
+      link: false,
+    }),
+    Placeholder.configure({ placeholder }),
+    Link.configure({
+      openOnClick: false,
+      autolink: true,
+      // Anything not http/https/mailto is rejected by the sanitiser on save, so
+      // prevent it at the point of entry instead of silently dropping it later.
+      protocols: ["http", "https", "mailto"],
+      HTMLAttributes: { rel: "noopener noreferrer" },
+    }),
+    // The Image extension is deliberately absent. Registered, it accepts pasted
+    // and dropped images and would happily insert a blob: or data: URL that no
+    // longer resolves after a reload. With no image command in the toolbar and no
+    // extension, in-body images cannot be created at all -- the cover upload is
+    // the only way an image enters a post.
+  ];
+}
 
 const TOOLBAR = [
   { id: "bold", label: "B", title: "Bold", style: { fontWeight: 800 } },
@@ -70,7 +69,12 @@ const TOOLBAR = [
   { id: "redo", label: "Redo", title: "Redo" },
 ];
 
-export default function PostEditor({ value, onChange }) {
+export default function PostEditor({
+  value,
+  onChange,
+  placeholder = "Write the article body here. Use H2 for section headings, lists for steps, and the quote block for pull quotes.",
+  ariaLabel = "Article body",
+}) {
   const [wordCount, setWordCount] = useState(0);
   const [readingMinutes, setReadingMinutes] = useState(1);
 
@@ -86,14 +90,14 @@ export default function PostEditor({ value, onChange }) {
   }, []);
 
   const editor = useEditor({
-    extensions: EXTENSIONS,
+    extensions: buildExtensions(placeholder),
     content: value || "",
     // Renders immediately on the server; TipTap needs the DOM to mount.
     immediatelyRender: false,
     editorProps: {
       attributes: {
         class: "editor-surface",
-        "aria-label": "Article body",
+        "aria-label": ariaLabel,
       },
     },
     onUpdate({ editor: instance }) {

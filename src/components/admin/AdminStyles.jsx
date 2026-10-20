@@ -413,6 +413,26 @@ export default function AdminStyles() {
       .admin-badge-contacted { background: #e6f7ee; color: #0f7b4f; }
       .admin-badge-archived { background: #eef0f5; color: #5f6480; }
 
+      /* Job visibility and application stages. Open and hired share the green
+         "settled" treatment; interview and shortlisted use warmer colours so
+         the pipeline reads down a list without needing labels. */
+      .admin-badge-job-open,
+      .admin-badge-application-hired { background: #e6f7ee; color: #0f7b4f; }
+      .admin-badge-job-draft { background: #fff5d9; color: #8a6100; }
+      .admin-badge-job-closed,
+      .admin-badge-application-archived { background: #eef0f5; color: #5f6480; }
+      .admin-badge-application-new { background: var(--admin-accent-soft); color: var(--admin-accent); }
+      .admin-badge-application-shortlisted { background: #e7f0ff; color: #2457c5; }
+      .admin-badge-application-interview { background: #fff2d9; color: #8a5a00; }
+      .admin-badge-application-rejected { background: #fdeaea; color: #b3261e; }
+
+      .admin-meta-link {
+        color: var(--admin-accent) !important;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .admin-meta-link:hover { text-decoration: underline; }
+
       /* --- row actions and tabs ------------------------------------------ */
 
       /* Publish + Delete side by side in a table cell. Wrapping is allowed but
@@ -647,6 +667,83 @@ export default function AdminStyles() {
         margin-bottom: 20px;
       }
 
+      /* Two-up field rows inside the job editor. The grid gap is owned by the
+         row, not the individual fields, so labels line up across columns. */
+      .admin-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 18px;
+      }
+      @media (max-width: 700px) {
+        .admin-grid-2 { grid-template-columns: 1fr; }
+      }
+
+      /* Visibility radios: cards rather than a bare radio list, because the
+         difference between Draft, Open and Closed is the important part. */
+      .admin-status-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      @media (max-width: 760px) {
+        .admin-status-options { grid-template-columns: 1fr; }
+      }
+      .admin-status-option {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 14px;
+        border: 1px solid var(--admin-border-strong);
+        border-radius: 10px;
+        cursor: pointer;
+        background: var(--admin-surface);
+      }
+      .admin-status-option input { width: auto; margin-top: 3px; }
+      .admin-status-option strong { display: block; font-size: 14px; color: var(--admin-ink); }
+      .admin-status-option small {
+        display: block;
+        margin-top: 4px;
+        color: var(--admin-faint);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      /* Application review: candidate facts left, role facts right, with the
+         cover letter and pipeline below. */
+      .admin-detail-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .admin-detail-grid { grid-template-columns: 1fr; }
+      }
+
+      .admin-kv {
+        display: grid;
+        grid-template-columns: 130px minmax(0, 1fr);
+        gap: 11px 18px;
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .admin-kv dt { color: var(--admin-faint); }
+      .admin-kv dd {
+        margin: 0;
+        color: var(--admin-ink);
+        word-break: break-word;
+      }
+      .admin-kv a { color: var(--admin-accent); text-decoration: none; font-weight: 600; }
+      .admin-kv a:hover { text-decoration: underline; }
+
+      .admin-cover-letter {
+        white-space: pre-wrap;
+        color: var(--admin-muted);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
       .admin-panel h3 {
         font-size: 14px;
         text-transform: uppercase;
@@ -702,7 +799,7 @@ export default function AdminStyles() {
         margin: 0 0 14px;
       }
 
-      .admin-actions-inline { display: flex; gap: 8px; }
+      .admin-actions-inline { display: flex; gap: 8px; flex-wrap: wrap; }
 
       /* Inline <code> inside the empty-state and not-configured notices.
 
