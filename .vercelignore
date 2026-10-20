@@ -24,6 +24,12 @@ scripts/
 .playwright-mcp/
 .workbuddy-ai/
 
+# Root-level verification screenshots from the careers page work. They are not
+# referenced by anything and should not be publicly reachable on the
+# deployment either.
+careers-*.png
+job-*.png
+
 # Never-needed build artifacts -- the remote build installs fresh.
 node_modules/
 .next/
