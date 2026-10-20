@@ -2753,3 +2753,90 @@ body.route-project .portfolio-section .portfolio-card-items .portfolio-content p
     gap: 12px;
   }
 }
+
+/* =============================================================================
+   Home pricing note
+   =============================================================================
+   One line under the four plan cards. The row is generated from PLANS in
+   app/(site)/(home-1)/page.jsx, so the note sits outside the .row.
+   ========================================================================== */
+
+.pricing-note {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cdcdcd;
+}
+
+/* =============================================================================
+   Home pricing — one row, one height
+   =============================================================================
+   The vendor card has no height and no flex, so each of the four cards sized
+   to its own content: the price wrapped to two lines on "Rs 5,499" and
+   "Rs 9,999" but not on "Rs 0", which pushed the feature list and the button
+   down by a line on those cards. Four cards, four different silhouettes.
+
+   Fixed by making the column a flex box, the card a column that fills it, and
+   the button stick to the bottom. `margin-top: auto` on the button is what
+   keeps the CTAs on one line when a plan has three features instead of four.
+
+   The price also drops from 55px to 44px with `nowrap`: at 4-up the card's
+   inner width is ~230px and "Rs 17,999" at 55px is wider than that, so nowrap
+   alone would have overflowed instead of wrapping.
+
+   Scoped to `.pricing-home` because /pricing renders `.pricing-box-items` in
+   its own wrapper with a different card count per row.
+   ========================================================================== */
+
+.pricing-home .row > [class*="col-"] {
+  display: flex;
+}
+
+.pricing-home .pricing-box-items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.pricing-home .pricing-box-items .pricing-header h2 {
+  font-size: 44px;
+  white-space: nowrap;
+}
+
+.pricing-home .pricing-box-items .pricing-button {
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+/* "2,000 AI conversations" is long enough to wrap in a 4-up card. The vendor
+   list item is a plain block with the tick inline and the text in an
+   inline-block span, so a wrapped second line starts under the tick instead of
+   under the text. Flex makes the tick a fixed column and the text its own. */
+.pricing-home .pricing-box-items .pricing-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pricing-home .pricing-box-items .pricing-list li svg {
+  flex: none;
+  margin-top: 7px;
+}
+
+.pricing-home .pricing-box-items .pricing-list li span {
+  padding-left: 0;
+}
+
+/* One label on one line -- a wrapped CTA made the button taller than its
+   neighbours and broke the row's bottom edge. */
+.pricing-home .pricing-box-items .pricing-button .theme-btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 575px) {
+  .pricing-home .pricing-box-items .pricing-header h2 {
+    font-size: 36px;
+  }
+}

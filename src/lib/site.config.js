@@ -8,7 +8,7 @@ export const SITE = {
   description:
     "AiLogiQs is an AI startup building intelligent products and technology for tomorrow's businesses.",
   /** Canonical origin. Override with NEXT_PUBLIC_SITE_URL on Vercel. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ailogiqs.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ailogiqs.org",
   locale: "en_US",
   twitter: "@ailogiqs",
 };

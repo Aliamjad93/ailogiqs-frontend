@@ -68,7 +68,7 @@ export default function ChatbotServicePage() {
                                 <Link href="/contact" className="aiq-btn aiq-btn-solid">
                                     Book a demo
                                 </Link>
-                                <span className="aiq-hero-domain">ailogiqs.com</span>
+                                <span className="aiq-hero-domain">ailogiqs.org</span>
                             </div>
                         </div>
                         <div className="col-lg-6">

@@ -69,7 +69,7 @@ function plainSummary(html, limit = 160) {
 const TITLE_LIMIT = 60;
 const DESC_LIMIT = 160;
 
-export default function PostForm({ post, categories, canonicalBase = "https://ailogiqs.com" }) {
+export default function PostForm({ post, categories, canonicalBase = "https://ailogiqs.org" }) {
   const router = useRouter();
   const [state, formAction, pending] = useActionState(savePost, {});
 

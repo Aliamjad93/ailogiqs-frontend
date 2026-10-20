@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Logo from "@/components/shared/Logo";
+import { CONTACT } from "@/content/contact";
+import { SOCIAL_LINKS } from "@/content/social";
 
 export default function OffcanvasMenu() {
   return (
@@ -30,14 +32,21 @@ export default function OffcanvasMenu() {
               <div className="offcanvas__contact">
                 <h4>Contact Info</h4>
                 <ul>
+                  {/* Same four details, same order, as the footer and the
+                      /contact page — all read from src/content/contact.js.
+                      The address used to be a dead `href="#"`; it opens Maps
+                      now. */}
                   <li className="d-flex align-items-center">
                     <div className="offcanvas__contact-icon">
                       <i className="far fa-location-dot" />
                     </div>
                     <div className="offcanvas__contact-text">
-                      <a target="_blank" rel="noreferrer" href="#">
-                        Bahria Orchard, Central Block, Orchard Heights, 4th
-                        Floor, Office No. 302
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={CONTACT.mapsHref}
+                      >
+                        {CONTACT.address}
                       </a>
                     </div>
                   </li>
@@ -46,15 +55,7 @@ export default function OffcanvasMenu() {
                       <i className="far fa-envelope" />
                     </div>
                     <div className="offcanvas__contact-text">
-                      <a href="mailto:bd@ailogiqs.com">bd@ailogiqs.com</a>
-                    </div>
-                  </li>
-                  <li className="d-flex align-items-center">
-                    <div className="offcanvas__contact-icon mr-15">
-                      <i className="far fa-clock" />
-                    </div>
-                    <div className="offcanvas__contact-text">
-                      <span>Monday - Friday, 9:00am - 5:00pm</span>
+                      <a href={CONTACT.emailHref}>{CONTACT.email}</a>
                     </div>
                   </li>
                   <li className="d-flex align-items-center">
@@ -62,7 +63,15 @@ export default function OffcanvasMenu() {
                       <i className="far fa-phone" />
                     </div>
                     <div className="offcanvas__contact-text">
-                      <a href="tel:03016146851">0301-6146851</a>
+                      <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
+                    </div>
+                  </li>
+                  <li className="d-flex align-items-center">
+                    <div className="offcanvas__contact-icon mr-15">
+                      <i className="far fa-clock" />
+                    </div>
+                    <div className="offcanvas__contact-text">
+                      <span>{CONTACT.hours}</span>
                     </div>
                   </li>
                 </ul>
@@ -71,19 +80,21 @@ export default function OffcanvasMenu() {
                     Get A Quote
                   </Link>
                 </div>
+                {/* Same three profiles as the footer, from
+                    src/content/social.js. This row used to be four "#" links
+                    including Twitter and YouTube accounts that do not exist. */}
                 <div className="social-icon d-flex align-items-center">
-                  <a href="#" aria-label="Facebook">
-                    <i className="fab fa-facebook-f" />
-                  </a>
-                  <a href="#" aria-label="Twitter">
-                    <i className="fab fa-twitter" />
-                  </a>
-                  <a href="#" aria-label="YouTube">
-                    <i className="fab fa-youtube" />
-                  </a>
-                  <a href="#" aria-label="LinkedIn">
-                    <i className="fab fa-linkedin-in" />
-                  </a>
+                  {SOCIAL_LINKS.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={social.label}
+                    >
+                      <i className={social.icon} />
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>

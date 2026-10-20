@@ -7,8 +7,9 @@ export default function Team() {
 
   return (
     <>
-      <section className="team-section fix style-padding section-padding bg-cover"
-              style={{backgroundImage: 'url(\'/assets/img/team/team-bg.jpg\')'}}>
+      {/* team-bg.jpg was deleted, so this section no longer carries a
+          background image. */}
+      <section className="team-section fix style-padding section-padding">
               <div className="container">
                   <div className="section-title ml-200">
                       <h6 className="wow fadeInUp">
@@ -27,160 +28,11 @@ export default function Team() {
                           morbie habitasse orci libero porttitor scelerisque acid vivamus molestie mollise
                       </p>
                   </div>
-                  <div className="row">
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/01.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Rosa Compton</h3>
-                                  <p>Creative Designer</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/02.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Clifford Barron</h3>
-                                  <p>Chief Executive</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/03.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Shikhon Islam</h3>
-                                  <p>Project Manager</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/04.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Ritu Islam</h3>
-                                  <p>Chief Engineer</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/05.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Belinda Hellers</h3>
-                                  <p>Creative Designer</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/06.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Dorisde Wellas</h3>
-                                  <p>Chief Executive</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/07.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Florence Craig</h3>
-                                  <p>Project Manager</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/08.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Marty Dockery</h3>
-                                  <p>Chief Engineer</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                  {/* The eight team cards that stood here are gone: every one
+                      was an invented person on a placeholder portrait
+                      (team/01-08.jpg), and those files have been deleted. The
+                      section keeps its heading and intro; add real people back
+                      as .team-box-items when there are any. */}
               </div>
           </section>
 
@@ -299,9 +151,8 @@ export default function Team() {
                           Have any query
                           <span> send us <b>message</b></span>
                       </h2>
-                      <div className="cta-img">
-                          <img src="/assets/img/cta-image.jpg" alt="img" />
-                      </div>
+                      {/* cta-image.jpg was deleted, so the decorative
+                          .cta-img block is gone with it. */}
                   </div>
               </div>
           </section>

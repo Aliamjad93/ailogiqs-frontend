@@ -6,6 +6,7 @@ export const metadata = {
 };
 
 import ContactForm from "@/components/contact/ContactForm";
+import { CONTACT } from "@/content/contact";
 
 export default function Contact() {
 
@@ -70,9 +71,7 @@ export default function Contact() {
                               </div>
                               <div className="content">
                                   <h3>Location</h3>
-                                  <p>
-                                      Bahria Orchard, Central Block, Orchard Heights, 4th Floor, Office No. 302
-                                  </p>
+                                  <p>{CONTACT.address}</p>
                               </div>
                           </div>
                       </div>
@@ -83,8 +82,7 @@ export default function Contact() {
                               </div>
                               <div className="content">
                                   <h3>Email us</h3>
-                                  <p><a href="mailto:bd@ailogiqs.com">bd@ailogiqs.com</a></p>
-                                  {/* <p><a href="mailto:bd@ailogiqs.com">bd@ailogiqs.com</a></p> */}
+                                  <p><a href={CONTACT.emailHref}>{CONTACT.email}</a></p>
                               </div>
                           </div>
                       </div>
@@ -94,9 +92,8 @@ export default function Contact() {
                                   <i className="fa-regular fa-phone"></i>
                               </div>
                               <div className="content">
-                                  <h3>Free call</h3>
-                                  <p><a href="tel:+932016146851">+932016146851</a></p>
-                                  {/* <p><a href="tel:+932016146851">+932016146851</a></p> */}
+                                  <h3>Call us</h3>
+                                  <p><a href={CONTACT.phoneHref}>{CONTACT.phone}</a></p>
                               </div>
                           </div>
                       </div>
@@ -106,11 +103,8 @@ export default function Contact() {
                                   <i className="fa-regular fa-clock"></i>
                               </div>
                               <div className="content">
-                                  <h3>Opening hour</h3>
-                                  <p>
-                                      Sun to Fri: 09AM - 5PM
-                                      Saturday: Closed
-                                  </p>
+                                  <h3>Opening hours</h3>
+                                  <p>{CONTACT.hours}</p>
                               </div>
                           </div>
                       </div>

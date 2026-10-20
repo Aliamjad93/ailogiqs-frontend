@@ -1,37 +1,10 @@
 import Link from "next/link";
 import Logo from "@/components/shared/Logo";
+import { CONTACT } from "@/content/contact";
+import { SOCIAL_LINKS } from "@/content/social";
 
-/**
- * Social profiles, in footer-display order. The template's footer shipped
- * placeholder "#" links (plus Discord/YouTube icons for services we do not
- * run); these are the three accounts that actually exist.
- */
-const SOCIAL_LINKS = [
-  {
-    label: "Facebook",
-    href: "https://www.facebook.com/profile.php?id=100033227542369",
-    icon: "fa-brands fa-facebook-f",
-  },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/company/108624298",
-    icon: "fa-brands fa-linkedin-in",
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/ai_logiqs/",
-    icon: "fa-brands fa-instagram",
-  },
-];
-
-/** Studio details, as printed in the offcanvas contact panel. */
-const CONTACT = {
-  email: "bd@ailogiqs.com",
-  phone: "0301-6146851",
-  phoneHref: "tel:03016146851",
-  address:
-    "Bahria Orchard, Central Block, Orchard Heights, 4th Floor, Office No. 302",
-};
+/** Studio details live in src/content/contact.js — shared with the drawer and
+    the /contact page so the three cannot drift apart again. */
 
 /**
  * Site footer.
@@ -57,21 +30,27 @@ const CONTACT = {
  * real contact page and prints the studio's actual details.
  */
 
-/** Contact rows shared by both footers' "Get in touch" block. */
+/** Contact rows shared by both footers' "Get in touch" block.
+    Order matches the studio block used on /contact and in the drawer:
+    address, email, phone, hours. */
 function ContactRows() {
   return (
     <>
       <p className="footer-contact-item">
+        <i className="far fa-location-dot" />
+        <span>{CONTACT.address}</span>
+      </p>
+      <p className="footer-contact-item">
         <i className="far fa-envelope" />
-        <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+        <a href={CONTACT.emailHref}>{CONTACT.email}</a>
       </p>
       <p className="footer-contact-item">
         <i className="far fa-phone" />
         <a href={CONTACT.phoneHref}>{CONTACT.phone}</a>
       </p>
       <p className="footer-contact-item">
-        <i className="far fa-location-dot" />
-        <span>{CONTACT.address}</span>
+        <i className="far fa-clock" />
+        <span>{CONTACT.hours}</span>
       </p>
     </>
   );

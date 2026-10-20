@@ -74,9 +74,8 @@ export default function ProjectDetails() {
                                       and ornare felis litora luctus urna sem. Risus libero phasellus fringilla nam dui etiam
                                       aenean phasellus iaculis duis
                                   </p>
-                                  <div className="details-image">
-                                      <img src="/assets/img/project/details-1.jpg" alt="img" />
-                                  </div>
+                                  {/* details-1.jpg was deleted, so this
+                                      .details-image block is gone. */}
                                   <h2>Project strategy</h2>
                                   <p className="mb-4">
                                       Eleifend. Netus volutpat purus purus augue nullam blandit, phasellus per vehicula dolor
@@ -91,18 +90,8 @@ export default function ProjectDetails() {
                                       quis urna hendrerit pellentesque sociosqu lacinia dolor porta condimentum ridiculus
                                       elementum aliquam facilisi
                                   </p>
-                                  <div className="row g-4">
-                                      <div className="col-md-6">
-                                          <div className="details-image">
-                                              <img src="/assets/img/project/details-2.jpg" alt="img" />
-                                          </div>
-                                      </div>
-                                      <div className="col-md-6">
-                                          <div className="details-image">
-                                              <img src="/assets/img/project/details-3.jpg" alt="img" />
-                                          </div>
-                                      </div>
-                                  </div>
+                                  {/* The two-up details-2 / details-3 image row
+                                      was removed with the files. */}
                                   <h2>Our working process</h2>
                                   <p>
                                       Rutrum ipsum taciti fermentum mollis litora congue vitae lacinia eget cras tempus in
@@ -179,68 +168,8 @@ export default function ProjectDetails() {
           </section>
 
     
-          <section className="portfolio-section fix section-padding">
-              <div className="container">
-                  <div className="section-title">
-                      <h6>
-                          <img src="/assets/img/star.png" alt="img" /> our projects
-                      </h6>
-                      <h2>
-                          Related <span><b>projects</b></span>
-                      </h2>
-                  </div>
-                  <div className="row">
-                      <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="portfolio-card-items">
-                              <div className="portfolio-image">
-                                  <img src="/assets/img/project/12.jpg" alt="img" />
-                                  <Link href="/contact" className="lets-circle">
-                                      <i className="fa-solid fa-arrow-up-right"></i> <br />
-                                      Project
-                                      details
-                                  </Link>
-                              </div>
-                              <div className="portfolio-content">
-                                  <h6><span>//</span> creative art</h6>
-                                  <h3><Link href="/project-details">Stylishly extravagant toy</Link></h3>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="portfolio-card-items">
-                              <div className="portfolio-image">
-                                  <img src="/assets/img/project/13.jpg" alt="img" />
-                                  <Link href="/contact" className="lets-circle">
-                                      <i className="fa-solid fa-arrow-up-right"></i> <br />
-                                      Project
-                                      details
-                                  </Link>
-                              </div>
-                              <div className="portfolio-content">
-                                  <h6><span>//</span> creative art</h6>
-                                  <h3><Link href="/project-details">A vintage postcard design</Link></h3>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-4 col-lg-6 col-md-6">
-                          <div className="portfolio-card-items">
-                              <div className="portfolio-image">
-                                  <img src="/assets/img/project/14.jpg" alt="img" />
-                                  <Link href="/contact" className="lets-circle">
-                                      <i className="fa-solid fa-arrow-up-right"></i> <br />
-                                      Project
-                                      details
-                                  </Link>
-                              </div>
-                              <div className="portfolio-content">
-                                  <h6><span>//</span> creative art</h6>
-                                  <h3><Link href="/project-details">Color for simple Company</Link></h3>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
+          {/* "Related projects" removed: its three cards were placeholder
+              artwork (project/12-14.jpg), and those files have been deleted. */}
     </>
   );
 }

@@ -206,8 +206,8 @@ export default async function CareersPage({ searchParams }) {
               <Link className="theme-btn" href="/contact">
                 Start a conversation <CareersIcon name="arrowRight" />
               </Link>
-              <a className="careers-cta-mail" href="mailto:bd@ailogiqs.com">
-                bd@ailogiqs.com
+              <a className="careers-cta-mail" href="mailto:bd@ailogiqs.org">
+                bd@ailogiqs.org
               </a>
             </div>
           </div>

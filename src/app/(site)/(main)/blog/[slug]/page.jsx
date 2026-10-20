@@ -99,7 +99,7 @@ export async function generateMetadata({ params }) {
  *
  * Two graphs in one script: a BlogPosting, which is what earns the rich result,
  * and a BreadcrumbList, which is what replaces the bare URL in the result with
- * "ailogiqs.com › blog › title". Emitted from the page rather than from the
+ * "ailogiqs.org › blog › title". Emitted from the page rather than from the
  * layout because every field here is per-post.
  */
 function articleJsonLd(post) {
@@ -142,6 +142,10 @@ export default async function BlogPostPage({ params }) {
   const post = await getPostBySlug(slug);
 
   if (!post) notFound();
+
+  // Absolute URL for the share links below. `articleJsonLd` builds its own
+  // copy of this; it is scoped to that function, not to the component.
+  const shareUrl = absoluteUrl(`/blog/${post.slug}`);
 
   const [allPosts, recent, categories, tags] = await Promise.all([
     getAllPosts(),
@@ -223,18 +227,29 @@ export default async function BlogPostPage({ params }) {
                       <p>{post.tags.map((tag) => `#${tag}`).join(" ")}</p>
                     </div>
                     <div className="col-lg-4 col-12 mt-3 mt-lg-0 text-lg-end">
+                      {/* Real share targets. These were four "#" links that
+                          announced "Share on Facebook" and did nothing --
+                          and two of them (Discord, YouTube) have no way to
+                          share an article at all. Only the two brand glyphs
+                          already proven in the footer are used: the brands
+                          webfont is a small subset, so unfamiliar icons are a
+                          tofu risk. */}
                       <div className="social-icon">
-                        <a href="#" aria-label="Share on Discord">
-                          <i className="fa-brands fa-discord" />
-                        </a>
-                        <a href="#" aria-label="Share on Facebook">
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label="Share on Facebook"
+                        >
                           <i className="fa-brands fa-facebook-f" />
                         </a>
-                        <a href="#" aria-label="Share on LinkedIn">
+                        <a
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label="Share on LinkedIn"
+                        >
                           <i className="fa-brands fa-linkedin-in" />
-                        </a>
-                        <a href="#" aria-label="Share on YouTube">
-                          <i className="fa-brands fa-youtube" />
                         </a>
                       </div>
                     </div>
