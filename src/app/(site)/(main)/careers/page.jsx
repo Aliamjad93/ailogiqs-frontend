@@ -57,29 +57,6 @@ const VALUES = [
   },
 ];
 
-const PERKS = [
-  {
-    icon: "fa-solid fa-rocket",
-    title: "Production AI, not demos",
-    copy: "Your work reaches real users and real business problems.",
-  },
-  {
-    icon: "fa-solid fa-users",
-    title: "Direct mentorship",
-    copy: "Senior people in the room, not a ticket queue.",
-  },
-  {
-    icon: "fa-solid fa-house-laptop",
-    title: "Hybrid & remote",
-    copy: "Some roles are Lahore-based, some are fully remote.",
-  },
-  {
-    icon: "fa-solid fa-hand-holding-dollar",
-    title: "Paid internships",
-    copy: "Interns are paid and work on real product features.",
-  },
-];
-
 const PROCESS = [
   {
     title: "Intro conversation",
@@ -164,35 +141,6 @@ export default async function CareersPage({ searchParams }) {
                 </span>
               </div>
             </div>
-
-            <div className="careers-hero-visual" aria-hidden="true">
-              <div className="careers-visual-card">
-                <img src="/assets/img/about/01.png" alt="" />
-                <span className="careers-visual-tag">AI-first since day one</span>
-              </div>
-
-              <div className="careers-float careers-float-a">
-                <span className="careers-float-icon">
-                  <i className="fas fa-briefcase" />
-                </span>
-                <div>
-                  <strong>
-                    {allJobs.length} open {roleLabel}
-                  </strong>
-                  <small>Engineering, data, design &amp; growth</small>
-                </div>
-              </div>
-
-              <div className="careers-float careers-float-b">
-                <span className="careers-float-icon">
-                  <i className="fas fa-code-branch" />
-                </span>
-                <div>
-                  <strong>Real work, real users</strong>
-                  <small>Not a sandbox project</small>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -226,20 +174,6 @@ export default async function CareersPage({ searchParams }) {
                 <h3>{value.title}</h3>
                 <p>{value.copy}</p>
               </article>
-            ))}
-          </div>
-
-          <div className="careers-perks">
-            {PERKS.map((perk) => (
-              <div key={perk.title} className="careers-perk">
-                <span className="careers-perk-icon">
-                  <i className={perk.icon} aria-hidden="true" />
-                </span>
-                <div>
-                  <strong>{perk.title}</strong>
-                  <small>{perk.copy}</small>
-                </div>
-              </div>
             ))}
           </div>
         </div>
