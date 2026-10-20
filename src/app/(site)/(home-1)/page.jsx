@@ -484,11 +484,13 @@ export default function HomeOne() {
                       <div className="row g-4">
                           <div className="col-lg-6">
                               <div className="faq-image-items">
-                                  <div className="faq-image wow fadeInUp" data-wow-delay=".3s">
-                                      <img src="/assets/img/faq/02.jpeg" alt="img" />
-                                  </div>
+                                  {/* The small offset image that sat above this
+                                      one was faq/02.jpeg -- a grey "270X520"
+                                      placeholder. faq/01.jpeg below is a real
+                                      photograph, so the composition keeps its
+                                      anchor and only loses the empty box. */}
                                   <div className="faq-image wow fadeInUp" data-wow-delay=".5s">
-                                      <img src="/assets/img/faq/01.jpeg" alt="img" />
+                                      <img src="/assets/img/faq/01.jpeg" alt="Person silhouetted against a pink-lit background holding a phone" />
                                   </div>
                               </div>
                           </div>

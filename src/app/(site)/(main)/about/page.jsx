@@ -229,39 +229,10 @@ export default function About() {
                       </div>
                   </div>
               </div>
-              <div className="brand-section section-padding pb-0">
-                  <div className="container">
-                      <div className="swiper brand-slider">
-                          <div className="swiper-wrapper">
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/01.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/02.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/03.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/04.png" alt="img" />
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="brand-image text-center">
-                                      <img src="/assets/img/brand/05.png" alt="img" />
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+              {/* Client-logo marquee removed: box / ISEKI / FE / rico / Futaba
+                  are the template's invented brands, not AiLogiQs clients.
+                  This was the last .brand-slider on the site, and the Swiper
+                  init in main.js is length-guarded, so nothing else breaks. */}
           </section>
 
     
@@ -451,203 +422,21 @@ export default function About() {
           </div>
 
     
-          <section className="team-section fix section-padding section-bg">
-              <div className="container">
-                  <div className="section-title text-center">
-                      <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> dedicated member
-                      </h6>
-                      <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Team powering cutting- <br /> <span>edge AI visual solutions</span>
-                      </h2>
-                  </div>
-                  <div className="row">
-                      <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/01.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Rosa Compton</h3>
-                                  <p>Creative Designer</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/02.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Clifford Barron</h3>
-                                  <p>Chief Executive</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".6s">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/03.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Shikhon Islam</h3>
-                                  <p>Project Manager</p>
-                              </div>
-                          </div>
-                      </div>
-                      <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".8s">
-                          <div className="team-box-items">
-                              <div className="team-image">
-                                  <img src="/assets/img/team/04.jpg" alt="img" />
-                                  <div className="social-profile">
-                                      <ul>
-                                          <li> <a href="#"><i className="fa-brands fa-discord"></i></a></li>
-                                          <li> <a href="#"><i className="fa-brands fa-linkedin-in"></i></a></li>
-                                          <li><a href="#"><i className="fa-brands fa-facebook-f"></i></a></li>
-                                      </ul>
-                                      <span className="plus-btn"><i className="fas fa-share-alt"></i></span>
-                                  </div>
-                              </div>
-                              <div className="team-content">
-                                  <h3>Ritu Islam</h3>
-                                  <p>Chief Engineer</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
+          {/*
+            Three template blocks removed from here (user's request):
 
-    
-          <div className="marquee-section fix section-padding pt-0 margin-bottom-8 margin-top-5">
-              <div className="mycustom-marque">
-                  <div className="scrolling-wrap gap-100">
-                      <div className="comm">
-                          <div className="cmn-textslide textitalick text-custom-storke">design</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                          <div className="cmn-textslide textitalick text-custom-storke">image</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                          <div className="cmn-textslide textitalick text-custom-storke">video</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                      </div>
-                      <div className="comm">
-                          <div className="cmn-textslide textitalick text-custom-storke">design</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                          <div className="cmn-textslide textitalick text-custom-storke">image</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                          <div className="cmn-textslide textitalick text-custom-storke">video</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                      </div>
-                      <div className="comm">
-                          <div className="cmn-textslide textitalick text-custom-storke">design</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                          <div className="cmn-textslide textitalick text-custom-storke">image</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                          <div className="cmn-textslide textitalick text-custom-storke">video</div>
-                          <img src="/assets/img/has-2.png" alt="img" />
-                      </div>
-                  </div>
-              </div>
-          </div>
+            - team-section  -- "Team powering cutting-edge AI visual
+              solutions", eight invented people (Rosa Compton, Clifford
+              Barron, Shikhon Islam, Ritu Islam...) on placeholder portraits.
+            - marquee-section -- a scrolling "design / image / video" band,
+              filler for a design agency, not an AI automation studio.
+            - testimonial-section -- "Clients feedback", quotes from
+              "Ceo of nural" with the placeholder avatars that used to sit
+              above it.
 
-    
-          <section className="testimonial-section fix section-padding pt-0">
-              <div className="array-button">
-                  <button className="array-prev"><i className="fa-regular fa-arrow-left"></i></button>
-                  <button className="array-next"><i className="fa-regular fa-arrow-right"></i></button>
-              </div>
-              <div className="container">
-                  <div className="section-title text-center">
-                      <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" /> our testimonials
-                      </h6>
-                      <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                          Clients <span><b>feedback</b></span>
-                      </h2>
-                  </div>
-                  <div className="testimonial-wrapper-2">
-                      <div className="client-image-items">
-                          <div className="client-img">
-                              <img src="/assets/img/testimonial/client-7.png" alt="img" />
-                          </div>
-                          <div className="client-img text-center">
-                              <img src="/assets/img/testimonial/client-8.png" alt="img" />
-                              <div className="star">
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                                  <i className="fa-solid fa-star"></i>
-                              </div>
-                          </div>
-                          <div className="client-img">
-                              <img src="/assets/img/testimonial/client-9.png" alt="img" />
-                          </div>
-                      </div>
-                      <div className="swiper testimonial-slider-2">
-                          <div className="swiper-wrapper">
-                              <div className="swiper-slide">
-                                  <div className="testimonial-content">
-                                      <p>
-                                          Their AI chatbot now handles most of our customer questions. Response times went from hours to seconds, and our team finally has time for bigger work.
-                                      </p>
-                                      <div className="client-info">
-                                          <h3>Maryad C. Garcia</h3>
-                                          <span>Ceo of nural</span>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="testimonial-content">
-                                      <p>
-                                          They understood our business before writing a single line of code. The automation they built saves us hours every week.
-                                      </p>
-                                      <div className="client-info">
-                                          <h3>Maryad C. Garcia</h3>
-                                          <span>Ceo of nural</span>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div className="swiper-slide">
-                                  <div className="testimonial-content">
-                                      <p>
-                                          Professional, fast and easy to work with. The results were visible within the first month.
-                                      </p>
-                                      <div className="client-info">
-                                          <h3>Maryad C. Garcia</h3>
-                                          <span>Ceo of nural</span>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
+            Nothing below depended on them; the page now ends on the counter
+            row. Restore from git history if any of it is wanted back.
+          */}
     </>
   );
 }

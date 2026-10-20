@@ -19,9 +19,10 @@ export default function Faq() {
                               Clients <span><b>query</b></span>
                           </h2>
                       </div>
-                      <div className="faq-image-banner">
-                          <img src="/assets/img/faq/04.jpg" alt="img" />
-                      </div>
+                      {/* Banner removed: faq/04.jpg was a grey "1170X400"
+                          placeholder, and .faq-image-banner is only a margin
+                          wrapper around its <img>, so nothing else depended
+                          on it. */}
                   </div>
                   <div className="faq-wrapper style-inner-page">
                       <div className="row g-4">

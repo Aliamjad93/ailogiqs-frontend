@@ -295,22 +295,12 @@ export default async function BlogPostPage({ params }) {
                   </div>
 
                   <div className="comments-area">
-                    <div className="comments-heading">
-                      <h3>Comments</h3>
-                    </div>
-                    <div className="blog-single-comment d-flex gap-4 pt-4 pb-5">
-                      <img src="/assets/img/testimonial/client-1.png" alt="" />
-                      <div className="comment-text">
-                        <div className="d-flex flex-wrap justify-content-between">
-                          <h5>Epson Gorton</h5>
-                          <span className="comment-date">20 Jul, 2024</span>
-                        </div>
-                        <p>
-                          This is a template comment. Wire it to a comments table
-                          when the admin panel lands.
-                        </p>
-                      </div>
-                    </div>
+                    {/* The template's fake comment is gone. It carried a grey
+                        "80X80" placeholder avatar and the body text literally
+                        read "This is a template comment" -- there is no
+                        comments table, so showing one invented comment on a
+                        live article was worse than showing none. The form
+                        below stays for when that table exists. */}
                     <div className="comment-form-wrap pt-5">
                       <h3>Leave a comment</h3>
                       <form>
@@ -412,9 +402,8 @@ export default async function BlogPostPage({ params }) {
                   </div>
                 </div>
 
-                <div className="news-banner-img">
-                  <img src="/assets/img/news/Banner.png" alt="" />
-                </div>
+                {/* Sidebar banner removed: it was a grey "420X420"
+                    placeholder, not an advert anyone had sold. */}
 
                 <div className="single-sidebar-widget">
                   <div className="wid-title">

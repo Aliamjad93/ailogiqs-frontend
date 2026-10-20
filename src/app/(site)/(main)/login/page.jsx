@@ -13,12 +13,11 @@ export default function Login() {
                   <div className="row justify-content-center">
                       <div className="col-lg-12">
                           <div className="login-wrapper">
-                              <div className="row">
-                                  <div className="col-xl-6">
-                                      <div className="sign-img">
-                                          <img src="/assets/img/sign-image.jpg" alt="img" />
-                                      </div>
-                                  </div>
+                              <div className="row justify-content-center">
+                                  {/* The left half held sign-image.jpg, a grey
+                                      "675X1010" placeholder. Dropped and the
+                                      form centred, rather than leaving half a
+                                      screen of empty column. */}
                                   <div className="col-xl-6">
                                       <div className="signin-item">
                                           <div className="sign-header">

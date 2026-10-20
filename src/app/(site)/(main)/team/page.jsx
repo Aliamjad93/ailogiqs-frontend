@@ -188,9 +188,8 @@ export default function Team() {
           <section className="testimonial-section section-padding fix section-bg pb-0">
               <div className="container">
                   <div className="testimonial-wrapper-3">
-                      <div className="shape-1">
-                          <img src="/assets/img/testimonial/quate-1.png" alt="img" />
-                      </div>
+                      {/* Decorative quote-mark shape removed: quate-1.png is a
+                          blank white 491x363 rectangle, so it painted nothing. */}
                       <div className="row g-4">
                           <div className="col-xl-5 col-lg-6">
                               <div className="testimonial-image">

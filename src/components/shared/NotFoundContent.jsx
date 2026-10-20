@@ -23,9 +23,10 @@ export default function NotFoundContent({
         <div className="row justify-content-center">
           <div className="col-lg-9">
             <div className="error-items">
-              <div className="error-image wow fadeInUp">
-                <img src="/assets/img/404.png" alt="" />
-              </div>
+              {/* The 404.png artwork was removed: it was a grey placeholder
+                  with the literal text "516X287" printed on it. The heading
+                  below already says what happened, so the page reads fine
+                  without an image. */}
               <h2 className="wow fadeInUp" data-wow-delay=".3s">
                 Page not found
               </h2>
