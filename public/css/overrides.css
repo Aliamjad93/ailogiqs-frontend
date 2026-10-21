@@ -1394,7 +1394,11 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 
 /* --- screens: one frame, arrows either side ------------------------------- */
 
+/* The frame stops at the width of the feature grid rather than the full case
+   column: at 1166px it dwarfed the copy around it, and the screens inside are
+   already dense enough to read at 1000px. */
 .pf-slider {
+  max-width: 1000px;
   margin: 0;
 }
 
@@ -1544,7 +1548,7 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 .pf-slider-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 30px;
+  gap: 10px 20px;
   margin-top: 22px;
   padding-top: 18px;
   border-top: 1px solid rgba(207, 208, 212, 0.16);
