@@ -50,11 +50,15 @@ export const PROJECTS = [
     images: [
       {
         src: "/assets/img/projects/chadbot-profile.jpeg",
+        width: 1600,
+        height: 863,
         alt: "ChadBot edit-profile screen showing fitness goal, coaching style, workout days, intensity and habits.",
         caption: "Profile & coaching preferences",
       },
       {
         src: "/assets/img/projects/chadbot-chat.jpeg",
+        width: 1600,
+        height: 1098,
         alt: "ChadBot chat screen with the assistant’s welcome message and message composer.",
         caption: "Conversational coaching",
       },
@@ -115,26 +119,36 @@ export const PROJECTS = [
     images: [
       {
         src: "/assets/img/projects/shopagent-home.jpeg",
+        width: 1600,
+        height: 785,
         alt: "ShopAgent storefront hero with a product card and an AI agent monitoring the order.",
         caption: "Storefront & AI-assisted shopping",
       },
       {
         src: "/assets/img/projects/shopagent-products.jpeg",
+        width: 1600,
+        height: 789,
         alt: "ShopAgent product catalogue with price filters, sorting and product cards.",
         caption: "Product catalogue",
       },
       {
         src: "/assets/img/projects/shopagent-login.jpeg",
+        width: 1600,
+        height: 784,
         alt: "ShopAgent sign-in screen with the nine-agent network diagram.",
         caption: "Agent-aware sign in",
       },
       {
         src: "/assets/img/projects/shopagent-command-center.jpeg",
+        width: 1600,
+        height: 786,
         alt: "ShopAgent Agent Command Center showing a live orchestration feed and agent roster.",
         caption: "Agent Command Center",
       },
       {
         src: "/assets/img/projects/shopagent-dashboard.jpeg",
+        width: 1600,
+        height: 790,
         alt: "ShopAgent CRM dashboard with revenue, orders, customers, tickets and live agent activity.",
         caption: "Operations dashboard",
       },

@@ -1122,20 +1122,28 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 
 /* =============================================================================
    Selected AI engineering projects — /portfolio
-   =============================================================================
-   The page is a long-form showcase rather than a card grid: a hero, two
-   numbered case studies, an engineering-focus panel, then the shared CTA.
+   -----------------------------------------------------------------------------
+   One page, two case studies, one column. Each study runs title -> summary ->
+   stack -> story -> features -> contribution -> screens, at the same measure
+   and the same rhythm, so the second reads as the same kind of object as the
+   first. There is one rule between the two studies and one above the next-case
+   link; everything else is spacing and type.
 
-   Everything is scoped under the unique `pf-` prefix so none of it leaks into
-   /project-details or the rest of the theme. Colours, radii and the Marcellus
-   accent face come from main.css -- only the composition is new.
+   The screens run in ONE frame with arrows either side. Five separate frames
+   for one product read as five unrelated images; one frame reads as a product
+   being demonstrated, and the page is shorter for it.
+
+   Colours and the Marcellus accent face come from main.css; the `pf-` prefix
+   keeps all of it off /project-details and the rest of the theme.
    ========================================================================== */
+
+/* --- hero ---------------------------------------------------------------- */
 
 .pf-hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 210px 0 100px;
+  padding: 200px 0 72px;
   background: #101012;
 }
 
@@ -1144,7 +1152,7 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   position: absolute;
   inset: 0;
   background: url("/assets/img/breadcrumb-bg.jpg") center top / cover no-repeat;
-  opacity: 0.9;
+  opacity: 0.5;
   pointer-events: none;
 }
 
@@ -1154,8 +1162,8 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(21, 21, 24, 0.05) 0%,
-    rgba(21, 21, 24, 0.42) 54%,
+    rgba(21, 21, 24, 0.35) 0%,
+    rgba(21, 21, 24, 0.72) 60%,
     var(--body-bg) 100%
   );
   pointer-events: none;
@@ -1166,19 +1174,13 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   z-index: 1;
 }
 
-.pf-hero-inner {
-  max-width: 1000px;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .pf-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin: 0 0 18px;
-  color: var(--text);
-  font-size: 14px;
+  margin: 0 0 20px;
+  color: #d2d2d2;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.14em;
   line-height: 1;
@@ -1192,10 +1194,10 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 }
 
 .pf-hero h1 {
-  max-width: 980px;
-  margin: 0 auto;
+  max-width: 900px;
+  margin: 0 0 26px;
   color: var(--white);
-  font-size: clamp(52px, 6.6vw, 92px);
+  font-size: clamp(48px, 5.6vw, 82px);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 0.98;
@@ -1208,432 +1210,458 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   font-weight: 400;
 }
 
-.pf-hero-context {
-  margin: 26px 0 12px;
-  color: var(--theme);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
 .pf-hero-lede {
   max-width: 720px;
-  margin: 0 auto;
+  margin: 0 0 14px;
   color: #d2d2d2;
-  font-size: 19px;
+  font-size: 20px;
   line-height: 1.7;
+}
+
+.pf-hero-note {
+  margin: 0;
+  color: #8f8f8f;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .pf-hero-links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: 14px;
-  margin-top: 38px;
+  margin: 40px 0 0;
 }
 
-.pf-hero-links a {
+/* The two case-study jumps use the site's own button, so they match the pair
+   on /careers: one solid, one outlined, both filling yellow on hover. */
+.pf-hero-links .theme-btn {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 22px;
-  border: 1px solid rgba(207, 208, 212, 0.24);
-  border-radius: 100px;
-  background: rgba(21, 21, 24, 0.5);
-  color: var(--white);
-  font-size: 15px;
-  font-weight: 700;
-  transition: border-color 0.35s ease, color 0.35s ease, transform 0.35s ease;
+  gap: 10px;
 }
 
-.pf-hero-links a span {
-  color: var(--theme);
+.pf-hero-links .theme-btn span {
   font-family: "Marcellus", sans-serif;
   font-size: 13px;
+  font-weight: 400;
   letter-spacing: 0.08em;
+  opacity: 0.7;
 }
 
-.pf-hero-links a svg {
+.pf-hero-links .theme-btn svg {
   flex: 0 0 auto;
-  color: var(--theme);
 }
 
-.pf-hero-links a:hover {
-  color: var(--theme);
-  border-color: var(--theme);
-  transform: translateY(-2px);
-}
+/* --- case study ---------------------------------------------------------- */
 
 .pf-work {
   background: var(--body-bg);
 }
 
-.pf-project {
-  padding: 110px 0 80px;
+.pf-case {
+  padding: 88px 0;
   border-top: 1px solid rgba(207, 208, 212, 0.14);
-  scroll-margin-top: 130px;
+  scroll-margin-top: 100px;
 }
 
-.pf-project:first-child {
-  padding-top: 90px;
+.pf-case:first-child {
+  padding-top: 72px;
   border-top: 0;
 }
 
-.pf-project-head {
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  gap: 36px;
-  align-items: start;
-  padding-bottom: 52px;
-}
-
-.pf-project-index {
-  color: rgba(239, 251, 83, 0.16);
-  font-family: "Marcellus", sans-serif;
-  font-size: clamp(76px, 8vw, 118px);
-  line-height: 0.72;
-  -webkit-text-stroke: 1px rgba(239, 251, 83, 0.55);
-}
-
-.pf-kicker {
-  margin: 0 0 12px;
-  color: #cdcdcd;
-  font-size: 14px;
+.pf-case-index {
+  margin: 0 0 10px;
+  color: var(--theme);
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;
-  line-height: 1.4;
+  line-height: 1.5;
   text-transform: uppercase;
 }
 
-.pf-kicker span {
-  color: var(--theme);
-  margin-right: 6px;
-}
-
-.pf-project-title h2 {
-  margin: 0 0 18px;
+.pf-case h2 {
+  margin: 0 0 20px;
   color: var(--white);
-  font-size: clamp(48px, 5.4vw, 76px);
-  letter-spacing: -0.035em;
-  line-height: 0.98;
-  text-transform: none;
-}
-
-.pf-project-title > p:last-child {
-  max-width: 760px;
-  margin: 0;
-  color: #cdcdcd;
-  font-size: 19px;
-  line-height: 1.7;
-}
-
-.pf-overview {
-  display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.85fr);
-  gap: 64px;
-  align-items: start;
-}
-
-.pf-copy h3,
-.pf-stack h3 {
-  margin: 0 0 16px;
-  color: var(--theme);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.pf-copy p {
-  margin: 0 0 18px;
-  color: #cdcdcd;
-  font-size: 17px;
-  line-height: 1.8;
-}
-
-.pf-copy p:last-child {
-  margin-bottom: 0;
-}
-
-.pf-sidebar {
-  padding: 28px;
-  border: 1px solid rgba(207, 208, 212, 0.2);
-  border-radius: 24px;
-  background: #1d1d21;
-}
-
-.pf-meta {
-  display: grid;
-  gap: 18px;
-  margin: 0 0 24px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid rgba(207, 208, 212, 0.14);
-}
-
-.pf-meta dt {
-  margin-bottom: 4px;
-  color: #8f8f8f;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.pf-meta dd {
-  margin: 0;
-  color: var(--white);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.pf-stack h3 {
-  margin-bottom: 14px;
-}
-
-.pf-stack ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.pf-stack li {
-  padding: 7px 12px;
-  border: 1px solid rgba(207, 208, 212, 0.18);
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.02);
-  color: #cdcdcd;
-  font-size: 13px;
-  line-height: 1.3;
-}
-
-.pf-features {
-  margin-top: 64px;
-}
-
-.pf-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0 0 24px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(207, 208, 212, 0.16);
-  color: var(--theme);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.pf-label > span {
-  color: #8f8f8f;
-  font-family: "Marcellus", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-}
-
-.pf-feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.pf-feature-grid--three {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.pf-feature-grid li {
-  padding: 26px;
-  border: 1px solid rgba(207, 208, 212, 0.18);
-  border-radius: 20px;
-  background: #1d1d21;
-  transition: border-color 0.35s ease, transform 0.35s ease;
-}
-
-.pf-feature-grid li:hover {
-  border-color: rgba(239, 251, 83, 0.45);
-  transform: translateY(-3px);
-}
-
-.pf-feature-num {
-  display: block;
-  color: var(--theme);
-  font-family: "Marcellus", sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: clamp(44px, 5vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
   line-height: 1;
-}
-
-.pf-feature-grid h4 {
-  margin: 12px 0 8px;
-  color: var(--white);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.3;
   text-transform: none;
 }
 
-.pf-feature-grid p {
+.pf-case-lede {
+  max-width: 720px;
   margin: 0;
-  color: #b8b8b8;
-  font-size: 15px;
+  color: #d2d2d2;
+  font-size: 19px;
   line-height: 1.65;
 }
 
-.pf-contribution {
-  margin-top: 64px;
-  padding: 32px 36px;
-  border-left: 3px solid var(--theme);
-  border-radius: 0 20px 20px 0;
-  background: linear-gradient(
-    90deg,
-    rgba(239, 251, 83, 0.08) 0%,
-    rgba(239, 251, 83, 0) 100%
-  );
-}
-
-.pf-contribution .pf-label {
-  display: block;
-  margin-bottom: 14px;
+.pf-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 26px 0 0;
   padding: 0;
-  border: 0;
 }
 
-.pf-contribution p {
-  max-width: 1050px;
-  margin: 0;
-  color: #dedede;
+.pf-stack li {
+  padding: 7px 13px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #d6d6d6;
+  font-size: 13.5px;
+  line-height: 1.3;
+}
+
+/* --- the story ----------------------------------------------------------- */
+
+.pf-case-body {
+  margin-top: 38px;
+}
+
+.pf-prose {
+  max-width: 780px;
+}
+
+.pf-prose p {
+  margin: 0 0 20px;
+  color: #c9c9c9;
   font-size: 18px;
   line-height: 1.75;
 }
 
-.pf-gallery-block {
-  margin-top: 72px;
+.pf-prose p:last-child {
+  margin-bottom: 0;
 }
 
-.pf-gallery {
+.pf-block {
+  margin-top: 64px;
+}
+
+.pf-block > h3 {
+  margin: 0 0 24px;
+  color: var(--white);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  text-transform: none;
+}
+
+.pf-feature-list {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.pf-gallery--shopagent .pf-shot--lead {
-  grid-column: 1 / -1;
-}
-
-.pf-gallery--chadbot {
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  align-items: start;
-}
-
-.pf-shot {
+  gap: 34px 56px;
+  max-width: 1000px;
   margin: 0;
+  padding: 0;
+}
+
+/* A small yellow dot, sitting on the first line of each title: enough to read
+   the block as a list without turning the features back into cards. */
+.pf-feature-list li {
+  position: relative;
+  padding-left: 24px;
+}
+
+.pf-feature-list li::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--theme);
+}
+
+.pf-feature-list h4 {
+  margin: 0 0 8px;
+  color: var(--white);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.pf-feature-list p {
+  margin: 0;
+  color: #a9a9a9;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* --- screens: one frame, arrows either side ------------------------------- */
+
+.pf-slider {
+  margin: 0;
+}
+
+.pf-slider-frame {
+  position: relative;
   overflow: hidden;
   border: 1px solid rgba(207, 208, 212, 0.18);
-  border-radius: 20px;
+  border-radius: 22px;
   background: #101012;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
-  transition: border-color 0.35s ease;
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.3);
 }
 
-.pf-shot:hover {
-  border-color: rgba(239, 251, 83, 0.38);
-}
-
-.pf-shot img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.pf-shot figcaption {
+.pf-slider-chrome {
   display: flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 14px 18px;
-  border-top: 1px solid rgba(207, 208, 212, 0.14);
+  align-items: center;
+  gap: 18px;
+  padding: 13px 18px;
+  border-bottom: 1px solid rgba(207, 208, 212, 0.14);
   background: #17171a;
+}
+
+.pf-slider-dots {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 6px;
+}
+
+.pf-slider-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(207, 208, 212, 0.22);
+}
+
+.pf-slider-caption {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
   color: #9c9c9c;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   line-height: 1.5;
+  text-overflow: ellipsis;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.pf-shot figcaption span {
-  color: var(--theme);
+.pf-slider-tools {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.pf-slider-counter {
+  color: #8f8f8f;
   font-family: "Marcellus", sans-serif;
   font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.pf-slider-counter b {
+  color: var(--theme);
   font-weight: 400;
 }
 
+/* The arrows sit on the edges of the frame, not in the bar above it: the site
+   header is sticky, and when the frame sits high in the viewport the bar --
+   and any control in it -- ends up underneath the header. */
+.pf-slider-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(207, 208, 212, 0.24);
+  border-radius: 50%;
+  background: rgba(16, 16, 18, 0.72);
+  color: #cdcdcd;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.pf-slider-nav--prev {
+  left: 18px;
+}
+
+.pf-slider-nav--next {
+  right: 18px;
+}
+
+.pf-slider-nav:hover {
+  border-color: var(--theme);
+  background: var(--theme);
+  color: var(--header);
+}
+
+/* A native scroll-snap track: a swipe works with no JavaScript, and the
+   arrows only have to scroll it. */
+.pf-slider-track {
+  display: flex;
+  overflow-x: auto;
+  aspect-ratio: 16 / 9;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.pf-slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.pf-slider-track:focus-visible {
+  outline: 2px solid var(--theme);
+  outline-offset: -3px;
+}
+
+.pf-slide {
+  display: flex;
+  flex: 0 0 100%;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  padding: 22px;
+  scroll-snap-align: center;
+}
+
+.pf-slide img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  /* The screenshots come in two shapes -- wide desktop views and portrait
+     phone shots. The frame holds a fixed box and the image keeps its own ratio
+     inside it, so nothing is stretched and the border hugs the image rather
+     than the empty space around it. */
+  border: 1px solid rgba(207, 208, 212, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+}
+
+.pf-slider-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 30px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(207, 208, 212, 0.16);
+}
+
+.pf-slider-tab {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 0 0 6px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: none;
+  color: #8f8f8f;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.pf-slider-tab span {
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.pf-slider-tab:hover {
+  color: var(--white);
+}
+
+.pf-slider-tab[aria-selected="true"] {
+  color: var(--white);
+  border-bottom-color: var(--theme);
+}
+
+/* --- next case study ----------------------------------------------------- */
+
+.pf-next {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 68px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(207, 208, 212, 0.16);
+  color: var(--white);
+}
+
+.pf-next-label {
+  flex: 0 0 auto;
+  color: #8f8f8f;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.pf-next-name {
+  flex: 1 1 auto;
+  font-size: clamp(24px, 2.8vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.pf-next:hover .pf-next-name {
+  color: var(--theme);
+}
+
+.pf-next-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(207, 208, 212, 0.22);
+  border-radius: 50%;
+  color: var(--theme);
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.pf-next:hover .pf-next-arrow {
+  border-color: var(--theme);
+  background: var(--theme);
+  color: var(--header);
+}
+
+/* --- engineering focus --------------------------------------------------- */
+
 .pf-focus {
-  padding: 20px 0 120px;
+  padding: 84px 0 104px;
+  border-top: 1px solid rgba(207, 208, 212, 0.14);
   background: var(--body-bg);
 }
 
-.pf-focus-panel {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  padding: 64px;
-  border: 1px solid rgba(207, 208, 212, 0.2);
-  border-radius: 30px;
-  background: #1d1d21;
-}
-
-.pf-focus-panel::before {
-  content: "";
-  position: absolute;
-  top: -220px;
-  right: -160px;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(239, 251, 83, 0.16) 0%,
-    rgba(239, 251, 83, 0) 68%
-  );
-  pointer-events: none;
-  z-index: -1;
-}
-
-.pf-focus-heading {
-  max-width: 900px;
-}
-
-.pf-focus-heading .pf-eyebrow {
-  margin-bottom: 16px;
-}
-
-.pf-focus-heading h2 {
-  margin: 0 0 20px;
+.pf-focus h2 {
+  margin: 0 0 22px;
   color: var(--white);
-  font-size: clamp(42px, 4.8vw, 64px);
-  letter-spacing: -0.03em;
-  line-height: 1;
+  font-size: clamp(38px, 4.4vw, 58px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
   text-transform: none;
 }
 
-.pf-focus-heading h2 span {
+.pf-focus h2 span {
   color: var(--theme);
   font-family: "Marcellus", sans-serif;
   font-weight: 400;
 }
 
-.pf-focus-heading > p:last-child {
+.pf-focus-copy {
   max-width: 780px;
   margin: 0;
-  color: #cdcdcd;
+  color: #c9c9c9;
   font-size: 18px;
   line-height: 1.75;
 }
@@ -1641,13 +1669,9 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 .pf-focus-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 46px;
-}
-
-.pf-focus-grid li {
-  padding-top: 20px;
-  border-top: 1px solid rgba(207, 208, 212, 0.18);
+  gap: 34px 40px;
+  margin: 52px 0 0;
+  padding: 0;
 }
 
 .pf-focus-grid li > span {
@@ -1659,18 +1683,18 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 }
 
 .pf-focus-grid h3 {
-  margin: 10px 0 8px;
+  margin: 9px 0 8px;
   color: var(--white);
   font-size: 18px;
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.35;
   text-transform: none;
 }
 
 .pf-focus-grid p {
   margin: 0;
   color: #a9a9a9;
-  font-size: 14px;
+  font-size: 15.5px;
   line-height: 1.65;
 }
 
@@ -1682,73 +1706,60 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   line-height: 1.6;
 }
 
+/* --- responsive ---------------------------------------------------------- */
+
 @media (max-width: 1199px) {
   .pf-hero {
-    padding: 170px 0 90px;
+    padding: 168px 0 64px;
   }
 
-  .pf-project {
-    padding: 90px 0 70px;
+  .pf-case {
+    padding: 72px 0;
   }
 
-  .pf-project:first-child {
-    padding-top: 80px;
+  .pf-case:first-child {
+    padding-top: 60px;
   }
 
-  .pf-overview {
-    gap: 44px;
-  }
-
-  .pf-focus-panel {
-    padding: 52px;
+  .pf-feature-list {
+    gap: 30px 44px;
   }
 }
 
 @media (max-width: 991px) {
   .pf-hero {
-    padding: 155px 0 80px;
+    padding: 150px 0 56px;
   }
 
-  .pf-project {
-    padding: 78px 0 60px;
+  .pf-case {
+    padding: 64px 0;
   }
 
-  .pf-project:first-child {
-    padding-top: 70px;
+  .pf-case:first-child {
+    padding-top: 52px;
   }
 
-  .pf-project-head {
-    grid-template-columns: 110px minmax(0, 1fr);
-    gap: 24px;
-    padding-bottom: 42px;
+  .pf-block {
+    margin-top: 54px;
   }
 
-  .pf-overview {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
-  }
-
-  .pf-feature-grid--three {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .pf-focus {
+    padding: 68px 0 88px;
   }
 
   .pf-focus-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 30px 22px;
-  }
-
-  .pf-focus {
-    padding-bottom: 100px;
-  }
-
-  .pf-focus-panel {
-    padding: 44px;
+    gap: 30px 32px;
   }
 }
 
 @media (max-width: 767px) {
   .pf-hero {
-    padding: 135px 0 68px;
+    padding: 128px 0 48px;
+  }
+
+  .pf-hero h1 {
+    margin-bottom: 20px;
   }
 
   .pf-hero-lede {
@@ -1756,83 +1767,134 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   }
 
   .pf-hero-links {
-    margin-top: 30px;
+    margin-top: 32px;
   }
 
-  .pf-project {
-    padding: 64px 0 50px;
+  .pf-case {
+    padding: 56px 0;
   }
 
-  .pf-project:first-child {
-    padding-top: 58px;
+  .pf-case:first-child {
+    padding-top: 44px;
   }
 
-  .pf-project-head {
-    grid-template-columns: 78px minmax(0, 1fr);
-    gap: 18px;
+  .pf-case h2 {
+    margin-bottom: 16px;
   }
 
-  .pf-project-index {
-    font-size: 68px;
-  }
-
-  .pf-project-title > p:last-child {
+  .pf-case-lede {
     font-size: 17px;
   }
 
-  .pf-feature-grid,
-  .pf-feature-grid--three {
+  .pf-prose p,
+  .pf-focus-copy {
+    font-size: 16.5px;
+  }
+
+  .pf-block {
+    margin-top: 46px;
+  }
+
+  .pf-block > h3 {
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  .pf-feature-list {
     grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
   }
 
-  .pf-contribution {
-    padding: 26px 24px;
+  .pf-feature-list h4 {
+    font-size: 18px;
   }
 
-  .pf-contribution p {
-    font-size: 16px;
+  .pf-feature-list p {
+    font-size: 15.5px;
   }
 
-  .pf-gallery,
-  .pf-gallery--chadbot {
-    grid-template-columns: minmax(0, 1fr);
+  /* A taller frame: the phone screens of ChadBot are portrait, and a 16:9
+     box would shrink them to nothing. */
+  .pf-slider-track {
+    aspect-ratio: 4 / 3;
   }
 
-  .pf-gallery--shopagent .pf-shot--lead {
-    grid-column: auto;
+  .pf-slide {
+    padding: 14px;
   }
 
-  .pf-gallery-block {
-    margin-top: 56px;
+  .pf-slider-chrome {
+    gap: 12px;
+    padding: 11px 14px;
+  }
+
+  .pf-slider-caption {
+    font-size: 10px;
+  }
+
+  .pf-slider-nav {
+    width: 38px;
+    height: 38px;
+  }
+
+  .pf-slider-nav--prev {
+    left: 10px;
+  }
+
+  .pf-slider-nav--next {
+    right: 10px;
+  }
+
+  .pf-slider-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 18px;
+    scrollbar-width: none;
+  }
+
+  .pf-slider-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pf-slider-tab {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .pf-next {
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 52px;
+  }
+
+  .pf-next-label {
+    flex: 1 1 auto;
+  }
+
+  .pf-next-name {
+    flex: 1 1 100%;
+    order: 3;
+    font-size: 24px;
   }
 
   .pf-focus {
-    padding: 10px 0 80px;
-  }
-
-  .pf-focus-panel {
-    padding: 34px 26px;
-    border-radius: 24px;
+    padding: 56px 0 72px;
   }
 
   .pf-focus-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 24px;
-    margin-top: 36px;
+    gap: 26px;
+    margin-top: 40px;
   }
 
   .pf-note {
-    margin-top: 34px;
+    margin-top: 32px;
   }
 }
 
 @media (max-width: 575px) {
   .pf-hero h1 {
-    font-size: 44px;
-  }
-
-  .pf-hero-context {
-    font-size: 12px;
+    font-size: 42px;
   }
 
   .pf-hero-links {
@@ -1840,27 +1902,17 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
     align-items: stretch;
   }
 
-  .pf-hero-links a {
+  .pf-hero-links .theme-btn {
+    width: 100%;
     justify-content: center;
   }
 
-  .pf-project-head {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
+  .pf-case h2 {
+    font-size: 40px;
   }
 
-  .pf-project-index {
-    font-size: 54px;
-    line-height: 0.8;
-  }
-
-  .pf-project-title h2 {
-    font-size: 44px;
-  }
-
-  .pf-sidebar,
-  .pf-feature-grid li {
-    padding: 22px;
+  .pf-slider-dots {
+    display: none;
   }
 }
 
