@@ -41,6 +41,9 @@ export const metadata = {
     description: SITE.description,
   },
   icons: { icon: "/favicon.svg" },
+  other: {
+    "facebook-domain-verification": "8ojvrejsg6q357rxothm0lm0s7nqzw",
+  },
   /*
     NO `alternates.canonical` here on purpose.
 
