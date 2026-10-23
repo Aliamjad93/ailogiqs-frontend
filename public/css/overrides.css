@@ -1254,6 +1254,103 @@ a[href^="mailto:"] {
   }
 }
 
+/*
+  /about's lead section is the one `.about-section` that carries the theme's
+  `.style-padding` hook, and that is exactly the difference that matters here:
+  it opens directly under the site header instead of below the homepage hero,
+  and the header is `position: absolute` over the page. The homepage's tightened
+  60px desktop band above therefore left the "Who we are" eyebrow about 25px
+  under the nav, overlapping it.
+
+  At desktop the section keeps the theme's own 120px band -- the same clearance
+  the other inner pages that start under the header get from `.section-padding`
+  (/pricing, /faq, /service). Below 1200px the header is ~58px tall, so the
+  80px band already clears it and the homepage rhythm stays untouched there;
+  this does not touch the page's second `.about-section`, which has no
+  `.style-padding` and keeps the tighter rhythm.
+*/
+@media (min-width: 1200px) {
+  .about-section.section-padding.style-padding {
+    padding-top: 120px;
+  }
+}
+
+/*
+  /about — "how we work" band, tighter vertical rhythm
+
+  The section sits between two other sections that already carry 60px bands of
+  their own, so the theme's stock 120px top and bottom turned into 180px of dead
+  air above the "how we work" eyebrow and another 180px below the last step.
+  Bring the band in line with the 80px / 60px rhythm the rest of the page uses,
+  so it reads as one sequence instead of a separate screen.
+
+  Deliberately `.section-padding`, not `.section-padding-2`: /projects/chatbot
+  renders its own `.how-to-work-section` as a full-bleed band on the other
+  padding scale, and this page is the only one using this pair.
+*/
+
+.how-to-work-section.section-padding {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 1200px) {
+  .how-to-work-section.section-padding {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
+/*
+  /about — "our practice" block, a touch more air above it
+
+  On desktop the tightened band above ends 60px before this section, which also
+  starts with 60px, so the darker "how we work" panel above sat close to the
+  "our practice" eyebrow. Twenty extra pixels is enough to separate the two
+  surfaces without undoing the rhythm the rest of the page was given.
+
+  Only the desktop tier changes: below 1200px this section already keeps the
+  80px band, and the band above it is 80px as well, so it is already roomier
+  there. The hook is carried by the /about markup -- the homepage's about
+  section shares `about-section section-padding` and keeps its tighter band.
+*/
+
+@media (min-width: 1200px) {
+  .about-practice.section-padding {
+    padding-top: 80px;
+  }
+}
+
+/*
+  /about — stats strip above the footer
+
+  The same three figures appear on "/" and /projects, but the strip is the last
+  thing on /about, where its stock 120px bottom band added to the footer's own
+  top edge read as an empty screen between the numbers and the footer.
+  The other two pages keep their own bands (`pb-0` inside the homepage's about
+  section, and the `body.route-projects` rules further down), so this hook is
+  carried by the /about markup only.
+
+  Trimmed to the page's 60px rhythm without touching the top band: `pt-0` on
+  this strip is deliberate, the section above supplies that space.
+*/
+
+.counter-section-about.section-padding {
+  padding-bottom: 60px;
+}
+
+@media (max-width: 1199px) {
+  .counter-section-about.section-padding {
+    padding-bottom: 50px;
+  }
+}
+
+@media (max-width: 991px) {
+  .counter-section-about.section-padding {
+    padding-bottom: 40px;
+  }
+}
+
 
 /* =============================================================================
    Homepage services section — left-aligned heading
@@ -1565,36 +1662,41 @@ body.route-projects .cta-discuss-section.section-padding {
    keeps all of it off /project-details and the rest of the theme.
    ========================================================================== */
 
+/* --- page shell ---------------------------------------------------------- */
+
+.pf-page {
+  background: var(--body-bg);
+}
+
 /* --- hero ---------------------------------------------------------------- */
 
+/* The hero now opens exactly the way /projects does: centred, on the
+   breadcrumb glow, eyebrow -> one title -> one lede -> a small meta row.
+
+   The glow is painted as a masked band rather than as `background-size: cover`
+   on the section: the source is a ~3:1 strip and the section is ~500px tall, so
+   `cover` would scale it ~3x, crop both glows out of frame and leave the page
+   reading as flat black. Masking it to fade into --body-bg also removes the
+   hard seam where the image would otherwise end. `isolation: isolate` keeps the
+   band's z-index: -1 inside the hero instead of behind the page background. */
 .pf-hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 200px 0 72px;
-  background: #101012;
+  padding: 138px 0 72px;
+  text-align: center;
 }
 
 .pf-hero::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: 0 0 auto 0;
+  height: 640px;
   background: url("/assets/img/breadcrumb-bg.jpg") center top / cover no-repeat;
-  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(to bottom, #000 42%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 42%, transparent 100%);
   pointer-events: none;
-}
-
-.pf-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(21, 21, 24, 0.35) 0%,
-    rgba(21, 21, 24, 0.72) 60%,
-    var(--body-bg) 100%
-  );
-  pointer-events: none;
+  z-index: -1;
 }
 
 .pf-hero > .container {
@@ -1602,82 +1704,87 @@ body.route-projects .cta-discuss-section.section-padding {
   z-index: 1;
 }
 
+/* Matches `.section-title h6` on /projects: 16px, 700, uppercase, --text. */
 .pf-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 20px;
-  color: #d2d2d2;
-  font-size: 13px;
+  gap: 9px;
+  margin: 0 0 16px;
+  color: var(--text);
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.02em;
   line-height: 1;
   text-transform: uppercase;
 }
 
 .pf-eyebrow img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   flex: 0 0 auto;
 }
 
+/* The h1 takes the h2 scale from main.css (65 / 55 / 45 / 36 / 30), so this
+   page's title sits at the same weight and size as /projects' "Built, Shipped,
+   Still Running". The Marcellus accent and the yellow `b` are the same
+   `.section-title h2 span/b` pairing, written out here because the visible
+   title on this page is an h1 and those vendor rules are keyed to h2. */
 .pf-hero h1 {
-  max-width: 900px;
-  margin: 0 0 26px;
+  max-width: 1100px;
+  margin: 0 auto 22px;
   color: var(--white);
-  font-size: clamp(48px, 5.6vw, 82px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.98;
+  font-size: 65px;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.16;
   text-transform: none;
 }
 
 .pf-hero h1 span {
+  font-family: "Marcellus", sans-serif;
+  font-weight: 400;
+}
+
+.pf-hero h1 b {
   color: var(--theme);
   font-family: "Marcellus", sans-serif;
   font-weight: 400;
 }
 
 .pf-hero-lede {
-  max-width: 720px;
-  margin: 0 0 14px;
-  color: #d2d2d2;
-  font-size: 20px;
+  max-width: 660px;
+  margin: 0 auto;
+  color: var(--text);
+  font-size: 17px;
   line-height: 1.7;
 }
 
-.pf-hero-note {
-  margin: 0;
-  color: #8f8f8f;
-  font-size: 15px;
-  line-height: 1.6;
+@media (max-width: 991px) {
+  .pf-hero h1 {
+    font-size: 55px;
+  }
 }
 
-.pf-hero-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin: 40px 0 0;
+@media (max-width: 767px) {
+  .pf-hero h1 {
+    font-size: 45px;
+  }
 }
 
-/* The two case-study jumps use the site's own button, so they match the pair
-   on /careers: one solid, one outlined, both filling yellow on hover. */
-.pf-hero-links .theme-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+@media (max-width: 575px) {
+  .pf-hero h1 {
+    font-size: 36px;
+  }
+
+  .pf-hero-lede {
+    font-size: 16px;
+  }
 }
 
-.pf-hero-links .theme-btn span {
-  font-family: "Marcellus", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  opacity: 0.7;
-}
-
-.pf-hero-links .theme-btn svg {
-  flex: 0 0 auto;
+@media (max-width: 470px) {
+  .pf-hero h1 {
+    font-size: 30px;
+  }
 }
 
 /* --- case study ---------------------------------------------------------- */
@@ -1687,13 +1794,15 @@ body.route-projects .cta-discuss-section.section-padding {
 }
 
 .pf-case {
-  padding: 88px 0;
+  padding: 80px 0;
   border-top: 1px solid rgba(207, 208, 212, 0.14);
   scroll-margin-top: 100px;
 }
 
+/* Below the hero this was another 72px on top of the hero's own 72px bottom
+   band -- 144px of nothing between the jump buttons and "Case study 01". */
 .pf-case:first-child {
-  padding-top: 72px;
+  padding-top: 56px;
   border-top: 0;
 }
 
@@ -1777,31 +1886,52 @@ body.route-projects .cta-discuss-section.section-padding {
   text-transform: none;
 }
 
+/* Features are cards, in the same material as the /service and pricing cards:
+   a #1d1d21 panel, a hairline border, a 20px radius, and the yellow accent
+   arriving on hover. The grid keeps two columns so the copy keeps its measure;
+   each card is numbered by a counter rather than the markup, because the
+   number is decoration and the list is already an ordered set of features. */
 .pf-feature-list {
+  counter-reset: pf-feature;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 34px 56px;
+  gap: 24px;
   max-width: 1000px;
   margin: 0;
   padding: 0;
 }
 
-/* A small yellow dot, sitting on the first line of each title: enough to read
-   the block as a list without turning the features back into cards. */
 .pf-feature-list li {
-  position: relative;
-  padding-left: 24px;
+  counter-increment: pf-feature;
+  padding: 26px 28px 28px;
+  background: #1d1d21;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 20px;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
+.pf-feature-list li:hover {
+  transform: translateY(-4px);
+  border-color: rgba(239, 251, 83, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* The number chip sits above the title and starts the card, so the features
+   scan as numbered deliverables instead of a run of bullets. The counter is
+   per list, so ChadBot's four and ShopAgent's six each start at 01. */
 .pf-feature-list li::before {
-  content: "";
-  position: absolute;
-  top: 10px;
-  left: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--theme);
+  content: counter(pf-feature, decimal-leading-zero);
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  background: rgba(239, 251, 83, 0.1);
+  color: var(--theme);
+  font-family: "Marcellus", sans-serif;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .pf-feature-list h4 {
@@ -2068,14 +2198,22 @@ body.route-projects .cta-discuss-section.section-padding {
 
 /* --- engineering focus --------------------------------------------------- */
 
+/* The whole block is centred like the hero heading above it — eyebrow, title,
+   copy and the footnote all share the page's centre line. The pillar cards
+   below stay left-aligned: a 280px card of centred body copy reads worse than
+   one that follows the same left edge as the feature lists in the cards above.
+   -------------------------------------------------------------------------- */
+
 .pf-focus {
-  padding: 84px 0 104px;
+  padding: 64px 0 80px;
   border-top: 1px solid rgba(207, 208, 212, 0.14);
   background: var(--body-bg);
+  text-align: center;
 }
 
 .pf-focus h2 {
-  margin: 0 0 22px;
+  max-width: 900px;
+  margin: 0 auto 22px;
   color: var(--white);
   font-size: clamp(38px, 4.4vw, 58px);
   font-weight: 800;
@@ -2092,30 +2230,52 @@ body.route-projects .cta-discuss-section.section-padding {
 
 .pf-focus-copy {
   max-width: 780px;
-  margin: 0;
+  margin: 0 auto;
   color: #c9c9c9;
   font-size: 18px;
   line-height: 1.75;
 }
 
+/* The four pillars use the features' card material (see that block above), on
+   a narrower card. The index in the markup becomes the same yellow chip. */
 .pf-focus-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 34px 40px;
-  margin: 52px 0 0;
+  gap: 20px;
+  margin: 44px 0 0;
   padding: 0;
 }
 
+.pf-focus-grid li {
+  padding: 24px 22px 26px;
+  background: #1d1d21;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 20px;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.pf-focus-grid li:hover {
+  transform: translateY(-4px);
+  border-color: rgba(239, 251, 83, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
 .pf-focus-grid li > span {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 16px;
+  border-radius: 10px;
+  background: rgba(239, 251, 83, 0.1);
   color: var(--theme);
   font-family: "Marcellus", sans-serif;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: 14px;
   line-height: 1;
 }
 
 .pf-focus-grid h3 {
-  margin: 9px 0 8px;
+  margin: 0 0 8px;
   color: var(--white);
   font-size: 18px;
   font-weight: 700;
@@ -2132,7 +2292,7 @@ body.route-projects .cta-discuss-section.section-padding {
 
 .pf-note {
   max-width: 780px;
-  margin: 44px 0 0;
+  margin: 44px auto 0;
   color: #7f7f7f;
   font-size: 13px;
   line-height: 1.6;
@@ -2142,33 +2302,37 @@ body.route-projects .cta-discuss-section.section-padding {
 
 @media (max-width: 1199px) {
   .pf-hero {
-    padding: 168px 0 64px;
+    padding: 126px 0 62px;
   }
 
   .pf-case {
-    padding: 72px 0;
+    padding: 68px 0;
   }
 
   .pf-case:first-child {
-    padding-top: 60px;
+    padding-top: 48px;
   }
 
-  .pf-feature-list {
-    gap: 30px 44px;
+  /* Four cards fit beside each other only from 1200px up. Below that the same
+     grid is 2x2: at ~220px a card left its copy about 175px wide, five or six
+     lines deep -- a cramped column rather than a card. */
+  .pf-focus-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
   }
 }
 
 @media (max-width: 991px) {
   .pf-hero {
-    padding: 150px 0 56px;
+    padding: 118px 0 56px;
   }
 
   .pf-case {
-    padding: 64px 0;
+    padding: 60px 0;
   }
 
   .pf-case:first-child {
-    padding-top: 52px;
+    padding-top: 44px;
   }
 
   .pf-block {
@@ -2176,38 +2340,25 @@ body.route-projects .cta-discuss-section.section-padding {
   }
 
   .pf-focus {
-    padding: 68px 0 88px;
-  }
-
-  .pf-focus-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 30px 32px;
+    padding: 54px 0 66px;
   }
 }
 
 @media (max-width: 767px) {
   .pf-hero {
-    padding: 128px 0 48px;
+    padding: 104px 0 48px;
   }
 
   .pf-hero h1 {
-    margin-bottom: 20px;
-  }
-
-  .pf-hero-lede {
-    font-size: 17px;
-  }
-
-  .pf-hero-links {
-    margin-top: 32px;
+    margin-bottom: 18px;
   }
 
   .pf-case {
-    padding: 56px 0;
+    padding: 52px 0;
   }
 
   .pf-case:first-child {
-    padding-top: 44px;
+    padding-top: 40px;
   }
 
   .pf-case h2 {
@@ -2234,7 +2385,11 @@ body.route-projects .cta-discuss-section.section-padding {
 
   .pf-feature-list {
     grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
+    gap: 16px;
+  }
+
+  .pf-feature-list li {
+    padding: 22px 22px 24px;
   }
 
   .pf-feature-list h4 {
@@ -2310,13 +2465,17 @@ body.route-projects .cta-discuss-section.section-padding {
   }
 
   .pf-focus {
-    padding: 56px 0 72px;
+    padding: 46px 0 56px;
   }
 
   .pf-focus-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 26px;
+    gap: 16px;
     margin-top: 40px;
+  }
+
+  .pf-focus-grid li {
+    padding: 22px 20px 24px;
   }
 
   .pf-note {
@@ -2325,20 +2484,6 @@ body.route-projects .cta-discuss-section.section-padding {
 }
 
 @media (max-width: 575px) {
-  .pf-hero h1 {
-    font-size: 42px;
-  }
-
-  .pf-hero-links {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .pf-hero-links .theme-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
   .pf-case h2 {
     font-size: 40px;
   }
@@ -2347,6 +2492,400 @@ body.route-projects .cta-discuss-section.section-padding {
     display: none;
   }
 }
+
+
+/* =============================================================================
+   Portfolio — two-card showcase
+   =============================================================================
+   /portfolio opens the way /projects does: a centred heading band, then two
+   cards side by side — ChadBot left, ShopAgent right. Each card is the project
+   mockup plus title, summary, stack pills, key features and the contribution
+   statement. The screen gallery and the index/category line that used to sit
+   inside each card are gone, as is the hero's meta row (all three at the user's
+   request): the mockup already shows the product, and the rest only added
+   height and clutter.
+
+   Two things the previous version got wrong and this one fixes:
+
+   1. The cards were Bootstrap columns, so the shorter one (ChadBot: four
+      features) stopped ~90px above the taller one (ShopAgent: six). They are
+      now grid items in ONE grid, which stretches both to a shared height, and
+      the screens strip is pinned to the bottom of each card with
+      `margin-top: auto` — so the leftover space lands above that strip rather
+      than as a ragged bottom edge.
+
+   2. The features were a two-column grid of 12.5px body copy, which at a
+      ~280px column ran four or five lines deep and read as fine print. They
+      are now a single column: a yellow tick, then the feature title in white
+      and its description inline, at 15px.
+
+   The old long-form case studies (.pf-case, .pf-case-head, .pf-case-body,
+   .pf-block, .pf-feature-list, .pf-slider, .pf-next) are kept above, untouched,
+   so the ScreenSlider component still renders if a route uses it again.
+   ========================================================================== */
+
+/* ---- section ------------------------------------------------------------ */
+
+.pf-work {
+  padding: 4px 0 96px;
+  background: var(--body-bg);
+}
+
+/* One grid, not two columns: `stretch` then gives both cards the taller
+   card's height and their bottoms line up. */
+.pf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  align-items: stretch;
+}
+
+
+/* ---- card --------------------------------------------------------------- */
+
+.pf-card {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 24px;
+  background: linear-gradient(180deg, #1b1b20 0%, #16161a 100%);
+  border: 1px solid rgba(207, 208, 212, 0.14);
+  border-radius: 26px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.pf-card:hover {
+  border-color: rgba(239, 251, 83, 0.26);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.42);
+}
+
+/* The artwork sits in the card's own padding, so the mockup reads as a print
+   mounted on a board rather than as a photograph bleeding to the edge. Both
+   sources are 1254x1254; a 4:3 frame crops ~12% top and bottom, and the phones
+   sit inside that margin, so nothing important is lost. */
+.pf-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #0f0f12;
+}
+
+.pf-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pf-card:hover .pf-card-media img {
+  transform: scale(1.035);
+}
+
+
+/* ---- body --------------------------------------------------------------- */
+
+/* The index/category line that used to open the body is gone (user's call), so
+   the title now starts directly under the artwork. */
+.pf-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 30px 12px 0;
+}
+
+.pf-card-title {
+  margin: 0 0 14px;
+  color: var(--white);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.pf-card-desc {
+  margin: 0;
+  color: #b6b6b6;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+
+/* ---- stack pills -------------------------------------------------------- */
+
+.pf-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-card-stack li {
+  padding: 6px 13px;
+  border: 1px solid rgba(207, 208, 212, 0.14);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #d0d0d0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+
+/* ---- labelled blocks (features / contribution) -------------------------- */
+
+/* `margin-bottom` is the gap the contribution panel needs when the card has no
+   spare height: `margin-top: auto` on that panel resolves to 0 in that case, so
+   the gap has to live on the block above it — a margin the auto value can add
+   to but never eat. */
+.pf-card-block {
+  margin: 30px 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(207, 208, 212, 0.12);
+}
+
+.pf-card-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 18px;
+  color: var(--white);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.pf-card-label span {
+  color: #7d7d7d;
+  font-family: "Marcellus", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+
+/* ---- features ----------------------------------------------------------- */
+
+.pf-card-feats {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-card-feats li {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 13px;
+  align-items: start;
+}
+
+.pf-tick {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: rgba(239, 251, 83, 0.12);
+  color: var(--theme);
+}
+
+.pf-tick svg {
+  width: 12px;
+  height: 12px;
+}
+
+.pf-card-feats p {
+  margin: 0;
+  color: #9f9f9f;
+  font-size: 16px;
+  line-height: 1.68;
+}
+
+.pf-card-feats strong {
+  color: #ececec;
+  font-weight: 700;
+}
+
+
+/* ---- contribution ------------------------------------------------------- */
+
+/* The one paragraph on the card that is about the person rather than the
+   product, so it gets the accent tint instead of another hairline rule.
+
+   `margin-top: auto` is what keeps the two cards' bottom edges aligned: the
+   cards are stretched to a shared height, ChadBot has two fewer features than
+   ShopAgent, and the leftover space lands here rather than as a ragged edge
+   under the last card. */
+.pf-card-contrib {
+  margin-top: auto;
+  padding: 22px 24px 24px;
+  background: rgba(239, 251, 83, 0.045);
+  border: 1px solid rgba(239, 251, 83, 0.16);
+  border-radius: 16px;
+}
+
+/* `margin-top: auto` resolves to 0 when the card has no spare height, which
+   would sit the panel flush against the feature list — the gap lives on
+   `.pf-card-block` above it. */
+.pf-card-contrib .pf-card-label {
+  margin-bottom: 12px;
+  color: var(--theme);
+}
+
+.pf-card-contrib p {
+  margin: 0;
+  color: #b2b2b2;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+
+/* ---- responsive --------------------------------------------------------- */
+
+@media (max-width: 1399px) {
+  .pf-card-title {
+    font-size: 30px;
+  }
+}
+
+/* The two cards stay side by side — ChadBot left, ShopAgent right — all the
+   way down to 768px. They only stack on phones, where two ~300px columns would
+   squeeze the feature copy to four words a line. */
+@media (max-width: 991px) {
+  .pf-grid {
+    gap: 20px;
+  }
+
+  .pf-card {
+    padding: 12px 12px 18px;
+    border-radius: 22px;
+  }
+
+  .pf-card-media {
+    border-radius: 14px;
+  }
+
+  .pf-card-body {
+    padding: 20px 4px 0;
+  }
+
+  .pf-card-title {
+    font-size: 25px;
+  }
+
+  .pf-card-desc,
+  .pf-card-feats p {
+    font-size: 14px;
+  }
+
+  .pf-card-stack li {
+    font-size: 11.5px;
+    padding: 4px 10px;
+  }
+
+  .pf-card-contrib {
+    padding: 16px 16px 18px;
+  }
+
+  .pf-card-contrib p {
+    font-size: 13.5px;
+  }
+}
+
+@media (max-width: 767px) {
+  .pf-work {
+    padding-bottom: 72px;
+  }
+
+  .pf-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  .pf-card {
+    padding: 12px 12px 20px;
+  }
+
+  .pf-card-body {
+    padding: 24px 6px 0;
+  }
+
+  .pf-card-title {
+    font-size: 26px;
+  }
+
+  .pf-card-desc {
+    font-size: 16px;
+  }
+
+  .pf-card-feats p {
+    font-size: 15px;
+  }
+
+  .pf-card-stack li {
+    font-size: 12px;
+    padding: 5px 11px;
+  }
+
+  .pf-card-contrib {
+    padding: 20px 20px 22px;
+  }
+
+  .pf-card-contrib p {
+    font-size: 15px;
+  }
+}
+
+
+/* ---- closing CTA -------------------------------------------------------- */
+
+/* The consultation block is shared with the homepage, /about and /projects, and
+   it ships with `.section-padding` — 120px top and bottom. On this page it
+   follows the engineering-focus section directly, and 120px of empty dark above
+   and below a four-line block read as two more sections of nothing.
+
+   Scoped through `.pf-page`, the wrapper this page owns, so the shared block on
+   every other route keeps its own padding (and /projects keeps the 80px it
+   already overrides for itself). */
+.pf-page .cta-discuss-section.section-padding {
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+@media (max-width: 1199px) {
+  .pf-page .cta-discuss-section.section-padding {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+}
+
+@media (max-width: 991px) {
+  .pf-page .cta-discuss-section.section-padding {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .pf-page .cta-discuss-section.section-padding {
+    padding-top: 34px;
+    padding-bottom: 34px;
+  }
+}
+
 
 /* =============================================================================
    Contact info cards — one row, one height

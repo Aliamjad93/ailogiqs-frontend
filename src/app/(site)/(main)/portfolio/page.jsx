@@ -7,150 +7,88 @@ export const metadata = {
 
 import Link from "next/link";
 import { PROJECTS, ENGINEERING_FOCUS } from "@/content/portfolio";
-import ScreenSlider from "@/components/portfolio/ScreenSlider";
 
-/*
-  /portfolio is one long page rather than a card grid with detail routes.
+/*  --------------------------------------------------------------------------
+    /portfolio — two-card showcase
 
-  Both case studies run down a single column in the same order -- title,
-  summary, stack, the story, what it does, the contribution, then the screens.
-  One measure, one rhythm, no rails or boxes competing with the writing.
+    The page opens the way /projects does: a centred heading band over the
+    breadcrumb glow — eyebrow, one title with the Marcellus/yellow accent, a
+    single lede, then a small meta row — and continues into two cards side by
+    side, ChadBot on the left, ShopAgent CRM on the right.
 
-  The screens of a project run in ONE frame with arrows either side
-  (components/portfolio/ScreenSlider.jsx). They used to be separate cards, five
-  of them for ShopAgent, so a case study was a wall of screenshots and a very
-  long scroll. One frame reads as a product being demonstrated.
+    Each card is the project mockup, then title, summary, stack pills, key
+    features and the contribution statement. Everything that lived in
+    src/content/portfolio.js is still represented except three pieces the user
+    asked to drop: the screen gallery (the mockup already shows the product),
+    the per-card index/category line, and the hero's "02 case studies /
+    delivered at Techliance" meta row.
 
-  All copy lives in src/content/portfolio.js; this file only owns the layout.
-*/
+    The two cards are grid items in ONE grid (not Bootstrap columns), ChadBot
+    first, ShopAgent second, so they read left to right and stretch to a shared
+    height. The contribution panel is pinned to the bottom of each card with
+    `margin-top: auto`, so the ragged edge left by ChadBot's four features
+    against ShopAgent's six lands in the empty space above that panel instead
+    of at the bottom of the page.
+
+    The mockup images are the card artwork:
+      - ChadBot:     /assets/img/projects/chadbot-mockup.png
+      - ShopAgent:   /assets/img/projects/shopagent-mockup.png
+    Both are 1254x1254 and are shown in a 4:3 frame, which crops ~12% off the
+    top and bottom — the phones sit inside that margin, so nothing is lost.
+*//* ------------------------------------------------------------------ */
+
+const CheckIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+
+/* ------------------------------------------------------------------ */
 
 export default function Portfolio() {
   return (
-    <>
+    <div className="pf-page">
+      {/* ---- heading band ------------------------------------------------
+          Mirrors /projects: the same centred eyebrow + title + lede rhythm,
+          the same 16/65px scale, the same Marcellus accent. The only
+          difference is that this page keeps a visible <h1> (it has one in the
+          document already, and /portfolio is the page people land on from
+          search), so the type below is set on the h1 instead of an h2. */}
       <section className="pf-hero">
         <div className="container">
           <p className="pf-eyebrow wow fadeInUp">
             <img src="/assets/img/star.png" alt="" /> case studies
           </p>
           <h1 className="wow fadeInUp" data-wow-delay=".15s">
-            Selected AI <span>engineering</span> projects
+            Selected AI <span>engineering <b>projects</b></span>
           </h1>
           <p className="pf-hero-lede wow fadeInUp" data-wow-delay=".3s">
             Adaptive assistants, multi-agent systems and production AI
             workflows — built beyond basic chat interfaces.
           </p>
-          <p className="pf-hero-note wow fadeInUp" data-wow-delay=".4s">
-            Delivered while working at Techliance.
-          </p>
-
-          <ul className="pf-hero-links wow fadeInUp" data-wow-delay=".5s">
-            {PROJECTS.map((project, index) => (
-              <li key={project.id}>
-                <a
-                  href={`#${project.id}`}
-                  className={
-                    index === 0
-                      ? "theme-btn"
-                      : "theme-btn bt-white-outline"
-                  }
-                >
-                  <span>{project.index}</span>
-                  {project.name}
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path
-                      d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
-      <div className="pf-work">
+      {/* ---- two cards ---- */}
+      <section className="pf-work" aria-label="Case studies">
         <div className="container">
-          {PROJECTS.map((project, projectIndex) => {
-            const next = PROJECTS[projectIndex + 1];
-
-            return (
-              <article className="pf-case" id={project.id} key={project.id}>
-                <header className="pf-case-head">
-                  <p className="pf-case-index">Case study {project.index}</p>
-                  <h2>{project.name}</h2>
-                  <p className="pf-case-lede">{project.summary}</p>
-
-                  <ul className="pf-stack" aria-label="Technology stack">
-                    {project.stack.map((technology) => (
-                      <li key={technology}>{technology}</li>
-                    ))}
-                  </ul>
-                </header>
-
-                <div className="pf-case-body">
-                  <div className="pf-prose">
-                    {project.overview.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-
-                  <section className="pf-block">
-                    <h3>Key features</h3>
-                    <ul className="pf-feature-list">
-                      {project.features.map((feature) => (
-                        <li key={feature.title}>
-                          <h4>{feature.title}</h4>
-                          <p>{feature.body}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-
-                  <section className="pf-block">
-                    <h3>{project.contributionLabel}</h3>
-                    <div className="pf-prose">
-                      <p>{project.contribution}</p>
-                    </div>
-                  </section>
-
-                  <section className="pf-block">
-                    <h3>Product screens</h3>
-                    <ScreenSlider
-                      images={project.images}
-                      projectName={project.name}
-                    />
-                  </section>
-                </div>
-
-                {!next && (
-                  <Link href="/contact" className="pf-next">
-                    <span className="pf-next-label">
-                      Have a project like this?
-                    </span>
-                    <span className="pf-next-name">Let’s build yours</span>
-                    <span className="pf-next-arrow" aria-hidden="true">
-                      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                        <path
-                          d="M3 9h12m0 0-5-5m5 5-5 5"
-                          stroke="currentColor"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </Link>
-                )}
-              </article>
-            );
-          })}
+          <div className="pf-grid">
+            {PROJECTS.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
+      {/* ---- engineering focus ---- */}
       <section className="pf-focus" aria-labelledby="engineering-focus">
         <div className="container">
           <p className="pf-eyebrow">
@@ -175,6 +113,7 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* ---- CTA ---- */}
       <section
         className="cta-discuss-section fix section-padding bg-cover"
         style={{ backgroundImage: "url('/assets/img/cta-dark-bg.svg')" }}
@@ -199,6 +138,54 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
-    </>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Card ---------------------------------------------------------------- */
+/* ------------------------------------------------------------------ */
+
+function ProjectCard({ project }) {
+  return (
+    <article id={project.id} className="pf-card">
+      {/* ---- artwork ---- */}
+      <div className="pf-card-media">
+        <img src={project.cardImage} alt={project.cardAlt} loading="lazy" />
+      </div>
+
+      {/* ---- body ---- */}
+      <div className="pf-card-body">
+        <h2 className="pf-card-title">{project.name}</h2>
+        <p className="pf-card-desc">{project.summary}</p>
+
+        <ul className="pf-card-stack" aria-label="Technology stack">
+          {project.stack.map((tech) => (
+            <li key={tech}>{tech}</li>
+          ))}
+        </ul>
+
+        <div className="pf-card-block">
+          <h3 className="pf-card-label">Key features</h3>
+          <ul className="pf-card-feats">
+            {project.features.map((feature) => (
+              <li key={feature.title}>
+                <span className="pf-tick" aria-hidden="true">
+                  <CheckIcon />
+                </span>
+                <p>
+                  <strong>{feature.title}</strong> {feature.body}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="pf-card-contrib">
+          <h3 className="pf-card-label">{project.contributionLabel}</h3>
+          <p>{project.contribution}</p>
+        </div>
+      </div>
+    </article>
   );
 }

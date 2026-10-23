@@ -12,6 +12,8 @@ export const PROJECTS = [
     index: "01",
     name: "ChadBot",
     category: "AI Fitness Coach",
+    cardImage: "/assets/img/projects/chadbot-mockup.png",
+    cardAlt: "ChadBot fitness coach app — personalized workout planning and daily activity coaching.",
     summary:
       "An adaptive AI fitness assistant for personalized workout planning and daily activity management.",
     overview: [
@@ -69,6 +71,8 @@ export const PROJECTS = [
     index: "02",
     name: "ShopAgent CRM",
     category: "Multi-Agent AI Sales & Customer Management",
+    cardImage: "/assets/img/projects/shopagent-mockup.png",
+    cardAlt: "ShopAgent CRM — multi-agent AI sales and customer management dashboard.",
     summary:
       "An AI-powered CRM that coordinates specialized agents across customer support, sales, order management, and fulfillment.",
     overview: [

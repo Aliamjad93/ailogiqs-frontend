@@ -21,7 +21,7 @@ export default function About() {
                   <img src="/assets/img/about/color-bg-shape-2.png" alt="img" />
               </div>
               <div className="container">
-                  <div className="section-title ml-200">
+                  <div className="section-title text-center">
                       <h6 className="wow fadeInUp">
                           <img src="/assets/img/star.png" alt="img" /> Who we are
                       </h6>
@@ -315,7 +315,7 @@ export default function About() {
           </section>
 
     
-          <section className="about-section fix section-padding">
+          <section className="about-section about-practice fix section-padding">
               <div className="container">
                   <div className="about-wrapper-4">
                       <div className="row g-4">
@@ -392,7 +392,7 @@ export default function About() {
     
           {/* Same three stats as "/" and "/projects" -- see the note on the home
               page counter block. All three pages must agree. */}
-          <div className="counter-section section-padding pt-0">
+          <div className="counter-section counter-section-about section-padding pt-0">
               <div className="container">
                   <div className="counter-wrapper">
                       <div className="counter-items wow fadeInUp" data-wow-delay=".3s">
