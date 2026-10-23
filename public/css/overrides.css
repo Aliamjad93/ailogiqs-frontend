@@ -136,9 +136,9 @@ a[href^="mailto:"] {
    transparent margins are cropped, so at the same box height the artwork fills
    more of the bar: the gap above and below the logo shrinks without changing
    the nav's own height. The asset is 3x the rendered size for high-density
-   screens. The drawer and footer keep the text logo because the AI-service
-   drawer switches to a white panel where this lockup would lose its pale
-   "Logi".
+   screens. The drawer keeps the text logo because the AI-service drawer
+   switches to a white panel where this lockup would lose its pale "Logi";
+   the dark footer uses the lockup in its bottom bar.
    -------------------------------------------------------------------------- */
 
 .nav-logo-image {
@@ -198,6 +198,54 @@ a[href^="mailto:"] {
      column and overflow it. */
   margin-top: 30px;
   row-gap: 30px;
+}
+
+/* The /service page opens directly under the absolute header, unlike the
+   inner pages that have a breadcrumb banner. The vendor's 120px top band left
+   the eyebrow only ~30px below the bar, and the full-width service cards sat
+   just under the heading. Give this page a little more air without touching
+   the homepage or the chatbot showcase. */
+.service-section.style-padding {
+  padding-top: 160px;
+}
+
+.service-section.style-padding .section-title + .row {
+  margin-top: 50px;
+  row-gap: 40px;
+}
+
+@media (max-width: 1199px) {
+  .service-section.style-padding {
+    padding-top: 140px;
+  }
+}
+
+@media (max-width: 991px) {
+  .service-section.style-padding {
+    padding-top: 120px;
+  }
+}
+
+/* The "what we build" strip closes /service and is the only user of this
+   section class. Its stock 130px bands, on top of the 120px section above,
+   left too much dead air around three cards. Tighten it slightly. */
+.news-section.section-padding-2 {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (max-width: 1199px) {
+  .news-section.section-padding-2 {
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+}
+
+@media (max-width: 991px) {
+  .news-section.section-padding-2 {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
 }
 
 .service-box-items {
@@ -1322,6 +1370,49 @@ body.route-projects .portfolio-section .portfolio-card-items {
   margin-inline: auto;
 }
 
+/* The template's "View service" badge is gone from this page's markup, so
+   hover only needs a small push into the artwork. Kept below 1.05 so the
+   photograph moves without reading as a separate animation. */
+body.route-projects .portfolio-card-items .portfolio-image img {
+  transition: transform 0.45s ease;
+}
+
+body.route-projects .portfolio-card-items:hover .portfolio-image img {
+  transform: scale(1.03);
+}
+
+/* Keep the photograph and copy on one surface. An earlier two-panel version
+   read as four separate cards on this page (two images, two text boxes), which
+   is why the image is now full-bleed inside the card and the copy sits directly
+   below it. */
+body.route-projects .portfolio-card-items {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #1d1d21;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+body.route-projects .portfolio-card-items .portfolio-image img {
+  display: block;
+  border-radius: 0;
+}
+
+body.route-projects .portfolio-card-items .portfolio-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 0;
+  padding: 24px 24px 26px;
+}
+
+body.route-projects .portfolio-card-items .portfolio-content h3 {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
 /* =============================================================================
    /projects — page top, now that the breadcrumb is gone
    =============================================================================
@@ -1331,13 +1422,16 @@ body.route-projects .portfolio-section .portfolio-card-items {
    starting at its own 120px `section-padding` -- just clearing the bar, with
    none of the air the rest of the site opens with.
 
+   140px still clears the bar with a little air, while trimming the wide band
+   the original 200px opening left above the "SELECTED WORK" eyebrow.
+
    Scoped to `body.route-projects` and to the section, not to `.portfolio-section`
    generally: /project-details still has its breadcrumb and must keep 120px.
    ========================================================================== */
 
 body.route-projects .portfolio-section {
   position: relative;
-  padding-top: 200px;
+  padding-top: 140px;
 }
 
 /* The breadcrumb's own background (breadcrumb-bg.jpg — near-black with two
@@ -1369,13 +1463,13 @@ body.route-projects .portfolio-section > .container {
 
 @media (max-width: 991px) {
   body.route-projects .portfolio-section {
-    padding-top: 160px;
+    padding-top: 120px;
   }
 }
 
 @media (max-width: 767px) {
   body.route-projects .portfolio-section {
-    padding-top: 130px;
+    padding-top: 100px;
   }
 }
 
@@ -1407,6 +1501,50 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   font-size: 15px;
   line-height: 1.65;
   color: #cdcdcd;
+}
+
+/* The stats strip is shared with the homepage and /about, but this page's
+   cards already sit on a 120px bottom band; keeping the counter at the full
+   120px top and bottom left two deep gaps around three lines of content.
+   Trim the outer bands only on /projects. */
+body.route-projects .counter-section.section-padding {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+@media (max-width: 1199px) {
+  body.route-projects .counter-section.section-padding {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+}
+
+@media (max-width: 991px) {
+  body.route-projects .counter-section.section-padding {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+}
+
+/* The closing consultation block is also shared, so trim its section bands
+   only on /projects to keep it in rhythm with the tighter stats strip above. */
+body.route-projects .cta-discuss-section.section-padding {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (max-width: 1199px) {
+  body.route-projects .cta-discuss-section.section-padding {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+}
+
+@media (max-width: 991px) {
+  body.route-projects .cta-discuss-section.section-padding {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
 }
 
 
@@ -2315,6 +2453,28 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
 
 .footer-widgets-wrapper.style-2 .footer-contact-item a:hover {
   color: var(--theme2);
+}
+
+/* The classic footer's dark bar carries the same lockup as the nav. It is
+   shorter than the 48px social icons, so the bar's height does not change. */
+
+.footer-logo-image {
+  display: block;
+  width: auto;
+  height: 40px;
+  max-width: 100%;
+}
+
+@media (max-width: 1199px) {
+  .footer-logo-image {
+    height: 36px;
+  }
+}
+
+@media (max-width: 575px) {
+  .footer-logo-image {
+    height: 32px;
+  }
 }
 
 /* -----------------------------------------------------------------------------

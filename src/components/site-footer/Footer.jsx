@@ -385,7 +385,13 @@ export default function Footer({ variant = "classic" }) {
                         <div className="footer-bottom-wrapper">
                             <div className="logo-img wow fadeInUp" data-wow-delay=".3s">
                                 <Link href="/">
-                                    <Logo variant="light" />
+                                    <img
+                                        src="/assets/img/logo/ailogiqs-nav.png"
+                                        alt="AiLogiQs"
+                                        className="footer-logo-image"
+                                        width={521}
+                                        height={144}
+                                    />
                                 </Link>
                             </div>
                             <div className="footer-bottom-center">

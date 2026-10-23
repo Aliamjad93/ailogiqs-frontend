@@ -40,7 +40,7 @@ export const metadata = {
     },
     description: SITE.description,
   },
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: "/favicon.png" },
   other: {
     "facebook-domain-verification": "8ojvrejsg6q357rxothm0lm0s7nqzw",
   },

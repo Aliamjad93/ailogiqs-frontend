@@ -34,7 +34,6 @@ const SERVICES = [
   {
     img: "/assets/img/custom/agent-portfolio.jpg",
     alt: "AI chatbot and sales agent handling a customer order",
-    eyebrow: "ai sales agent",
     title: "AI Chatbot & Sales Agent",
     href: "/projects/chatbot",
     desc: "An agent that answers product and order questions from your own catalogue and order data, then hands a qualified conversation to a human with the context already written down.",
@@ -42,7 +41,6 @@ const SERVICES = [
   {
     img: "/assets/img/custom/beelens-portfolio.jpg",
     alt: "BeeLens analysing a hive video frame and flagging a Varroa mite and a deformed wing",
-    eyebrow: "ai hive diagnostics",
     title: "BeeLens — Bee Virus Detection",
     href: "/projects/bee-virus-detection",
     desc: "Frame-level hive inspection from a phone photo or a short video. It flags Varroa, deformed wing and other brood problems while the frame is still in your hands.",
@@ -91,15 +89,14 @@ export default function Projects() {
                       {SERVICES.map((s) => (
                           <div className="col-xl-4 col-lg-6 col-md-6" key={s.href}>
                               <div className="portfolio-card-items">
-                                  <div className="portfolio-image">
+                                  <Link
+                                      href={s.href}
+                                      className="portfolio-image d-block"
+                                      aria-label={`View ${s.title}`}
+                                  >
                                       <img src={s.img} alt={s.alt} />
-                                      <Link href={s.href} className="lets-circle">
-                                          <i className="fa-solid fa-arrow-up-right"></i> <br />
-                                          View service
-                                      </Link>
-                                  </div>
+                                  </Link>
                                   <div className="portfolio-content">
-                                      <h6><span>//</span> {s.eyebrow}</h6>
                                       <h3><Link href={s.href}>{s.title}</Link></h3>
                                       <p>{s.desc}</p>
                                   </div>
