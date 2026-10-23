@@ -129,31 +129,66 @@ a[href^="mailto:"] {
 }
 
 
+/* -----------------------------------------------------------------------------
+   Header wordmark
+   -----------------------------------------------------------------------------
+   The supplied lockup replaces the text wordmark in the main navigation. Its
+   transparent margins are cropped, so at the same box height the artwork fills
+   more of the bar: the gap above and below the logo shrinks without changing
+   the nav's own height. The asset is 3x the rendered size for high-density
+   screens. The drawer and footer keep the text logo because the AI-service
+   drawer switches to a white panel where this lockup would lose its pale
+   "Logi".
+   -------------------------------------------------------------------------- */
+
+.nav-logo-image {
+  display: block;
+  width: auto;
+  height: 48px;
+  max-width: 100%;
+}
+
+@media (max-width: 1199px) {
+  .nav-logo-image {
+    height: 42px;
+  }
+}
+
+@media (max-width: 575px) {
+  .nav-logo-image {
+    height: 38px;
+  }
+}
+
+
 /* =============================================================================
-   Service cards — redesigned
+   Service cards — photo tile + copy panel
    =============================================================================
    Used by the homepage and /service, which share this markup.
 
-   BEFORE
-     Two unrelated objects sat side by side: .service-image was a 260px photo
-     tile with its own 20px radius, separated by a 15px gap from a separately
-     bordered 370px .service-content box. The gap and the two competing borders
-     made them read as loose parts rather than one card, and 50px of padding on
-     a 370px box left only 268px for text inside a 636px column — which is why
-     headings wrapped to two lines and the paragraph ran short and ragged.
+   The photo and the copy are deliberately two separate surfaces: a narrow
+   rounded image on the left and a dark, bordered copy panel on the right,
+   14px apart. An earlier override merged them into one full-bleed card; that
+   read as a single generic panel and buried the photo inside the card. The
+   reference keeps the photo as its own object and lets the copy panel carry
+   the border.
 
-   AFTER
-     One card. The image becomes a full-bleed left panel and the content fills
-     the remainder, so the text column grows from 268px to ~318px. Sibling cards
-     in a row stretch to a common height instead of each sizing to its own
-     content.
+   .service-box-items is now only the flex track -- it has no surface of its
+   own. The image is capped at 260px wide, so it is never stretched wider than
+   the source, and its aspect ratio matches the 260x300 files. It is centred
+   instead of stretched, which keeps it a little smaller than the copy panel
+   beside it -- the relationship the reference is after on the homepage and
+   the long-form /service cards. The copy panel stretches to the row height
+   and pins its link to the bottom with an auto margin, which is what leaves
+   the open space above "More Details" in the reference.
 
-   The image panel is capped at its native 260px (clamp) so it is never scaled
-   up: the sources are only 260x300, and any wider panel would look soft.
+   Sibling cards in a row still share one height. On phones the two surfaces
+   stack, with the image above the copy, because a side-by-side split at
+   ~390px would squeeze the copy into a column too narrow for the heading.
 
    Colours, radius and hover timing come from the theme's own tokens
-   (--theme #EFFB53, 25px radius, 0.4s ease) so it reads as part of the theme
-   rather than a bolt-on.
+   (--theme #EFFB53, 0.4s ease) so it reads as part of the theme rather than a
+   bolt-on.
    ========================================================================== */
 
 .service-section .section-title + .row {
@@ -168,31 +203,41 @@ a[href^="mailto:"] {
 .service-box-items {
   display: flex;
   align-items: stretch;
-  gap: 0;
+  gap: 14px;
   /* Fills the column so cards in a row share one height. Width is left at
      100% so the 24px gutter matches the pricing cards. */
   height: 100%;
   margin-top: 0;
-  background: #1d1d21;
-  border: 1px solid rgba(207, 208, 212, 0.2);
-  border-radius: 25px;
-  overflow: hidden;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+  /* The two children carry their own surfaces; the track stays invisible. */
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  transition: transform 0.4s ease;
 }
 
 .service-box-items .service-image {
-  /* Never wider than the 260px source, which keeps the image crisp. */
-  flex: 0 0 clamp(200px, 38%, 260px);
+  /* Never wider than the 260px source, which keeps the image crisp. The
+     aspect ratio matches the 260x300 files. At a 636px column the tile is
+     ~216x249 while the copy panel is ~278 tall, so the photo reads as the
+     smaller object; centring it keeps the unequal heights deliberate instead
+     of leaving a gap under a top-aligned thumbnail. */
+  flex: 0 0 clamp(200px, 34%, 260px);
   max-width: none;
   margin-bottom: 0;
   min-width: 0;
+  align-self: center;
+  aspect-ratio: 260 / 300;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .service-box-items .service-image img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0;
+  border-radius: inherit;
   transition: transform 0.6s ease;
 }
 
@@ -202,21 +247,53 @@ a[href^="mailto:"] {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 38px 34px;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
+  justify-content: flex-start;
+  padding: 52px 38px 44px;
+  background: #1d1d21;
+  border: 1px solid rgba(207, 208, 212, 0.2);
+  border-radius: 20px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.service-box-items .service-content .link-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  /* Pushes the link to the foot of the panel when the photo is taller than
+     the copy; it collapses to 0 on the long-form /service cards. */
+  margin-top: auto;
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.service-box-items .service-content .link-btn i {
+  font-size: 13px;
+  line-height: 1;
+  transition: transform 0.3s ease;
 }
 
 .service-box-items:hover {
-  border-color: rgba(239, 251, 83, 0.35);
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  transform: translateY(-4px);
 }
 
 .service-box-items:hover .service-image img {
   transform: scale(1.06);
+}
+
+.service-box-items:hover .service-content {
+  border-color: rgba(239, 251, 83, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.service-box-items:hover .service-content .link-btn {
+  color: var(--theme);
+}
+
+.service-box-items:hover .service-content .link-btn i {
+  transform: translate(2px, -2px);
 }
 
 /* Stack the image above the copy on phones, matching the theme's own
@@ -230,19 +307,29 @@ a[href^="mailto:"] {
     flex: 0 0 auto;
     width: 100%;
     height: 240px;
+    aspect-ratio: auto;
   }
 
   .service-box-items .service-content {
-    padding: 30px 26px;
+    padding: 32px 26px;
   }
 }
 
 
 /* =============================================================================
-   Selected Projects — heading scale + image treatment
+   Selected Projects — heading, spacing + image treatment
    ========================================================================== */
 
-/* The theme set this display heading at 150px, which is larger than the hero
+/* The services section's 120px bottom padding plus this section's top band
+   left a 240px gap before the heading; the same 120px bands also doubled up
+   below the last project row. Trimming this section's top and bottom bands to
+   60px brings both edges closer without changing the other sections. */
+.project-section.section-padding {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* The theme set the display heading at 150px, which is larger than the hero
    h1 (140px) and more than double the 65px used by every other section title.
    It inverted the page hierarchy and wrapped to 1403px of a 1503px viewport.
    92px keeps it the section's display element while sitting below the hero and
@@ -290,6 +377,26 @@ a[href^="mailto:"] {
   color: var(--theme);
 }
 
+/* The copy inherits the 18px body size, which reads like a caption beside the
+   project name. 20px gives it a little more presence without competing with
+   the 48px heading; the looser line-height keeps the 350px measure comfortable
+   now that fewer words fit on each line. */
+.project-wrapper .project-content p {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* The theme indents every copy block by 200px inside its half of the row. On
+   the rows where the copy sits on the right, that inset stacks on top of the
+   image's centred gutter and opens a much wider gap than on the rows where the
+   copy is on the left. Pull only those right-hand blocks in a little; the
+   left-hand copy is already close to its photo. */
+@media (min-width: 1200px) {
+  .project-wrapper .row > .col-lg-6:nth-child(even) > .project-content {
+    margin-left: 130px;
+  }
+}
+
 /* --- Images ---------------------------------------------------------------- */
 
 /* Every project photo is 860x650. Without an explicit ratio each frame sizes
@@ -301,10 +408,10 @@ a[href^="mailto:"] {
   aspect-ratio: 860 / 650;
   border-radius: 50px;
   transition: box-shadow 0.5s ease;
-  /* Slightly smaller and centred. At the full column width the photos
-     dominated the copy sitting beside them; the fixed ratio means the height
-     drops with the width, so the crop is unchanged. */
-  width: 90%;
+  /* Slightly smaller and centred. The photos still anchor each alternating
+     row, but at 90% they outweighed the copy beside them; the fixed ratio
+     means the height drops with the width, so the crop is unchanged. */
+  width: 82%;
   margin-inline: auto;
 }
 
@@ -837,6 +944,83 @@ a[href^="mailto:"] {
 
 
 /* =============================================================================
+   Home hero — fills the first screen
+   -----------------------------------------------------------------------------
+   The hero is the whole first impression now that the robot banner below it is
+   hidden. From tablet width up it takes the full viewport height and centres
+   its copy, so the section below never peeks into the first screen. Phones
+   keep the normal content-height hero -- a forced full-screen hero there leaves
+   too much empty space between the headline and the next section.
+
+   `svh` is used after `vh` so tablet browsers do not size it to the screen
+   area behind their collapsing toolbars.
+
+   The 1200-1500px laptop stage renders at 0.9 (see "Laptop stage" above), and
+   `zoom` scales a viewport unit along with everything else. Dividing by
+   --stage-zoom cancels that scale, so the section still ends exactly at the
+   bottom of the screen instead of leaving the next section peeking in.
+   ========================================================================== */
+
+@media (min-width: 768px) {
+  .hero-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh / var(--stage-zoom, 1));
+    min-height: calc(100svh / var(--stage-zoom, 1));
+  }
+}
+
+
+/* =============================================================================
+   Home hero — eyebrow alignment
+   -----------------------------------------------------------------------------
+   The eyebrow ("Intelligent Solution") shares the right edge of the first
+   headline line ("INNOVATIVE"), not the container's or the second line's edge.
+   It lives inside that line so the two are anchored to the same inline box at
+   every width and stage-zoom setting. The h1's padding keeps the space the
+   standalone eyebrow used to occupy, so the headline does not move up.
+   ========================================================================== */
+
+.hero-1 .hero-content h1 {
+  padding-top: 38px;
+}
+
+.hero-1 .hero-content h1 .hero-heading-line {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-1 .hero-content h1 .hero-eyebrow {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  font-family: "Satoshi Variable", sans-serif;
+  font-size: 27px;
+  font-weight: 500;
+  line-height: 28px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text);
+}
+
+@media (max-width: 767px) {
+  .hero-1 .hero-content h1 .hero-eyebrow {
+    font-size: 24px;
+  }
+}
+
+/* The robot banner that used to supply the hero's lower half is hidden for
+   now, so the desktop tier needs its own bottom spacing -- the theme only
+   carries it below 1200px. */
+@media (min-width: 1200px) {
+  .hero-1 {
+    padding-bottom: 120px;
+  }
+}
+
+
+/* =============================================================================
    Home hero — scroll-down cue
    -----------------------------------------------------------------------------
    A quiet "there is more below" prompt in the bottom-left corner, visible only
@@ -960,17 +1144,123 @@ a[href^="mailto:"] {
 /* =============================================================================
    Home hero — headline size
    -----------------------------------------------------------------------------
-   The theme sets the hero h1 at 140px on the desktop tier, tuned for the
-   original short two-word title. The banner copy is now the longer
-   "AI, Simplified, Beyond Automation."; 120px keeps the three-line
-   composition ("AI, Simplified," / "Beyond" / "Automation.") balanced.
-   Scoped to desktop only -- the theme's own mobile reductions stay in charge
-   below 1200px.
+   The theme sets the hero h1 at 140px on the desktop tier. The homepage
+   deliberately runs it a step smaller at 120px, keeping the two-line
+   "INNOVATIVE / AI SOLUTIONS" composition compact alongside the 0.9 laptop
+   stage (see "Laptop stage" above). Scoped to desktop only -- the theme's own
+   mobile reductions stay in charge below 1200px.
    ========================================================================== */
 
 @media (min-width: 1200px) {
   .hero-1 .hero-content h1 {
     font-size: 120px;
+  }
+}
+
+
+/* =============================================================================
+   Home about section — tighter vertical rhythm
+   -----------------------------------------------------------------------------
+   The theme gives this section 120px above the "Who we are" heading and 120px
+   below the counters, plus another 120px above the counters because they sit in
+   their own .section-padding wrapper. That read as three separate dead bands.
+   Bring all three to the 80px the mobile tier already uses, so the heading sits
+   closer to the fold and the counters stay attached to the copy above them.
+   The heading's own 30px margin to the tab rail also comes down to 20px above
+   768px -- below that the theme already removes it and the wrapper supplies the
+   gap. On large screens the three bands step down once more to 60px, with the
+   heading margin at 16px, so the whole section reads tighter on a desktop.
+
+   Scoped to .about-section, so the pricing and FAQ sections keep their own
+   spacing; the homepage services section gets a separate top-only adjustment
+   below.
+   ========================================================================== */
+
+.about-section.section-padding {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 768px) {
+  .about-section .section-title {
+    margin-bottom: 20px;
+  }
+}
+
+.about-section .counter-section.section-padding {
+  padding-top: 80px;
+}
+
+@media (min-width: 1200px) {
+  .about-section.section-padding {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .about-section .section-title {
+    margin-bottom: 16px;
+  }
+
+  .about-section .counter-section.section-padding {
+    padding-top: 60px;
+  }
+}
+
+
+/* =============================================================================
+   Homepage services section — left-aligned heading
+   -----------------------------------------------------------------------------
+   The markup drops the theme's .text-center (Bootstrap applies it with
+   !important, so overriding it in CSS would need !important too). The heading
+   now starts on the same container edge as the hero, about title and tab rail.
+   Its top band is a little tighter than the theme's 120px step, but still
+   leaves a small breath between the counters above and the services heading.
+   Scoped to the homepage class -- /service and the chatbot page reuse
+   .service-section with their own spacing.
+   ========================================================================== */
+
+.service-section-home.section-padding {
+  padding-top: 80px;
+}
+
+/* The theme leaves a full 120px under the cards before the projects section,
+   which already opens with its own 120px band. Trim the lower side slightly so
+   the two sections read as a sequence rather than two separate screens. */
+@media (min-width: 1200px) {
+  .service-section-home.section-padding {
+    padding-bottom: 100px;
+  }
+}
+
+/* The generic service row sits 30px under the heading; the homepage heading
+   is left-aligned directly above the grid, so give the first pair of cards a
+   little more air than /service needs. */
+.service-section-home .section-title + .row {
+  margin-top: 50px;
+}
+
+/* The four cards form a 2x2 set. Flexbox equalises each pair independently,
+   so the shorter copy in the second pair made that row shallower than the
+   first and the cards no longer matched. A two-column grid with 1fr auto-rows
+   gives every card the height of the tallest row, keeping the image and
+   copy dimensions identical across both rows. The 24px column gap replaces
+   the Bootstrap gutters that the grid items no longer use. */
+@media (min-width: 1200px) {
+  .service-section-home .row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    column-gap: 24px;
+    row-gap: 30px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .service-section-home .row > * {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
   }
 }
 
@@ -1950,11 +2240,10 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
    run of bulleted items under a small heading, instead of a paragraph. Set in
    the brand yellow so the keywords pop against the card's dark panel.
 
-   The image panel runs the full height of the card. The rows crop their photo
-   with `object-fit: cover`, which is what lets a 260x300 source fill a taller
-   panel without stretching. A max-height cap here used to stop the photo short
-   and centre it, leaving dark bands above and below while the copy beside it
-   kept growing the card -- the panel now follows the card height instead.
+   These cards can grow much taller than the homepage cards. The photo tile
+   is deliberately not stretched to that height (see the card block above):
+   it stays at its 260:300 size and centres beside the taller copy, so the
+   image remains the smaller of the two surfaces.
    ========================================================================== */
 
 .service-box-items .service-content h4 {
@@ -2116,6 +2405,39 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
   .footer-legal {
     gap: 6px 10px;
     font-size: 13.5px;
+  }
+}
+
+/* =============================================================================
+   Classic footer — vertical rhythm
+   =============================================================================
+   The vendor gives the widget block a 90px top / 120px bottom band and the
+   bottom bar another 30px on each side. That leaves a lot of empty black
+   between the link columns and the legal row, and below the bar. Trim the
+   outer bands a little; the spacing inside the columns is untouched.
+   ========================================================================== */
+
+.footer-section.footer-bg .footer-widgets-wrapper {
+  padding-top: 30px;
+  padding-bottom: 80px;
+}
+
+.footer-section.footer-bg .footer-bottom {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+@media (max-width: 1199px) {
+  .footer-section.footer-bg .footer-widgets-wrapper {
+    padding-top: 30px;
+    padding-bottom: 70px;
+  }
+}
+
+@media (max-width: 991px) {
+  .footer-section.footer-bg .footer-widgets-wrapper {
+    padding-top: 25px;
+    padding-bottom: 55px;
   }
 }
 
@@ -3654,11 +3976,63 @@ body.route-projects .portfolio-section .portfolio-card-items .portfolio-content 
    ========================================================================== */
 
 .pricing-note {
-  margin-top: 40px;
+  margin-top: 60px;
   text-align: center;
   font-size: 15px;
   line-height: 1.6;
   color: #cdcdcd;
+}
+
+/* The note is the last element in the section, so the 120px section padding
+   underneath it stacks onto the message section's own top band. Trim the
+   lower side slightly; the gap above the note stays as it is. */
+@media (min-width: 992px) {
+  .pricing-section-home.section-padding {
+    padding-bottom: 80px;
+  }
+}
+
+/* =============================================================================
+   Home message section
+   =============================================================================
+   The vendor sets this headline in 150px and the section on the theme's 120px
+   band. On the homepage it is the last big call to action before the client
+   strip, so it gets a slightly smaller headline and a little less air above.
+   The section's bottom padding also sits BELOW the nested brand strip, so it
+   is what separates the marquee from the footer; that side is trimmed too.
+   ========================================================================== */
+
+.message-section-home.section-padding {
+  /* Both bands sit around the whole Let's-talk block. The bottom one is below
+     the nested brand strip, so it is the gap between the marquee and the
+     footer; the top one is the air above the headline. */
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+/* The brand strip is nested in this section. Its own section padding was the
+   biggest gap left inside the block (the space between the CTA row and the
+   logos), so tighten that without moving the marquee itself. */
+.message-section-home .brand-section.section-padding {
+  padding-top: 80px;
+}
+
+@media (min-width: 992px) {
+  .message-section-home .message-items h2 {
+    font-size: 140px;
+  }
+}
+
+/* The white inverse button in the theme has no hover state of its own; the
+   portfolio cards already turn their copy lime. Match that here so the
+   homepage call to action responds on hover too. */
+.message-section-home .message-items .lets-circle {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.message-section-home .message-items .lets-circle:hover {
+  background-color: var(--theme);
+  color: var(--header);
 }
 
 /* =============================================================================

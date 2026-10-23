@@ -30,14 +30,30 @@ export default function HomeOne() {
                                   <img src="/assets/img/hero/color-bg.png" alt="img" />
                               </div>
                               <h1 className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.1s">
-                                  AI, Simplified,{" "}
+                                  <span className="hero-heading-line">
+                                      {/*
+                                        The eyebrow sits inside the headline so it
+                                        can share the first line's right edge --
+                                        "INTELLIGENT SOLUTION" ends exactly where
+                                        "INNOVATIVE" ends at every width.
+                                      */}
+                                      <span className="hero-eyebrow wow fadeInUp">Intelligent Solution</span>
+                                      Innovative
+                                  </span>
                                   <br />
-                                  <b>Beyond</b> <span className="text-2">Automation.</span>
+                                  <b>AI</b> <span className="text-2">solutions</span>
                               </h1>
                           </div>
                       </div>
                   </div>
               </div>
+              {/*
+                Temporarily hidden at the client's request. This is the banner
+                copy ("Intelligent products, built to ship" + Get Started) and
+                the robot artwork behind it. Kept here, not deleted, so it can
+                be re-enabled by removing this comment wrapper.
+              */}
+              {/*
               <div className="hero-image img-custom-anim-left bg-cover"
     style={{
         backgroundImage: "url('/assets/img/hero/hero-1.jpg')",
@@ -54,6 +70,7 @@ export default function HomeOne() {
                       </div>
                   </div>
 </div>
+              */}
               <ScrollCue />
           </section>
 
@@ -69,7 +86,12 @@ export default function HomeOne() {
                   <img src="/assets/img/about/color-bg-shape-2.png" alt="img" />
               </div>
               <div className="container">
-                  <div className="section-title ml-200">
+                  {/*
+                    No .ml-200 here: the eyebrow and heading share the container's
+                    left edge with the hero headline ("INNOVATIVE") and the tab
+                    rail below, instead of sitting 200px to the right of both.
+                  */}
+                  <div className="section-title">
                       <h6 className="wow fadeInUp">
                           <img src="/assets/img/star.png" alt="img" /> Who we are
                       </h6>
@@ -79,25 +101,31 @@ export default function HomeOne() {
                       </h2>
                   </div>
                   <div className="about-wrapper mt-4 mt-md-0">
-                      <ul className="nav">
-                          <li className="nav-item wow fadeInUp" data-wow-delay=".3s">
-                              <a href="#Mission" data-bs-toggle="tab" className="nav-link">
+                      {/* Bootstrap's tab plugin adds these ARIA attributes on
+                          window load, before React hydrates. Declaring them up
+                          front keeps the server markup in sync. */}
+                      <ul className="nav" role="tablist">
+                          <li className="nav-item wow fadeInUp" data-wow-delay=".3s" role="presentation">
+                              <a href="#Mission" data-bs-toggle="tab" className="nav-link" role="tab"
+                                  aria-selected="false" tabIndex={-1}>
                                   Our Mission
                               </a>
                           </li>
-                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s">
-                              <a href="#Vision" data-bs-toggle="tab" className="nav-link active">
+                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s" role="presentation">
+                              <a href="#Vision" data-bs-toggle="tab" className="nav-link active" role="tab"
+                                  aria-selected="true">
                                   Our Vision
                               </a>
                           </li>
-                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s">
-                              <a href="#Feature" data-bs-toggle="tab" className="nav-link">
+                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s" role="presentation">
+                              <a href="#Feature" data-bs-toggle="tab" className="nav-link" role="tab"
+                                  aria-selected="false" tabIndex={-1}>
                                   Key Feature
                               </a>
                           </li>
                       </ul>
                       <div className="tab-content">
-                          <div id="Mission" className="tab-pane fade">
+                          <div id="Mission" className="tab-pane fade" role="tabpanel">
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
@@ -155,7 +183,7 @@ export default function HomeOne() {
                                   </div>
                               </div>
                           </div>
-                          <div id="Vision" className="tab-pane fade show active">
+                          <div id="Vision" className="tab-pane fade show active" role="tabpanel">
                               <div className="about-items">
                                   <div className="about-content">
                                       <p className="wow fadeInUp" data-wow-delay=".3s">
@@ -212,7 +240,7 @@ export default function HomeOne() {
                                   </div>
                               </div>
                           </div>
-                          <div id="Feature" className="tab-pane fade">
+                          <div id="Feature" className="tab-pane fade" role="tabpanel">
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
@@ -316,12 +344,13 @@ export default function HomeOne() {
           </section>
 
     
-          <section className="service-section fix section-padding">
+          <section className="service-section service-section-home fix section-padding">
               <div className="container">
-                  <div className="section-title text-center">
+                  {/* Left-aligned with the hero and the about heading above,
+                      rather than the theme's centred services layout. */}
+                  <div className="section-title">
                       <h6 className="wow fadeInUp">
-                          <img src="/assets/img/star.png" alt="img" />
-                          popular services
+                          <img src="/assets/img/star.png" alt="img" /> popular services
                       </h6>
                       <h2 className="wow fadeInUp" data-wow-delay=".3s">
                           AI Integration & Chatbots, <br />
@@ -493,11 +522,9 @@ export default function HomeOne() {
                       <div className="row g-4">
                           <div className="col-lg-6">
                               <div className="faq-image-items">
-                                  {/* The small offset image that sat above this
-                                      one was faq/02.jpeg -- a grey "270X520"
-                                      placeholder. faq/01.jpeg below is a real
-                                      photograph, so the composition keeps its
-                                      anchor and only loses the empty box. */}
+                                  <div className="faq-image wow fadeInUp" data-wow-delay=".3s">
+                                      <img src="/assets/img/faq/02.jpeg" alt="White humanoid robot against a grey background" />
+                                  </div>
                                   <div className="faq-image wow fadeInUp" data-wow-delay=".5s">
                                       <img src="/assets/img/faq/01.jpeg" alt="Person silhouetted against a pink-lit background holding a phone" />
                                   </div>
@@ -561,10 +588,13 @@ export default function HomeOne() {
             have fixed prices, so the tabs went with them and the cards come
             from one array. Edit a plan in PLANS rather than in this markup.
           */}
-          <section className="pricing-section pricing-home fix section-padding pt-0">
+          <section className="pricing-section pricing-home pricing-section-home fix section-padding pt-0">
               <div className="container">
                   <div className="section-title-area">
-                      <div className="section-title ml-200">
+                      {/* Same left edge as the hero, about, services and
+                          project headings; the theme indented this one by
+                          200px through .ml-200. */}
+                      <div className="section-title">
                           <h6 className="wow fadeInUp">
                               <img src="/assets/img/star.png" alt="" /> pricing
                           </h6>
@@ -617,7 +647,7 @@ export default function HomeOne() {
           </section>
 
     
-          <section className="message-section fix section-bg section-padding">
+          <section className="message-section message-section-home fix section-bg section-padding">
               <div className="bg-shape">
                   <img src="/assets/img/about/bg-shape.png" alt="shape-img" />
               </div>
@@ -643,13 +673,39 @@ export default function HomeOne() {
                       </div>
                   </div>
               </div>
-              {/*
-                The client-logo marquee that sat here (FE / rico / Futaba / box /
-                ISEKI) is gone. Those are the template's invented brands, not
-                AiLogiQs clients, so it was advertising work that does not exist.
-                Swiper init in main.js is length-guarded, and /about still has a
-                brand slider, so nothing breaks.
-              */}
+              <div className="brand-section section-padding pb-0">
+                  <div className="container">
+                      <div className="swiper brand-slider">
+                          <div className="swiper-wrapper">
+                              <div className="swiper-slide">
+                                  <div className="brand-image text-center">
+                                      <img src="/assets/img/brand/01.png" alt="ISEKI" />
+                                  </div>
+                              </div>
+                              <div className="swiper-slide">
+                                  <div className="brand-image text-center">
+                                      <img src="/assets/img/brand/02.png" alt="FE" />
+                                  </div>
+                              </div>
+                              <div className="swiper-slide">
+                                  <div className="brand-image text-center">
+                                      <img src="/assets/img/brand/03.png" alt="rico" />
+                                  </div>
+                              </div>
+                              <div className="swiper-slide">
+                                  <div className="brand-image text-center">
+                                      <img src="/assets/img/brand/04.png" alt="Futaba" />
+                                  </div>
+                              </div>
+                              <div className="swiper-slide">
+                                  <div className="brand-image text-center">
+                                      <img src="/assets/img/brand/05.png" alt="box" />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </section>
     </>
   );

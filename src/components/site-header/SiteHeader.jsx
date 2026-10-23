@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import Link from "next/link";
-import Logo from "@/components/shared/Logo";
 import { PRIMARY_NAV } from "@/content/navigation";
 
 /**
@@ -11,8 +10,10 @@ import { PRIMARY_NAV } from "@/content/navigation";
  *  - wrapLeft    whether the logo + nav sit inside a `.header-left` wrapper
  *  - actions     which call-to-action blocks appear on the right
  *  - hamburger   Bootstrap responsive display class for the burger
- *  - logoAccent  colour of the "Logi" half of the wordmark (optional; the
- *                template's theme yellow is the default, set in Logo.jsx)
+ *
+ * The wordmark is the supplied nav lockup (robot + AiLogiQs) rather than the
+ * text logo the footer still uses. It carries its own brand colours, so the
+ * per-variant `logoAccent` tint is no longer needed.
  */
 /*
   `default` and `home1` are the black/yellow site's own two bars: `home1` on "/",
@@ -26,11 +27,6 @@ import { PRIMARY_NAV } from "@/content/navigation";
   which is a separate design living in its own route group. They are the ONLY
   reason this file still knows about anything but the template theme, and they
   are reached only by those two pages.
-
-  `logoAccent` tints the "Logi" half of the wordmark. It defaults to the theme
-  yellow via Logo.jsx, which is what the black/yellow site wants; the AI-service
-  pages pass white, because their header is indigo and the wordmark there reads
-  as one solid white lockup.
 */
 const VARIANTS = {
   default: {
@@ -58,7 +54,6 @@ const VARIANTS = {
     // No login / sign-up CTAs: this bar is just the wordmark and the burger.
     actions: [],
     hamburger: "d-block",
-    logoAccent: "#FFFFFF",
   },
   aiService: {
     // /projects/chatbot. `header-1`, which ai-service.css repaints indigo
@@ -69,20 +64,16 @@ const VARIANTS = {
     wrapLeft: false,
     actions: [],
     hamburger: "d-xl-block",
-    logoAccent: "#FFFFFF",
   },
   bee: {
     // /projects/bee-virus-detection. Also `header-1`, repainted dark by
     // bee-service.css (`body.route-bee .header-1`). Same reasoning as
     // `aiService` for the action set: the showcase is self-contained, so the
-    // main site's "Join now" has no business in its bar. The wordmark takes the
-    // design's amber rather than white, which is what makes it read as BeeLens
-    // rather than as the AiLogiQs site.
+    // main site's "Join now" has no business in its bar.
     className: "header-1",
     wrapLeft: false,
     actions: [],
     hamburger: "d-xl-block",
-    logoAccent: "#F2A81D",
   },
 };
 
@@ -145,7 +136,13 @@ export default function SiteHeader({ variant = "default" }) {
     <>
       <div className="logo">
         <Link href="/" className="header-logo">
-          <Logo variant="light" accent={config.logoAccent ?? "#EFFB53"} />
+          <img
+            src="/assets/img/logo/ailogiqs-nav.png"
+            alt="AiLogiQs"
+            className="nav-logo-image"
+            width={521}
+            height={144}
+          />
         </Link>
       </div>
       <div className="mean__menu-wrapper">

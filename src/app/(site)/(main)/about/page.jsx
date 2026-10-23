@@ -43,25 +43,31 @@ export default function About() {
                       </div>
                   </div>
                   <div className="about-wrapper mt-4">
-                      <ul className="nav">
-                          <li className="nav-item wow fadeInUp" data-wow-delay=".3s">
-                              <a href="#Mission" data-bs-toggle="tab" className="nav-link">
+                      {/* Bootstrap's tab plugin adds these ARIA attributes on
+                          window load, before React hydrates. Declaring them up
+                          front keeps the server markup in sync. */}
+                      <ul className="nav" role="tablist">
+                          <li className="nav-item wow fadeInUp" data-wow-delay=".3s" role="presentation">
+                              <a href="#Mission" data-bs-toggle="tab" className="nav-link" role="tab"
+                                  aria-selected="false" tabIndex={-1}>
                                   Our Mission
                               </a>
                           </li>
-                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s">
-                              <a href="#Vision" data-bs-toggle="tab" className="nav-link active">
+                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s" role="presentation">
+                              <a href="#Vision" data-bs-toggle="tab" className="nav-link active" role="tab"
+                                  aria-selected="true">
                                   Our Vision
                               </a>
                           </li>
-                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s">
-                              <a href="#Feature" data-bs-toggle="tab" className="nav-link">
+                          <li className="nav-item wow fadeInUp" data-wow-delay=".5s" role="presentation">
+                              <a href="#Feature" data-bs-toggle="tab" className="nav-link" role="tab"
+                                  aria-selected="false" tabIndex={-1}>
                                   Key Feature
                               </a>
                           </li>
                       </ul>
                       <div className="tab-content">
-                          <div id="Mission" className="tab-pane fade">
+                          <div id="Mission" className="tab-pane fade" role="tabpanel">
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
@@ -116,7 +122,7 @@ export default function About() {
                                   </div>
                               </div>
                           </div>
-                          <div id="Vision" className="tab-pane fade show active">
+                          <div id="Vision" className="tab-pane fade show active" role="tabpanel">
                               <div className="about-items">
                                   <div className="about-content">
                                       <p className="wow fadeInUp" data-wow-delay=".3s">
@@ -171,7 +177,7 @@ export default function About() {
                                   </div>
                               </div>
                           </div>
-                          <div id="Feature" className="tab-pane fade">
+                          <div id="Feature" className="tab-pane fade" role="tabpanel">
                               <div className="about-items">
                                   <div className="about-content">
                                       <p>
@@ -229,10 +235,9 @@ export default function About() {
                       </div>
                   </div>
               </div>
-              {/* Client-logo marquee removed: box / ISEKI / FE / rico / Futaba
-                  are the template's invented brands, not AiLogiQs clients.
-                  This was the last .brand-slider on the site, and the Swiper
-                  init in main.js is length-guarded, so nothing else breaks. */}
+              {/* Client-logo marquee removed on this page: box / ISEKI / FE /
+                  rico / Futaba are the template's invented brands, not
+                  AiLogiQs clients. The homepage keeps its own carousel. */}
           </section>
 
     

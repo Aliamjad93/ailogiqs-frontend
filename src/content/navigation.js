@@ -24,14 +24,14 @@
   by request.
 
   Order is the order a buyer moves through: who we are, what we do, proof of
-  it, who works here, what we think, how to reach us. "Projects" is the
-  company's shipped work; the separate "Portfolio" is the founder-level case
-  studies (/portfolio), so both sit together as proof.
+  it, how to reach us. "Projects" is the company's shipped work; the separate
+  "Portfolio" is the founder-level case studies (/portfolio), so both sit
+  together as proof.
 
-  Pricing and FAQ are not in the bar. Both are linked from the footer
-  (Footer.jsx ~line 366/371), which is where secondary pages belong. The two
-  showcases (/projects/chatbot, /projects/bee-virus-detection) are reached
-  from the /projects cards and the footer, deliberately not from the bar.
+  Pricing, FAQ, Careers and Blog are not in the bar. All four are linked from
+  the footer, which is where secondary pages belong. The two showcases
+  (/projects/chatbot, /projects/bee-virus-detection) are reached from the
+  /projects cards and the footer, deliberately not from the bar.
 */
 export const PRIMARY_NAV = [
   { label: "Home", href: "/" },
@@ -41,13 +41,6 @@ export const PRIMARY_NAV = [
   // Distinct from "Projects": /portfolio carries the detailed case-study
   // showcase (ChadBot, ShopAgent CRM) as one long page.
   { label: "Portfolio", href: "/portfolio" },
-  // Careers is top-level: it is a live hiring surface with its own admin
-  // section (postings + applications), not a marketing page.
-  { label: "Careers", href: "/careers" },
-  // Blog article URLs are generated from the post title in the database, so
-  // there is no fixed details page to link to. Linking a hardcoded slug here
-  // would 404 the moment that post is deleted or unpublished.
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
 
