@@ -610,11 +610,11 @@ export default function ChatbotServicePage() {
               The client's 60-second walkthrough, sitting directly above the FAQ
               so the last thing before the questions is the product itself.
 
-              `aiq-band aiq-tint`, not a plain `aiq-band`: the band above
-              ("Deployed across industries") is tinted too, so the two share a
-              background and the join between them is invisible, while the FAQ
-              below is white and gets a clean edge. A white band here would have
-              run straight into the white FAQ and read as one long section.
+              `aiq-band aiq-tint aiq-video-band`: the tint keeps the band in the
+              same pale family as the page, while aiq-video-band paints it one
+              step deeper than the industry grid above so the walkthrough reads
+              as its own block instead of merging into it. The FAQ below stays
+              white, so that edge is clean either way.
 
               The clip is 1920x1080, which is why width/height are passed
               explicitly -- AgentVideo defaults to the homepage clip's portrait
@@ -626,7 +626,7 @@ export default function ChatbotServicePage() {
               template markup, so the band went with it; the video and its poster
               were left in place and are reused here.
             */}
-            <section className="aiq-band aiq-tint">
+            <section className="aiq-band aiq-tint aiq-video-band">
                 <div className="container">
                     <SectionHead
                         eyebrow="// Watch · 60 seconds"
@@ -647,7 +647,7 @@ export default function ChatbotServicePage() {
                 </div>
             </section>
 
-            <section className="aiq-band">
+            <section className="aiq-band aiq-faq-band">
                 <div className="container">
                     <div className="row g-5 align-items-center">
                         <div className="col-lg-6">

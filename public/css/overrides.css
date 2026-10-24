@@ -72,13 +72,12 @@
      stay outside the scaled subtree: the vendor cursor positions itself from
      raw pointer coordinates, which Chrome reports in unzoomed viewport
      pixels, and would sit 10% off the pointer inside it.
-   - The one overlay that carries content the user reads at full size -- the
-     offcanvas drawer -- takes the same 0.9 directly on its own fixed panel
-     (rule below). That panel is
+   - The offcanvas drawer, whose type should match the page behind it, takes
+     the same 0.9 directly on its own fixed panel (rule below). That panel is
      viewport-sized and stays flush to the viewport under `zoom` (verified:
      the 400px drawer renders 360px wide, full height, at right: 0). The
-     preloader, cursor, back-to-top and the flat offcanvas backdrop carry no
-     readable scale and stay unscaled.
+     preloader, cursor, flat offcanvas backdrop and the fixed-size chat widget
+     carry no page-relative scale and stay unscaled.
    - /admin never renders the wrapper, and the two designs with canvases of
      their own -- /ai-services/* + /projects/chatbot, and
      /projects/bee-virus-detection -- are excluded by their body flags.
@@ -226,6 +225,20 @@ a[href^="mailto:"] {
   }
 }
 
+/* The long-form /service cards carry much more copy than the homepage's
+   four-up grid, so the photo's own 260:300 frame left it centred with 27-40px
+   of dead space above and below the copy panel. Stretching it to the panel's
+   height and widening its column keeps the source ratio (340:392 = 0.867)
+   while both surfaces now share top and bottom edges. Scoped to
+   .style-padding, which only this page uses. */
+@media (min-width: 1200px) {
+  .service-section.style-padding .service-box-items .service-image {
+    flex: 0 0 clamp(280px, 26.2%, 340px);
+    align-self: stretch;
+    aspect-ratio: auto;
+  }
+}
+
 /* The "what we build" strip closes /service and is the only user of this
    section class. Its stock 130px bands, on top of the 120px section above,
    left too much dead air around three cards. Tighten it slightly. */
@@ -266,10 +279,10 @@ a[href^="mailto:"] {
 
 .service-box-items .service-image {
   /* Never wider than the 260px source, which keeps the image crisp. The
-     aspect ratio matches the 260x300 files. At a 636px column the tile is
-     ~216x249 while the copy panel is ~278 tall, so the photo reads as the
-     smaller object; centring it keeps the unequal heights deliberate instead
-     of leaving a gap under a top-aligned thumbnail. */
+     aspect ratio matches the 260x300 files, so on the long-form /service
+     cards the photo stays centered as its own smaller object. The homepage
+     grid stretches it to the copy panel's height instead; see the
+     .service-section-home rule in the >=1200px block below. */
   flex: 0 0 clamp(200px, 34%, 260px);
   max-width: none;
   margin-bottom: 0;
@@ -365,7 +378,7 @@ a[href^="mailto:"] {
 
 
 /* =============================================================================
-   Selected Projects — heading, spacing + image treatment
+   Selected Projects — heading, spacing + card rows
    ========================================================================== */
 
 /* The services section's 120px bottom padding plus this section's top band
@@ -387,7 +400,7 @@ a[href^="mailto:"] {
   font-size: clamp(44px, 6.4vw, 92px);
   line-height: 1.04;
   margin-top: 0;
-  margin-bottom: 24px;
+  margin-bottom: 56px;
 }
 
 /* The sparkle is a 101x101 sprite inlined into the heading. Sizing it in `em`
@@ -408,107 +421,169 @@ a[href^="mailto:"] {
   }
 }
 
-/* The theme set each project name at 65px -- exactly the size it uses for
-   every section heading -- so "Machine Learning" read as a section title
-   competing with the heading above it. Dropping it to 48px restores a clear
-   scale: 92px section heading > 48px project name > body copy. */
-.project-wrapper .project-content h3 {
-  font-size: clamp(32px, 3.2vw, 48px);
-  line-height: 1.12;
+/* The old rows were six Bootstrap columns: the theme indented every copy
+   block by 200px (130px on the right-hand rows) while the photo sat inset at
+   82% of its own half. That left a ~190px dead band between photo and copy,
+   with the text floating on the page background. Each project is now one
+   bordered card: the photo fills its half edge to edge, the copy is padded
+   inside the same surface, and the only gap left is the card's own padding. */
+.project-wrapper .project-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(22px, 2.6vw, 34px);
+  max-width: 1080px;
+  margin-inline: auto;
 }
 
-.project-wrapper .project-content h3 a {
-  transition: color 0.4s ease;
+.project-wrapper .project-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: clamp(22px, 2.3vw, 34px);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.018) 48%,
+    rgba(239, 251, 83, 0.035)
+  );
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+  transition: border-color 0.45s ease, box-shadow 0.45s ease;
 }
 
-.project-wrapper .project-content h3 a:hover {
-  color: var(--theme);
+.project-wrapper .project-card:hover {
+  border-color: rgba(239, 251, 83, 0.28);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.32);
 }
 
-/* The copy inherits the 18px body size, which reads like a caption beside the
-   project name. 20px gives it a little more presence without competing with
-   the 48px heading; the looser line-height keeps the 350px measure comfortable
-   now that fewer words fit on each line. */
-.project-wrapper .project-content p {
-  font-size: 20px;
-  line-height: 1.6;
-}
+/* Keep the alternating rhythm on desktop; on phones every card reads
+   photo-first because the DOM order is image then copy. */
+@media (min-width: 992px) {
+  .project-wrapper .project-card-reversed .project-image {
+    order: 2;
+  }
 
-/* The theme indents every copy block by 200px inside its half of the row. On
-   the rows where the copy sits on the right, that inset stacks on top of the
-   image's centred gutter and opens a much wider gap than on the rows where the
-   copy is on the left. Pull only those right-hand blocks in a little; the
-   left-hand copy is already close to its photo. */
-@media (min-width: 1200px) {
-  .project-wrapper .row > .col-lg-6:nth-child(even) > .project-content {
-    margin-left: 130px;
+  .project-wrapper .project-card-reversed .project-content {
+    order: 1;
   }
 }
 
 /* --- Images ---------------------------------------------------------------- */
 
-/* Every project photo is 860x650. Without an explicit ratio each frame sizes
-   to its own content, so the alternating zig-zag rows drift out of alignment.
-   Locking the ratio to the source keeps the three frames identical. */
-.project-wrapper .project-image {
+/* The frame is the column now. The image is absolutely positioned so it fills
+   whatever height the copy needs -- the card stays a clean rectangle instead
+   of the photo's own ratio forcing a shorter or taller panel. */
+.project-wrapper .project-card .project-image {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 860 / 650;
-  border-radius: 50px;
-  transition: box-shadow 0.5s ease;
-  /* Slightly smaller and centred. The photos still anchor each alternating
-     row, but at 90% they outweighed the copy beside them; the fixed ratio
-     means the height drops with the width, so the crop is unchanged. */
-  width: 82%;
-  margin-inline: auto;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  transform: none;
 }
 
-.project-wrapper .project-image img {
-  display: block;
+.project-wrapper .project-card .project-image:hover {
+  transform: none;
+}
+
+.project-wrapper .project-card .project-image img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50px;
+  border-radius: 0;
   transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Replaces the template's `transform: rotate(10deg)` on hover, which tilted the
-   frame out of the grid while the text beside it stayed level. A slow zoom
-   inside a clipped frame reads as deliberate instead of broken. */
-.project-wrapper .project-image:hover {
-  transform: none;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+/* The border and glow belong to the card, so hover lifts the photo inside it
+   rather than outlining the photo against the page. */
+.project-wrapper .project-card:hover .project-image img {
+  transform: scale(1.045);
 }
 
-.project-wrapper .project-image:hover img {
-  transform: scale(1.06);
+/* --- Copy ------------------------------------------------------------------ */
+
+.project-wrapper .project-card .project-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0;
+  padding: clamp(26px, 3.2vw, 48px);
 }
 
-/* Theme-yellow hairline on hover, matching the --theme accent used for the
-   buttons and pricing badges. Pointer-events off so it never eats the link. */
-.project-wrapper .project-image::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50px;
-  border: 1px solid rgba(239, 251, 83, 0.45);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+.project-wrapper .project-card .project-content > span {
+  margin-bottom: 16px;
+  padding: 6px 13px;
+  border-color: rgba(255, 255, 255, 0.14);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.project-wrapper .project-image:hover::after {
-  opacity: 1;
+/* 65px was the section-heading size; 44px max keeps the project name below
+   the section title instead of competing with it. */
+.project-wrapper .project-card .project-content h3 {
+  margin-bottom: 0;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.12;
+}
+
+.project-wrapper .project-card .project-content h3 a {
+  transition: color 0.4s ease;
+}
+
+.project-wrapper .project-card .project-content h3 a:hover {
+  color: var(--theme);
+}
+
+/* The theme's 350px measure and 50px bottom margin were sized for the
+   floating layout. Inside the padded column the copy gets a comfortable 42ch
+   and sits closer to its button. */
+.project-wrapper .project-card .project-content p {
+  max-width: 42ch;
+  margin: 16px 0 28px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* --- Small screens --------------------------------------------------------- */
+
+@media (max-width: 991px) {
+  .project-wrapper .project-title {
+    margin-bottom: 36px;
+  }
+
+  .project-wrapper .project-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-wrapper .project-card .project-image {
+    aspect-ratio: 860 / 650;
+  }
+
+  .project-wrapper .project-card .project-content {
+    padding: 28px 24px 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* The theme hides every <br> below 768px, which made two of the three
+     project names render on one line while the longest wrapped. Restore the
+     intentional break so all three cards keep the same two-line title. */
+  .project-wrapper .project-card .project-content h3 br {
+    display: inline;
+  }
 }
 
 @media (max-width: 575px) {
-  .project-wrapper .project-image,
-  .project-wrapper .project-image img {
-    border-radius: 30px;
-  }
-
-  .project-wrapper .project-image::after {
-    border-radius: 30px;
+  .project-wrapper .project-card {
+    border-radius: 24px;
   }
 }
 
@@ -1021,49 +1096,360 @@ a[href^="mailto:"] {
 
 
 /* =============================================================================
-   Home hero — eyebrow alignment
+   Home hero — split layout: copy left, robot right
    -----------------------------------------------------------------------------
-   The eyebrow ("Intelligent Solution") shares the right edge of the first
-   headline line ("INNOVATIVE"), not the container's or the second line's edge.
-   It lives inside that line so the two are anchored to the same inline box at
-   every width and stage-zoom setting. The h1's padding keeps the space the
-   standalone eyebrow used to occupy, so the headline does not move up.
+   The headline used to be a single full-width block with no supporting copy.
+   It is now a two-column composition: eyebrow, headline, lede and two CTAs on
+   the left, the robot artwork on the right with a soft colour glow behind it.
+
+   The left column is capped by the Bootstrap grid (col-xl-7), so the headline
+   stays clear of the artwork. At the widest desktop tier the type steps up
+   once more; the transparent padding baked into the PNG lets the image
+   overflow its column without the robot itself crossing the centre line.
    ========================================================================== */
 
+.hero-1 .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
 .hero-1 .hero-content h1 {
-  padding-top: 38px;
+  padding-top: 0;
+  margin: 0 0 26px;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
 }
 
 .hero-1 .hero-content h1 .hero-heading-line {
-  position: relative;
-  display: inline-block;
+  display: block;
 }
 
-.hero-1 .hero-content h1 .hero-eyebrow {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + 10px);
+/* The eyebrow sits above the headline on the left, as a quiet kicker, instead
+   of floating at the right edge of the first line. */
+.hero-1 .hero-eyebrow {
+  display: block;
+  margin-bottom: 24px;
   font-family: "Satoshi Variable", sans-serif;
-  font-size: 27px;
+  font-size: 15px;
   font-weight: 500;
-  line-height: 28px;
+  line-height: 1;
+  letter-spacing: 0.38em;
   text-transform: uppercase;
-  white-space: nowrap;
-  color: var(--text);
+  color: #cfd0d4;
 }
 
-@media (max-width: 767px) {
-  .hero-1 .hero-content h1 .hero-eyebrow {
-    font-size: 24px;
+/* The theme indents "AI" by 280px to centre the old full-width headline; in
+   the two-column layout it runs straight on from the left edge. */
+.hero-1 .hero-content h1 b {
+  margin-left: 0;
+}
+
+.hero-1 .hero-content p.hero-lede {
+  max-width: 560px;
+  margin: 0 0 34px;
+  font-size: 19px;
+  line-height: 1.65;
+  text-align: left;
+  text-transform: none;
+  color: #c3c4cc;
+}
+
+.hero-1 .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-1 .hero-actions .theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 32px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.hero-1 .hero-actions .theme-btn i {
+  margin-left: 0;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.hero-1 .hero-actions .theme-btn:hover i {
+  transform: translateX(4px);
+}
+
+/* Solid lime primary. The theme's default button is a dark chip; this one is
+   the filled CTA the hero composition is built around. */
+.hero-1 .hero-actions .hero-btn-primary {
+  background-color: var(--theme);
+  border-color: var(--theme);
+  color: var(--header);
+}
+
+.hero-1 .hero-actions .hero-btn-primary::after {
+  background-color: #ffffff;
+}
+
+.hero-1 .hero-actions .hero-btn-primary:hover {
+  color: var(--header);
+}
+
+/* Quiet outline secondary. */
+.hero-1 .hero-actions .hero-btn-ghost {
+  background-color: transparent;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--white);
+}
+
+.hero-1 .hero-actions .hero-btn-ghost::after {
+  background-color: var(--theme);
+}
+
+.hero-1 .hero-actions .hero-btn-ghost:hover {
+  border-color: var(--theme);
+  color: var(--header);
+}
+
+/* ---- Artwork -------------------------------------------------------------- */
+
+.hero-1 .hero-visual {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+/* On the desktop tiers the robot's outstretched arms run close to the headline,
+   so the whole artwork is nudged toward the page edge (the hero clips the
+   image's transparent margin). */
+@media (min-width: 1400px) {
+  .hero-1 .hero-visual {
+    transform: translateX(clamp(0px, 3vw, 56px));
   }
 }
 
-/* The robot banner that used to supply the hero's lower half is hidden for
-   now, so the desktop tier needs its own bottom spacing -- the theme only
-   carries it below 1200px. */
+.hero-1 .hero-visual-inner {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Two radial washes -- violet on the left, warm amber on the right -- echoing
+   the glow the artwork had in the reference composition. */
+.hero-1 .hero-visual-glow {
+  position: absolute;
+  inset: -6% -10%;
+  z-index: -1;
+  background:
+    radial-gradient(closest-side at 38% 42%, rgba(208, 58, 255, 0.48), transparent 72%),
+    radial-gradient(closest-side at 70% 58%, rgba(255, 153, 64, 0.38), transparent 74%);
+  filter: blur(40px);
+  opacity: 0.95;
+  pointer-events: none;
+}
+
+/* React-logo style atom rings drawn behind the robot -- three ellipses at
+   0/60/120 degrees plus a nucleus, so there is no bitmap to keep in sync with
+   the artwork. The gradient runs brand lime into the cyan the robot's eyes
+   and core already use; the slow spin is a full turn per 90s (after 120deg
+   the set is visually identical again, so it reads as a gentle drift). */
+.hero-1 .hero-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  width: min(94vh, 920px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 5px rgba(239, 251, 83, 0.14));
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.hero-1 .hero-orbit-rings {
+  transform-box: view-box;
+  transform-origin: 120px 120px;
+  animation: hero-orbit-spin 90s linear infinite;
+}
+
+@keyframes hero-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-1 .hero-orbit-rings {
+    animation: none;
+  }
+}
+
+
+/* Height-driven sizing: the robot scales with the screen height (and never
+   pushes the hero past one viewport on a laptop); the width follows the PNG's
+   aspect ratio. The transparent margin baked into the file lets it overflow the
+   grid column without the visible robot crossing into the copy. */
+.hero-1 .hero-visual img {
+  flex: none;
+  width: auto;
+  height: min(72vh, 720px);
+  max-width: none;
+  filter: drop-shadow(0 30px 55px rgba(0, 0, 0, 0.42));
+  animation: hero-robot-float 6s ease-in-out infinite;
+}
+
+@keyframes hero-robot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-1 .hero-visual img {
+    animation: none;
+  }
+}
+
+/* The banner the artwork used to live in is hidden, so the desktop tier needs
+   its own bottom spacing -- the theme only carries it below 1200px. */
 @media (min-width: 1200px) {
   .hero-1 {
     padding-bottom: 120px;
+  }
+
+  /* The header is ~90px tall; 210px of top padding pushed the centred copy far
+     below the middle. A shorter band lets the flex centring put the headline
+     where the reference composition has it. */
+  .hero-1 {
+    padding-top: 120px;
+  }
+}
+
+/* From the lg break up the hero is exactly one viewport tall. The artwork and
+   the copy are sized to fit inside that band, so a laptop shows the complete
+   composition without scrolling into the next section. */
+@media (min-width: 992px) {
+  .hero-1 {
+    height: calc(100vh / var(--stage-zoom, 1));
+    height: calc(100svh / var(--stage-zoom, 1));
+    min-height: 0;
+  }
+}
+
+/* Shorter laptop viewports (e.g. 1366x600) need a tighter band and a smaller
+   robot, otherwise the CTA row would be clipped by the fixed hero height. */
+@media (min-width: 992px) and (max-height: 740px) {
+  .hero-1 {
+    padding-top: 110px;
+    padding-bottom: 60px;
+  }
+
+  .hero-1 .hero-visual img {
+    height: min(58vh, 580px);
+  }
+}
+
+/* ---- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 1199px) {
+  .hero-1 .hero-content p.hero-lede {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hero-1 .hero-visual img {
+    height: min(66vh, 620px);
+  }
+}
+
+/* Below the lg break the columns stack: copy first, artwork underneath. */
+@media (max-width: 991px) {
+  .hero-1 .hero-content {
+    max-width: 720px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hero-1 .hero-eyebrow {
+    margin-bottom: 20px;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+  }
+
+  .hero-1 .hero-content h1 {
+    margin-bottom: 22px;
+  }
+
+  .hero-1 .hero-content p.hero-lede {
+    margin-inline: auto;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .hero-1 .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-1 .hero-visual {
+    margin-top: 34px;
+  }
+
+  .hero-1 .hero-orbit {
+    width: min(112%, 700px);
+  }
+
+  .hero-1 .hero-visual img {
+    width: min(92%, 560px);
+    height: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-1 .hero-orbit {
+    width: min(116%, 560px);
+  }
+
+  .hero-1 .hero-visual img {
+    width: min(94%, 440px);
+  }
+
+  .hero-1 .hero-actions .theme-btn {
+    padding: 17px 26px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 575px) {
+  .hero-1 .hero-orbit {
+    width: min(120%, 460px);
+  }
+
+  .hero-1 .hero-visual {
+    margin-top: 26px;
+  }
+
+  .hero-1 .hero-visual img {
+    width: min(100%, 360px);
+  }
+
+  .hero-1 .hero-actions {
+    gap: 12px;
+  }
+
+  .hero-1 .hero-actions .theme-btn {
+    padding: 16px 22px;
+    font-size: 14px;
   }
 }
 
@@ -1074,7 +1460,8 @@ a[href^="mailto:"] {
    A quiet "there is more below" prompt in the bottom-left corner, visible only
    while the page is at the top and faded out on the first scroll (the visibility
    itself is handled in src/components/layout/ScrollCue.jsx). Colours and the
-   circular treatment follow the theme's other floating control (back-to-top).
+   circular treatment follow the theme's other floating control (the chat
+   launcher).
    ========================================================================== */
 
 .scroll-cue {
@@ -1192,16 +1579,46 @@ a[href^="mailto:"] {
 /* =============================================================================
    Home hero — headline size
    -----------------------------------------------------------------------------
-   The theme sets the hero h1 at 140px on the desktop tier. The homepage
-   deliberately runs it a step smaller at 120px, keeping the two-line
-   "INNOVATIVE / AI SOLUTIONS" composition compact alongside the 0.9 laptop
-   stage (see "Laptop stage" above). Scoped to desktop only -- the theme's own
-   mobile reductions stay in charge below 1200px.
+   The theme sets the hero h1 at 140px on the desktop tier. In the split layout
+   the headline shares the row with the artwork, so it steps down to a size that
+   keeps "INNOVATIVE" and "AI SOLUTIONS" on their own lines inside the 7-column
+   copy column. The widest tier gets a small increase because the container no
+   longer grows but the composition has room for it.
    ========================================================================== */
 
 @media (min-width: 1200px) {
   .hero-1 .hero-content h1 {
-    font-size: 120px;
+    font-size: 90px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .hero-1 .hero-content h1 {
+    font-size: 98px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .hero-1 .hero-content h1 {
+    font-size: 62px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .hero-1 .hero-content h1 {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-1 .hero-content h1 {
+    font-size: 37px;
+  }
+}
+
+@media (max-width: 575px) {
+  .hero-1 .hero-content h1 {
+    font-size: 32px;
   }
 }
 
@@ -1406,6 +1823,33 @@ a[href^="mailto:"] {
     max-width: none;
     margin: 0;
     padding: 0;
+  }
+
+  /* On the homepage's equal-height grid the photo tile matches the copy
+     panel's full height, so the two surfaces share top and bottom edges and
+     the image no longer reads as a small inset object. The copy padding and
+     margins are trimmed below, which shortens the row; the 34.5% basis keeps
+     the tile near the source's 260:300 ratio at that shorter height instead
+     of letting object-fit crop the sides. */
+  .service-section-home .service-box-items .service-image {
+    flex: 0 0 clamp(200px, 34.5%, 240px);
+    align-self: stretch;
+    aspect-ratio: auto;
+  }
+
+  /* 52/44 padding plus the theme's 15/20 margins made each panel 281px tall.
+     Trimming them brings the copy panel down to roughly 253px and the photo
+     with it, without touching /service's longer cards. */
+  .service-section-home .service-box-items .service-content {
+    padding: 42px 38px 34px;
+  }
+
+  .service-section-home .service-box-items .service-content h3 {
+    margin-bottom: 12px;
+  }
+
+  .service-section-home .service-box-items .service-content p {
+    margin-bottom: 16px;
   }
 }
 
@@ -2748,6 +3192,18 @@ body.route-projects .cta-discuss-section.section-padding {
   color: #b2b2b2;
   font-size: 15.5px;
   line-height: 1.7;
+}
+
+/* Both cards share a height, but ShopAgent's statement wraps to one more line
+   than ChadBot's at desktop widths, leaving the two tinted panels 26px apart.
+   A shared minimum makes them identical rectangles; the spare space falls
+   under ChadBot's shorter paragraph. Below 1200px the narrower panel wraps
+   both statements to the same number of lines, so the rule would only add
+   empty height there. */
+@media (min-width: 1200px) {
+  .pf-card-contrib {
+    min-height: 210px;
+  }
 }
 
 
@@ -5550,5 +6006,334 @@ a.legal-meta-item:hover {
 
   .legal-doc {
     max-width: none;
+  }
+}
+
+
+/* =============================================================================
+   Chat widget — floating launcher + UI-only panel
+   -----------------------------------------------------------------------------
+   Rendered by TemplateRuntime outside `.site-stage`, so it is positioned
+   against the viewport and never inherits the 0.9 stage zoom -- the same
+   treatment as the rest of the fixed chrome.
+
+   Every colour is a `--chat-*` token declared here. The indigo and BeeLens
+   designs repaint the same component by overriding those tokens under their
+   own body flag (ai-service.css / bee-service.css).
+
+   The panel stays mounted while closed, so a typed thread survives closing and
+   reopening; `visibility` keeps its controls out of the tab order until then.
+   Nothing is sent anywhere yet -- see ChatWidget.jsx for the backend hook.
+   ========================================================================== */
+
+.chat-widget {
+  --chat-accent: var(--theme);
+  --chat-accent-ink: var(--header);
+  --chat-accent-hover: var(--header);
+  --chat-accent-hover-ink: var(--white);
+  --chat-surface: #151518;
+  --chat-surface-2: #1d1d21;
+  --chat-line: rgba(255, 255, 255, 0.1);
+  --chat-text: #ffffff;
+  --chat-muted: #b2b2b2;
+  --chat-launcher-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  --chat-panel-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+
+  position: fixed;
+  right: clamp(16px, 3vw, 30px);
+  bottom: clamp(16px, 3vw, 30px);
+  z-index: 1000;
+}
+
+.chat-launcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--chat-accent);
+  color: var(--chat-accent-ink);
+  box-shadow: var(--chat-launcher-shadow);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.chat-launcher:hover {
+  background-color: var(--chat-accent-hover);
+  color: var(--chat-accent-hover-ink);
+  transform: translateY(-2px);
+}
+
+.chat-launcher:active {
+  transform: translateY(0);
+}
+
+.chat-launcher svg {
+  width: 25px;
+  height: 25px;
+}
+
+/* Brand artwork (192px source, cropped to its content). The artwork's own
+   transparent padding is why this is smaller than the 56px disc, not a crop. */
+.chat-launcher img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.chat-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 14px);
+  display: flex;
+  flex-direction: column;
+  width: min(360px, calc(100vw - 32px));
+  height: min(500px, calc(100vh - 120px));
+  height: min(500px, calc(100dvh - 120px));
+  overflow: hidden;
+  border: 1px solid var(--chat-line);
+  border-radius: 20px;
+  background-color: var(--chat-surface);
+  color: var(--chat-text);
+  box-shadow: var(--chat-panel-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.98);
+  transform-origin: 100% 100%;
+  /* Visibility flips after the fade on close, immediately on open (the
+     `.is-open` override below), so the panel cannot eat clicks while fading. */
+  transition: opacity 0.22s ease, transform 0.22s ease,
+    visibility 0s linear 0.22s;
+}
+
+.chat-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0s;
+}
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-shrink: 0;
+  padding: 14px 14px 13px;
+  border-bottom: 1px solid var(--chat-line);
+  background-color: var(--chat-surface-2);
+}
+
+.chat-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--chat-accent);
+  color: var(--chat-accent-ink);
+}
+
+.chat-avatar img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.chat-id {
+  flex: 1;
+  min-width: 0;
+}
+
+.chat-name {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.chat-sub {
+  margin: 1px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--chat-muted);
+}
+
+.chat-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--chat-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.chat-close:hover {
+  color: var(--chat-text);
+  background-color: color-mix(in srgb, var(--chat-text) 8%, transparent);
+}
+
+.chat-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  padding: 18px 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--chat-line) transparent;
+}
+
+.chat-thread::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-thread::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background-color: var(--chat-line);
+}
+
+.chat-msg {
+  display: flex;
+  max-width: 86%;
+}
+
+.chat-msg p {
+  margin: 0;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.chat-msg-assistant {
+  align-self: flex-start;
+}
+
+.chat-msg-assistant p {
+  border-bottom-left-radius: 5px;
+  background-color: var(--chat-surface-2);
+}
+
+.chat-msg-user {
+  align-self: flex-end;
+}
+
+.chat-msg-user p {
+  border-bottom-right-radius: 5px;
+  background-color: var(--chat-accent);
+  color: var(--chat-accent-ink);
+}
+
+.chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 11px;
+  border-top: 1px solid var(--chat-line);
+}
+
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--chat-line);
+  border-radius: 999px;
+  background-color: var(--chat-surface-2);
+  color: var(--chat-text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.chat-input::placeholder {
+  color: var(--chat-muted);
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: var(--chat-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--chat-accent) 20%, transparent);
+}
+
+.chat-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: var(--chat-accent);
+  color: var(--chat-accent-ink);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.chat-send:hover:not(:disabled) {
+  background-color: var(--chat-accent-hover);
+  color: var(--chat-accent-hover-ink);
+}
+
+.chat-send:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.chat-send svg {
+  width: 19px;
+  height: 19px;
+}
+
+.chat-launcher:focus-visible,
+.chat-close:focus-visible,
+.chat-send:focus-visible {
+  outline: 2px solid var(--chat-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 575px) {
+  .chat-launcher {
+    width: 52px;
+    height: 52px;
+  }
+
+  .chat-panel {
+    width: calc(100vw - 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-launcher,
+  .chat-panel {
+    transition: none;
+  }
+}
+
+@media print {
+  .chat-widget {
+    display: none;
   }
 }

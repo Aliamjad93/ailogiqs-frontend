@@ -9,6 +9,7 @@ export const metadata = {
 import Link from "next/link";
 import ScrollCue from "@/components/layout/ScrollCue";
 import Check from "@/components/shared/Check";
+import HeroOrbit from "@/components/shared/HeroOrbit";
 /*
   The plans and the FAQ answers live in src/content so the homepage, /pricing
   and /faq all read from the same copy -- a plan that changes on one page used
@@ -17,32 +18,74 @@ import Check from "@/components/shared/Check";
 import { PLANS, PRICING_NOTE } from "@/content/pricing";
 import { HOME_FAQS } from "@/content/faqs";
 
+const HOME_PROJECTS = [
+  {
+    img: "/assets/img/project/01.jpeg",
+    alt: "White robot assistant in front of live analytics dashboards",
+    href: "/project-details",
+    date: "25 july, 2024",
+    title: ["Machine", "learning"],
+    desc: "Custom machine learning models that learn from your data to predict trends, automate decisions, and cut manual guesswork",
+  },
+  {
+    img: "/assets/img/project/02.jpeg",
+    alt: "Blue robot scanning a glowing data network",
+    href: "/project-details",
+    date: "25 july, 2024",
+    title: ["Business", "analytics"],
+    desc: "Turn raw business data into clear, actionable dashboards that help you spot opportunities before the competition does",
+  },
+  {
+    img: "/assets/img/project/03.jpeg",
+    alt: "Robotic hand interface lit in magenta",
+    href: "/project-details",
+    date: "25 july, 2024",
+    title: ["Marketing", "solutions"],
+    desc: "AI-driven campaigns that target the right audience, optimize ad spend, and boost conversions automatically",
+  },
+];
+
 export default function HomeOne() {
 
   return (
     <>
       <section className="hero-secton hero-1 bg-cover" style={{backgroundImage: 'url(\'/assets/img/hero/hero-bg-3.png\')'}}>
               <div className="container">
-                  <div className="row">
-                      <div className="col-lg-12">
+                  <div className="row align-items-center hero-row">
+                      <div className="col-xl-7 col-lg-7">
                           <div className="hero-content">
-                              <div className="color-bg">
-                                  <img src="/assets/img/hero/color-bg.png" alt="img" />
-                              </div>
+                              <span className="hero-eyebrow wow fadeInUp">Intelligent Solution</span>
                               <h1 className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.1s">
-                                  <span className="hero-heading-line">
-                                      {/*
-                                        The eyebrow sits inside the headline so it
-                                        can share the first line's right edge --
-                                        "INTELLIGENT SOLUTION" ends exactly where
-                                        "INNOVATIVE" ends at every width.
-                                      */}
-                                      <span className="hero-eyebrow wow fadeInUp">Intelligent Solution</span>
-                                      Innovative
-                                  </span>
-                                  <br />
+                                  <span className="hero-heading-line">Innovative</span>
                                   <b>AI</b> <span className="text-2">solutions</span>
                               </h1>
+                              <p className="hero-lede wow fadeInUp" data-wow-delay=".3s">
+                                  We build intelligent AI solutions that help businesses
+                                  innovate, automate and grow faster.
+                              </p>
+                              <div className="hero-actions wow fadeInUp" data-wow-delay=".5s">
+                                  <Link href="/service" className="theme-btn hero-btn-primary">
+                                      Explore Services <i className="fa-solid fa-arrow-right"></i>
+                                  </Link>
+                                  <Link href="/contact" className="theme-btn hero-btn-ghost">
+                                      Get in Touch <i className="fa-solid fa-arrow-right"></i>
+                                  </Link>
+                              </div>
+                          </div>
+                      </div>
+                      <div className="col-xl-5 col-lg-5">
+                          <div className="hero-visual">
+                              <span className="hero-visual-glow" aria-hidden="true"></span>
+                              <HeroOrbit />
+                              <div className="hero-visual-inner wow fadeInRight" data-wow-delay=".3s">
+                                  <img
+                                      src="/assets/img/hero/hero.png"
+                                      alt="AiLogiQs AI assistant robot"
+                                      width="1616"
+                                      height="1296"
+                                      fetchPriority="high"
+                                  />
+                              </div>
                           </div>
                       </div>
                   </div>
@@ -444,70 +487,30 @@ export default function HomeOne() {
                   <h2 className="project-title text-center wow fadeInUp" data-wow-delay=".3s">
                       Selected <br /> <img src="/assets/img/has.png" alt="img" /> <span>Projects</span>
                   </h2>
-                  <div className="row align-items-center">
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                          <div className="project-image">
-                              <img src="/assets/img/project/01.jpeg" alt="img" />
-                          </div>
-                      </div>
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
-                          <div className="project-content">
-                              <span>25 july, 2024</span>
-                              <h3>
-                                  <Link href="/project-details">
-                                      Machine <br />
-                                      learning
+                  <div className="project-list">
+                      {HOME_PROJECTS.map((project, index) => (
+                          <article
+                              className={`project-card${index % 2 === 1 ? " project-card-reversed" : ""}`}
+                              key={project.img}
+                          >
+                              <div className="project-image">
+                                  <img src={project.img} alt={project.alt} />
+                              </div>
+                              <div className="project-content">
+                                  <span>{project.date}</span>
+                                  <h3>
+                                      <Link href={project.href}>
+                                          {project.title[0]} <br />
+                                          {project.title[1]}
+                                      </Link>
+                                  </h3>
+                                  <p>{project.desc}</p>
+                                  <Link href="/projects" className="theme-btn">
+                                      explore now <i className="fa-solid fa-arrow-up-right"></i>
                                   </Link>
-                              </h3>
-                              <p>
-                                  Custom machine learning models that learn from your data to predict trends, automate decisions, and cut manual guesswork
-                              </p>
-                              <Link href="/projects" className="theme-btn">explore now <i
-                                      className="fa-solid fa-arrow-up-right"></i></Link>
-                          </div>
-                      </div>
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                          <div className="project-content">
-                              <span>25 july, 2024</span>
-                              <h3>
-                                  <Link href="/project-details">
-                                      Business <br />
-                                      analytics
-                                  </Link>
-                              </h3>
-                              <p>
-                                  Turn raw business data into clear, actionable dashboards that help you spot opportunities before the competition does
-                              </p>
-                              <Link href="/projects" className="theme-btn">explore now <i
-                                      className="fa-solid fa-arrow-up-right"></i></Link>
-                          </div>
-                      </div>
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
-                          <div className="project-image style-2">
-                              <img src="/assets/img/project/02.jpeg" alt="img" />
-                          </div>
-                      </div>
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                          <div className="project-image">
-                              <img src="/assets/img/project/03.jpeg" alt="img" />
-                          </div>
-                      </div>
-                      <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
-                          <div className="project-content">
-                              <span>25 july, 2024</span>
-                              <h3>
-                                  <Link href="/project-details">
-                                      Marketing <br />
-                                      solutions
-                                  </Link>
-                              </h3>
-                              <p>
-                                  AI-driven campaigns that target the right audience, optimize ad spend, and boost conversions automatically
-                              </p>
-                              <Link href="/projects" className="theme-btn">explore now <i
-                                      className="fa-solid fa-arrow-up-right"></i></Link>
-                          </div>
-                      </div>
+                              </div>
+                          </article>
+                      ))}
                   </div>
               </div>
           </section>

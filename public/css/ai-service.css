@@ -178,6 +178,39 @@ body.route-ai-service .footer-bottom .logo-img .ailogiqs-logo {
   color: #16161c !important;
 }
 
+/* Service-page footer — tighter outer bands.
+   The home2 footer ships with the vendor's 90px / 120px widget band and a
+   30px bottom bar. On /projects/chatbot those outer gaps read as empty space
+   above the columns and below the legal row, so they are trimmed here. Only
+   the outer bands move; the spacing inside the columns is untouched.
+
+   Scoped with :has(.aiq-service) because the landing page at
+   /ai-services/chatbot renders the same footer and keeps its original
+   rhythm. */
+body:has(.aiq-service) .footer-section .footer-widgets-wrapper {
+  padding-top: 48px;
+  padding-bottom: 80px;
+}
+
+body:has(.aiq-service) .footer-section .footer-bottom {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 1199px) {
+  body:has(.aiq-service) .footer-section .footer-widgets-wrapper {
+    padding-top: 40px;
+    padding-bottom: 66px;
+  }
+}
+
+@media (max-width: 991px) {
+  body:has(.aiq-service) .footer-section .footer-widgets-wrapper {
+    padding-top: 32px;
+    padding-bottom: 50px;
+  }
+}
+
 
 /* =============================================================================
    AiLogiQs sales-agent sections (homepage + /service-details)
@@ -2087,16 +2120,22 @@ body.route-ai-service .aiq-panel .aiq-phone-field {
   background-color: var(--theme2);
   color: #ffffff;
 }
-/* Back-to-top: the theme's floating control is a --theme (yellow) disc. It is
-   repainted on EVERY page -- the header bar and the drawer are one design
-   site-wide, so the control that sits over them is too. It used to be listed by
-   body route flag, which left it yellow on every page nobody had flagged. */
-body.route-ai-service .back-to-top {
-  background-color: #514DE0;
-  color: #ffffff;
-}
-body.route-ai-service .back-to-top:hover {
-  background-color: #3F3AC2;
+/* Chat widget: the launcher and its accent surfaces take the indigo pair on
+   the white design, and the panel flips to a light surface so it does not read
+   as a black slab over the page. Token overrides only -- layout lives in
+   overrides.css. */
+body.route-ai-service .chat-widget {
+  --chat-accent: #514de0;
+  --chat-accent-ink: #ffffff;
+  --chat-accent-hover: #3f3ac2;
+  --chat-accent-hover-ink: #ffffff;
+  --chat-surface: #ffffff;
+  --chat-surface-2: #f6f6fb;
+  --chat-line: #e4e4ec;
+  --chat-text: #151518;
+  --chat-muted: #5c6972;
+  --chat-launcher-shadow: 0 10px 28px rgba(24, 24, 48, 0.22);
+  --chat-panel-shadow: 0 24px 60px rgba(24, 24, 48, 0.18);
 }
 
 /* ==========================================================================
@@ -2302,10 +2341,10 @@ body.route-ai-service .mean-container .mean-nav ul li a.mean-expand:hover {
    (--theme #EFFB53), which read as a leftover from the template.
 
    Everything in this block is SITE-WIDE. The header bar, its drawer and the
-   back-to-top disc are rendered outside the route tree but are the same design
+   page loader are rendered outside the route tree but are the same design
    on every page, so scoping them by route only ever produced pages that had
-   been forgotten (the drawer and back-to-top were still yellow on /pricing,
-   /team, /projects, /faq, /login and /register).
+   been forgotten (the drawer was still yellow on /pricing, /team, /projects,
+   /faq, /login and /register).
    ========================================================================== */
 
 /* Page loader: spinner ring, the rotating wordmark letters and the "Loading"
@@ -3109,6 +3148,38 @@ body.route-ai-service .offcanvas__logo .ailogiqs-logo span {
    what shows for the instant before the poster paints, so it is near-black
    rather than light grey -- the clip's own first frame is a dark title card.
    ========================================================================== */
+
+/* Outer bands: the shared .aiq-band padding is ~110px top and bottom, which
+   left a large empty gap between the industry grid above and the FAQ below --
+   the video is the whole content here. Trim the band's own padding; the
+   heading-to-video gap and the inside of the player are untouched.
+
+   The background is one step deeper than .aiq-tint (#eef2ff): the band above
+   (industries) keeps the standard tint, so this shade is what separates the
+   walkthrough from it while staying in the same pale indigo family. */
+.aiq-band.aiq-video-band {
+  background: #e4eaff;
+  padding-top: clamp(44px, 5vw, 68px);
+  padding-bottom: clamp(44px, 5vw, 68px);
+}
+
+/* FAQ band: also trimmed, but less than the video band above -- it is real
+   content (a four-item accordion) rather than a single media block. The
+   illustration beside it is pulled back from full column width so it reads as
+   support for the questions instead of competing with them. */
+.aiq-band.aiq-faq-band {
+  padding-top: clamp(56px, 6vw, 88px);
+  padding-bottom: clamp(56px, 6vw, 88px);
+}
+
+.aiq-faq-band .aiq-faq-aside {
+  justify-content: center;
+}
+
+.aiq-faq-band .aiq-faq-aside img {
+  width: 92%;
+  max-width: 560px;
+}
 
 .aiq-video {
   max-width: 900px;

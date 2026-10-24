@@ -9,9 +9,8 @@ import { useEffect, useState } from "react";
  * that there is more below, then fades out on the first scroll. It hides itself
  * too when the document is not scrollable, where the cue would be a dead end.
  *
- * Client-side on purpose: the theme's other fixed controls (back-to-top, search
- * overlay) are wired through the jQuery layer in main.js, which is kept
- * pristine. React lets this react to scroll without editing a theme file.
+ * Client-side on purpose: React lets this react to scroll without editing the
+ * theme's jQuery layer in main.js, which is kept pristine.
  */
 export default function ScrollCue({ targetSelector = ".about-section" }) {
   const [hidden, setHidden] = useState(false);

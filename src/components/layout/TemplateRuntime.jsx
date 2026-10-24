@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Preloader from "./Preloader";
 import MouseCursor from "./MouseCursor";
-import BackToTop from "./BackToTop";
+import ChatWidget from "./ChatWidget";
 import OffcanvasMenu from "./OffcanvasMenu";
 
 /**
@@ -43,8 +43,8 @@ function waitForTemplateInit(timeoutMs = 10000) {
 
 /**
  * Wraps every public page with the chrome the original template put in every
- * page (preloader, custom cursor, back-to-top, offcanvas mobile menu, search
- * overlay) and keeps the jQuery layer in sync with client-side navigation.
+ * page (preloader, custom cursor, chat launcher, offcanvas mobile menu) and
+ * keeps the jQuery layer in sync with client-side navigation.
  *
  * This replaces the old Vite src/layout/Layout.jsx. The template's plugins
  * (Swiper, WOW.js, counterUp, waypoints, meanmenu) cannot run during server
@@ -66,9 +66,9 @@ export default function TemplateRuntime({ children }) {
   // styled entirely by public/css/ai-service.css.
   //
   // That stylesheet is linked from the (ai-service) route group's layout, but
-  // the header, the offcanvas drawer, the preloader and the back-to-top disc
-  // are rendered by this component -- OUTSIDE the route tree -- so CSS cannot
-  // reach them from inside the group. `route-ai-service` is how it does: every
+  // the header, the offcanvas drawer and the preloader are rendered by this
+  // component -- OUTSIDE the route tree -- so CSS cannot reach them from inside
+  // the group. `route-ai-service` is how it does: every
   // rule in ai-service.css that is not already scoped to an `.aiq-*` class is
   // written as `body.route-ai-service ...`.
   //
@@ -95,8 +95,8 @@ export default function TemplateRuntime({ children }) {
   //
   // The third design in the repo. It is styled entirely by
   // public/css/bee-service.css, which is linked from the (bee-service) route
-  // group's layout -- but the header, the offcanvas drawer, the preloader and
-  // the back-to-top disc are rendered by this component, OUTSIDE the route
+  // group's layout -- but the header, the offcanvas drawer and the preloader
+  // are rendered by this component, OUTSIDE the route
   // tree, so CSS cannot reach them from inside the group. `route-bee` is how it
   // does: every rule in bee-service.css that is not already scoped to a `.bee-*`
   // class is written as `body.route-bee ...`.
@@ -116,8 +116,8 @@ export default function TemplateRuntime({ children }) {
 
   // Flag pages whose own CONTENT needs a rule of its own, on <body>.
   //
-  // These are content hooks, not chrome. The header, its drawer and the
-  // back-to-top disc are one design on every route and are not recoloured page
+  // These are content hooks, not chrome. The header and its drawer are one
+  // design on every route and are not recoloured page
   // by page any more, so a flag here means "this page's markup needs something
   // the shared classes cannot express".
   //
@@ -184,22 +184,23 @@ export default function TemplateRuntime({ children }) {
     <>
       <Preloader />
       <MouseCursor />
-      <BackToTop />
+      <ChatWidget />
       <OffcanvasMenu />
       {/*
         The header, the page and the footer share one wrapper so overrides.css
         can treat them as a single "stage": on 1200-1500px screens the stage
         renders at 90% -- see "Laptop stage" in public/css/overrides.css.
 
-        The four overlays above stay OUTSIDE the wrapper on purpose. They are
+        The fixed overlays above stay OUTSIDE the wrapper on purpose. They are
         fixed chrome, and in particular the vendor cursor positions itself with
         raw pointer coordinates, which Chrome reports in unzoomed viewport
         pixels -- inside a scaled subtree it would sit 10% off the pointer.
-        The one that carries readable content -- the offcanvas drawer -- takes
-        the same 0.9 directly from the same overrides.css band, so its content
-        scales with the stage.
+        The one whose type should match the page -- the offcanvas drawer --
+        takes the same 0.9 directly from the same overrides.css band. The chat
+        widget is a fixed-size utility panel and stays at full size, like the
+        cursor.
 
-        The search popup used to be the fifth overlay. It is gone: it was a
+        The search popup used to be another overlay. It is gone: it was a
         `method="get"` form with no action, so it searched nothing, and the
         header trigger that opened it has been removed too.
       */}

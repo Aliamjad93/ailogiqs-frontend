@@ -223,28 +223,30 @@ body.route-bee .mean-container .mean-nav ul li a.mean-expand:hover {
 
 
 /* =============================================================================
-   Floating chrome — the back-to-top disc and the offcanvas drawer
+   Floating chrome — the chat launcher and the offcanvas drawer
    -----------------------------------------------------------------------------
    Both are rendered by TemplateRuntime, outside the (bee-service) group, so —
    exactly like the header above — the only way in is `body.route-bee`.
 
-   main.css paints every accent in them on `--theme` (#EFFB53, the template
-   lime); each rule below moves one of those onto the design's amber pair
-   (--bee-amber / --bee-amber-deep, declared on body.route-bee). One rule per
-   vendor rule it replaces, so the substitutions stay greppable.
+   The chat widget's palette is its own `--chat-*` token set (overrides.css),
+   so the block below repaints it wholesale: ink surface, cream copy, amber
+   accent. The drawer still carries vendor rules that paint accents on
+   `--theme` (#EFFB53, the template lime); the rules after it move those onto
+   the design's amber pair (--bee-amber / --bee-amber-deep).
    ========================================================================== */
 
-/* Amber fill, ink glyph — the .bee-btn-solid pair. The vendor hover
-   (near-black fill, white glyph) is the main site's control language, so the
-   hover deepens the amber instead and keeps the glyph ink. */
-body.route-bee .back-to-top {
-  background-color: var(--bee-amber);
-  color: var(--bee-ink);
-}
-
-body.route-bee .back-to-top:hover {
-  background-color: var(--bee-amber-deep);
-  color: var(--bee-ink);
+body.route-bee .chat-widget {
+  --chat-accent: var(--bee-amber);
+  --chat-accent-ink: var(--bee-ink);
+  --chat-accent-hover: var(--bee-amber-deep);
+  --chat-accent-hover-ink: var(--bee-ink);
+  --chat-surface: var(--bee-ink);
+  --chat-surface-2: var(--bee-surface);
+  --chat-line: var(--bee-line);
+  --chat-text: var(--bee-cream);
+  --chat-muted: var(--bee-muted-2);
+  --chat-launcher-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  --chat-panel-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
 }
 
 /* The panel takes the design's ink rather than the site's --bg, so the seam

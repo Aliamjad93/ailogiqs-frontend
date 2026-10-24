@@ -37,9 +37,9 @@ export const PROJECTS = [
         body: "Connects workout planning with Google Calendar to log and organize scheduled activities.",
       },
     ],
-    contributionLabel: "My contribution",
+    contributionLabel: "Our contribution",
     contribution:
-      "Contributed to the development of an AI fitness assistant, focusing on customizable conversational behavior, workout planning, and integration with Google Calendar. My work involved building AI-powered functionality and supporting the application’s backend and user-facing experience.",
+      "Contributed to the development of an AI fitness assistant, focusing on customizable conversational behavior, workout planning, and integration with Google Calendar. Our work involved building AI-powered functionality and supporting the application’s backend and user-facing experience.",
     focus: "Adaptive AI coaching",
     stack: [
       "Python",
@@ -107,7 +107,7 @@ export const PROJECTS = [
     ],
     contributionLabel: "Our contribution",
     contribution:
-      "Contributed to the development of the multi-agent CRM, including AI-driven customer query handling, sales and order workflows, and specialized agent functionality. My work focused on implementing AI capabilities and connecting backend services with the application’s customer-facing interface.",
+      "Contributed to the development of the multi-agent CRM, including AI-driven customer query handling, sales and order workflows, and specialized agent functionality. Our work focused on implementing AI capabilities and connecting backend services with the application’s customer-facing interface.",
     focus: "Multi-agent sales & CRM",
     stack: [
       "Python",
